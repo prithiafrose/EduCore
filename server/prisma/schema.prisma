@@ -1,0 +1,460 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Get a free hosted Postgres database in seconds: `npx create-db`
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Department {
+  id        Int       @id @default(autoincrement())
+  name      String
+  code      String    @unique
+  createdAt DateTime  @default(now())
+  programs  Program[]
+}
+
+model Program {
+  id            Int      @id @default(autoincrement())
+  name          String
+  code          String   @unique
+  durationYears Int?
+  departmentId  Int
+  createdAt     DateTime @default(now())
+
+  department        Department         @relation(fields: [departmentId], references: [id])
+  academicSemesters AcademicSemester[]
+  students          Student[]
+  fees              Fee[]
+}
+
+model AcademicSemester {
+  id        Int      @id @default(autoincrement())
+  name      String
+  order     Int
+  programId Int
+  createdAt DateTime @default(now())
+
+  program             Program              @relation(fields: [programId], references: [id])
+  courseOfferings     CourseOffering[]
+  fees                Fee[]
+  courseRegistrations CourseRegistration[]
+
+  @@unique([programId, order])
+}
+
+model Course {
+  id          Int      @id @default(autoincrement())
+  code        String   @unique
+  name        String
+  credit      Decimal
+  description String?
+  createdAt   DateTime @default(now())
+
+  courseOfferings CourseOffering[]
+}
+
+model Teacher {
+  id         Int      @id @default(autoincrement())
+  name       String
+  email      String   @unique
+  employeeId String   @unique
+  userId     Int      @unique
+  createdAt  DateTime @default(now())
+  user       User     @relation(fields: [userId], references: [id])
+
+  assignments      TeacherAssignment[]
+  classSessions    ClassSession[]
+  assignmentsGiven Assignment[]
+}
+
+model CourseOffering {
+  id                 Int      @id @default(autoincrement())
+  courseId           Int
+  academicSemesterId Int
+  createdAt          DateTime @default(now())
+
+  course             Course                   @relation(fields: [courseId], references: [id])
+  academicSemester   AcademicSemester         @relation(fields: [academicSemesterId], references: [id])
+  teacherAssignments TeacherAssignment[]
+  enrollments        Enrollment[]
+  sections           Section[]
+  timetables         Timetable[]
+  classSessions      ClassSession[]
+  assessments        Assessment[]
+  exams              Exam[]
+  assignments        Assignment[]
+  registrationItems  CourseRegistrationItem[]
+
+  @@unique([courseId, academicSemesterId])
+}
+
+model TeacherAssignment {
+  id               Int      @id @default(autoincrement())
+  teacherId        Int
+  courseOfferingId Int
+  sectionId        Int?
+  createdAt        DateTime @default(now())
+
+  teacher        Teacher        @relation(fields: [teacherId], references: [id])
+  courseOffering CourseOffering @relation(fields: [courseOfferingId], references: [id])
+  section        Section?       @relation(fields: [sectionId], references: [id])
+  timetables     Timetable[]
+
+  @@unique([teacherId, courseOfferingId, sectionId])
+}
+
+model Student {
+  id        Int      @id @default(autoincrement())
+  studentId String   @unique
+  name      String
+  email     String   @unique
+  programId Int
+  userId    Int      @unique
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id])
+
+  program               Program                @relation(fields: [programId], references: [id])
+  enrollments           Enrollment[]
+  attendances           Attendance[]
+  payments              StudentPayment[]
+  assignmentSubmissions AssignmentSubmission[]
+  courseRegistrations   CourseRegistration[]
+}
+
+model Enrollment {
+  id               Int           @id @default(autoincrement())
+  studentId        Int
+  courseOfferingId Int
+  sectionId        Int?
+  enrolledAt       DateTime      @default(now())
+  result           CourseResult?
+
+  student        Student        @relation(fields: [studentId], references: [id])
+  courseOffering CourseOffering @relation(fields: [courseOfferingId], references: [id])
+  section        Section?       @relation(fields: [sectionId], references: [id])
+  marks          StudentMark[]
+
+  @@unique([studentId, courseOfferingId])
+}
+
+model Section {
+  id               Int      @id @default(autoincrement())
+  name             String
+  courseOfferingId Int
+  createdAt        DateTime @default(now())
+
+  courseOffering CourseOffering @relation(fields: [courseOfferingId], references: [id])
+
+  teacherAssignments TeacherAssignment[]
+  enrollments        Enrollment[]
+  timetables         Timetable[]
+  classSessions      ClassSession[]
+
+  @@unique([courseOfferingId, name])
+}
+
+model Timetable {
+  id                  Int      @id @default(autoincrement())
+  courseOfferingId    Int
+  sectionId           Int?
+  teacherAssignmentId Int
+  dayOfWeek           Int
+  startTime           DateTime
+  endTime             DateTime
+  room                String?
+  createdAt           DateTime @default(now())
+
+  courseOffering    CourseOffering    @relation(fields: [courseOfferingId], references: [id])
+  section           Section?          @relation(fields: [sectionId], references: [id])
+  teacherAssignment TeacherAssignment @relation(fields: [teacherAssignmentId], references: [id])
+  classSessions     ClassSession[]
+}
+
+enum ClassStatus {
+  SCHEDULED
+  FINISHED
+  CANCELLED
+}
+
+model ClassSession {
+  id                Int         @id @default(autoincrement())
+  courseOfferingId  Int
+  sectionId         Int?
+  teacherId         Int
+  timetableId       Int?
+  date              DateTime
+  startTime         DateTime
+  endTime           DateTime
+  status            ClassStatus @default(SCHEDULED)
+  rescheduledFromId Int?        @unique
+
+  room      String?
+  createdAt DateTime @default(now())
+
+  courseOffering CourseOffering @relation(fields: [courseOfferingId], references: [id])
+  section        Section?       @relation(fields: [sectionId], references: [id])
+  teacher        Teacher        @relation(fields: [teacherId], references: [id])
+  timetable      Timetable?     @relation(fields: [timetableId], references: [id])
+
+  rescheduledFrom ClassSession? @relation("RescheduledClass", fields: [rescheduledFromId], references: [id])
+  rescheduledTo   ClassSession? @relation("RescheduledClass")
+  attendances     Attendance[]
+}
+
+enum AttendanceStatus {
+  PRESENT
+  ABSENT
+  LATE
+}
+
+model Attendance {
+  id             Int              @id @default(autoincrement())
+  classSessionId Int
+  studentId      Int
+  status         AttendanceStatus
+  markedAt       DateTime         @default(now())
+
+  classSession ClassSession @relation(fields: [classSessionId], references: [id])
+  student      Student      @relation(fields: [studentId], references: [id])
+
+  @@unique([classSessionId, studentId])
+}
+
+enum AssessmentType {
+  ATTENDANCE
+  CLASS_EVALUATION
+  MIDTERM
+  FINAL
+  PROJECT
+  OTHER
+}
+
+model StudentMark {
+  id           Int      @id @default(autoincrement())
+  assessmentId Int
+  enrollmentId Int
+  marks        Decimal
+  createdAt    DateTime @default(now())
+
+  assessment Assessment @relation(fields: [assessmentId], references: [id])
+  enrollment Enrollment @relation(fields: [enrollmentId], references: [id])
+
+  @@unique([assessmentId, enrollmentId])
+}
+
+enum FeeType {
+  SEMESTER
+  COURSE_REGISTRATION
+  OTHER
+}
+
+model Fee {
+  id                 Int      @id @default(autoincrement())
+  programId          Int
+  academicSemesterId Int
+  type               FeeType
+  amount             Decimal
+  dueDate            DateTime
+  description        String?
+  createdAt          DateTime @default(now())
+
+  program          Program          @relation(fields: [programId], references: [id])
+  academicSemester AcademicSemester @relation(fields: [academicSemesterId], references: [id])
+  payments         StudentPayment[]
+
+  @@unique([programId, academicSemesterId, type])
+}
+
+enum PaymentStatus {
+  PENDING
+  PAID
+  FAILED
+  CANCELLED
+}
+
+model StudentPayment {
+  id        Int           @id @default(autoincrement())
+  studentId Int
+  feeId     Int
+  amount    Decimal
+  status    PaymentStatus @default(PENDING)
+  paidAt    DateTime?
+  createdAt DateTime      @default(now())
+
+  student Student @relation(fields: [studentId], references: [id])
+  fee     Fee     @relation(fields: [feeId], references: [id])
+
+  @@unique([studentId, feeId])
+}
+
+enum UserRole {
+  ADMIN
+  TEACHER
+  STUDENT
+}
+
+model User {
+  id           Int      @id @default(autoincrement())
+  email        String   @unique
+  passwordHash String
+  role         UserRole
+  createdAt    DateTime @default(now())
+
+  student       Student?
+  teacher       Teacher?
+  notifications Notification[]
+}
+
+enum Grade {
+  A_PLUS
+  A
+  A_MINUS
+  B_PLUS
+  B
+  B_MINUS
+  C_PLUS
+  C
+  C_MINUS
+  F
+}
+
+model CourseResult {
+  id           Int      @id @default(autoincrement())
+  enrollmentId Int      @unique
+  totalMarks   Decimal
+  grade        Grade
+  gradePoint   Decimal
+  createdAt    DateTime @default(now())
+
+  enrollment Enrollment @relation(fields: [enrollmentId], references: [id])
+}
+
+model Exam {
+  id               Int      @id @default(autoincrement())
+  courseOfferingId Int
+  type             ExamType
+  date             DateTime
+  startTime        DateTime
+  endTime          DateTime
+  room             String?
+  createdAt        DateTime @default(now())
+
+  courseOffering CourseOffering @relation(fields: [courseOfferingId], references: [id])
+}
+
+enum ExamType {
+  MIDTERM_1
+  MIDTERM_2
+  FINAL
+}
+
+model Assignment {
+  id               Int      @id @default(autoincrement())
+  courseOfferingId Int
+  teacherId        Int
+  title            String
+  description      String?
+  deadline         DateTime
+  createdAt        DateTime @default(now())
+
+  courseOffering CourseOffering         @relation(fields: [courseOfferingId], references: [id])
+  teacher        Teacher                @relation(fields: [teacherId], references: [id])
+  submissions    AssignmentSubmission[]
+  assessments    Assessment[]
+}
+
+model AssignmentSubmission {
+  id           Int       @id @default(autoincrement())
+  assignmentId Int
+  studentId    Int
+  submittedAt  DateTime?
+  fileUrl      String?
+  marks        Decimal?
+  feedback     String?
+  createdAt    DateTime  @default(now())
+
+  assignment Assignment @relation(fields: [assignmentId], references: [id])
+  student    Student    @relation(fields: [studentId], references: [id])
+
+  @@unique([assignmentId, studentId])
+}
+
+enum NotificationType {
+  GENERAL
+  CLASS_CANCELLED
+  CLASS_RESCHEDULED
+  CLASS_REMINDER
+  ASSIGNMENT
+  ASSIGNMENT_DEADLINE
+  ASSESSMENT_MARK_PUBLISHED
+  RESULT_PUBLISHED
+  PAYMENT_DUE
+  EXAM_SCHEDULE
+}
+
+model Notification {
+  id        Int              @id @default(autoincrement())
+  userId    Int
+  type      NotificationType
+  title     String
+  message   String
+  isRead    Boolean          @default(false)
+  createdAt DateTime         @default(now())
+
+  user User @relation(fields: [userId], references: [id])
+}
+
+model Assessment {
+  id               Int            @id @default(autoincrement())
+  courseOfferingId Int
+  assignmentId     Int?
+  name             String
+  type             AssessmentType
+  maxMarks         Decimal
+  assessmentDate   DateTime?
+  createdAt        DateTime       @default(now())
+
+  courseOffering CourseOffering @relation(fields: [courseOfferingId], references: [id])
+  assignment     Assignment?    @relation(fields: [assignmentId], references: [id])
+  marks          StudentMark[]
+}
+
+model CourseRegistration {
+  id                 Int                @id @default(autoincrement())
+  studentId          Int
+  academicSemesterId Int
+  status             RegistrationStatus @default(PENDING)
+  registeredAt       DateTime           @default(now())
+
+  student          Student                  @relation(fields: [studentId], references: [id])
+  academicSemester AcademicSemester         @relation(fields: [academicSemesterId], references: [id])
+  items            CourseRegistrationItem[]
+
+  @@unique([studentId, academicSemesterId])
+}
+
+model CourseRegistrationItem {
+  id               Int      @id @default(autoincrement())
+  registrationId   Int
+  courseOfferingId Int
+  createdAt        DateTime @default(now())
+
+  registration   CourseRegistration @relation(fields: [registrationId], references: [id])
+  courseOffering CourseOffering     @relation(fields: [courseOfferingId], references: [id])
+
+  @@unique([registrationId, courseOfferingId])
+}
+
+enum RegistrationStatus {
+  PENDING
+  APPROVED
+  REJECTED
+  CANCELLED
+}

@@ -121,6 +121,16 @@ The student's email is obtained from the related `User` record.
 * Has many Attendance records.
 * Has many Submissions.
 * Has many Payments.
+### Student Academic Semester
+
+A Student stores an `academicSemesterId` representing the student's
+current academic semester.
+
+For the initial version of EduCore, this provides simple access to
+the student's current academic position.
+
+Future versions may introduce a StudentAcademicHistory entity to
+preserve the student's complete semester-by-semester academic history.
 
 ---
 
