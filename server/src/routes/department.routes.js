@@ -1,20 +1,44 @@
 const express = require("express");
-const prisma = require("../config/prisma");
+
+const departmentController =
+    require("../controllers/department.controller");
 
 const router = express.Router();
 
-router.get("/", async (req, res) => {
-    try {
-        const departments = await prisma.department.findMany();
 
-        res.json(departments);
-    } catch (error) {
-        console.error(error);
+// GET all departments
+router.get(
+    "/",
+    departmentController.getAllDepartments
+);
 
-        res.status(500).json({
-            message: "Failed to fetch departments"
-        });
-    }
-});
+
+// GET department by ID
+router.get(
+    "/:id",
+    departmentController.getDepartmentById
+);
+
+
+// CREATE department
+router.post(
+    "/",
+    departmentController.createDepartment
+);
+
+
+// UPDATE department
+router.put(
+    "/:id",
+    departmentController.updateDepartment
+);
+
+
+// DELETE department
+router.delete(
+    "/:id",
+    departmentController.deleteDepartment
+);
+
 
 module.exports = router;
