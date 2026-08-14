@@ -28,14 +28,20 @@ const getProgramById = async (id) => {
 const createProgram = async (
     name,
     code,
+        programType,
+
     durationYears,
+      totalSemesters,
     departmentId
 ) => {
     return await prisma.program.create({
         data: {
             name: name.trim(),
             code: code.trim(),
+                programType,
+
             durationYears,
+            totalSemesters,
             departmentId: Number(departmentId)
         }
     });
@@ -47,7 +53,10 @@ const updateProgram = async (
     id,
     name,
     code,
+        programType,
+
     durationYears,
+      totalSemesters,
     departmentId
 ) => {
     return await prisma.program.update({
@@ -57,7 +66,10 @@ const updateProgram = async (
         data: {
             name: name.trim(),
             code: code.trim(),
-            durationYears: durationYears,
+                programType,
+
+            durationYears,
+            totalSemesters,
             departmentId: Number(departmentId)
         }
     });

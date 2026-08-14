@@ -59,9 +59,49 @@ const createProgram = async (req, res) => {
         const {
             name,
             code,
+                programType,
+
             durationYears,
+            totalSemesters,
             departmentId
         } = req.body;
+
+        if (!["BACHELOR", "MASTER", "PHD"].includes(programType)) {
+    return res.status(400).json({
+        message: "Program type must be BACHELOR, MASTER or PHD"
+    });
+}
+// Program type + duration + semester validation
+
+if (
+    programType === "BACHELOR" &&
+    (Number(durationYears) !== 4 || Number(totalSemesters) !== 8)
+) {
+    return res.status(400).json({
+        message: "Bachelor programs must be 4 years and 8 semesters"
+    });
+}
+
+
+if (
+    programType === "MASTER" &&
+    (Number(durationYears) !== 2 || Number(totalSemesters) !== 4)
+) {
+    return res.status(400).json({
+        message: "Master programs must be 2 years and 4 semesters"
+    });
+}
+        // Total semesters validation
+if (
+    totalSemesters === undefined ||
+    totalSemesters === null ||
+    !Number.isInteger(Number(totalSemesters)) ||
+    Number(totalSemesters) <= 0
+) {
+    return res.status(400).json({
+        message: "Total semesters must be a positive integer"
+    });
+}
 
 
         // 1. Required fields
@@ -141,11 +181,13 @@ const createProgram = async (req, res) => {
             await programService.createProgram(
                 name,
                 code,
-                durationYears !== undefined &&
-                durationYears !== null
-                    ? Number(durationYears)
-                    : null,
-                departmentId
+                    programType,
+
+               durationYears !== undefined && durationYears !== null
+        ? Number(durationYears)
+        : null,
+    Number(totalSemesters),
+    Number(departmentId)
             );
 
 
@@ -179,9 +221,32 @@ const updateProgram = async (req, res) => {
         const {
             name,
             code,
+                programType,
+
             durationYears,
+            totalSemesters,
             departmentId
         } = req.body;
+        // Program type + duration + semester validation
+
+if (
+    programType === "BACHELOR" &&
+    (Number(durationYears) !== 4 || Number(totalSemesters) !== 8)
+) {
+    return res.status(400).json({
+        message: "Bachelor programs must be 4 years and 8 semesters"
+    });
+}
+
+
+if (
+    programType === "MASTER" &&
+    (Number(durationYears) !== 2 || Number(totalSemesters) !== 4)
+) {
+    return res.status(400).json({
+        message: "Master programs must be 2 years and 4 semesters"
+    });
+}
 
 
         // 1. Validate program ID
@@ -280,11 +345,12 @@ const updateProgram = async (req, res) => {
                 Number(id),
                 name,
                 code,
-                durationYears !== undefined &&
-                durationYears !== null
-                    ? Number(durationYears)
-                    : null,
-                Number(departmentId)
+                programType,
+                durationYears !== undefined && durationYears !== null
+        ? Number(durationYears)
+        : null,
+    Number(totalSemesters),
+    Number(departmentId)
             );
 
 

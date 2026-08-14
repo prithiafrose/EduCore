@@ -23,6 +23,8 @@ model Program {
   id            Int      @id @default(autoincrement())
   name          String
   code          String   @unique
+  programType    String?
+   totalSemesters Int?
   durationYears Int?
   departmentId  Int
   createdAt     DateTime @default(now())
