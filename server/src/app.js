@@ -14,6 +14,18 @@ const academicSemesterRoutes =
     require("./routes/courseOffering.routes");
     const sectionRoutes =
     require("./routes/section.routes");
+    const teacherAssignmentRoutes =
+    require("./routes/teacherAssignment.routes");
+    const teacherRoutes =
+    require("./routes/teacher.routes");
+    const userRoutes =
+    require("./routes/user.routes");
+    const timetableRoutes =
+    require("./routes/timetable.routes");
+    const studentRoutes =
+    require("./routes/student.routes");
+    const enrollmentRoutes =
+    require("./routes/enrollment.routes");
 
 app.use("/api/departments", departmentRoutes);
 app.use("/api/programs", programRoutes);
@@ -21,6 +33,21 @@ app.use("/api/academic-semesters", academicSemesterRoutes);
 app.use("/api/courses", courseRoutes);
 app.use("/api/course-offerings", courseOfferingRoutes);
 app.use("/api/sections", sectionRoutes);
+app.use(
+    "/api/teacher-assignments",
+    teacherAssignmentRoutes
+);
+app.use(
+    "/api/teachers",
+    teacherRoutes
+);
+app.use("/api/users", userRoutes);
+app.use(
+    "/api/timetables",
+    timetableRoutes
+);
+app.use("/api/students", studentRoutes);
+app.use("/api/enrollments", enrollmentRoutes);
 
 app.get("/", (req, res) => {
     res.json({
