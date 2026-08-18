@@ -26,6 +26,10 @@ const academicSemesterRoutes =
     require("./routes/student.routes");
     const enrollmentRoutes =
     require("./routes/enrollment.routes");
+    const classSessionRoutes =
+    require("./routes/classSession.routes");
+    const attendanceRoutes =
+    require("./routes/attendance.routes");
 
 app.use("/api/departments", departmentRoutes);
 app.use("/api/programs", programRoutes);
@@ -48,6 +52,14 @@ app.use(
 );
 app.use("/api/students", studentRoutes);
 app.use("/api/enrollments", enrollmentRoutes);
+app.use(
+    "/api/class-sessions",
+    classSessionRoutes
+);
+app.use(
+    "/api/attendances",
+    attendanceRoutes
+);
 
 app.get("/", (req, res) => {
     res.json({
