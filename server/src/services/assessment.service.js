@@ -8,11 +8,10 @@ const createAssessment = async (data) => {
     maxMarks,
   } = data;
 
-  // Check course offering
   const courseOffering =
     await prisma.courseOffering.findUnique({
       where: {
-        id: courseOfferingId,
+        id: Number(courseOfferingId),
       },
     });
 
@@ -20,44 +19,126 @@ const createAssessment = async (data) => {
     throw new Error("Course offering not found");
   }
 
-  // Official component limits
-  const allowedMarks = {
-    ATTENDANCE: 10,
-    MIDTERM: 20,
-    EVALUATION: 10,
-  };
+  const marks = Number(maxMarks);
 
-  if (!allowedMarks[type]) {
+  // ------------------------------------
+  // Validate Assessment Type
+  // ------------------------------------
+
+  if (
+    type !== "ATTENDANCE" &&
+    type !== "MIDTERM" &&
+    type !== "EVALUATION"
+  ) {
     throw new Error("Invalid assessment type");
   }
 
-  if (Number(maxMarks) !== allowedMarks[type]) {
-    throw new Error(
-      `${type} assessment must be ${allowedMarks[type]} marks`
-    );
+  // ------------------------------------
+  // Attendance must be /10
+  // ------------------------------------
+
+  if (type === "ATTENDANCE") {
+    if (marks !== 10) {
+      throw new Error(
+        "Attendance assessment must be 10 marks"
+      );
+    }
   }
 
-  // Only one component of each type per course
-  const existingAssessment =
-    await prisma.assessment.findFirst({
-      where: {
-        courseOfferingId,
-        type,
-      },
-    });
+  // ------------------------------------
+  // Midterm can be ANY positive marks
+  // ------------------------------------
 
-  if (existingAssessment) {
-    throw new Error(
-      `${type} assessment already exists for this course`
-    );
+  if (type === "MIDTERM") {
+    if (marks <= 0) {
+      throw new Error(
+        "Midterm assessment marks must be greater than 0"
+      );
+    }
   }
+
+  // ------------------------------------
+  // Evaluation can be ANY positive marks
+  // ------------------------------------
+
+  if (type === "EVALUATION") {
+    if (marks <= 0) {
+      throw new Error(
+        "Evaluation assessment marks must be greater than 0"
+      );
+    }
+  }
+
+  // ------------------------------------
+  // Attendance: only one
+  // ------------------------------------
+
+  if (type === "ATTENDANCE") {
+    const existingAttendance =
+      await prisma.assessment.findFirst({
+        where: {
+          courseOfferingId: Number(courseOfferingId),
+          type: "ATTENDANCE",
+        },
+      });
+
+    if (existingAttendance) {
+      throw new Error(
+        "ATTENDANCE assessment already exists for this course"
+      );
+    }
+  }
+
+  // ------------------------------------
+  // Evaluation: only one
+  // ------------------------------------
+
+  if (type === "EVALUATION") {
+    const existingEvaluation =
+      await prisma.assessment.findFirst({
+        where: {
+          courseOfferingId: Number(courseOfferingId),
+          type: "EVALUATION",
+        },
+      });
+
+    if (existingEvaluation) {
+      throw new Error(
+        "EVALUATION assessment already exists for this course"
+      );
+    }
+  }
+
+  // ------------------------------------
+  // Maximum two Midterms
+  // ------------------------------------
+
+  if (type === "MIDTERM") {
+    const midtermCount =
+      await prisma.assessment.count({
+        where: {
+          courseOfferingId: Number(courseOfferingId),
+          type: "MIDTERM",
+        },
+      });
+
+    if (midtermCount >= 2) {
+      throw new Error(
+        "A course can have maximum two MIDTERM assessments"
+      );
+    }
+  }
+
+  // ------------------------------------
+  // Create Assessment
+  // ------------------------------------
 
   return await prisma.assessment.create({
     data: {
-      courseOfferingId,
+      courseOfferingId: Number(courseOfferingId),
       name,
       type,
-      maxMarks,
+      maxMarks: marks,
     },
   });
 };
@@ -67,7 +148,7 @@ const getAssessmentsByCourseOffering = async (
 ) => {
   return await prisma.assessment.findMany({
     where: {
-      courseOfferingId,
+      courseOfferingId: Number(courseOfferingId),
     },
     include: {
       activities: true,

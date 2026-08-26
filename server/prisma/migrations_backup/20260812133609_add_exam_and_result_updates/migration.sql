@@ -2,7 +2,7 @@
 CREATE TYPE "ExamType" AS ENUM ('MIDTERM_1', 'MIDTERM_2', 'FINAL');
 
 -- AlterEnum
-ALTER TYPE "AssessmentType" ADD VALUE 'ATTENDANCE';
+-- ALTER TYPE "AssessmentType" ADD VALUE 'ATTENDANCE';
 
 -- CreateTable
 CREATE TABLE "Exam" (

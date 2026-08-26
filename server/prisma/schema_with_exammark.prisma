@@ -253,8 +253,6 @@ model User {
 model CourseResult {
   id           Int        @id @default(autoincrement())
   enrollmentId Int        @unique
-   assessmentResult Decimal   // out of 40
-  examResult       Decimal
   totalMarks   Decimal
   grade        Grade
   gradePoint   Decimal
@@ -266,7 +264,6 @@ model Exam {
   id               Int            @id @default(autoincrement())
   courseOfferingId Int
   type             ExamType
-  maxMarks         Decimal
   date             DateTime
   startTime        DateTime
   endTime          DateTime
