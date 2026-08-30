@@ -35,6 +35,10 @@ const academicSemesterRoutes =
     const studentMarkRoutes = require("./routes/studentMark.routes");
     const examMarkRoutes = require("./routes/examMark.routes");
     const examRoutes = require("./routes/exam.routes");
+    const assignmentSubmissionRoutes =
+  require("./routes/assignmentSubmission.routes");
+  const assignmentRoutes =
+  require("./routes/assignment.routes");
 
 app.use("/api/departments", departmentRoutes);
 app.use("/api/programs", programRoutes);
@@ -80,6 +84,12 @@ app.use(
   "/api/course-results",
   require("./routes/courseResult.routes")
 );
+app.use(
+  "/api/assignment-submissions",
+  assignmentSubmissionRoutes
+);
+app.use("/api/assignments", assignmentRoutes);
+
 
 app.get("/", (req, res) => {
     res.json({
