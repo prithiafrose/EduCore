@@ -41,6 +41,7 @@ const academicSemesterRoutes =
   require("./routes/assignment.routes");
 const courseRegistrationRoutes = require("./routes/courseRegistration.routes");
 const feeRoutes = require("./routes/fee.routes");
+const studentPaymentRoutes = require("./routes/studentPayment.routes");
 app.use("/api/departments", departmentRoutes);
 app.use("/api/programs", programRoutes);
 app.use("/api/academic-semesters", academicSemesterRoutes);
@@ -91,7 +92,9 @@ app.use(
 );
 app.use("/api/assignments", assignmentRoutes);
 app.use("/api/course-registrations", courseRegistrationRoutes);
+
 app.use("/api/fees", feeRoutes);
+app.use("/api/student-payments", studentPaymentRoutes);
 
 
 app.get("/", (req, res) => {

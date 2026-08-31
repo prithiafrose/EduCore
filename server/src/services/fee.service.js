@@ -28,7 +28,12 @@ const createFee = async (data) => {
   if (!semester) {
     throw new Error("Academic semester not found");
   }
-
+// Check academic semester belongs to the program
+if (semester.programId !== Number(programId)) {
+  throw new Error(
+    "Academic semester does not belong to this program"
+  );
+}
   // Check duplicate fee
   const existingFee = await prisma.fee.findUnique({
     where: {

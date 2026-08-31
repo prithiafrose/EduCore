@@ -21,6 +21,61 @@ const createCourseRegistration = async (data) => {
   if (!semester) {
     throw new Error("Academic semester not found");
   }
+  // Check student belongs to the semester's program
+if (student.programId !== semester.programId) {
+  throw new Error(
+    "Student does not belong to this semester's program"
+  );
+}
+// Check required fees are paid
+
+const requiredFees = await prisma.fee.findMany({
+  where: {
+    programId: semester.programId,
+    academicSemesterId: semester.id,
+    type: {
+      in: ["SEMESTER", "COURSE_REGISTRATION"],
+    },
+  },
+});
+
+if (requiredFees.length !== 2) {
+  throw new Error("Required fees are not configured for this semester");
+}
+
+const feeIds = requiredFees.map((fee) => fee.id);
+
+const paidPayments = await prisma.studentPayment.findMany({
+  where: {
+    studentId: Number(studentId),
+    feeId: {
+      in: feeIds,
+    },
+    status: "PAID",
+  },
+});
+
+if (paidPayments.length !== 2) {
+  throw new Error(
+    "Student must pay both semester fee and course registration fee"
+  );
+}
+// Check selected courses belong to this semester
+
+const courseOfferings = await prisma.courseOffering.findMany({
+  where: {
+    id: {
+      in: courseOfferingIds.map((id) => Number(id)),
+    },
+    academicSemesterId: Number(academicSemesterId),
+  },
+});
+
+if (courseOfferings.length !== courseOfferingIds.length) {
+  throw new Error(
+    "One or more selected courses do not belong to this semester"
+  );
+}
 
   // Prevent duplicate registration
   const existing = await prisma.courseRegistration.findUnique({
@@ -119,8 +174,66 @@ const getRegistrationsByStudent = async (studentId) => {
   });
 };
 
-// Update registration status
 const updateRegistrationStatus = async (id, status) => {
+  const registration = await prisma.courseRegistration.findUnique({
+    where: { id: Number(id) },
+    include: {
+      academicSemester: true,
+    },
+  });
+
+  if (!registration) {
+    throw new Error("Course registration not found");
+  }
+
+  const validStatuses = [
+    "PENDING",
+    "APPROVED",
+    "REJECTED",
+    "CANCELLED",
+  ];
+
+  if (!validStatuses.includes(status)) {
+    throw new Error("Invalid registration status");
+  }
+
+  // Payment validation before approval
+  if (status === "APPROVED") {
+    const requiredFees = await prisma.fee.findMany({
+      where: {
+        programId: registration.academicSemester.programId,
+        academicSemesterId: registration.academicSemesterId,
+        type: {
+          in: ["SEMESTER", "COURSE_REGISTRATION"],
+        },
+      },
+    });
+
+    if (requiredFees.length !== 2) {
+      throw new Error(
+        "Required fees are not configured for this semester"
+      );
+    }
+
+    const feeIds = requiredFees.map((fee) => fee.id);
+
+    const paidPayments = await prisma.studentPayment.findMany({
+      where: {
+        studentId: registration.studentId,
+        feeId: {
+          in: feeIds,
+        },
+        status: "PAID",
+      },
+    });
+
+    if (paidPayments.length !== 2) {
+      throw new Error(
+        "Student must pay both semester fee and course registration fee before approval"
+      );
+    }
+  }
+
   return prisma.courseRegistration.update({
     where: { id: Number(id) },
     data: { status },
