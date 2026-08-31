@@ -39,7 +39,7 @@ const academicSemesterRoutes =
   require("./routes/assignmentSubmission.routes");
   const assignmentRoutes =
   require("./routes/assignment.routes");
-
+const courseRegistrationRoutes = require("./routes/courseRegistration.routes");
 app.use("/api/departments", departmentRoutes);
 app.use("/api/programs", programRoutes);
 app.use("/api/academic-semesters", academicSemesterRoutes);
@@ -89,6 +89,7 @@ app.use(
   assignmentSubmissionRoutes
 );
 app.use("/api/assignments", assignmentRoutes);
+app.use("/api/course-registrations", courseRegistrationRoutes);
 
 
 app.get("/", (req, res) => {
