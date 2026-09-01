@@ -31,53 +31,52 @@ const getUserById = async (id) => {
 
 
 // CREATE user
-const createUser = async (
-    email,
-    passwordHash,
-    role
-) => {
-    return await prisma.user.create({
-        data: {
-            email,
-            passwordHash,
-            role
-        },
-        select: {
-            id: true,
-            email: true,
-            role: true,
-            createdAt: true
-        }
-    });
+const { hashPassword } = require("../utils/hash");
+
+const createUser = async (email, password, role) => {
+  const hashedPassword = await hashPassword(password);
+
+  return await prisma.user.create({
+    data: {
+      email,
+      passwordHash: hashedPassword,
+      role,
+    },
+    select: {
+      id: true,
+      email: true,
+      role: true,
+      createdAt: true,
+    },
+  });
 };
 
 
 // UPDATE user
-const updateUser = async (
-    id,
+const updateUser = async (id, email, password, role) => {
+  const updateData = {
     email,
-    passwordHash,
-    role
-) => {
-    return await prisma.user.update({
-        where: {
-            id: Number(id)
-        },
-        data: {
-            email,
-            passwordHash,
-            role
-        },
-        select: {
-            id: true,
-            email: true,
-            role: true,
-            createdAt: true
-        }
-    });
+    role,
+  };
+
+  // Only hash if a new password is provided
+  if (password) {
+    updateData.passwordHash = await hashPassword(password);
+  }
+
+  return await prisma.user.update({
+    where: {
+      id: Number(id),
+    },
+    data: updateData,
+    select: {
+      id: true,
+      email: true,
+      role: true,
+      createdAt: true,
+    },
+  });
 };
-
-
 // DELETE user
 const deleteUser = async (id) => {
     return await prisma.user.delete({

@@ -69,7 +69,7 @@ const createUser = async (req, res) => {
 
         const {
             email,
-            passwordHash,
+            password,
             role
         } = req.body;
 
@@ -77,12 +77,12 @@ const createUser = async (req, res) => {
         // Required fields
         if (
             !email ||
-            !passwordHash ||
+            !password ||
             !role
         ) {
             return res.status(400).json({
                 message:
-                    "email, passwordHash and role are required"
+                    "email, password and role are required"
             });
         }
 
@@ -106,7 +106,7 @@ const createUser = async (req, res) => {
         const user =
             await userService.createUser(
                 email,
-                passwordHash,
+                password,
                 role
             );
 
@@ -141,7 +141,7 @@ const updateUser = async (req, res) => {
 
         const {
             email,
-            passwordHash,
+            password,
             role
         } = req.body;
 
@@ -157,15 +157,15 @@ const updateUser = async (req, res) => {
         }
 
 
-        // Required fields
+        // Email and role are required
+        // Password is optional
         if (
             !email ||
-            !passwordHash ||
             !role
         ) {
             return res.status(400).json({
                 message:
-                    "email, passwordHash and role are required"
+                    "email and role are required"
             });
         }
 
@@ -202,7 +202,7 @@ const updateUser = async (req, res) => {
             await userService.updateUser(
                 id,
                 email,
-                passwordHash,
+                password,
                 role
             );
 
