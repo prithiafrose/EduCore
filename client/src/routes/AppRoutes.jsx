@@ -6,6 +6,8 @@ import TeacherDashboard from "../pages/teacher/Dashboard";
 import StudentDashboard from "../pages/student/Dashboard";
 import ProtectedRoute from "./ProtectedRoute";
 import Departments from "../pages/admin/Departments";
+import Programs from "../pages/admin/Programs";
+
 
 function AppRoutes() {
   return (
@@ -52,6 +54,14 @@ function AppRoutes() {
     </ProtectedRoute>
   }
 />
+<Route
+          path="/admin/programs"
+          element={
+            <ProtectedRoute allowedRole="ADMIN">
+              <Programs />
+            </ProtectedRoute>
+          }
+        />
       </Routes>
     </BrowserRouter>
   );

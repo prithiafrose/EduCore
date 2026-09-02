@@ -17,41 +17,68 @@ function Dashboard() {
   Departments
 </a>
 
-          <a href="#" className="block px-4 py-3 rounded-lg hover:bg-gray-700">
-            Programs
+          <a
+  href="/admin/programs"
+  className="block px-4 py-3 rounded-lg hover:bg-gray-700"
+>
+  Programs
+</a>
+
+          <a
+  href="/admin/semesters"
+  className="block px-4 py-3 rounded-lg hover:bg-gray-700"
+>
+  Semesters
+</a>
+
+          <a
+  href="/admin/courses"
+  className="block px-4 py-3 rounded-lg hover:bg-gray-700"
+>
+  Courses
           </a>
 
-          <a href="#" className="block px-4 py-3 rounded-lg hover:bg-gray-700">
-            Semesters
-          </a>
+          <a
+  href="/admin/teachers"
+  className="block px-4 py-3 rounded-lg hover:bg-gray-700"
+>
+  Teachers
+</a>
 
-          <a href="#" className="block px-4 py-3 rounded-lg hover:bg-gray-700">
-            Courses
-          </a>
+          <a
+  href="/admin/students"
+  className="block px-4 py-3 rounded-lg hover:bg-gray-700"
+>
+  Students
+</a>
 
-          <a href="#" className="block px-4 py-3 rounded-lg hover:bg-gray-700">
-            Teachers
-          </a>
+          <a
+  href="/admin/enrollments"
+  className="block px-4 py-3 rounded-lg hover:bg-gray-700"
+>
+  Enrollments
+</a>
 
-          <a href="#" className="block px-4 py-3 rounded-lg hover:bg-gray-700">
-            Students
-          </a>
+          <a
+  href="/admin/assessments"
+  className="block px-4 py-3 rounded-lg hover:bg-gray-700"
+>
+  Assessments
+</a>
 
-          <a href="#" className="block px-4 py-3 rounded-lg hover:bg-gray-700">
-            Enrollments
-          </a>
+          <a
+  href="/admin/exams"
+  className="block px-4 py-3 rounded-lg hover:bg-gray-700"
+>
+  Exams
+</a>
 
-          <a href="#" className="block px-4 py-3 rounded-lg hover:bg-gray-700">
-            Assessments
-          </a>
-
-          <a href="#" className="block px-4 py-3 rounded-lg hover:bg-gray-700">
-            Exams
-          </a>
-
-          <a href="#" className="block px-4 py-3 rounded-lg hover:bg-gray-700">
-            Results
-          </a>
+          <a
+  href="/admin/results"
+  className="block px-4 py-3 rounded-lg hover:bg-gray-700"
+>
+  Results
+</a>
         </nav>
       </aside>
 
