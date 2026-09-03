@@ -1,8 +1,17 @@
 const express = require("express");
+const cors = require("cors");
 
 const app = express();
 
+app.use(
+    cors({
+        origin: "http://localhost:5173",
+    })
+);
+
 app.use(express.json());
+
+
 
 const departmentRoutes = require("./routes/department.routes");
 const programRoutes = require("./routes/program.routes");
@@ -46,6 +55,7 @@ const notificationRoutes =
     require("./routes/notification.routes");
     const authRoutes =
     require("./routes/auth.routes");
+    const adminRoutes = require("./routes/admin.routes");
 app.use("/api/departments", departmentRoutes);
 app.use("/api/programs", programRoutes);
 app.use("/api/academic-semesters", academicSemesterRoutes);
@@ -104,6 +114,7 @@ app.use(
     notificationRoutes
 );
 app.use("/api/auth", authRoutes);
+app.use("/api/admin", adminRoutes);
 
 app.get("/", (req, res) => {
     res.json({

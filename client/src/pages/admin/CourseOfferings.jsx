@@ -1,44 +1,50 @@
 import { useEffect, useState } from "react";
 
 import {
-  getDepartments,
-  createDepartment,
-  deleteDepartment,
-  updateDepartment,
-} from "../../services/departmentApi";
+  getCourseOfferings,
+  createCourseOffering,
+  updateCourseOffering,
+  deleteCourseOffering,
+} from "../../services/courseOfferingApi";
+
+import { getCourses } from "../../services/courseApi";
+
+import api from "../../services/axios";
 
 
-function Departments() {
+const CourseOfferings = () => {
 
-  const [departments, setDepartments] = useState([]);
+  const [offerings, setOfferings] = useState([]);
+  const [courses, setCourses] = useState([]);
+  const [semesters, setSemesters] = useState([]);
 
-  const [loading, setLoading] = useState(true);
-  const [saving, setSaving] = useState(false);
-
-  const [name, setName] = useState("");
-  const [code, setCode] = useState("");
+  const [courseId, setCourseId] = useState("");
+  const [academicSemesterId, setAcademicSemesterId] =
+    useState("");
 
   const [editingId, setEditingId] = useState(null);
-
   const [showForm, setShowForm] = useState(false);
 
   const [search, setSearch] = useState("");
+
+  const [loading, setLoading] = useState(true);
+  const [formLoading, setFormLoading] = useState(false);
 
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
 
 
-  // Load departments
-  const loadData = async () => {
+  // Load course offerings
+  const loadOfferings = async () => {
 
     try {
 
       setLoading(true);
       setError("");
 
-      const data = await getDepartments();
+      const data = await getCourseOfferings();
 
-      setDepartments(data);
+      setOfferings(data);
 
     } catch (error) {
 
@@ -46,7 +52,7 @@ function Departments() {
 
       setError(
         error.response?.data?.message ||
-        "Failed to load departments"
+        "Failed to load course offerings"
       );
 
     } finally {
@@ -58,31 +64,99 @@ function Departments() {
   };
 
 
+  // Load courses
+  const loadCourses = async () => {
+
+    try {
+
+      const data = await getCourses();
+
+      setCourses(data);
+
+    } catch (error) {
+
+      console.error(error);
+
+      setError(
+        error.response?.data?.message ||
+        "Failed to load courses"
+      );
+
+    }
+
+  };
+
+
+  // Load academic semesters
+  const loadSemesters = async () => {
+
+    try {
+
+      const response = await api.get(
+        "/academic-semesters"
+      );
+
+      setSemesters(response.data);
+
+    } catch (error) {
+
+      console.error(error);
+
+      setError(
+        error.response?.data?.message ||
+        "Failed to load academic semesters"
+      );
+
+    }
+
+  };
+
+
+  // Load initial data
   useEffect(() => {
-    loadData();
+
+    const loadInitialData = async () => {
+
+      await Promise.all([
+        loadOfferings(),
+        loadCourses(),
+        loadSemesters(),
+      ]);
+
+    };
+
+    loadInitialData();
+
   }, []);
+
+
+  // Clear messages
+  const clearMessages = () => {
+
+    setError("");
+    setSuccess("");
+
+  };
 
 
   // Reset form
   const resetForm = () => {
 
-    setName("");
-    setCode("");
+    setCourseId("");
+    setAcademicSemesterId("");
+
     setEditingId(null);
     setShowForm(false);
 
   };
 
 
-  // Open add form
+  // Open Add form
   const handleAdd = () => {
 
-    setName("");
-    setCode("");
-    setEditingId(null);
+    resetForm();
 
-    setError("");
-    setSuccess("");
+    clearMessages();
 
     setShowForm(true);
 
@@ -90,6 +164,34 @@ function Departments() {
       top: 0,
       behavior: "smooth",
     });
+
+  };
+
+
+  // Validate form
+  const validateForm = () => {
+
+    if (!courseId) {
+
+      setError("Please select a course");
+
+      return false;
+
+    }
+
+
+    if (!academicSemesterId) {
+
+      setError(
+        "Please select an academic semester"
+      );
+
+      return false;
+
+    }
+
+
+    return true;
 
   };
 
@@ -99,40 +201,44 @@ function Departments() {
 
     e.preventDefault();
 
-    setError("");
-    setSuccess("");
-    setSaving(true);
+    clearMessages();
+
+    if (!validateForm()) {
+      return;
+    }
 
     try {
 
-      if (editingId) {
+      setFormLoading(true);
 
-        await updateDepartment(
+      if (editingId !== null) {
+
+        await updateCourseOffering(
           editingId,
-          name,
-          code
+          courseId,
+          academicSemesterId
         );
 
         setSuccess(
-          "Department updated successfully."
+          "Course offering updated successfully."
         );
 
       } else {
 
-        await createDepartment(
-          name,
-          code
+        await createCourseOffering(
+          courseId,
+          academicSemesterId
         );
 
         setSuccess(
-          "Department created successfully."
+          "Course offering created successfully."
         );
 
       }
 
       resetForm();
 
-      await loadData();
+      await loadOfferings();
 
     } catch (error) {
 
@@ -140,32 +246,32 @@ function Departments() {
 
       setError(
         error.response?.data?.message ||
-        (
-          editingId
-            ? "Failed to update department"
-            : "Failed to create department"
-        )
+        "Failed to save course offering"
       );
 
     } finally {
 
-      setSaving(false);
+      setFormLoading(false);
 
     }
 
   };
 
 
-  // Edit department
-  const handleEdit = (department) => {
+  // Edit offering
+  const handleEdit = (offering) => {
 
-    setEditingId(department.id);
+    clearMessages();
 
-    setName(department.name || "");
-    setCode(department.code || "");
+    setEditingId(offering.id);
 
-    setError("");
-    setSuccess("");
+    setCourseId(
+      String(offering.courseId)
+    );
+
+    setAcademicSemesterId(
+      String(offering.academicSemesterId)
+    );
 
     setShowForm(true);
 
@@ -177,27 +283,28 @@ function Departments() {
   };
 
 
-  // Delete department
+  // Delete offering
   const handleDelete = async (id) => {
 
     const confirmed = window.confirm(
-      "Are you sure you want to delete this department?"
+      "Are you sure you want to delete this course offering?"
     );
 
-    if (!confirmed) return;
+    if (!confirmed) {
+      return;
+    }
+
+    clearMessages();
 
     try {
 
-      setError("");
-      setSuccess("");
-
-      await deleteDepartment(id);
+      await deleteCourseOffering(id);
 
       setSuccess(
-        "Department deleted successfully."
+        "Course offering deleted successfully."
       );
 
-      await loadData();
+      await loadOfferings();
 
     } catch (error) {
 
@@ -205,7 +312,7 @@ function Departments() {
 
       setError(
         error.response?.data?.message ||
-        "Failed to delete department"
+        "Failed to delete course offering"
       );
 
     }
@@ -213,19 +320,46 @@ function Departments() {
   };
 
 
-  // Search departments
-  const filteredDepartments =
-    departments.filter((department) => {
+  // Cancel
+  const handleCancel = () => {
+
+    resetForm();
+
+    clearMessages();
+
+  };
+
+
+  // Search
+  const filteredOfferings =
+    offerings.filter((offering) => {
 
       const searchText =
         search.toLowerCase();
 
       return (
-        department.name
+        offering.course?.code
           ?.toLowerCase()
           .includes(searchText) ||
 
-        department.code
+        offering.course?.name
+          ?.toLowerCase()
+          .includes(searchText) ||
+
+        offering.academicSemester
+          ?.name
+          ?.toLowerCase()
+          .includes(searchText) ||
+
+        offering.academicSemester
+          ?.program
+          ?.name
+          ?.toLowerCase()
+          .includes(searchText) ||
+
+        offering.academicSemester
+          ?.program
+          ?.code
           ?.toLowerCase()
           .includes(searchText)
       );
@@ -233,6 +367,7 @@ function Departments() {
     });
 
 
+  // Loading state
   if (loading) {
 
     return (
@@ -242,7 +377,7 @@ function Departments() {
         <div className="flex min-h-[300px] items-center justify-center">
 
           <p className="text-sm text-slate-500">
-            Loading departments...
+            Loading course offerings...
           </p>
 
         </div>
@@ -268,26 +403,26 @@ function Departments() {
           <div>
 
             <h1 className="text-3xl font-bold text-slate-900">
-              Department Management
+              Course Offering Management
             </h1>
 
             <p className="mt-1 text-sm text-slate-500">
-              Manage university departments and their codes
+              Manage courses offered in academic semesters
             </p>
 
           </div>
 
 
-          {/* Total Departments */}
+          {/* Total Offerings */}
 
           <div className="rounded-xl bg-white px-4 py-3 shadow-sm ring-1 ring-slate-200">
 
             <p className="text-xs font-medium uppercase tracking-wide text-slate-400">
-              Total Departments
+              Total Offerings
             </p>
 
             <p className="mt-1 text-2xl font-bold text-slate-900">
-              {departments.length}
+              {offerings.length}
             </p>
 
           </div>
@@ -297,7 +432,7 @@ function Departments() {
       </div>
 
 
-      {/* Messages */}
+      {/* Success Message */}
 
       {success && (
 
@@ -308,6 +443,8 @@ function Departments() {
       )}
 
 
+      {/* Error Message */}
+
       {error && (
 
         <div className="mb-5 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm font-medium text-red-700">
@@ -317,7 +454,7 @@ function Departments() {
       )}
 
 
-      {/* Department Form */}
+      {/* Form */}
 
       {showForm && (
 
@@ -328,17 +465,17 @@ function Departments() {
 
             <h2 className="text-lg font-semibold text-slate-900">
 
-              {editingId
-                ? "Edit Department"
-                : "Add New Department"}
+              {editingId !== null
+                ? "Edit Course Offering"
+                : "Add New Course Offering"}
 
             </h2>
 
             <p className="mt-1 text-sm text-slate-500">
 
-              {editingId
-                ? "Update the department information."
-                : "Create a new university department."}
+              {editingId !== null
+                ? "Update the course offering information."
+                : "Assign a course to an academic semester."}
 
             </p>
 
@@ -351,46 +488,84 @@ function Departments() {
           >
 
 
-            {/* Department Name */}
+            {/* Course */}
 
             <div>
 
               <label className="mb-2 block text-sm font-medium text-slate-700">
-                Department Name
+                Course
               </label>
 
-              <input
-                type="text"
-                value={name}
+              <select
+                value={courseId}
                 onChange={(e) =>
-                  setName(e.target.value)
+                  setCourseId(e.target.value)
                 }
-                placeholder="Software Engineering"
                 required
-                className="w-full rounded-xl border border-slate-300 px-4 py-3 text-sm outline-none transition focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100"
-              />
+                className="w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm outline-none transition focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100"
+              >
+
+                <option value="">
+                  Select a course
+                </option>
+
+                {courses.map(
+                  (course) => (
+
+                    <option
+                      key={course.id}
+                      value={String(course.id)}
+                    >
+                      {course.code} - {course.name}
+                    </option>
+
+                  )
+                )}
+
+              </select>
 
             </div>
 
 
-            {/* Department Code */}
+            {/* Academic Semester */}
 
             <div>
 
               <label className="mb-2 block text-sm font-medium text-slate-700">
-                Department Code
+                Academic Semester
               </label>
 
-              <input
-                type="text"
-                value={code}
+              <select
+                value={academicSemesterId}
                 onChange={(e) =>
-                  setCode(e.target.value)
+                  setAcademicSemesterId(
+                    e.target.value
+                  )
                 }
-                placeholder="SWE"
                 required
-                className="w-full rounded-xl border border-slate-300 px-4 py-3 text-sm uppercase outline-none transition focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100"
-              />
+                className="w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm outline-none transition focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100"
+              >
+
+                <option value="">
+                  Select an academic semester
+                </option>
+
+                {semesters.map(
+                  (semester) => (
+
+                    <option
+                      key={semester.id}
+                      value={String(semester.id)}
+                    >
+                      {semester.program?.name ||
+                        "Program"}{" "}
+                      - {semester.name}
+                    </option>
+
+                  )
+                )}
+
+              </select>
 
             </div>
 
@@ -401,23 +576,23 @@ function Departments() {
 
               <button
                 type="submit"
-                disabled={saving}
+                disabled={formLoading}
                 className="rounded-xl bg-indigo-600 px-6 py-3 text-sm font-semibold text-white transition hover:bg-indigo-700 disabled:cursor-not-allowed disabled:opacity-60"
               >
 
-                {saving
+                {formLoading
                   ? "Saving..."
-                  : editingId
-                  ? "Update Department"
-                  : "Add Department"}
+                  : editingId !== null
+                  ? "Update Offering"
+                  : "Add Offering"}
 
               </button>
 
 
               <button
                 type="button"
-                onClick={resetForm}
-                disabled={saving}
+                onClick={handleCancel}
+                disabled={formLoading}
                 className="rounded-xl border border-slate-300 bg-white px-6 py-3 text-sm font-semibold text-slate-700 transition hover:bg-slate-50 disabled:opacity-60"
               >
                 Cancel
@@ -432,7 +607,7 @@ function Departments() {
       )}
 
 
-      {/* Department List */}
+      {/* Course Offering List */}
 
       <div className="rounded-2xl bg-white shadow-sm ring-1 ring-slate-200">
 
@@ -444,11 +619,11 @@ function Departments() {
           <div>
 
             <h2 className="text-lg font-semibold text-slate-900">
-              Departments
+              Course Offerings
             </h2>
 
             <p className="mt-1 text-sm text-slate-500">
-              View and manage university departments
+              View and manage course offerings
             </p>
 
           </div>
@@ -465,7 +640,7 @@ function Departments() {
               onChange={(e) =>
                 setSearch(e.target.value)
               }
-              placeholder="Search departments..."
+              placeholder="Search offerings..."
               className="w-full rounded-xl border border-slate-300 px-4 py-3 text-sm outline-none transition focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100 sm:w-72"
             />
 
@@ -479,7 +654,7 @@ function Departments() {
                 onClick={handleAdd}
                 className="rounded-xl bg-indigo-600 px-5 py-3 text-sm font-semibold text-white transition hover:bg-indigo-700"
               >
-                Add Department
+                Add Offering
               </button>
 
             )}
@@ -489,18 +664,18 @@ function Departments() {
         </div>
 
 
-        {/* Department Table */}
+        {/* Empty State */}
 
-        {filteredDepartments.length === 0 ? (
+        {filteredOfferings.length === 0 ? (
 
           <div className="p-10 text-center">
 
             <p className="font-medium text-slate-700">
-              No departments found
+              No course offerings found
             </p>
 
             <p className="mt-1 text-sm text-slate-400">
-              Try a different search or add a new department.
+              Try a different search or add a new course offering.
             </p>
 
           </div>
@@ -516,7 +691,7 @@ function Departments() {
                 <tr className="border-b border-slate-200 bg-slate-50">
 
                   <th className="px-6 py-4 text-xs font-semibold uppercase tracking-wide text-slate-500">
-                    Department
+                    Course
                   </th>
 
                   <th className="px-6 py-4 text-xs font-semibold uppercase tracking-wide text-slate-500">
@@ -524,7 +699,15 @@ function Departments() {
                   </th>
 
                   <th className="px-6 py-4 text-xs font-semibold uppercase tracking-wide text-slate-500">
-                    Department ID
+                    Program
+                  </th>
+
+                  <th className="px-6 py-4 text-xs font-semibold uppercase tracking-wide text-slate-500">
+                    Semester
+                  </th>
+
+                  <th className="px-6 py-4 text-xs font-semibold uppercase tracking-wide text-slate-500">
+                    Offering ID
                   </th>
 
                   <th className="px-6 py-4 text-right text-xs font-semibold uppercase tracking-wide text-slate-500">
@@ -538,25 +721,25 @@ function Departments() {
 
               <tbody>
 
-                {filteredDepartments.map(
-                  (department) => (
+                {filteredOfferings.map(
+                  (offering) => (
 
                     <tr
-                      key={department.id}
+                      key={offering.id}
                       className="border-b border-slate-100 last:border-0 hover:bg-slate-50"
                     >
 
 
-                      {/* Department */}
+                      {/* Course */}
 
                       <td className="px-6 py-4">
 
                         <p className="font-medium text-slate-900">
-                          {department.name}
+                          {offering.course?.name || "—"}
                         </p>
 
                         <p className="mt-1 text-xs text-slate-400">
-                          University Department
+                          Course
                         </p>
 
                       </td>
@@ -567,7 +750,42 @@ function Departments() {
                       <td className="px-6 py-4">
 
                         <span className="rounded-lg bg-indigo-50 px-3 py-1.5 text-sm font-semibold text-indigo-700">
-                          {department.code}
+                          {offering.course?.code || "—"}
+                        </span>
+
+                      </td>
+
+
+                      {/* Program */}
+
+                      <td className="px-6 py-4">
+
+                        <p className="text-sm font-medium text-slate-700">
+                          {offering.academicSemester
+                            ?.program
+                            ?.name || "—"}
+                        </p>
+
+                        {offering.academicSemester
+                          ?.program
+                          ?.code && (
+
+                          <p className="mt-1 text-xs text-slate-400">
+                            {offering.academicSemester.program.code}
+                          </p>
+
+                        )}
+
+                      </td>
+
+
+                      {/* Semester */}
+
+                      <td className="px-6 py-4">
+
+                        <span className="rounded-lg bg-slate-100 px-3 py-1.5 text-sm font-semibold text-slate-600">
+                          {offering.academicSemester
+                            ?.name || "—"}
                         </span>
 
                       </td>
@@ -578,7 +796,7 @@ function Departments() {
                       <td className="px-6 py-4">
 
                         <span className="text-sm text-slate-500">
-                          {department.id}
+                          {offering.id}
                         </span>
 
                       </td>
@@ -594,7 +812,7 @@ function Departments() {
                             type="button"
                             onClick={() =>
                               handleEdit(
-                                department
+                                offering
                               )
                             }
                             className="rounded-lg border border-slate-300 px-3 py-2 text-xs font-semibold text-slate-700 transition hover:bg-slate-100"
@@ -606,7 +824,7 @@ function Departments() {
                             type="button"
                             onClick={() =>
                               handleDelete(
-                                department.id
+                                offering.id
                               )
                             }
                             className="rounded-lg border border-red-200 px-3 py-2 text-xs font-semibold text-red-600 transition hover:bg-red-50"
@@ -637,7 +855,7 @@ function Departments() {
 
   );
 
-}
+};
 
 
-export default Departments;
+export default CourseOfferings;

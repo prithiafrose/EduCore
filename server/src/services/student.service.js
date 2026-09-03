@@ -27,37 +27,51 @@ const getStudentById = async (id) => {
 
 
 // CREATE student
+const { hashPassword } = require("../utils/hash");
+
 const createStudent = async (
-    studentId,
-    name,
-    email,
-    programId,
-    userId
+  studentId,
+  name,
+  email,
+  programId,
+  password
 ) => {
-    return await prisma.student.create({
-        data: {
-            studentId,
-            name,
-            email,
-            programId: Number(programId),
-            userId: Number(userId)
-        },
-        include: {
-            program: true,
-            user: true
-        }
+
+  return await prisma.$transaction(async (tx) => {
+
+    // Create login account
+    const user = await tx.user.create({
+      data: {
+        email,
+        passwordHash: await hashPassword(password),
+        role: "STUDENT",
+      },
     });
+
+    // Create student profile
+    const student = await tx.student.create({
+      data: {
+        studentId,
+        name,
+        email,
+        programId: Number(programId),
+        userId: user.id,
+      },
+    });
+
+    return student;
+
+  });
+
 };
 
 
-// UPDATE student
 const updateStudent = async (
     id,
     studentId,
     name,
     email,
-    programId,
-    userId
+    programId
 ) => {
     return await prisma.student.update({
         where: {
@@ -67,8 +81,7 @@ const updateStudent = async (
             studentId,
             name,
             email,
-            programId: Number(programId),
-            userId: Number(userId)
+            programId: Number(programId)
         },
         include: {
             program: true,

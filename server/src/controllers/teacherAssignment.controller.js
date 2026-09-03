@@ -2,6 +2,47 @@ const teacherAssignmentService =
     require("../services/teacherAssignment.service");
 
 const prisma = require("../config/prisma");
+// GET teacher assignments by teacher ID
+const getTeacherAssignmentsByTeacher = async (
+    req,
+    res
+) => {
+
+    try {
+
+        const { teacherId } = req.params;
+
+        if (
+            !Number.isInteger(Number(teacherId)) ||
+            Number(teacherId) <= 0
+        ) {
+
+            return res.status(400).json({
+                message: "Invalid teacher ID"
+            });
+
+        }
+
+        const assignments =
+            await teacherAssignmentService
+                .getTeacherAssignmentsByTeacher(
+                    teacherId
+                );
+
+        res.status(200).json(assignments);
+
+    } catch (error) {
+
+        console.error(error);
+
+        res.status(500).json({
+            message:
+                "Failed to fetch teacher assignments"
+        });
+
+    }
+
+};
 
 
 // GET all teacher assignments
@@ -220,5 +261,7 @@ const createTeacherAssignment = async (req, res) => {
 module.exports = {
     getAllTeacherAssignments,
     getTeacherAssignmentById,
+        getTeacherAssignmentsByTeacher,
+
     createTeacherAssignment
 };

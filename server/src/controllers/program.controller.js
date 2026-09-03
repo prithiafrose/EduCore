@@ -414,12 +414,16 @@ const deleteProgram = async (req, res) => {
         console.error(error);
 
         // Program has related records
-        if (error.code === "P2003") {
-            return res.status(409).json({
-                message:
-                    "Cannot delete program because it has related records"
-            });
-        }
+       if (
+    error.code === "P2003" ||
+    error.code === "P2039" ||
+    error.meta?.driverAdapterError
+) {
+    return res.status(409).json({
+        message:
+            "Cannot delete program because it has related records"
+    });
+}
 
         return res.status(500).json({
             message: "Failed to delete program"

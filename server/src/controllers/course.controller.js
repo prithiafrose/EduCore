@@ -98,7 +98,18 @@ const createCourse = async (req, res) => {
                 message: "Code and name cannot be empty"
             });
         }
-
+        // 4. Course name validation
+if (!/[A-Za-z]/.test(name.trim())) {
+    return res.status(400).json({
+        message: "Course name must contain letters"
+    });
+}
+// Course code validation
+if (!/^[A-Z]{3}-\d{3}$/.test(code.trim())) {
+    return res.status(400).json({
+        message: "Course code must be in the format ABC-123"
+    });
+}
 
         // 4. Credit validation
         const numericCredit = Number(credit);
@@ -213,7 +224,18 @@ const updateCourse = async (req, res) => {
                 message: "Code and name cannot be empty"
             });
         }
-
+        // 4. Course name validation
+if (!/[A-Za-z]/.test(name.trim())) {
+    return res.status(400).json({
+        message: "Course name must contain letters"
+    });
+}
+// Course code validation
+if (!/^[A-Z]{3}-\d{3}$/.test(code.trim())) {
+    return res.status(400).json({
+        message: "Course code must be in the format ABC-123"
+    });
+}
 
         // 5. Credit validation
         const numericCredit = Number(credit);

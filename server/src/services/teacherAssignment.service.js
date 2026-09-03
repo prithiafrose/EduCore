@@ -39,7 +39,39 @@ const getTeacherAssignmentById = async (id) => {
         }
     });
 };
+// GET assignments by teacher
+const getTeacherAssignmentsByTeacher = async (
+    teacherId
+) => {
 
+    return await prisma.teacherAssignment.findMany({
+
+        where: {
+            teacherId: Number(teacherId)
+        },
+
+        include: {
+
+            teacher: true,
+
+            courseOffering: {
+                include: {
+                    course: true,
+                    academicSemester: true
+                }
+            },
+
+            section: true
+
+        },
+
+        orderBy: {
+            id: "asc"
+        }
+
+    });
+
+};
 
 // CREATE teacher assignment
 const createTeacherAssignment = async (
@@ -116,6 +148,8 @@ const deleteTeacherAssignment = async (id) => {
 module.exports = {
     getAllTeacherAssignments,
     getTeacherAssignmentById,
+        getTeacherAssignmentsByTeacher,
+
     createTeacherAssignment,
     updateTeacherAssignment,
     deleteTeacherAssignment

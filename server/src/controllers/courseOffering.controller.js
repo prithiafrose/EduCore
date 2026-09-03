@@ -385,13 +385,12 @@ const deleteCourseOffering = async (req, res) => {
 
 
         // Related records exist
-        if (error.code === "P2003") {
-            return res.status(409).json({
-                message:
-                    "Cannot delete course offering because it has related records"
-            });
-        }
-
+       if (error.code === "P2039") {
+    return res.status(409).json({
+        message:
+            "Cannot delete course offering because it has related records"
+    });
+}
 
         res.status(500).json({
             message: "Failed to delete course offering"

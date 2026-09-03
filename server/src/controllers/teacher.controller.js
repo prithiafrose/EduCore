@@ -1,6 +1,8 @@
 const teacherService =
     require("../services/teacher.service");
 
+const prisma = require("../config/prisma");
+
 
 // GET all teachers
 const getAllTeachers = async (req, res) => {
@@ -59,73 +61,44 @@ const getTeacherById = async (req, res) => {
 };
 
 
-// CREATE teacher
 const createTeacher = async (req, res) => {
     try {
-
         const {
             name,
             email,
             employeeId,
-            userId
+            password
         } = req.body;
 
-
-        // Required fields
-        if (
-            !name ||
-            !email ||
-            !employeeId ||
-            userId === undefined
-        ) {
+        // Validate required fields
+        if (!name || !email || !employeeId || !password) {
             return res.status(400).json({
                 message:
-                    "name, email, employeeId and userId are required"
+                    "Name, email, employeeId and password are required"
             });
         }
 
-
-        // Validate userId
-        if (
-            !Number.isInteger(Number(userId)) ||
-            Number(userId) <= 0
-        ) {
-            return res.status(400).json({
-                message: "Invalid user ID"
-            });
-        }
-
-
+        // Create User + Teacher
         const teacher =
             await teacherService.createTeacher(
                 name,
                 email,
                 employeeId,
-                userId
+                password
             );
-
 
         res.status(201).json(teacher);
 
     } catch (error) {
-
         console.error(error);
 
-
+        // Duplicate email or employeeId
         if (error.code === "P2002") {
             return res.status(409).json({
                 message:
-                    "Teacher email, employee ID or user ID already exists"
+                    "Email or employee ID already exists"
             });
         }
-
-
-        if (error.code === "P2003") {
-            return res.status(404).json({
-                message: "User not found"
-            });
-        }
-
 
         res.status(500).json({
             message: "Failed to create teacher"
@@ -180,6 +153,26 @@ const updateTeacher = async (req, res) => {
         ) {
             return res.status(400).json({
                 message: "Invalid user ID"
+            });
+        }
+
+
+        // Check selected User
+        const user = await prisma.user.findUnique({
+            where: {
+                id: Number(userId)
+            }
+        });
+
+        if (!user) {
+            return res.status(404).json({
+                message: "User not found"
+            });
+        }
+
+        if (user.role !== "TEACHER") {
+            return res.status(400).json({
+                message: "Selected user must have TEACHER role"
             });
         }
 
@@ -283,7 +276,10 @@ const deleteTeacher = async (req, res) => {
         console.error(error);
 
 
-        if (error.code === "P2003") {
+        if (
+            error.code === "P2003" ||
+            error.code === "P2039"
+        ) {
             return res.status(409).json({
                 message:
                     "Cannot delete teacher because related records exist"

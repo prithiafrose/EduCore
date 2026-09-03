@@ -1,44 +1,49 @@
 const prisma = require("../config/prisma");
+const { hashPassword } = require("../utils/hash");
 
-
-// GET all teachers
 const getAllTeachers = async () => {
     return await prisma.teacher.findMany({
-        orderBy: {
-            id: "asc"
-        }
+        orderBy: { id: "asc" }
     });
 };
 
-
-// GET teacher by ID
 const getTeacherById = async (id) => {
     return await prisma.teacher.findUnique({
-        where: {
-            id: Number(id)
-        }
+        where: { id: Number(id) }
     });
 };
 
-
-// CREATE teacher
 const createTeacher = async (
     name,
     email,
     employeeId,
-    userId
+    password
 ) => {
-    return await prisma.teacher.create({
-        data: {
-            name,
-            email,
-            employeeId,
-            userId: Number(userId)
-        }
+    return await prisma.$transaction(async (tx) => {
+
+        // Create the login account
+        const user = await tx.user.create({
+            data: {
+                email,
+                passwordHash: await hashPassword(password),
+                role: "TEACHER"
+            }
+        });
+
+        // Create the teacher profile
+        const teacher = await tx.teacher.create({
+            data: {
+                name,
+                email,
+                employeeId,
+                userId: user.id
+            }
+        });
+
+        return teacher;
     });
 };
 
-// UPDATE teacher
 const updateTeacher = async (
     id,
     name,
@@ -47,9 +52,7 @@ const updateTeacher = async (
     userId
 ) => {
     return await prisma.teacher.update({
-        where: {
-            id: Number(id)
-        },
+        where: { id: Number(id) },
         data: {
             name,
             email,
@@ -59,16 +62,11 @@ const updateTeacher = async (
     });
 };
 
-
-// DELETE teacher
 const deleteTeacher = async (id) => {
     return await prisma.teacher.delete({
-        where: {
-            id: Number(id)
-        }
+        where: { id: Number(id) }
     });
 };
-
 
 module.exports = {
     getAllTeachers,

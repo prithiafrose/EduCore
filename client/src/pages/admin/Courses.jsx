@@ -1,44 +1,45 @@
 import { useEffect, useState } from "react";
 
 import {
-  getDepartments,
-  createDepartment,
-  deleteDepartment,
-  updateDepartment,
-} from "../../services/departmentApi";
+  getCourses,
+  createCourse,
+  updateCourse,
+  deleteCourse,
+} from "../../services/courseApi";
 
 
-function Departments() {
+const Courses = () => {
 
-  const [departments, setDepartments] = useState([]);
+  const [courses, setCourses] = useState([]);
 
-  const [loading, setLoading] = useState(true);
-  const [saving, setSaving] = useState(false);
-
-  const [name, setName] = useState("");
   const [code, setCode] = useState("");
+  const [name, setName] = useState("");
+  const [credit, setCredit] = useState("");
+  const [description, setDescription] = useState("");
 
   const [editingId, setEditingId] = useState(null);
-
   const [showForm, setShowForm] = useState(false);
 
   const [search, setSearch] = useState("");
+
+  const [loading, setLoading] = useState(true);
+  const [formLoading, setFormLoading] = useState(false);
 
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
 
 
-  // Load departments
-  const loadData = async () => {
+  // Load courses
+  const loadCourses = async () => {
 
     try {
 
       setLoading(true);
       setError("");
 
-      const data = await getDepartments();
+      const data = await getCourses();
 
-      setDepartments(data);
+      setCourses(data);
 
     } catch (error) {
 
@@ -46,7 +47,7 @@ function Departments() {
 
       setError(
         error.response?.data?.message ||
-        "Failed to load departments"
+        "Failed to load courses"
       );
 
     } finally {
@@ -58,31 +59,39 @@ function Departments() {
   };
 
 
+  // Load courses when page opens
   useEffect(() => {
-    loadData();
+    loadCourses();
   }, []);
+
+
+  // Clear messages
+  const clearMessages = () => {
+    setError("");
+    setSuccess("");
+  };
 
 
   // Reset form
   const resetForm = () => {
 
-    setName("");
     setCode("");
+    setName("");
+    setCredit("");
+    setDescription("");
+
     setEditingId(null);
     setShowForm(false);
 
   };
 
 
-  // Open add form
+  // Open Add form
   const handleAdd = () => {
 
-    setName("");
-    setCode("");
-    setEditingId(null);
+    resetForm();
 
-    setError("");
-    setSuccess("");
+    clearMessages();
 
     setShowForm(true);
 
@@ -94,45 +103,119 @@ function Departments() {
   };
 
 
-  // Create / Update
+  // Validate form
+  const validateForm = () => {
+
+    const trimmedCode = code.trim();
+    const trimmedName = name.trim();
+
+    if (!trimmedCode) {
+
+      setError("Course code is required");
+
+      return false;
+
+    }
+
+
+    if (!trimmedName) {
+
+      setError("Course name is required");
+
+      return false;
+
+    }
+
+
+    if (!/[A-Za-z]/.test(trimmedName)) {
+
+      setError(
+        "Course name must contain letters"
+      );
+
+      return false;
+
+    }
+
+
+    if (credit === "") {
+
+      setError("Credit is required");
+
+      return false;
+
+    }
+
+
+    const numericCredit = Number(credit);
+
+
+    if (
+      !Number.isFinite(numericCredit) ||
+      numericCredit <= 0
+    ) {
+
+      setError(
+        "Credit must be a positive number"
+      );
+
+      return false;
+
+    }
+
+
+    return true;
+
+  };
+
+
+  // Create / Update course
   const handleSubmit = async (e) => {
 
     e.preventDefault();
 
-    setError("");
-    setSuccess("");
-    setSaving(true);
+    clearMessages();
+
+    if (!validateForm()) {
+      return;
+    }
 
     try {
 
-      if (editingId) {
+      setFormLoading(true);
 
-        await updateDepartment(
+      if (editingId !== null) {
+
+        await updateCourse(
           editingId,
+          code,
           name,
-          code
+          credit,
+          description
         );
 
         setSuccess(
-          "Department updated successfully."
+          "Course updated successfully."
         );
 
       } else {
 
-        await createDepartment(
+        await createCourse(
+          code,
           name,
-          code
+          credit,
+          description
         );
 
         setSuccess(
-          "Department created successfully."
+          "Course created successfully."
         );
 
       }
 
       resetForm();
 
-      await loadData();
+      await loadCourses();
 
     } catch (error) {
 
@@ -140,32 +223,37 @@ function Departments() {
 
       setError(
         error.response?.data?.message ||
-        (
-          editingId
-            ? "Failed to update department"
-            : "Failed to create department"
-        )
+        "Failed to save course"
       );
 
     } finally {
 
-      setSaving(false);
+      setFormLoading(false);
 
     }
 
   };
 
 
-  // Edit department
-  const handleEdit = (department) => {
+  // Edit course
+  const handleEdit = (course) => {
 
-    setEditingId(department.id);
+    clearMessages();
 
-    setName(department.name || "");
-    setCode(department.code || "");
+    setEditingId(course.id);
 
-    setError("");
-    setSuccess("");
+    setCode(course.code || "");
+    setName(course.name || "");
+    setCredit(
+      course.credit !== null &&
+      course.credit !== undefined
+        ? String(course.credit)
+        : ""
+    );
+
+    setDescription(
+      course.description || ""
+    );
 
     setShowForm(true);
 
@@ -177,27 +265,28 @@ function Departments() {
   };
 
 
-  // Delete department
+  // Delete course
   const handleDelete = async (id) => {
 
     const confirmed = window.confirm(
-      "Are you sure you want to delete this department?"
+      "Are you sure you want to delete this course?"
     );
 
-    if (!confirmed) return;
+    if (!confirmed) {
+      return;
+    }
+
+    clearMessages();
 
     try {
 
-      setError("");
-      setSuccess("");
-
-      await deleteDepartment(id);
+      await deleteCourse(id);
 
       setSuccess(
-        "Department deleted successfully."
+        "Course deleted successfully."
       );
 
-      await loadData();
+      await loadCourses();
 
     } catch (error) {
 
@@ -205,7 +294,7 @@ function Departments() {
 
       setError(
         error.response?.data?.message ||
-        "Failed to delete department"
+        "Failed to delete course"
       );
 
     }
@@ -213,26 +302,44 @@ function Departments() {
   };
 
 
-  // Search departments
-  const filteredDepartments =
-    departments.filter((department) => {
+  // Cancel
+  const handleCancel = () => {
+
+    resetForm();
+
+    clearMessages();
+
+  };
+
+
+  // Search
+  const filteredCourses =
+    courses.filter((course) => {
 
       const searchText =
         search.toLowerCase();
 
       return (
-        department.name
+        course.code
           ?.toLowerCase()
           .includes(searchText) ||
 
-        department.code
+        course.name
           ?.toLowerCase()
+          .includes(searchText) ||
+
+        course.description
+          ?.toLowerCase()
+          .includes(searchText) ||
+
+        String(course.credit)
           .includes(searchText)
       );
 
     });
 
 
+  // Loading state
   if (loading) {
 
     return (
@@ -242,7 +349,7 @@ function Departments() {
         <div className="flex min-h-[300px] items-center justify-center">
 
           <p className="text-sm text-slate-500">
-            Loading departments...
+            Loading courses...
           </p>
 
         </div>
@@ -268,26 +375,26 @@ function Departments() {
           <div>
 
             <h1 className="text-3xl font-bold text-slate-900">
-              Department Management
+              Course Management
             </h1>
 
             <p className="mt-1 text-sm text-slate-500">
-              Manage university departments and their codes
+              Manage university courses and course information
             </p>
 
           </div>
 
 
-          {/* Total Departments */}
+          {/* Total Courses */}
 
           <div className="rounded-xl bg-white px-4 py-3 shadow-sm ring-1 ring-slate-200">
 
             <p className="text-xs font-medium uppercase tracking-wide text-slate-400">
-              Total Departments
+              Total Courses
             </p>
 
             <p className="mt-1 text-2xl font-bold text-slate-900">
-              {departments.length}
+              {courses.length}
             </p>
 
           </div>
@@ -297,7 +404,7 @@ function Departments() {
       </div>
 
 
-      {/* Messages */}
+      {/* Success Message */}
 
       {success && (
 
@@ -308,6 +415,8 @@ function Departments() {
       )}
 
 
+      {/* Error Message */}
+
       {error && (
 
         <div className="mb-5 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm font-medium text-red-700">
@@ -317,7 +426,7 @@ function Departments() {
       )}
 
 
-      {/* Department Form */}
+      {/* Course Form */}
 
       {showForm && (
 
@@ -328,17 +437,17 @@ function Departments() {
 
             <h2 className="text-lg font-semibold text-slate-900">
 
-              {editingId
-                ? "Edit Department"
-                : "Add New Department"}
+              {editingId !== null
+                ? "Edit Course"
+                : "Add New Course"}
 
             </h2>
 
             <p className="mt-1 text-sm text-slate-500">
 
-              {editingId
-                ? "Update the department information."
-                : "Create a new university department."}
+              {editingId !== null
+                ? "Update the course information."
+                : "Create a new university course."}
 
             </p>
 
@@ -351,34 +460,12 @@ function Departments() {
           >
 
 
-            {/* Department Name */}
+            {/* Course Code */}
 
             <div>
 
               <label className="mb-2 block text-sm font-medium text-slate-700">
-                Department Name
-              </label>
-
-              <input
-                type="text"
-                value={name}
-                onChange={(e) =>
-                  setName(e.target.value)
-                }
-                placeholder="Software Engineering"
-                required
-                className="w-full rounded-xl border border-slate-300 px-4 py-3 text-sm outline-none transition focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100"
-              />
-
-            </div>
-
-
-            {/* Department Code */}
-
-            <div>
-
-              <label className="mb-2 block text-sm font-medium text-slate-700">
-                Department Code
+                Course Code
               </label>
 
               <input
@@ -387,9 +474,76 @@ function Departments() {
                 onChange={(e) =>
                   setCode(e.target.value)
                 }
-                placeholder="SWE"
+                placeholder="e.g. SWE-301"
                 required
                 className="w-full rounded-xl border border-slate-300 px-4 py-3 text-sm uppercase outline-none transition focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100"
+              />
+
+            </div>
+
+
+            {/* Course Name */}
+
+            <div>
+
+              <label className="mb-2 block text-sm font-medium text-slate-700">
+                Course Name
+              </label>
+
+              <input
+                type="text"
+                value={name}
+                onChange={(e) =>
+                  setName(e.target.value)
+                }
+                placeholder="Software Requirements Engineering"
+                required
+                className="w-full rounded-xl border border-slate-300 px-4 py-3 text-sm outline-none transition focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100"
+              />
+
+            </div>
+
+
+            {/* Credit */}
+
+            <div>
+
+              <label className="mb-2 block text-sm font-medium text-slate-700">
+                Credit
+              </label>
+
+              <input
+                type="number"
+                min="0"
+                step="0.5"
+                value={credit}
+                onChange={(e) =>
+                  setCredit(e.target.value)
+                }
+                placeholder="e.g. 3"
+                required
+                className="w-full rounded-xl border border-slate-300 px-4 py-3 text-sm outline-none transition focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100"
+              />
+
+            </div>
+
+
+            {/* Description */}
+
+            <div>
+
+              <label className="mb-2 block text-sm font-medium text-slate-700">
+                Description
+              </label>
+
+              <textarea
+                value={description}
+                onChange={(e) =>
+                  setDescription(e.target.value)
+                }
+                placeholder="Course description"
+                rows="3"
+                className="w-full resize-none rounded-xl border border-slate-300 px-4 py-3 text-sm outline-none transition focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100"
               />
 
             </div>
@@ -401,23 +555,23 @@ function Departments() {
 
               <button
                 type="submit"
-                disabled={saving}
+                disabled={formLoading}
                 className="rounded-xl bg-indigo-600 px-6 py-3 text-sm font-semibold text-white transition hover:bg-indigo-700 disabled:cursor-not-allowed disabled:opacity-60"
               >
 
-                {saving
+                {formLoading
                   ? "Saving..."
-                  : editingId
-                  ? "Update Department"
-                  : "Add Department"}
+                  : editingId !== null
+                  ? "Update Course"
+                  : "Add Course"}
 
               </button>
 
 
               <button
                 type="button"
-                onClick={resetForm}
-                disabled={saving}
+                onClick={handleCancel}
+                disabled={formLoading}
                 className="rounded-xl border border-slate-300 bg-white px-6 py-3 text-sm font-semibold text-slate-700 transition hover:bg-slate-50 disabled:opacity-60"
               >
                 Cancel
@@ -432,7 +586,7 @@ function Departments() {
       )}
 
 
-      {/* Department List */}
+      {/* Course List */}
 
       <div className="rounded-2xl bg-white shadow-sm ring-1 ring-slate-200">
 
@@ -444,11 +598,11 @@ function Departments() {
           <div>
 
             <h2 className="text-lg font-semibold text-slate-900">
-              Departments
+              Courses
             </h2>
 
             <p className="mt-1 text-sm text-slate-500">
-              View and manage university departments
+              View and manage university courses
             </p>
 
           </div>
@@ -465,7 +619,7 @@ function Departments() {
               onChange={(e) =>
                 setSearch(e.target.value)
               }
-              placeholder="Search departments..."
+              placeholder="Search courses..."
               className="w-full rounded-xl border border-slate-300 px-4 py-3 text-sm outline-none transition focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100 sm:w-72"
             />
 
@@ -479,7 +633,7 @@ function Departments() {
                 onClick={handleAdd}
                 className="rounded-xl bg-indigo-600 px-5 py-3 text-sm font-semibold text-white transition hover:bg-indigo-700"
               >
-                Add Department
+                Add Course
               </button>
 
             )}
@@ -489,18 +643,18 @@ function Departments() {
         </div>
 
 
-        {/* Department Table */}
+        {/* Empty State */}
 
-        {filteredDepartments.length === 0 ? (
+        {filteredCourses.length === 0 ? (
 
           <div className="p-10 text-center">
 
             <p className="font-medium text-slate-700">
-              No departments found
+              No courses found
             </p>
 
             <p className="mt-1 text-sm text-slate-400">
-              Try a different search or add a new department.
+              Try a different search or add a new course.
             </p>
 
           </div>
@@ -516,7 +670,7 @@ function Departments() {
                 <tr className="border-b border-slate-200 bg-slate-50">
 
                   <th className="px-6 py-4 text-xs font-semibold uppercase tracking-wide text-slate-500">
-                    Department
+                    Course
                   </th>
 
                   <th className="px-6 py-4 text-xs font-semibold uppercase tracking-wide text-slate-500">
@@ -524,7 +678,11 @@ function Departments() {
                   </th>
 
                   <th className="px-6 py-4 text-xs font-semibold uppercase tracking-wide text-slate-500">
-                    Department ID
+                    Credit
+                  </th>
+
+                  <th className="px-6 py-4 text-xs font-semibold uppercase tracking-wide text-slate-500">
+                    Description
                   </th>
 
                   <th className="px-6 py-4 text-right text-xs font-semibold uppercase tracking-wide text-slate-500">
@@ -538,25 +696,25 @@ function Departments() {
 
               <tbody>
 
-                {filteredDepartments.map(
-                  (department) => (
+                {filteredCourses.map(
+                  (course) => (
 
                     <tr
-                      key={department.id}
+                      key={course.id}
                       className="border-b border-slate-100 last:border-0 hover:bg-slate-50"
                     >
 
 
-                      {/* Department */}
+                      {/* Course */}
 
                       <td className="px-6 py-4">
 
                         <p className="font-medium text-slate-900">
-                          {department.name}
+                          {course.name}
                         </p>
 
                         <p className="mt-1 text-xs text-slate-400">
-                          University Department
+                          Course ID: {course.id}
                         </p>
 
                       </td>
@@ -567,19 +725,33 @@ function Departments() {
                       <td className="px-6 py-4">
 
                         <span className="rounded-lg bg-indigo-50 px-3 py-1.5 text-sm font-semibold text-indigo-700">
-                          {department.code}
+                          {course.code}
                         </span>
 
                       </td>
 
 
-                      {/* ID */}
+                      {/* Credit */}
 
                       <td className="px-6 py-4">
 
-                        <span className="text-sm text-slate-500">
-                          {department.id}
+                        <span className="rounded-lg bg-slate-100 px-3 py-1.5 text-sm font-semibold text-slate-600">
+                          {course.credit}
                         </span>
+
+                      </td>
+
+
+                      {/* Description */}
+
+                      <td className="max-w-md px-6 py-4">
+
+                        <p
+                          className="truncate text-sm text-slate-600"
+                          title={course.description || ""}
+                        >
+                          {course.description || "—"}
+                        </p>
 
                       </td>
 
@@ -593,9 +765,7 @@ function Departments() {
                           <button
                             type="button"
                             onClick={() =>
-                              handleEdit(
-                                department
-                              )
+                              handleEdit(course)
                             }
                             className="rounded-lg border border-slate-300 px-3 py-2 text-xs font-semibold text-slate-700 transition hover:bg-slate-100"
                           >
@@ -606,7 +776,7 @@ function Departments() {
                             type="button"
                             onClick={() =>
                               handleDelete(
-                                department.id
+                                course.id
                               )
                             }
                             className="rounded-lg border border-red-200 px-3 py-2 text-xs font-semibold text-red-600 transition hover:bg-red-50"
@@ -637,7 +807,7 @@ function Departments() {
 
   );
 
-}
+};
 
 
-export default Departments;
+export default Courses;

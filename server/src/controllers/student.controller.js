@@ -30,7 +30,6 @@ const getStudentById = async (req, res) => {
 
         const { id } = req.params;
 
-
         // Validate ID
         if (
             !Number.isInteger(Number(id)) ||
@@ -41,17 +40,14 @@ const getStudentById = async (req, res) => {
             });
         }
 
-
         const student =
             await studentService.getStudentById(id);
-
 
         if (!student) {
             return res.status(404).json({
                 message: "Student not found"
             });
         }
-
 
         res.status(200).json(student);
 
@@ -75,7 +71,7 @@ const createStudent = async (req, res) => {
             name,
             email,
             programId,
-            userId
+            password
         } = req.body;
 
 
@@ -85,11 +81,11 @@ const createStudent = async (req, res) => {
             !name ||
             !email ||
             programId === undefined ||
-            userId === undefined
+            !password
         ) {
             return res.status(400).json({
                 message:
-                    "studentId, name, email, programId and userId are required"
+                    "studentId, name, email, programId and password are required"
             });
         }
 
@@ -105,50 +101,13 @@ const createStudent = async (req, res) => {
         }
 
 
-        // 3. Validate user ID
-        if (
-            !Number.isInteger(Number(userId)) ||
-            Number(userId) <= 0
-        ) {
-            return res.status(400).json({
-                message: "Invalid user ID"
-            });
-        }
-
-
-        // 4. Check user exists
-        const user =
-            await prisma.user.findUnique({
-                where: {
-                    id: Number(userId)
-                }
-            });
-
-
-        if (!user) {
-            return res.status(404).json({
-                message: "User not found"
-            });
-        }
-
-
-        // 5. Check user role
-        if (user.role !== "STUDENT") {
-            return res.status(400).json({
-                message:
-                    "User must have STUDENT role"
-            });
-        }
-
-
-        // 6. Check program exists
+        // 3. Check program exists
         const program =
             await prisma.program.findUnique({
                 where: {
                     id: Number(programId)
                 }
             });
-
 
         if (!program) {
             return res.status(404).json({
@@ -157,31 +116,14 @@ const createStudent = async (req, res) => {
         }
 
 
-        // 7. Check whether user is already a student
-        const existingUserStudent =
-            await prisma.student.findUnique({
-                where: {
-                    userId: Number(userId)
-                }
-            });
-
-
-        if (existingUserStudent) {
-            return res.status(409).json({
-                message:
-                    "This user is already associated with a student"
-            });
-        }
-
-
-        // 8. Create student
+        // 4. Create student
         const student =
             await studentService.createStudent(
                 studentId,
                 name,
                 email,
                 programId,
-                userId
+                password
             );
 
 
@@ -218,8 +160,7 @@ const updateStudent = async (req, res) => {
             studentId,
             name,
             email,
-            programId,
-            userId
+            programId
         } = req.body;
 
 
@@ -239,12 +180,11 @@ const updateStudent = async (req, res) => {
             !studentId ||
             !name ||
             !email ||
-            programId === undefined ||
-            userId === undefined
+            programId === undefined
         ) {
             return res.status(400).json({
                 message:
-                    "studentId, name, email, programId and userId are required"
+                    "studentId, name, email and programId are required"
             });
         }
 
@@ -260,21 +200,9 @@ const updateStudent = async (req, res) => {
         }
 
 
-        // 4. Validate user ID
-        if (
-            !Number.isInteger(Number(userId)) ||
-            Number(userId) <= 0
-        ) {
-            return res.status(400).json({
-                message: "Invalid user ID"
-            });
-        }
-
-
-        // 5. Check student exists
+        // 4. Check student exists
         const existingStudent =
             await studentService.getStudentById(id);
-
 
         if (!existingStudent) {
             return res.status(404).json({
@@ -283,39 +211,13 @@ const updateStudent = async (req, res) => {
         }
 
 
-        // 6. Check user exists
-        const user =
-            await prisma.user.findUnique({
-                where: {
-                    id: Number(userId)
-                }
-            });
-
-
-        if (!user) {
-            return res.status(404).json({
-                message: "User not found"
-            });
-        }
-
-
-        // 7. Check user role
-        if (user.role !== "STUDENT") {
-            return res.status(400).json({
-                message:
-                    "User must have STUDENT role"
-            });
-        }
-
-
-        // 8. Check program exists
+        // 5. Check program exists
         const program =
             await prisma.program.findUnique({
                 where: {
                     id: Number(programId)
                 }
             });
-
 
         if (!program) {
             return res.status(404).json({
@@ -324,36 +226,14 @@ const updateStudent = async (req, res) => {
         }
 
 
-        // 9. Check whether another student
-        // already uses this user
-        const duplicateUser =
-            await prisma.student.findFirst({
-                where: {
-                    userId: Number(userId),
-                    NOT: {
-                        id: Number(id)
-                    }
-                }
-            });
-
-
-        if (duplicateUser) {
-            return res.status(409).json({
-                message:
-                    "This user is already associated with another student"
-            });
-        }
-
-
-        // 10. Update
+        // 6. Update student
         const student =
             await studentService.updateStudent(
                 id,
                 studentId,
                 name,
                 email,
-                programId,
-                userId
+                programId
             );
 
 
@@ -407,7 +287,6 @@ const deleteStudent = async (req, res) => {
         // Check student exists
         const existingStudent =
             await studentService.getStudentById(id);
-
 
         if (!existingStudent) {
             return res.status(404).json({

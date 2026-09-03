@@ -18,6 +18,10 @@ router.get(
     "/:id",
     teacherAssignmentController.getTeacherAssignmentById
 );
+router.get(
+    "/teacher/:teacherId",
+    teacherAssignmentController.getTeacherAssignmentsByTeacher
+);
 
 
 // CREATE teacher assignment
