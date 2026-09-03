@@ -7,6 +7,7 @@ import StudentDashboard from "../pages/student/Dashboard";
 import ProtectedRoute from "./ProtectedRoute";
 import Departments from "../pages/admin/Departments";
 import Programs from "../pages/admin/Programs";
+import AcademicSemesters from "../pages/admin/AcademicSemesters";
 
 
 function AppRoutes() {
@@ -62,6 +63,14 @@ function AppRoutes() {
             </ProtectedRoute>
           }
         />
+        <Route
+  path="/admin/academic-semesters"
+  element={
+    <ProtectedRoute allowedRole="ADMIN">
+      <AcademicSemesters />
+    </ProtectedRoute>
+  }
+/>
       </Routes>
     </BrowserRouter>
   );

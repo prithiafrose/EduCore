@@ -24,8 +24,8 @@ function Dashboard() {
   Programs
 </a>
 
-          <a
-  href="/admin/semesters"
+    <a
+  href="/admin/academic-semesters"
   className="block px-4 py-3 rounded-lg hover:bg-gray-700"
 >
   Semesters
