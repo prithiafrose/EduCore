@@ -1,14 +1,20 @@
+require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
 
 const app = express();
 
+const allowedOrigins = [
+    "http://localhost:5173",
+    "http://localhost:5176",
+];
+if (process.env.FRONTEND_URL) {
+    allowedOrigins.push(process.env.FRONTEND_URL);
+}
+
 app.use(
     cors({
-        origin: [
-            "http://localhost:5173",
-            "http://localhost:5176",
-        ],
+        origin: allowedOrigins,
     })
 );
 
