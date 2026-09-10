@@ -1,4 +1,5 @@
 import { useState } from "react";
+import AdminSidebar from "./AdminSidebar";
 
 import {
   getEnrollments,
@@ -270,19 +271,24 @@ const Enrollments = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 p-8">
-
+    <div className="min-h-screen bg-slate-100 flex">
+      <AdminSidebar current="enrollments" />
+      <main className="ml-64 flex-1 min-w-0">
+      <div className="p-8">
       {/* Header */}
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-800">
-          Enrollment Management
-        </h1>
+      <div className="mb-8 flex items-center justify-between">
+        <div>
+          <h1 className="text-3xl font-bold text-gray-800">
+            Enrollment Management
+          </h1>
 
-        <p className="mt-2 text-gray-500">
-          Manage student enrollments for course offerings
-          and sections.
-        </p>
-      </div>
+          <p className="mt-2 text-gray-500">
+            Manage student enrollments for course offerings
+            and sections.
+          </p>
+        </div>
+
+        </div>
 
       {/* Success */}
       {success && (
@@ -628,6 +634,8 @@ const Enrollments = () => {
 
         </div>
       </div>
+      </div>
+      </main>
     </div>
   );
 };

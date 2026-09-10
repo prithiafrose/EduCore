@@ -12,6 +12,7 @@ model Department {
   code      String    @unique
   createdAt DateTime  @default(now())
   programs  Program[]
+  teachers  Teacher[]
 }
 
 model Program {
@@ -34,6 +35,7 @@ model AcademicSemester {
   name                String
   order               Int
   programId           Int
+  isActive            Boolean              @default(true)
   createdAt           DateTime             @default(now())
   program             Program              @relation(fields: [programId], references: [id])
   courseOfferings     CourseOffering[]
@@ -50,6 +52,8 @@ model Course {
   credit          Decimal
   description     String?
   createdAt       DateTime         @default(now())
+  prerequisites   Course[]         @relation("CoursePrerequisites")
+  prerequisitesFor Course[]        @relation("CoursePrerequisites")
   courseOfferings CourseOffering[]
 }
 
@@ -58,12 +62,16 @@ model Teacher {
   name             String
   email            String              @unique
   employeeId       String              @unique
+  designation      String?
+  departmentId     Int?
   createdAt        DateTime            @default(now())
   userId           Int                 @unique
   assignmentsGiven Assignment[]
   classSessions    ClassSession[]
+  department       Department?         @relation(fields: [departmentId], references: [id])
   user             User                @relation(fields: [userId], references: [id])
   assignments      TeacherAssignment[]
+  materials        CourseMaterial[]
 }
 
 model CourseOffering {
@@ -82,6 +90,7 @@ model CourseOffering {
   sections           Section[]
   teacherAssignments TeacherAssignment[]
   timetables         Timetable[]
+  materials          CourseMaterial[]
 
   @@unique([courseId, academicSemesterId])
 }
@@ -106,6 +115,9 @@ model Student {
   name                  String
   email                 String                 @unique
   programId             Int
+  dateOfBirth           DateTime?
+  guardianName          String?
+  guardianPhone         String?
   createdAt             DateTime               @default(now())
   userId                Int                    @unique
   assignmentSubmissions AssignmentSubmission[]
@@ -244,6 +256,7 @@ model User {
   email         String         @unique
   passwordHash  String
   role          UserRole
+  isActive      Boolean        @default(true)
   createdAt     DateTime       @default(now())
   notifications Notification[]
   student       Student?
@@ -296,6 +309,10 @@ model Assignment {
   title                String
   description          String?
   deadline             DateTime
+  attachmentPath       String?
+  attachmentName       String?
+  attachmentType       String?
+  attachmentSize       Int?
   createdAt            DateTime               @default(now())
   Assessment           Assessment[]
   assessmentActivities AssessmentActivity[]
@@ -310,6 +327,10 @@ model AssignmentSubmission {
   studentId    Int
   submittedAt  DateTime?
   fileUrl      String?
+  fileName     String?
+  fileType     String?
+  fileSize     Int?
+  note         String?
   marks        Decimal?
   feedback     String?
   createdAt    DateTime   @default(now())
@@ -320,14 +341,15 @@ model AssignmentSubmission {
 }
 
 model Notification {
-  id        Int              @id @default(autoincrement())
-  userId    Int
-  type      NotificationType
-  title     String
-  message   String
-  isRead    Boolean          @default(false)
-  createdAt DateTime         @default(now())
-  user      User             @relation(fields: [userId], references: [id])
+  id         Int              @id @default(autoincrement())
+  userId     Int
+  type       NotificationType
+  title      String
+  message    String
+  isRead     Boolean          @default(false)
+  archivedAt DateTime?
+  createdAt  DateTime         @default(now())
+  user       User             @relation(fields: [userId], references: [id])
 }
 
 model Assessment {
@@ -387,6 +409,21 @@ enum ClassStatus {
   SCHEDULED
   FINISHED
   CANCELLED
+}
+
+model CourseMaterial {
+  id               Int            @id @default(autoincrement())
+  courseOfferingId Int
+  teacherId        Int
+  title            String
+  description      String?
+  fileName         String?
+  filePath         String?
+  fileType         String?
+  fileSize         Int?
+  createdAt        DateTime       @default(now())
+  courseOffering   CourseOffering @relation(fields: [courseOfferingId], references: [id])
+  teacher          Teacher        @relation(fields: [teacherId], references: [id])
 }
 
 enum AttendanceStatus {

@@ -50,6 +50,15 @@ router.put(
 );
 
 
+// SET user active status
+router.patch(
+    "/:id/status",
+    authenticate,
+    authorize("ADMIN"),
+    userController.setUserActive
+);
+
+
 // DELETE user
 router.delete(
     "/:id",

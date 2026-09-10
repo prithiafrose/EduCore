@@ -20,7 +20,37 @@ const getAllEnrollments = async (req, res) => {
         });
     }
 };
+// GET enrollments by student ID
+const getEnrollmentsByStudentId = async (req, res) => {
+    try {
 
+        const { studentId } = req.params;
+
+        if (
+            !Number.isInteger(Number(studentId)) ||
+            Number(studentId) <= 0
+        ) {
+            return res.status(400).json({
+                message: "Invalid student ID"
+            });
+        }
+
+        const enrollments =
+            await enrollmentService.getEnrollmentsByStudentId(
+                studentId
+            );
+
+        res.status(200).json(enrollments);
+
+    } catch (error) {
+
+        console.error(error);
+
+        res.status(500).json({
+            message: "Failed to fetch student courses"
+        });
+    }
+};
 
 // GET enrollment by ID
 const getEnrollmentById = async (req, res) => {
@@ -360,6 +390,7 @@ const deleteEnrollment = async (req, res) => {
 module.exports = {
     getAllEnrollments,
     getEnrollmentById,
+     getEnrollmentsByStudentId,
     createEnrollment,
     updateEnrollment,
     deleteEnrollment

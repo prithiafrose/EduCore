@@ -3,6 +3,10 @@ const express = require("express");
 const departmentController =
     require("../controllers/department.controller");
 
+const {
+    authorize
+} = require("../middleware/role.middleware");
+
 const router = express.Router();
 
 
@@ -23,6 +27,7 @@ router.get(
 // CREATE department
 router.post(
     "/",
+    authorize("ADMIN"),
     departmentController.createDepartment
 );
 
@@ -30,6 +35,7 @@ router.post(
 // UPDATE department
 router.put(
     "/:id",
+    authorize("ADMIN"),
     departmentController.updateDepartment
 );
 
@@ -37,6 +43,7 @@ router.put(
 // DELETE department
 router.delete(
     "/:id",
+    authorize("ADMIN"),
     departmentController.deleteDepartment
 );
 

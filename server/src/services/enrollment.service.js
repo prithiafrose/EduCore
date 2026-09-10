@@ -277,11 +277,33 @@ const deleteEnrollment = async (id) => {
         }
     });
 };
+// GET enrollments by student ID
+const getEnrollmentsByStudentId = async (studentId) => {
+    return await prisma.enrollment.findMany({
+        where: {
+            studentId: Number(studentId)
+        },
+        include: {
+            student: true,
+            courseOffering: {
+                include: {
+                    course: true,
+                    academicSemester: true
+                }
+            },
+            section: true
+        },
+        orderBy: {
+            id: "asc"
+        }
+    });
+};
 
 
 module.exports = {
     getAllEnrollments,
     getEnrollmentById,
+     getEnrollmentsByStudentId,
     createEnrollment,
     updateEnrollment,
     deleteEnrollment

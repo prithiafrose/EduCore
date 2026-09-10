@@ -9,14 +9,23 @@ const {
   getSubmissionsByStudent,
   updateSubmission,
   deleteSubmission,
+  downloadSubmission,
 } = require("../controllers/assignmentSubmission.controller");
 
-router.post("/", createAssignmentSubmission);
+const {
+  authorize
+} = require("../middleware/role.middleware");
+
+const { upload } = require("../utils/upload");
+
+router.post("/", authorize("STUDENT"), upload.single("file"), createAssignmentSubmission);
 
 router.get(
   "/assignment/:assignmentId",
   getSubmissionsByAssignment
 );
+
+router.get("/:id/download", downloadSubmission);
 
 router.get(
   "/student/:studentId",
@@ -25,8 +34,8 @@ router.get(
 
 router.get("/:id", getSubmissionById);
 
-router.put("/:id", updateSubmission);
+router.put("/:id", authorize("ADMIN", "TEACHER"), updateSubmission);
 
-router.delete("/:id", deleteSubmission);
+router.delete("/:id", authorize("ADMIN", "TEACHER"), deleteSubmission);
 
 module.exports = router;

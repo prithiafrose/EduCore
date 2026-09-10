@@ -34,6 +34,59 @@ const getAdminStats = async (req, res) => {
     }
 };
 
+// Get revenue overview (admin)
+const getRevenueOverview = async (req, res) => {
+    try {
+        const [payments, studentCount, fees] =
+            await Promise.all([
+                prisma.studentPayment.findMany({
+                    include: {
+                        fee: true
+                    }
+                }),
+                prisma.student.count(),
+                prisma.fee.count()
+            ]);
+
+        let collected = 0;
+        let outstanding = 0;
+        let paidCount = 0;
+        let pendingCount = 0;
+
+        payments.forEach((payment) => {
+            if (payment.status === "PAID") {
+                collected += Number(payment.amount);
+                paidCount += 1;
+            } else {
+                outstanding += Number(payment.amount);
+                pendingCount += 1;
+            }
+        });
+
+        res.status(200).json({
+            success: true,
+            data: {
+                collected,
+                outstanding,
+                paidCount,
+                pendingCount,
+                students: studentCount,
+                fees: fees,
+                totalPayments: payments.length
+            }
+        });
+
+    } catch (error) {
+        console.error("Admin revenue error:", error);
+
+        res.status(500).json({
+            success: false,
+            message: "Failed to fetch revenue overview"
+        });
+    }
+};
+
 module.exports = {
-    getAdminStats
+    getAdminStats,
+    getRevenueOverview
 };

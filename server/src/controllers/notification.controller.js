@@ -359,6 +359,108 @@ const deleteNotification = async (req, res) => {
 };
 
 
+// ARCHIVE notification (admin)
+const archiveNotification = async (req, res) => {
+    try {
+
+        const { id } = req.params;
+
+
+        if (
+            !Number.isInteger(Number(id)) ||
+            Number(id) <= 0
+        ) {
+            return res.status(400).json({
+                success: false,
+                message: "Invalid notification ID"
+            });
+        }
+
+
+        const notification =
+            await notificationService
+                .archiveNotification(id);
+
+
+        res.status(200).json({
+            success: true,
+            message: "Notice archived successfully",
+            data: notification
+        });
+
+    } catch (error) {
+
+        console.error(error);
+
+        if (
+            error.message ===
+            "Notification not found"
+        ) {
+            return res.status(404).json({
+                success: false,
+                message: error.message
+            });
+        }
+
+        res.status(500).json({
+            success: false,
+            message: "Failed to archive notice"
+        });
+    }
+};
+
+
+// UNARCHIVE notification (admin)
+const unarchiveNotification = async (req, res) => {
+    try {
+
+        const { id } = req.params;
+
+
+        if (
+            !Number.isInteger(Number(id)) ||
+            Number(id) <= 0
+        ) {
+            return res.status(400).json({
+                success: false,
+                message: "Invalid notification ID"
+            });
+        }
+
+
+        const notification =
+            await notificationService
+                .unarchiveNotification(id);
+
+
+        res.status(200).json({
+            success: true,
+            message: "Notice restored successfully",
+            data: notification
+        });
+
+    } catch (error) {
+
+        console.error(error);
+
+        if (
+            error.message ===
+            "Notification not found"
+        ) {
+            return res.status(404).json({
+                success: false,
+                message: error.message
+            });
+        }
+
+        res.status(500).json({
+            success: false,
+            message: "Failed to restore notice"
+        });
+    }
+};
+
+
 module.exports = {
     createNotification,
     getAllNotifications,
@@ -366,5 +468,7 @@ module.exports = {
     getNotificationsByUser,
     markNotificationAsRead,
     markAllNotificationsAsRead,
+    archiveNotification,
+    unarchiveNotification,
     deleteNotification
 };

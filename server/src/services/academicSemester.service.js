@@ -36,13 +36,15 @@ const getAcademicSemesterById = async (id) => {
 const createAcademicSemester = async (
     name,
     order,
-    programId
+    programId,
+    isActive = true
 ) => {
     return await prisma.academicSemester.create({
         data: {
             name: name.trim(),
             order: Number(order),
-            programId: Number(programId)
+            programId: Number(programId),
+            isActive: Boolean(isActive)
         },
         include: {
             program: true
@@ -56,7 +58,8 @@ const updateAcademicSemester = async (
     id,
     name,
     order,
-    programId
+    programId,
+    isActive
 ) => {
     return await prisma.academicSemester.update({
         where: {
@@ -65,7 +68,10 @@ const updateAcademicSemester = async (
         data: {
             name: name.trim(),
             order: Number(order),
-            programId: Number(programId)
+            programId: Number(programId),
+            ...(isActive !== undefined && isActive !== null && {
+                isActive: Boolean(isActive)
+            })
         },
         include: {
             program: true

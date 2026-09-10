@@ -65,7 +65,7 @@ const calculateGrade = (totalMarks) => {
 
   if (marks >= 40) {
     return {
-      grade: "D",
+      grade: "C_MINUS",
       gradePoint: 2.0,
     };
   }
@@ -522,6 +522,122 @@ const getCourseResultByEnrollment =
 
 
 // ====================================
+// GET STUDENT TRANSCRIPT
+// ====================================
+
+const getStudentTranscript = async (studentId) => {
+    const student = await prisma.student.findUnique({
+        where: {
+            id: Number(studentId)
+        },
+        include: {
+            program: true,
+            enrollments: {
+                include: {
+                    courseOffering: {
+                        include: {
+                            course: true,
+                            academicSemester: true
+                        }
+                    },
+                    result: true
+                },
+                orderBy: {
+                    enrolledAt: "asc"
+                }
+            }
+        }
+    });
+
+    if (!student) {
+        throw new Error("Student not found");
+    }
+
+    const grouped = {};
+
+    for (const enrollment of student.enrollments) {
+        const semester =
+            enrollment.courseOffering.academicSemester;
+
+        if (!grouped[semester.id]) {
+            grouped[semester.id] = {
+                semester: {
+                    id: semester.id,
+                    name: semester.name,
+                    order: semester.order
+                },
+                courses: []
+            };
+        }
+
+        grouped[semester.id].courses.push({
+            enrollmentId: enrollment.id,
+            course: {
+                code: enrollment.courseOffering.course.code,
+                name: enrollment.courseOffering.course.name,
+                credit: Number(
+                    enrollment.courseOffering.course.credit
+                )
+            },
+            totalMarks: enrollment.result
+                ? Number(enrollment.result.totalMarks)
+                : null,
+            grade: enrollment.result
+                ? enrollment.result.grade
+                : null,
+            gradePoint: enrollment.result
+                ? Number(enrollment.result.gradePoint)
+                : null
+        });
+    }
+
+    const semesters = Object.values(grouped).sort(
+        (a, b) => a.semester.order - b.semester.order
+    );
+
+    let creditSum = 0;
+    let gradePointSum = 0;
+    let completedCredits = 0;
+
+    semesters.forEach((sem) =>
+        sem.courses.forEach((course) => {
+            if (
+                course.grade &&
+                course.grade !== "F" &&
+                course.gradePoint !== null
+            ) {
+                creditSum += Number(course.course.credit);
+                gradePointSum +=
+                    Number(course.gradePoint) *
+                    Number(course.course.credit);
+                completedCredits +=
+                    Number(course.course.credit);
+            }
+        })
+    );
+
+    const cgpa =
+        creditSum > 0
+            ? Number((gradePointSum / creditSum).toFixed(2))
+            : null;
+
+    return {
+        student: {
+            id: student.id,
+            studentId: student.studentId,
+            name: student.name,
+            email: student.email,
+            dateOfBirth: student.dateOfBirth,
+            program: student.program
+        },
+        semesters,
+        completedCredits,
+        cgpa
+    };
+};
+
+
+// ====================================
 // EXPORT
 // ====================================
 
@@ -529,4 +645,6 @@ module.exports = {
   generateCourseResult,
   getAllCourseResults,
   getCourseResultByEnrollment,
+  getStudentTranscript,
+  calculateGrade,
 };

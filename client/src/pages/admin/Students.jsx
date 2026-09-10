@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import AdminSidebar from "./AdminSidebar";
 import {
   getStudents,
   createStudent,
@@ -27,6 +28,9 @@ function Students() {
     email: "",
     programId: "",
     password: "",
+    dateOfBirth: "",
+    guardianName: "",
+    guardianPhone: "",
   });
 
   // Load students and programs
@@ -76,6 +80,9 @@ function Students() {
       email: "",
       programId: "",
       password: "",
+      dateOfBirth: "",
+      guardianName: "",
+      guardianPhone: "",
     });
 
     setEditingId(null);
@@ -96,7 +103,10 @@ function Students() {
           formData.studentId,
           formData.name,
           formData.email,
-          formData.programId
+          formData.programId,
+          formData.dateOfBirth || null,
+          formData.guardianName || null,
+          formData.guardianPhone || null
         );
 
         setSuccess("Student updated successfully.");
@@ -106,7 +116,10 @@ function Students() {
           formData.name,
           formData.email,
           formData.programId,
-          formData.password
+          formData.password,
+          formData.dateOfBirth || null,
+          formData.guardianName || null,
+          formData.guardianPhone || null
         );
 
         setSuccess("Student created successfully.");
@@ -139,6 +152,11 @@ function Students() {
         ? String(student.programId)
         : "",
       password: "",
+      dateOfBirth: student.dateOfBirth
+        ? student.dateOfBirth.slice(0, 10)
+        : "",
+      guardianName: student.guardianName || "",
+      guardianPhone: student.guardianPhone || "",
     });
 
     setError("");
@@ -199,21 +217,30 @@ function Students() {
   });
 
   return (
-    <div className="min-h-screen bg-slate-50 p-6">
+    <div className="min-h-screen bg-slate-100 flex">
+
+      <AdminSidebar current="students" />
+
+      <main className="ml-64 flex-1 min-w-0">
+
+      <div className="p-6">
 
       {/* Header */}
       <div className="mb-8">
         <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
 
-          <div>
-            <h1 className="text-3xl font-bold text-slate-900">
-              Student Management
-            </h1>
+          <div className="flex items-center justify-between">
+            <div>
+              <h1 className="text-3xl font-bold text-slate-900">
+                Student Management
+              </h1>
 
-            <p className="mt-1 text-sm text-slate-500">
-              Manage student profiles and accounts
-            </p>
-          </div>
+              <p className="mt-1 text-sm text-slate-500">
+                Manage student profiles and accounts
+              </p>
+            </div>
+
+            </div>
 
           <div className="rounded-xl bg-white px-4 py-3 shadow-sm ring-1 ring-slate-200">
             <p className="text-xs font-medium uppercase tracking-wide text-slate-400">
@@ -349,9 +376,59 @@ function Students() {
           </div>
 
 
+          {/* Date of Birth */}
+          <div>
+            <label className="mb-2 block text-sm font-medium text-slate-700">
+              Date of Birth
+            </label>
+
+            <input
+              type="date"
+              name="dateOfBirth"
+              value={formData.dateOfBirth}
+              onChange={handleChange}
+              className="w-full rounded-xl border border-slate-300 px-4 py-3 text-sm outline-none transition focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100"
+            />
+          </div>
+
+
+          {/* Guardian Name */}
+          <div>
+            <label className="mb-2 block text-sm font-medium text-slate-700">
+              Guardian Name
+            </label>
+
+            <input
+              type="text"
+              name="guardianName"
+              value={formData.guardianName}
+              onChange={handleChange}
+              placeholder="Enter guardian's name"
+              className="w-full rounded-xl border border-slate-300 px-4 py-3 text-sm outline-none transition focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100"
+            />
+          </div>
+
+
+          {/* Guardian Phone */}
+          <div>
+            <label className="mb-2 block text-sm font-medium text-slate-700">
+              Guardian Phone
+            </label>
+
+            <input
+              type="text"
+              name="guardianPhone"
+              value={formData.guardianPhone}
+              onChange={handleChange}
+              placeholder="Enter guardian's phone"
+              className="w-full rounded-xl border border-slate-300 px-4 py-3 text-sm outline-none transition focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100"
+            />
+          </div>
+
+
           {/* Password */}
           {!editingId && (
-            <div className="md:col-span-2">
+            <div>
               <label className="mb-2 block text-sm font-medium text-slate-700">
                 Password
               </label>
@@ -479,6 +556,18 @@ function Students() {
                     Program
                   </th>
 
+                  <th className="px-6 py-4 text-xs font-semibold uppercase tracking-wide text-slate-500">
+                    DOB
+                  </th>
+
+                  <th className="px-6 py-4 text-xs font-semibold uppercase tracking-wide text-slate-500">
+                    Guardian
+                  </th>
+
+                  <th className="px-6 py-4 text-xs font-semibold uppercase tracking-wide text-slate-500">
+                    Guardian Phone
+                  </th>
+
                   <th className="px-6 py-4 text-right text-xs font-semibold uppercase tracking-wide text-slate-500">
                     Actions
                   </th>
@@ -526,6 +615,23 @@ function Students() {
                     </td>
 
 
+                    <td className="px-6 py-4 text-sm text-slate-600">
+                      {student.dateOfBirth
+                        ? new Date(student.dateOfBirth).toLocaleDateString()
+                        : "—"}
+                    </td>
+
+
+                    <td className="px-6 py-4 text-sm text-slate-600">
+                      {student.guardianName || "—"}
+                    </td>
+
+
+                    <td className="px-6 py-4 text-sm text-slate-600">
+                      {student.guardianPhone || "—"}
+                    </td>
+
+
                     <td className="px-6 py-4">
 
                       <div className="flex justify-end gap-2">
@@ -567,6 +673,10 @@ function Students() {
         )}
 
       </div>
+
+      </div>
+
+      </main>
 
     </div>
   );

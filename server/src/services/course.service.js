@@ -1,9 +1,22 @@
 const prisma = require("../config/prisma");
 
+const prerequisiteSelect = {
+    select: {
+        id: true,
+        code: true,
+        name: true,
+        credit: true
+    }
+};
+
 
 // GET all courses
 const getAllCourses = async () => {
     return await prisma.course.findMany({
+        include: {
+            prerequisites: prerequisiteSelect,
+            prerequisitesFor: prerequisiteSelect
+        },
         orderBy: {
             id: "asc"
         }
@@ -16,6 +29,10 @@ const getCourseById = async (id) => {
     return await prisma.course.findUnique({
         where: {
             id: Number(id)
+        },
+        include: {
+            prerequisites: prerequisiteSelect,
+            prerequisitesFor: prerequisiteSelect
         }
     });
 };
@@ -26,8 +43,19 @@ const createCourse = async (
     code,
     name,
     credit,
-    description
+    description,
+    prerequisites
 ) => {
+    const prerequisiteIds =
+        Array.isArray(prerequisites)
+            ? prerequisites
+                .map(Number)
+                .filter(
+                    (id) =>
+                        Number.isInteger(id) && id > 0
+                )
+            : [];
+
     return await prisma.course.create({
         data: {
             code: code.trim(),
@@ -38,7 +66,18 @@ const createCourse = async (
                 description !== null &&
                 description.trim() !== ""
                     ? description.trim()
-                    : null
+                    : null,
+            ...(prerequisiteIds.length > 0 && {
+                prerequisites: {
+                    connect: prerequisiteIds.map(
+                        (id) => ({ id })
+                    )
+                }
+            })
+        },
+        include: {
+            prerequisites: prerequisiteSelect,
+            prerequisitesFor: prerequisiteSelect
         }
     });
 };
@@ -50,8 +89,19 @@ const updateCourse = async (
     code,
     name,
     credit,
-    description
+    description,
+    prerequisites
 ) => {
+    const prerequisiteIds =
+        Array.isArray(prerequisites)
+            ? prerequisites
+                .map(Number)
+                .filter(
+                    (id) =>
+                        Number.isInteger(id) && id > 0
+                )
+            : null;
+
     return await prisma.course.update({
         where: {
             id: Number(id)
@@ -65,7 +115,18 @@ const updateCourse = async (
                 description !== null &&
                 description.trim() !== ""
                     ? description.trim()
-                    : null
+                    : null,
+            ...(prerequisiteIds !== null && {
+                prerequisites: {
+                    set: prerequisiteIds.map(
+                        (id) => ({ id })
+                    )
+                }
+            })
+        },
+        include: {
+            prerequisites: prerequisiteSelect,
+            prerequisitesFor: prerequisiteSelect
         }
     });
 };

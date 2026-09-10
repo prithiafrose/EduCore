@@ -10,12 +10,14 @@ export const getUsers = async () => {
 export const createUser = async (
   email,
   password,
-  role
+  role,
+  isActive = true
 ) => {
   const response = await api.post("/users", {
     email,
     password,
     role,
+    isActive,
   });
 
   return response.data;
@@ -26,12 +28,23 @@ export const updateUser = async (
   id,
   email,
   password,
-  role
+  role,
+  isActive = true
 ) => {
   const response = await api.put(`/users/${id}`, {
     email,
     password,
     role,
+    isActive,
+  });
+
+  return response.data;
+};
+
+// SET user active/inactive status
+export const setUserActive = async (id, isActive) => {
+  const response = await api.patch(`/users/${id}/status`, {
+    isActive,
   });
 
   return response.data;

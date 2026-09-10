@@ -12,6 +12,15 @@ export const getEnrollmentById = async (id) => {
   return response.data;
 };
 
+// GET enrollments by student ID
+export const getEnrollmentsByStudentId = async (studentId) => {
+  const response = await api.get(
+    `/enrollments/student/${studentId}`
+  );
+
+  return response.data;
+};
+
 // CREATE enrollment
 export const createEnrollment = async (
   studentId,

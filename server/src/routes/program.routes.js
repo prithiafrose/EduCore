@@ -3,6 +3,10 @@ const express = require("express");
 const programController =
     require("../controllers/program.controller");
 
+const {
+    authorize
+} = require("../middleware/role.middleware");
+
 const router = express.Router();
 
 
@@ -23,6 +27,7 @@ router.get(
 // CREATE program
 router.post(
     "/",
+    authorize("ADMIN"),
     programController.createProgram
 );
 
@@ -30,6 +35,7 @@ router.post(
 // UPDATE program
 router.put(
     "/:id",
+    authorize("ADMIN"),
     programController.updateProgram
 );
 
@@ -37,6 +43,7 @@ router.put(
 // DELETE program
 router.delete(
     "/:id",
+    authorize("ADMIN"),
     programController.deleteProgram
 );
 

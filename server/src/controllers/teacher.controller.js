@@ -1,11 +1,10 @@
 const teacherService =
     require("../services/teacher.service");
 
-const prisma = require("../config/prisma");
-
 
 // GET all teachers
 const getAllTeachers = async (req, res) => {
+
     try {
 
         const teachers =
@@ -26,27 +25,35 @@ const getAllTeachers = async (req, res) => {
 
 // GET teacher by ID
 const getTeacherById = async (req, res) => {
+
     try {
 
         const { id } = req.params;
 
+
+        // Validate teacher ID
         if (
             !Number.isInteger(Number(id)) ||
             Number(id) <= 0
         ) {
+
             return res.status(400).json({
                 message: "Invalid teacher ID"
             });
         }
 
+
         const teacher =
             await teacherService.getTeacherById(id);
 
+
         if (!teacher) {
+
             return res.status(404).json({
                 message: "Teacher not found"
             });
         }
+
 
         res.status(200).json(teacher);
 
@@ -61,44 +68,63 @@ const getTeacherById = async (req, res) => {
 };
 
 
+// CREATE teacher
 const createTeacher = async (req, res) => {
+
     try {
+
         const {
             name,
             email,
             employeeId,
-            password
+            password,
+            designation,
+            departmentId
         } = req.body;
 
+
         // Validate required fields
-        if (!name || !email || !employeeId || !password) {
+        if (
+            !name ||
+            !email ||
+            !employeeId ||
+            !password
+        ) {
+
             return res.status(400).json({
                 message:
                     "Name, email, employeeId and password are required"
             });
         }
 
-        // Create User + Teacher
+
         const teacher =
             await teacherService.createTeacher(
                 name,
                 email,
                 employeeId,
-                password
+                password,
+                designation,
+                departmentId
             );
+
 
         res.status(201).json(teacher);
 
     } catch (error) {
+
         console.error(error);
 
-        // Duplicate email or employeeId
+
+        // Duplicate email or employee ID
         if (error.code === "P2002") {
+
             return res.status(409).json({
                 message:
                     "Email or employee ID already exists"
             });
         }
+
 
         res.status(500).json({
             message: "Failed to create teacher"
@@ -109,6 +135,7 @@ const createTeacher = async (req, res) => {
 
 // UPDATE teacher
 const updateTeacher = async (req, res) => {
+
     try {
 
         const { id } = req.params;
@@ -117,7 +144,8 @@ const updateTeacher = async (req, res) => {
             name,
             email,
             employeeId,
-            userId
+            designation,
+            departmentId
         } = req.body;
 
 
@@ -126,53 +154,23 @@ const updateTeacher = async (req, res) => {
             !Number.isInteger(Number(id)) ||
             Number(id) <= 0
         ) {
+
             return res.status(400).json({
                 message: "Invalid teacher ID"
             });
         }
 
 
-        // Required fields
+        // Validate required fields
         if (
             !name ||
             !email ||
-            !employeeId ||
-            userId === undefined
+            !employeeId
         ) {
+
             return res.status(400).json({
                 message:
-                    "name, email, employeeId and userId are required"
-            });
-        }
-
-
-        // Validate userId
-        if (
-            !Number.isInteger(Number(userId)) ||
-            Number(userId) <= 0
-        ) {
-            return res.status(400).json({
-                message: "Invalid user ID"
-            });
-        }
-
-
-        // Check selected User
-        const user = await prisma.user.findUnique({
-            where: {
-                id: Number(userId)
-            }
-        });
-
-        if (!user) {
-            return res.status(404).json({
-                message: "User not found"
-            });
-        }
-
-        if (user.role !== "TEACHER") {
-            return res.status(400).json({
-                message: "Selected user must have TEACHER role"
+                    "Name, email and employeeId are required"
             });
         }
 
@@ -181,46 +179,50 @@ const updateTeacher = async (req, res) => {
         const existingTeacher =
             await teacherService.getTeacherById(id);
 
+
         if (!existingTeacher) {
+
             return res.status(404).json({
                 message: "Teacher not found"
             });
         }
 
 
+        // Update teacher
         const teacher =
             await teacherService.updateTeacher(
                 id,
-                name,
-                email,
-                employeeId,
-                userId
+                name.trim(),
+                email.trim(),
+                employeeId.trim(),
+                designation,
+                departmentId
             );
 
 
-        res.status(200).json(teacher);
+        res.status(200).json({
+            message: "Teacher profile updated successfully",
+            teacher
+        });
 
     } catch (error) {
 
         console.error(error);
 
 
+        // Duplicate email or employee ID
         if (error.code === "P2002") {
+
             return res.status(409).json({
                 message:
-                    "Teacher email, employee ID or user ID already exists"
+                    "Email or employee ID already exists"
             });
         }
 
 
-        if (error.code === "P2003") {
-            return res.status(404).json({
-                message: "User not found"
-            });
-        }
-
-
+        // Teacher not found
         if (error.code === "P2025") {
+
             return res.status(404).json({
                 message: "Teacher not found"
             });
@@ -228,7 +230,7 @@ const updateTeacher = async (req, res) => {
 
 
         res.status(500).json({
-            message: "Failed to update teacher"
+            message: "Failed to update teacher profile"
         });
     }
 };
@@ -236,6 +238,7 @@ const updateTeacher = async (req, res) => {
 
 // DELETE teacher
 const deleteTeacher = async (req, res) => {
+
     try {
 
         const { id } = req.params;
@@ -246,6 +249,7 @@ const deleteTeacher = async (req, res) => {
             !Number.isInteger(Number(id)) ||
             Number(id) <= 0
         ) {
+
             return res.status(400).json({
                 message: "Invalid teacher ID"
             });
@@ -256,14 +260,16 @@ const deleteTeacher = async (req, res) => {
         const existingTeacher =
             await teacherService.getTeacherById(id);
 
+
         if (!existingTeacher) {
+
             return res.status(404).json({
                 message: "Teacher not found"
             });
         }
 
 
-        // Delete
+        // Delete teacher
         await teacherService.deleteTeacher(id);
 
 
@@ -280,6 +286,7 @@ const deleteTeacher = async (req, res) => {
             error.code === "P2003" ||
             error.code === "P2039"
         ) {
+
             return res.status(409).json({
                 message:
                     "Cannot delete teacher because related records exist"
@@ -288,6 +295,7 @@ const deleteTeacher = async (req, res) => {
 
 
         if (error.code === "P2025") {
+
             return res.status(404).json({
                 message: "Teacher not found"
             });

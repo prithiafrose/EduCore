@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import AdminSidebar from "./AdminSidebar";
 
 import {
   getCourses,
@@ -16,6 +17,7 @@ const Courses = () => {
   const [name, setName] = useState("");
   const [credit, setCredit] = useState("");
   const [description, setDescription] = useState("");
+  const [prerequisiteIds, setPrerequisiteIds] = useState([]);
 
   const [editingId, setEditingId] = useState(null);
   const [showForm, setShowForm] = useState(false);
@@ -79,6 +81,7 @@ const Courses = () => {
     setName("");
     setCredit("");
     setDescription("");
+    setPrerequisiteIds([]);
 
     setEditingId(null);
     setShowForm(false);
@@ -191,7 +194,8 @@ const Courses = () => {
           code,
           name,
           credit,
-          description
+          description,
+          prerequisiteIds
         );
 
         setSuccess(
@@ -204,7 +208,8 @@ const Courses = () => {
           code,
           name,
           credit,
-          description
+          description,
+          prerequisiteIds
         );
 
         setSuccess(
@@ -253,6 +258,10 @@ const Courses = () => {
 
     setDescription(
       course.description || ""
+    );
+
+    setPrerequisiteIds(
+      course.prerequisites?.map((p) => p.id) || []
     );
 
     setShowForm(true);
@@ -312,6 +321,18 @@ const Courses = () => {
   };
 
 
+  // Toggle prerequisite
+  const togglePrerequisite = (id) => {
+
+    setPrerequisiteIds((prev) =>
+      prev.includes(id)
+        ? prev.filter((pid) => pid !== id)
+        : [...prev, id]
+    );
+
+  };
+
+
   // Search
   const filteredCourses =
     courses.filter((course) => {
@@ -339,20 +360,36 @@ const Courses = () => {
     });
 
 
+  // Available prerequisites (exclude current course when editing)
+  const availablePrerequisites =
+    courses.filter(
+      (c) =>
+        editingId === null
+          ? true
+          : c.id !== editingId
+    );
+
+
   // Loading state
   if (loading) {
 
     return (
 
-      <div className="min-h-screen bg-slate-50 p-6">
+      <div className="min-h-screen bg-slate-100 flex">
 
-        <div className="flex min-h-[300px] items-center justify-center">
+        <AdminSidebar current="courses" />
 
-          <p className="text-sm text-slate-500">
-            Loading courses...
-          </p>
+        <main className="ml-64 flex-1 min-w-0">
 
-        </div>
+          <div className="flex min-h-[300px] items-center justify-center">
+
+            <p className="text-sm text-slate-500">
+              Loading courses...
+            </p>
+
+          </div>
+
+        </main>
 
       </div>
 
@@ -363,7 +400,13 @@ const Courses = () => {
 
   return (
 
-    <div className="min-h-screen bg-slate-50 p-6">
+    <div className="min-h-screen bg-slate-100 flex">
+
+      <AdminSidebar current="courses" />
+
+      <main className="ml-64 flex-1 min-w-0">
+
+      <div className="p-6">
 
 
       {/* Header */}
@@ -372,17 +415,21 @@ const Courses = () => {
 
         <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
 
-          <div>
+          <div className="flex items-center justify-between">
 
-            <h1 className="text-3xl font-bold text-slate-900">
-              Course Management
-            </h1>
+            <div>
 
-            <p className="mt-1 text-sm text-slate-500">
-              Manage university courses and course information
-            </p>
+              <h1 className="text-3xl font-bold text-slate-900">
+                Course Management
+              </h1>
 
-          </div>
+              <p className="mt-1 text-sm text-slate-500">
+                Manage university courses and course information
+              </p>
+
+            </div>
+
+            </div>
 
 
           {/* Total Courses */}
@@ -549,6 +596,50 @@ const Courses = () => {
             </div>
 
 
+            {/* Prerequisites */}
+
+            <div className="md:col-span-2">
+
+              <label className="mb-2 block text-sm font-medium text-slate-700">
+                Prerequisites
+              </label>
+
+              {availablePrerequisites.length === 0 ? (
+                <p className="text-sm text-slate-400">
+                  No other courses available as prerequisites.
+                </p>
+              ) : (
+                <div className="max-h-48 overflow-y-auto rounded-xl border border-slate-300 p-4">
+                  {availablePrerequisites.map(
+                    (course) => (
+                      <label
+                        key={course.id}
+                        className="flex items-center gap-3 py-1.5 cursor-pointer hover:bg-slate-50 rounded px-2"
+                      >
+                        <input
+                          type="checkbox"
+                          checked={
+                            prerequisiteIds.includes(course.id)
+                          }
+                          onChange={() =>
+                            togglePrerequisite(course.id)
+                          }
+                          className="h-4 w-4 rounded border-slate-300"
+                        />
+
+                        <span className="text-sm text-slate-700">
+                          {course.code} — {course.name}
+                        </span>
+
+                      </label>
+                    )
+                  )}
+                </div>
+              )}
+
+            </div>
+
+
             {/* Buttons */}
 
             <div className="flex gap-3 md:col-span-2">
@@ -685,6 +776,10 @@ const Courses = () => {
                     Description
                   </th>
 
+                  <th className="px-6 py-4 text-xs font-semibold uppercase tracking-wide text-slate-500">
+                    Prerequisites
+                  </th>
+
                   <th className="px-6 py-4 text-right text-xs font-semibold uppercase tracking-wide text-slate-500">
                     Actions
                   </th>
@@ -756,6 +851,33 @@ const Courses = () => {
                       </td>
 
 
+                      {/* Prerequisites */}
+
+                      <td className="px-6 py-4">
+
+                        {course.prerequisites &&
+                        course.prerequisites.length > 0 ? (
+                          <div className="flex flex-wrap gap-1">
+                            {course.prerequisites.map(
+                              (prereq) => (
+                                <span
+                                  key={prereq.id}
+                                  className="rounded-md bg-amber-50 px-2 py-1 text-xs font-medium text-amber-700"
+                                >
+                                  {prereq.code}
+                                </span>
+                              )
+                            )}
+                          </div>
+                        ) : (
+                          <span className="text-sm text-slate-400">
+                            —
+                          </span>
+                        )}
+
+                      </td>
+
+
                       {/* Actions */}
 
                       <td className="px-6 py-4">
@@ -802,6 +924,10 @@ const Courses = () => {
         )}
 
       </div>
+
+      </div>
+
+      </main>
 
     </div>
 

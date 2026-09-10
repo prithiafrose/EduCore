@@ -60,7 +60,8 @@ const createAcademicSemester = async (req, res) => {
         const {
             name,
             order,
-            programId
+            programId,
+            isActive
         } = req.body;
 
 
@@ -155,7 +156,10 @@ const createAcademicSemester = async (req, res) => {
             await academicSemesterService.createAcademicSemester(
                 name,
                 order,
-                programId
+                programId,
+                isActive !== undefined
+                    ? Boolean(isActive)
+                    : true
             );
 
 
@@ -189,7 +193,8 @@ const updateAcademicSemester = async (req, res) => {
         const {
             name,
             order,
-            programId
+            programId,
+            isActive
         } = req.body;
 
 
@@ -303,7 +308,8 @@ const updateAcademicSemester = async (req, res) => {
                 id,
                 name,
                 order,
-                programId
+                programId,
+                isActive
             );
 
 

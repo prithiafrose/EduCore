@@ -11,13 +11,15 @@ export const createCourse = async (
   code,
   name,
   credit,
-  description
+  description,
+  prerequisiteIds = []
 ) => {
   const response = await api.post("/courses", {
     code,
     name,
     credit: Number(credit),
     description,
+    prerequisites: prerequisiteIds.map(Number),
   });
 
   return response.data;
@@ -29,13 +31,15 @@ export const updateCourse = async (
   code,
   name,
   credit,
-  description
+  description,
+  prerequisiteIds = []
 ) => {
   const response = await api.put(`/courses/${id}`, {
     code,
     name,
     credit: Number(credit),
     description,
+    prerequisites: prerequisiteIds.map(Number),
   });
 
   return response.data;

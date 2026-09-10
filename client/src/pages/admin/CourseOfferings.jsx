@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import AdminSidebar from "./AdminSidebar";
 
 import {
   getCourseOfferings,
@@ -8,6 +9,11 @@ import {
 } from "../../services/courseOfferingApi";
 
 import { getCourses } from "../../services/courseApi";
+import { getTeachers } from "../../services/teacherApi";
+import {
+  createTeacherAssignment,
+  deleteTeacherAssignment,
+} from "../../services/teacherAssignmentApi";
 
 import api from "../../services/axios";
 
@@ -32,6 +38,21 @@ const CourseOfferings = () => {
 
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
+
+  const [teachers, setTeachers] = useState([]);
+  const [teacherAssignments, setTeacherAssignments] =
+    useState([]);
+  const [allSections, setAllSections] = useState([]);
+
+  const [assignOfferingId, setAssignOfferingId] =
+    useState("");
+  const [assignTeacherId, setAssignTeacherId] =
+    useState("");
+  const [assignSectionId, setAssignSectionId] =
+    useState("");
+
+  const [showAssignForm, setShowAssignForm] = useState(false);
+  const [assignLoading, setAssignLoading] = useState(false);
 
 
   // Load course offerings
@@ -112,6 +133,85 @@ const CourseOfferings = () => {
   };
 
 
+  // Load teachers
+  const loadTeachers = async () => {
+
+    try {
+
+      const data = await getTeachers();
+
+      setTeachers(Array.isArray(data) ? data : []);
+
+    } catch (error) {
+
+      console.error(error);
+
+      setError(
+        error.response?.data?.message ||
+        "Failed to load teachers"
+      );
+
+    }
+
+  };
+
+
+  // Load teacher assignments
+  const loadTeacherAssignments = async () => {
+
+    try {
+
+      const response = await api.get(
+        "/teacher-assignments"
+      );
+
+      setTeacherAssignments(
+        Array.isArray(response.data)
+          ? response.data
+          : []
+      );
+
+    } catch (error) {
+
+      console.error(error);
+
+      setError(
+        error.response?.data?.message ||
+        "Failed to load teacher assignments"
+      );
+
+    }
+
+  };
+
+
+  // Load sections
+  const loadSections = async () => {
+
+    try {
+
+      const response = await api.get("/sections");
+
+      setAllSections(
+        Array.isArray(response.data)
+          ? response.data
+          : []
+      );
+
+    } catch (error) {
+
+      console.error(error);
+
+      setError(
+        error.response?.data?.message ||
+        "Failed to load sections"
+      );
+
+    }
+
+  };
+
+
   // Load initial data
   useEffect(() => {
 
@@ -121,6 +221,9 @@ const CourseOfferings = () => {
         loadOfferings(),
         loadCourses(),
         loadSemesters(),
+        loadTeachers(),
+        loadTeacherAssignments(),
+        loadSections(),
       ]);
 
     };
@@ -330,6 +433,127 @@ const CourseOfferings = () => {
   };
 
 
+  // Assign teacher to an offering
+  const handleAssignTeacher = async (e) => {
+
+    e.preventDefault();
+
+    clearMessages();
+
+    if (!assignOfferingId || !assignTeacherId) {
+
+      setError(
+        "Please select a course offering and a teacher."
+      );
+
+      return;
+
+    }
+
+    try {
+
+      setAssignLoading(true);
+
+      await createTeacherAssignment(
+        assignTeacherId,
+        assignOfferingId,
+        assignSectionId || null
+      );
+
+      setSuccess(
+        "Teacher assigned to the course offering successfully."
+      );
+
+      setAssignOfferingId("");
+      setAssignTeacherId("");
+      setAssignSectionId("");
+      setShowAssignForm(false);
+
+      await loadTeacherAssignments();
+
+    } catch (error) {
+
+      console.error(error);
+
+      setError(
+        error.response?.data?.message ||
+        "Failed to assign teacher to the course offering."
+      );
+
+    } finally {
+
+      setAssignLoading(false);
+
+    }
+
+  };
+
+
+  // Teacher currently assigned to an offering
+  const getAssignedTeacher = (offeringId) => {
+
+    const assignment = teacherAssignments.find(
+      (item) =>
+        Number(item.courseOfferingId) ===
+        Number(offeringId)
+    );
+
+    return assignment?.teacher || null;
+
+  };
+
+
+  // Unassign teacher from an offering
+  const handleUnassignTeacher = async (
+    offeringId,
+    teacherId
+  ) => {
+
+    const confirmed = window.confirm(
+      "Are you sure you want to remove this teacher from the course offering?"
+    );
+
+    if (!confirmed) {
+      return;
+    }
+
+    clearMessages();
+
+    try {
+
+      const assignment = teacherAssignments.find(
+        (item) =>
+          Number(item.courseOfferingId) ===
+            Number(offeringId) &&
+          Number(item.teacherId) === Number(teacherId)
+      );
+
+      if (!assignment) {
+        return;
+      }
+
+      await deleteTeacherAssignment(assignment.id);
+
+      setSuccess(
+        "Teacher removed from the course offering successfully."
+      );
+
+      await loadTeacherAssignments();
+
+    } catch (error) {
+
+      console.error(error);
+
+      setError(
+        error.response?.data?.message ||
+        "Failed to remove teacher from the course offering."
+      );
+
+    }
+
+  };
+
+
   // Search
   const filteredOfferings =
     offerings.filter((offering) => {
@@ -372,15 +596,21 @@ const CourseOfferings = () => {
 
     return (
 
-      <div className="min-h-screen bg-slate-50 p-6">
+      <div className="min-h-screen bg-slate-100 flex">
 
-        <div className="flex min-h-[300px] items-center justify-center">
+        <AdminSidebar current="offerings" />
 
-          <p className="text-sm text-slate-500">
-            Loading course offerings...
-          </p>
+        <main className="ml-64 flex-1 min-w-0">
 
-        </div>
+          <div className="flex min-h-[300px] items-center justify-center">
+
+            <p className="text-sm text-slate-500">
+              Loading course offerings...
+            </p>
+
+          </div>
+
+        </main>
 
       </div>
 
@@ -391,7 +621,13 @@ const CourseOfferings = () => {
 
   return (
 
-    <div className="min-h-screen bg-slate-50 p-6">
+    <div className="min-h-screen bg-slate-100 flex">
+
+      <AdminSidebar current="offerings" />
+
+      <main className="ml-64 flex-1 min-w-0">
+
+      <div className="p-6">
 
 
       {/* Header */}
@@ -400,17 +636,21 @@ const CourseOfferings = () => {
 
         <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
 
-          <div>
+          <div className="flex items-center justify-between">
 
-            <h1 className="text-3xl font-bold text-slate-900">
-              Course Offering Management
-            </h1>
+            <div>
 
-            <p className="mt-1 text-sm text-slate-500">
-              Manage courses offered in academic semesters
-            </p>
+              <h1 className="text-3xl font-bold text-slate-900">
+                Course Offering Management
+              </h1>
 
-          </div>
+              <p className="mt-1 text-sm text-slate-500">
+                Manage courses offered in academic semesters
+              </p>
+
+            </div>
+
+            </div>
 
 
           {/* Total Offerings */}
@@ -607,6 +847,180 @@ const CourseOfferings = () => {
       )}
 
 
+      {/* Assign Teacher Form */}
+
+      {showAssignForm && (
+
+        <div className="mb-8 rounded-2xl bg-white p-6 shadow-sm ring-1 ring-slate-200">
+
+
+          <div className="mb-6">
+
+            <h2 className="text-lg font-semibold text-slate-900">
+              Assign Teacher to Offering
+            </h2>
+
+            <p className="mt-1 text-sm text-slate-500">
+              Assign a teacher to a course offering (optionally per section).
+            </p>
+
+          </div>
+
+
+          <form
+            onSubmit={handleAssignTeacher}
+            className="grid grid-cols-1 gap-5 md:grid-cols-3"
+          >
+
+
+            {/* Offering */}
+
+            <div>
+
+              <label className="mb-2 block text-sm font-medium text-slate-700">
+                Course Offering
+              </label>
+
+              <select
+                value={assignOfferingId}
+                onChange={(e) =>
+                  setAssignOfferingId(e.target.value)
+                }
+                required
+                className="w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm outline-none transition focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100"
+              >
+
+                <option value="">
+                  Select an offering
+                </option>
+
+                {offerings.map((offering) => (
+
+                  <option
+                    key={offering.id}
+                    value={String(offering.id)}
+                  >
+                    {offering.course?.code || "Course"} -{" "}
+                    {offering.academicSemester?.name || "Semester"}
+                  </option>
+
+                ))}
+
+              </select>
+
+            </div>
+
+
+            {/* Teacher */}
+
+            <div>
+
+              <label className="mb-2 block text-sm font-medium text-slate-700">
+                Teacher
+              </label>
+
+              <select
+                value={assignTeacherId}
+                onChange={(e) =>
+                  setAssignTeacherId(e.target.value)
+                }
+                required
+                className="w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm outline-none transition focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100"
+              >
+
+                <option value="">
+                  Select a teacher
+                </option>
+
+                {teachers.map((teacher) => (
+
+                  <option
+                    key={teacher.id}
+                    value={String(teacher.id)}
+                  >
+                    {teacher.name || "Teacher"}{" "}
+                    ({teacher.designation || "No designation"})
+                  </option>
+
+                ))}
+
+              </select>
+
+            </div>
+
+
+            {/* Section (optional) */}
+
+            <div>
+
+              <label className="mb-2 block text-sm font-medium text-slate-700">
+                Section (optional)
+              </label>
+
+              <select
+                value={assignSectionId}
+                onChange={(e) =>
+                  setAssignSectionId(e.target.value)
+                }
+                className="w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm outline-none transition focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100"
+              >
+
+                <option value="">
+                  No section
+                </option>
+
+                {allSections.map((section) => (
+
+                  <option
+                    key={section.id}
+                    value={String(section.id)}
+                  >
+                    {section.name || `Section ${section.id}`}
+                  </option>
+
+                ))}
+
+              </select>
+
+            </div>
+
+
+            {/* Buttons */}
+
+            <div className="flex gap-3 md:col-span-3">
+
+              <button
+                type="submit"
+                disabled={assignLoading}
+                className="rounded-xl bg-indigo-600 px-6 py-3 text-sm font-semibold text-white transition hover:bg-indigo-700 disabled:cursor-not-allowed disabled:opacity-60"
+              >
+                {assignLoading
+                  ? "Assigning..."
+                  : "Assign Teacher"}
+              </button>
+
+
+              <button
+                type="button"
+                onClick={() => {
+                  setShowAssignForm(false);
+                  clearMessages();
+                }}
+                disabled={assignLoading}
+                className="rounded-xl border border-slate-300 bg-white px-6 py-3 text-sm font-semibold text-slate-700 transition hover:bg-slate-50 disabled:opacity-60"
+              >
+                Cancel
+              </button>
+
+            </div>
+
+          </form>
+
+        </div>
+
+      )}
+
+
       {/* Course Offering List */}
 
       <div className="rounded-2xl bg-white shadow-sm ring-1 ring-slate-200">
@@ -645,9 +1059,28 @@ const CourseOfferings = () => {
             />
 
 
+            {/* Assign Teacher Button */}
+
+            <button
+              type="button"
+              onClick={() => {
+                clearMessages();
+                setShowAssignForm(true);
+                setShowForm(false);
+                window.scrollTo({
+                  top: 0,
+                  behavior: "smooth",
+                });
+              }}
+              className="rounded-xl border border-indigo-200 bg-indigo-50 px-5 py-3 text-sm font-semibold text-indigo-700 transition hover:bg-indigo-100"
+            >
+              Assign Teacher
+            </button>
+
+
             {/* Add Button */}
 
-            {!showForm && (
+            {!showForm && !showAssignForm && (
 
               <button
                 type="button"
@@ -704,6 +1137,10 @@ const CourseOfferings = () => {
 
                   <th className="px-6 py-4 text-xs font-semibold uppercase tracking-wide text-slate-500">
                     Semester
+                  </th>
+
+                  <th className="px-6 py-4 text-xs font-semibold uppercase tracking-wide text-slate-500">
+                    Teacher
                   </th>
 
                   <th className="px-6 py-4 text-xs font-semibold uppercase tracking-wide text-slate-500">
@@ -791,6 +1228,61 @@ const CourseOfferings = () => {
                       </td>
 
 
+                      {/* Teacher */}
+
+                      <td className="px-6 py-4">
+
+                        {(() => {
+
+                          const teacher = getAssignedTeacher(
+                            offering.id
+                          );
+
+                          if (!teacher) {
+
+                            return (
+                              <span className="text-sm text-slate-400">
+                                No teacher assigned
+                              </span>
+                            );
+
+                          }
+
+                          return (
+
+                            <div>
+
+                              <p className="text-sm font-medium text-slate-700">
+                                {teacher.name || "Teacher"}
+                              </p>
+
+                              <p className="mt-1 text-xs text-slate-400">
+                                {teacher.designation ||
+                                  "No designation"}
+                              </p>
+
+                              <button
+                                type="button"
+                                onClick={() =>
+                                  handleUnassignTeacher(
+                                    offering.id,
+                                    teacher.id
+                                  )
+                                }
+                                className="mt-2 rounded-lg border border-red-200 px-3 py-1 text-xs font-semibold text-red-600 transition hover:bg-red-50"
+                              >
+                                Unassign
+                              </button>
+
+                            </div>
+
+                          );
+
+                        })()}
+
+                      </td>
+
+
                       {/* ID */}
 
                       <td className="px-6 py-4">
@@ -850,6 +1342,10 @@ const CourseOfferings = () => {
         )}
 
       </div>
+
+      </div>
+
+      </main>
 
     </div>
 

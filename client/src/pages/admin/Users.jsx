@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
+import AdminSidebar from "./AdminSidebar";
 
 import {
   getUsers,
   createUser,
   updateUser,
   deleteUser,
+  setUserActive,
 } from "../../services/userApi";
 
 
@@ -15,6 +17,7 @@ const Users = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [role, setRole] = useState("");
+  const [isActive, setIsActive] = useState(true);
 
   const [editingId, setEditingId] = useState(null);
 
@@ -54,6 +57,7 @@ const Users = () => {
     setEmail("");
     setPassword("");
     setRole("");
+    setIsActive(true);
     setEditingId(null);
   };
 
@@ -74,7 +78,8 @@ const Users = () => {
           editingId,
           email,
           password,
-          role
+          role,
+          isActive
         );
 
         setSuccess("User updated successfully.");
@@ -84,7 +89,8 @@ const Users = () => {
         await createUser(
           email,
           password,
-          role
+          role,
+          isActive
         );
 
         setSuccess("User created successfully.");
@@ -114,6 +120,7 @@ const Users = () => {
     setEmail(user.email);
     setPassword("");
     setRole(user.role);
+    setIsActive(user.isActive !== false);
 
     setError("");
     setSuccess("");
@@ -122,6 +129,49 @@ const Users = () => {
       top: 0,
       behavior: "smooth",
     });
+  };
+
+
+  // Toggle active status
+  const handleToggleActive = async (user) => {
+
+    const newStatus = !user.isActive;
+
+    if (!newStatus) {
+
+      const confirmed = window.confirm(
+        "Are you sure you want to deactivate this user?"
+      );
+
+      if (!confirmed) {
+        return;
+      }
+    }
+
+    setError("");
+    setSuccess("");
+
+    try {
+
+      await setUserActive(user.id, newStatus);
+
+      setSuccess(
+        newStatus
+          ? "User activated successfully."
+          : "User deactivated successfully."
+      );
+
+      await loadUsers();
+
+    } catch (error) {
+
+      console.error(error);
+
+      setError(
+        error.response?.data?.message ||
+        "Failed to update user status"
+      );
+    }
   };
 
 
@@ -160,11 +210,21 @@ const Users = () => {
 
 
   return (
-    <div className="p-6">
+    <div className="min-h-screen bg-slate-100 flex">
 
-      <h1 className="text-2xl font-bold mb-6">
-        User Management
-      </h1>
+      <AdminSidebar current="users" />
+
+      <main className="ml-64 flex-1 min-w-0">
+
+      <div className="p-6">
+
+      <div className="flex items-center justify-between">
+
+        <h1 className="text-2xl font-bold mb-6">
+          User Management
+        </h1>
+
+      </div>
 
 
       {/* Messages */}
@@ -275,6 +335,25 @@ const Users = () => {
           </div>
 
 
+          {/* Active */}
+
+          <div className="flex items-center gap-2 pt-6">
+
+            <input
+              type="checkbox"
+              id="isActive"
+              checked={isActive}
+              onChange={(e) => setIsActive(e.target.checked)}
+              className="h-4 w-4 rounded border-gray-300"
+            />
+
+            <label htmlFor="isActive" className="text-sm font-medium">
+              Active
+            </label>
+
+          </div>
+
+
           {/* Buttons */}
 
           <div className="md:col-span-2 flex gap-3">
@@ -327,6 +406,10 @@ const Users = () => {
               </th>
 
               <th className="px-4 py-3 text-left">
+                Status
+              </th>
+
+              <th className="px-4 py-3 text-left">
                 Created At
               </th>
 
@@ -346,7 +429,7 @@ const Users = () => {
               <tr>
 
                 <td
-                  colSpan="5"
+                  colSpan="6"
                   className="px-4 py-6 text-center text-gray-500"
                 >
                   No users found.
@@ -376,6 +459,18 @@ const Users = () => {
                   </td>
 
                   <td className="px-4 py-3">
+                    {user.isActive !== false ? (
+                      <span className="px-2 py-1 rounded-full text-xs font-medium bg-green-100 text-green-700">
+                        Active
+                      </span>
+                    ) : (
+                      <span className="px-2 py-1 rounded-full text-xs font-medium bg-red-100 text-red-700">
+                        Inactive
+                      </span>
+                    )}
+                  </td>
+
+                  <td className="px-4 py-3">
                     {new Date(
                       user.createdAt
                     ).toLocaleDateString()}
@@ -392,6 +487,21 @@ const Users = () => {
                         className="bg-yellow-500 text-white px-3 py-1 rounded hover:bg-yellow-600"
                       >
                         Edit
+                      </button>
+
+                      <button
+                        onClick={() =>
+                          handleToggleActive(user)
+                        }
+                        className={`px-3 py-1 rounded text-white ${
+                          user.isActive !== false
+                            ? "bg-amber-500 hover:bg-amber-600"
+                            : "bg-green-500 hover:bg-green-600"
+                        }`}
+                      >
+                        {user.isActive !== false
+                          ? "Deactivate"
+                          : "Activate"}
                       </button>
 
                       <button
@@ -418,6 +528,10 @@ const Users = () => {
         </table>
 
       </div>
+
+      </div>
+
+      </main>
 
     </div>
   );

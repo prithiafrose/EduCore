@@ -1,8 +1,19 @@
 const service = require("../services/assignment.service");
+const { streamFile } = require("../utils/upload");
+const { canAccessCourseOffering } = require("../utils/courseOfferingAccess");
 
 const createAssignment = async (req, res) => {
   try {
-    const assignment = await service.createAssignment(req.body);
+    const data = { ...req.body };
+
+    if (req.file) {
+      data.attachmentPath = req.file.filename;
+      data.attachmentName = req.file.originalname;
+      data.attachmentType = req.file.mimetype;
+      data.attachmentSize = req.file.size;
+    }
+
+    const assignment = await service.createAssignment(data);
 
     res.status(201).json({
       success: true,
@@ -79,9 +90,18 @@ const getAssignmentsByCourseOffering = async (req, res) => {
 
 const updateAssignment = async (req, res) => {
   try {
+    const data = { ...req.body };
+
+    if (req.file) {
+      data.attachmentPath = req.file.filename;
+      data.attachmentName = req.file.originalname;
+      data.attachmentType = req.file.mimetype;
+      data.attachmentSize = req.file.size;
+    }
+
     const assignment = await service.updateAssignment(
       Number(req.params.id),
-      req.body
+      data
     );
 
     res.json({
@@ -91,6 +111,51 @@ const updateAssignment = async (req, res) => {
     });
   } catch (error) {
     res.status(400).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+const downloadAttachment = async (req, res) => {
+  try {
+    const assignment = await service.getAssignmentById(
+      Number(req.params.id)
+    );
+
+    if (!assignment) {
+      return res.status(404).json({
+        success: false,
+        message: "Assignment not found",
+      });
+    }
+
+    const allowed = await canAccessCourseOffering(
+      req.user,
+      assignment.courseOfferingId
+    );
+
+    if (!allowed) {
+      return res.status(403).json({
+        success: false,
+        message: "Access denied",
+      });
+    }
+
+    if (!assignment.attachmentPath) {
+      return res.status(404).json({
+        success: false,
+        message: "This assignment has no attachment",
+      });
+    }
+
+    return streamFile(
+      res,
+      assignment.attachmentPath,
+      assignment.attachmentName
+    );
+  } catch (error) {
+    res.status(500).json({
       success: false,
       message: error.message,
     });
@@ -120,4 +185,5 @@ module.exports = {
   getAssignmentsByCourseOffering,
   updateAssignment,
   deleteAssignment,
+  downloadAttachment,
 };

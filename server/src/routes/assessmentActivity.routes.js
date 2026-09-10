@@ -7,7 +7,15 @@ const {
   getActivitiesByAssessment,
 } = require("../controllers/assessmentActivity.controller");
 
-router.post("/", createAssessmentActivity);
+const {
+  authorize
+} = require("../middleware/role.middleware");
+
+router.post(
+  "/",
+  authorize("ADMIN", "TEACHER"),
+  createAssessmentActivity
+);
 
 router.get(
   "/assessment/:assessmentId",

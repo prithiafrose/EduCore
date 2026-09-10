@@ -113,12 +113,100 @@ const getAttendancesByClassSession = async (req, res) => {
         });
     }
 };
+// GET Attendance Marks for Course Offering
+const getAttendanceMarksByCourseOffering = async (
+  req,
+  res
+) => {
+  try {
+    const courseOfferingId = Number(
+      req.params.courseOfferingId
+    );
 
+    const marks =
+      await attendanceService.getAttendanceMarksByCourseOffering(
+        courseOfferingId
+      );
+
+    res.status(200).json({
+      success: true,
+      data: marks,
+    });
+  } catch (error) {
+    res.status(400).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+const getClassroomAttendance = async (req, res) => {
+    try {
+        const courseOfferingId = Number(
+            req.params.courseOfferingId
+        );
+
+        const attendance =
+            await attendanceService.getClassroomAttendance(
+                courseOfferingId
+            );
+
+        res.status(200).json({
+            success: true,
+            data: attendance
+        });
+
+    } catch (error) {
+        console.error(error);
+
+        res.status(400).json({
+            success: false,
+            message: error.message
+        });
+    }
+};
+// GET attendance records by student ID
+const getAttendancesByStudentId = async (req, res) => {
+    try {
+        const { studentId } = req.params;
+
+        if (
+            !Number.isInteger(Number(studentId)) ||
+            Number(studentId) <= 0
+        ) {
+            return res.status(400).json({
+                success: false,
+                message: "Invalid student ID"
+            });
+        }
+
+        const attendances =
+            await attendanceService.getAttendancesByStudentId(
+                studentId
+            );
+
+        res.status(200).json({
+            success: true,
+            data: attendances
+        });
+
+    } catch (error) {
+        console.error(error);
+
+        res.status(400).json({
+            success: false,
+            message: error.message
+        });
+    }
+};
 
 module.exports = {
     getAllAttendances,
     getAttendanceById,
     createAttendance,
     updateAttendance,
-    getAttendancesByClassSession
+    getAttendancesByClassSession,
+    getAttendanceMarksByCourseOffering,
+        getClassroomAttendance,
+        getAttendancesByStudentId
+
 };

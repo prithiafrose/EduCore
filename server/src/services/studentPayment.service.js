@@ -1,4 +1,5 @@
 const prisma = require("../config/prisma");
+const paymentGateway = require("../payment/gateway");
 
 // Create student payment
 const createStudentPayment = async (data) => {
@@ -146,6 +147,49 @@ const updatePaymentStatus = async (id, status) => {
   });
 };
 
+// Create a gateway checkout session for a payment
+const createCheckout = async (paymentId) => {
+    const payment = await prisma.studentPayment.findUnique({
+        where: {
+            id: Number(paymentId)
+        },
+        include: {
+            fee: true
+        }
+    });
+
+    if (!payment) {
+        throw new Error("Student payment not found");
+    }
+
+    if (payment.status === "PAID") {
+        throw new Error("Payment has already been completed");
+    }
+
+    // Reset failed/cancelled payments so they can be retried
+    if (payment.status !== "PENDING") {
+        await prisma.studentPayment.update({
+            where: {
+                id: payment.id
+            },
+            data: {
+                status: "PENDING",
+                paidAt: null
+            }
+        });
+    }
+
+    const session = paymentGateway.createSession({
+        paymentId: payment.id,
+        studentId: payment.studentId,
+        amount: payment.amount,
+        description:
+            payment.fee?.type || "University fee"
+    });
+
+    return session;
+};
+
 // Delete student payment
 const deleteStudentPayment = async (id) => {
   const payment = await prisma.studentPayment.findUnique({
@@ -171,5 +215,6 @@ module.exports = {
   getStudentPaymentById,
   getPaymentsByStudent,
   updatePaymentStatus,
+  createCheckout,
   deleteStudentPayment,
 };

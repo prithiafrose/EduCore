@@ -8,12 +8,14 @@ export const getAcademicSemesters = async () => {
 export const createAcademicSemester = async (
   name,
   order,
-  programId
+  programId,
+  isActive = true
 ) => {
   const response = await api.post("/academic-semesters", {
     name,
     order,
     programId,
+    isActive,
   });
 
   return response.data;
@@ -23,12 +25,14 @@ export const updateAcademicSemester = async (
   id,
   name,
   order,
-  programId
+  programId,
+  isActive = true
 ) => {
   const response = await api.put(`/academic-semesters/${id}`, {
     name,
     order,
     programId,
+    isActive,
   });
 
   return response.data;

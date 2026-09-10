@@ -4,6 +4,9 @@ const {
     hashPassword
 } = require("../utils/hash");
 const jwt = require("jsonwebtoken");
+const {
+    blacklistToken
+} = require("../utils/tokenBlacklist");
 
 
 // LOGIN
@@ -57,6 +60,16 @@ const login = async (req, res) => {
         }
 
 
+        // Check user is active
+        if (!user.isActive) {
+            return res.status(403).json({
+                success: false,
+                message:
+                    "Your account has been deactivated. Contact administration."
+            });
+        }
+
+
         // Generate JWT
         const token = jwt.sign(
             {
@@ -80,7 +93,8 @@ const login = async (req, res) => {
                 user: {
                     id: user.id,
                     email: user.email,
-                    role: user.role
+                    role: user.role,
+                    isActive: user.isActive
                 }
             }
         });
@@ -212,11 +226,24 @@ const register = async (req, res) => {
         });
     }
 };
-// TEMPORARY - RESET TEACHER PASSWORD
+// RESET TEACHER PASSWORD (admin only)
 const resetTeacherPassword = async (req, res) => {
     try {
-        const email = "rahim@university.edu";
-        const newPassword = "Teacher@123";
+        const { email, newPassword } = req.body;
+
+        if (!email || !newPassword) {
+            return res.status(400).json({
+                success: false,
+                message: "email and newPassword are required"
+            });
+        }
+
+        if (newPassword.length < 6) {
+            return res.status(400).json({
+                success: false,
+                message: "New password must be at least 6 characters"
+            });
+        }
 
         const user = await prisma.user.findUnique({
             where: {
@@ -265,9 +292,116 @@ const resetTeacherPassword = async (req, res) => {
     }
 };
 
+// CHANGE PASSWORD
+const changePassword = async (req, res) => {
+    try {
+        const { userId, oldPassword, newPassword } = req.body;
+
+        // Required fields
+        if (!userId || !oldPassword || !newPassword) {
+            return res.status(400).json({
+                success: false,
+                message:
+                    "userId, oldPassword and newPassword are required"
+            });
+        }
+
+        // Find user
+        const user = await prisma.user.findUnique({
+            where: { id: Number(userId) }
+        });
+
+        if (!user) {
+            return res.status(404).json({
+                success: false,
+                message: "User not found"
+            });
+        }
+
+        // Verify old password
+        const passwordMatch =
+            await comparePassword(
+                oldPassword,
+                user.passwordHash
+            );
+
+        if (!passwordMatch) {
+            return res.status(400).json({
+                success: false,
+                message: "Old password is incorrect"
+            });
+        }
+
+        // Validate new password
+        if (newPassword.length < 6) {
+            return res.status(400).json({
+                success: false,
+                message: "New password must be at least 6 characters"
+            });
+        }
+
+        if (newPassword === oldPassword) {
+            return res.status(400).json({
+                success: false,
+                message:
+                    "New password must be different from the old password"
+            });
+        }
+
+        // Hash new password
+        const newPasswordHash =
+            await hashPassword(newPassword);
+
+        await prisma.user.update({
+            where: { id: user.id },
+            data: { passwordHash: newPasswordHash }
+        });
+
+        res.status(200).json({
+            success: true,
+            message: "Password changed successfully"
+        });
+
+    } catch (error) {
+        console.error(error);
+
+        res.status(500).json({
+            success: false,
+            message: "Failed to change password"
+        });
+    }
+};
+
+
+// LOGOUT
+const logoutUser = async (req, res) => {
+    try {
+
+        if (req.token) {
+            blacklistToken(req.token);
+        }
+
+        res.status(200).json({
+            success: true,
+            message: "Logged out successfully"
+        });
+
+    } catch (error) {
+
+        console.error(error);
+
+        res.status(500).json({
+            success: false,
+            message: "Logout failed"
+        });
+    }
+};
+
 module.exports = {
     login,
      register,
-         resetTeacherPassword
+         resetTeacherPassword,
+         changePassword,
+         logoutUser
 
 };

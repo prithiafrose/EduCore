@@ -5,6 +5,10 @@ const router = express.Router();
 const classSessionController =
     require("../controllers/classSession.controller");
 
+const {
+    authorize
+} = require("../middleware/role.middleware");
+
 
 // GET all class sessions
 router.get(
@@ -23,6 +27,7 @@ router.get(
 // CREATE class session
 router.post(
     "/",
+    authorize("ADMIN"),
     classSessionController.createClassSession
 );
 
@@ -30,6 +35,7 @@ router.post(
 // UPDATE class session
 router.put(
     "/:id",
+    authorize("ADMIN"),
     classSessionController.updateClassSession
 );
 
@@ -37,6 +43,7 @@ router.put(
 // CANCEL class session
 router.patch(
     "/:id/cancel",
+    authorize("ADMIN", "TEACHER"),
     classSessionController.cancelClassSession
 );
 
@@ -44,6 +51,7 @@ router.patch(
 // RESCHEDULE class session
 router.post(
     "/:id/reschedule",
+    authorize("ADMIN", "TEACHER"),
     classSessionController.rescheduleClassSession
 );
 

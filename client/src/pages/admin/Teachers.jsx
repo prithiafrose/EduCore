@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import AdminSidebar from "./AdminSidebar";
 
 import {
   getTeachers,
@@ -7,10 +8,13 @@ import {
   deleteTeacher,
 } from "../../services/teacherApi";
 
+import { getDepartments } from "../../services/departmentApi";
+
 
 const Teachers = () => {
 
   const [teachers, setTeachers] = useState([]);
+  const [departments, setDepartments] = useState([]);
 
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
@@ -27,6 +31,8 @@ const Teachers = () => {
     email: "",
     employeeId: "",
     password: "",
+    designation: "",
+    departmentId: "",
   });
 
 
@@ -37,9 +43,19 @@ const Teachers = () => {
       setLoading(true);
       setError("");
 
-      const teachersData = await getTeachers();
+      const [teachersData, departmentsData] =
+        await Promise.all([
+          getTeachers(),
+          getDepartments(),
+        ]);
 
       setTeachers(teachersData);
+
+      const deptList = Array.isArray(departmentsData)
+        ? departmentsData
+        : departmentsData?.data || [];
+
+      setDepartments(deptList);
 
     } catch (error) {
 
@@ -84,6 +100,8 @@ const Teachers = () => {
       email: "",
       employeeId: "",
       password: "",
+      designation: "",
+      departmentId: "",
     });
 
     setEditingId(null);
@@ -111,22 +129,32 @@ const Teachers = () => {
 
         await updateTeacher(
           editingId,
-          formData.name,
-          formData.email,
-          formData.employeeId,
-          teacher?.userId
+          {
+            name: formData.name,
+            email: formData.email,
+            employeeId: formData.employeeId,
+            userId: teacher?.userId,
+            designation: formData.designation || null,
+            departmentId: formData.departmentId
+              ? Number(formData.departmentId)
+              : null,
+          }
         );
 
         setSuccess("Teacher updated successfully.");
 
       } else {
 
-        await createTeacher(
-          formData.name,
-          formData.email,
-          formData.employeeId,
-          formData.password
-        );
+        await createTeacher({
+          name: formData.name,
+          email: formData.email,
+          employeeId: formData.employeeId,
+          password: formData.password,
+          designation: formData.designation || null,
+          departmentId: formData.departmentId
+            ? Number(formData.departmentId)
+            : null,
+        });
 
         setSuccess("Teacher created successfully.");
 
@@ -164,6 +192,10 @@ const Teachers = () => {
       email: teacher.email || "",
       employeeId: teacher.employeeId || "",
       password: "",
+      designation: teacher.designation || "",
+      departmentId: teacher.department?.id
+        ? String(teacher.department.id)
+        : "",
     });
 
     setError("");
@@ -235,7 +267,13 @@ const Teachers = () => {
 
   return (
 
-    <div className="min-h-screen bg-slate-50 p-6">
+    <div className="min-h-screen bg-slate-100 flex">
+
+      <AdminSidebar current="teachers" />
+
+      <main className="ml-64 flex-1 min-w-0">
+
+      <div className="p-6">
 
 
       {/* Header */}
@@ -244,17 +282,21 @@ const Teachers = () => {
 
         <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
 
-          <div>
+          <div className="flex items-center justify-between">
 
-            <h1 className="text-3xl font-bold text-slate-900">
-              Teacher Management
-            </h1>
+            <div>
 
-            <p className="mt-1 text-sm text-slate-500">
-              Manage teacher profiles and accounts
-            </p>
+              <h1 className="text-3xl font-bold text-slate-900">
+                Teacher Management
+              </h1>
 
-          </div>
+              <p className="mt-1 text-sm text-slate-500">
+                Manage teacher profiles and accounts
+              </p>
+
+            </div>
+
+            </div>
 
 
           {/* Total Teachers */}
@@ -387,6 +429,63 @@ const Teachers = () => {
               required
               className="w-full rounded-xl border border-slate-300 px-4 py-3 text-sm outline-none transition focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100"
             />
+
+          </div>
+
+
+          {/* Designation */}
+
+          <div>
+
+            <label className="mb-2 block text-sm font-medium text-slate-700">
+              Designation
+            </label>
+
+            <input
+              type="text"
+              name="designation"
+              value={formData.designation}
+              onChange={handleChange}
+              placeholder="e.g. Professor"
+              className="w-full rounded-xl border border-slate-300 px-4 py-3 text-sm outline-none transition focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100"
+            />
+
+          </div>
+
+
+          {/* Department */}
+
+          <div>
+
+            <label className="mb-2 block text-sm font-medium text-slate-700">
+              Department
+            </label>
+
+            <select
+              name="departmentId"
+              value={formData.departmentId}
+              onChange={handleChange}
+              className="w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm outline-none transition focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100"
+            >
+
+              <option value="">
+                Select a department
+              </option>
+
+              {departments.map(
+                (dept) => (
+
+                  <option
+                    key={dept.id}
+                    value={String(dept.id)}
+                  >
+                    {dept.name}
+                  </option>
+
+                )
+              )}
+
+            </select>
 
           </div>
 
@@ -542,7 +641,11 @@ const Teachers = () => {
                   </th>
 
                   <th className="px-6 py-4 text-xs font-semibold uppercase tracking-wide text-slate-500">
-                    User ID
+                    Designation
+                  </th>
+
+                  <th className="px-6 py-4 text-xs font-semibold uppercase tracking-wide text-slate-500">
+                    Department
                   </th>
 
                   <th className="px-6 py-4 text-right text-xs font-semibold uppercase tracking-wide text-slate-500">
@@ -597,14 +700,17 @@ const Teachers = () => {
                     </td>
 
 
-                    {/* User ID */}
+                    {/* Designation */}
 
-                    <td className="px-6 py-4">
+                    <td className="px-6 py-4 text-sm text-slate-600">
+                      {teacher.designation || "—"}
+                    </td>
 
-                      <span className="text-sm text-slate-500">
-                        {teacher.userId}
-                      </span>
 
+                    {/* Department */}
+
+                    <td className="px-6 py-4 text-sm text-slate-600">
+                      {teacher.department?.name || "—"}
                     </td>
 
 
@@ -647,6 +753,10 @@ const Teachers = () => {
         )}
 
       </div>
+
+      </div>
+
+      </main>
 
     </div>
 

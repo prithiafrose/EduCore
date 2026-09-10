@@ -26,6 +26,20 @@ const getStudentById = async (id) => {
 };
 
 
+// GET student by user ID
+const getStudentByUserId = async (userId) => {
+    return await prisma.student.findFirst({
+        where: {
+            userId: Number(userId)
+        },
+        include: {
+            program: true,
+            user: true
+        }
+    });
+};
+
+
 // CREATE student
 const { hashPassword } = require("../utils/hash");
 
@@ -34,7 +48,10 @@ const createStudent = async (
   name,
   email,
   programId,
-  password
+  password,
+  dateOfBirth,
+  guardianName,
+  guardianPhone
 ) => {
 
   return await prisma.$transaction(async (tx) => {
@@ -56,6 +73,16 @@ const createStudent = async (
         email,
         programId: Number(programId),
         userId: user.id,
+        dateOfBirth:
+          dateOfBirth && dateOfBirth !== ""
+            ? new Date(dateOfBirth)
+            : null,
+        guardianName: guardianName || null,
+        guardianPhone: guardianPhone || null,
+      },
+      include: {
+        program: true,
+        user: true,
       },
     });
 
@@ -71,7 +98,10 @@ const updateStudent = async (
     studentId,
     name,
     email,
-    programId
+    programId,
+    dateOfBirth,
+    guardianName,
+    guardianPhone
 ) => {
     return await prisma.student.update({
         where: {
@@ -81,7 +111,20 @@ const updateStudent = async (
             studentId,
             name,
             email,
-            programId: Number(programId)
+            programId: Number(programId),
+            ...(dateOfBirth !== undefined && {
+                dateOfBirth:
+                    dateOfBirth !== null &&
+                    dateOfBirth !== ""
+                        ? new Date(dateOfBirth)
+                        : null
+            }),
+            ...(guardianName !== undefined && {
+                guardianName: guardianName || null
+            }),
+            ...(guardianPhone !== undefined && {
+                guardianPhone: guardianPhone || null
+            })
         },
         include: {
             program: true,
@@ -104,6 +147,7 @@ const deleteStudent = async (id) => {
 module.exports = {
     getAllStudents,
     getStudentById,
+    getStudentByUserId,
     createStudent,
     updateStudent,
     deleteStudent

@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import AdminSidebar from "./AdminSidebar";
 
 import {
   getDepartments,
@@ -237,15 +238,21 @@ function Departments() {
 
     return (
 
-      <div className="min-h-screen bg-slate-50 p-6">
+      <div className="min-h-screen bg-slate-100 flex">
 
-        <div className="flex min-h-[300px] items-center justify-center">
+        <AdminSidebar current="departments" />
 
-          <p className="text-sm text-slate-500">
-            Loading departments...
-          </p>
+        <main className="ml-64 flex-1 min-w-0">
 
-        </div>
+          <div className="flex min-h-[300px] items-center justify-center">
+
+            <p className="text-sm text-slate-500">
+              Loading departments...
+            </p>
+
+          </div>
+
+        </main>
 
       </div>
 
@@ -256,7 +263,13 @@ function Departments() {
 
   return (
 
-    <div className="min-h-screen bg-slate-50 p-6">
+    <div className="min-h-screen bg-slate-100 flex">
+
+      <AdminSidebar current="departments" />
+
+      <main className="ml-64 flex-1 min-w-0">
+
+      <div className="p-6">
 
 
       {/* Header */}
@@ -265,17 +278,21 @@ function Departments() {
 
         <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
 
-          <div>
+          <div className="flex items-center justify-between">
 
-            <h1 className="text-3xl font-bold text-slate-900">
-              Department Management
-            </h1>
+            <div>
 
-            <p className="mt-1 text-sm text-slate-500">
-              Manage university departments and their codes
-            </p>
+              <h1 className="text-3xl font-bold text-slate-900">
+                Department Management
+              </h1>
 
-          </div>
+              <p className="mt-1 text-sm text-slate-500">
+                Manage university departments and their codes
+              </p>
+
+            </div>
+
+            </div>
 
 
           {/* Total Departments */}
@@ -632,6 +649,10 @@ function Departments() {
         )}
 
       </div>
+
+      </div>
+
+      </main>
 
     </div>
 

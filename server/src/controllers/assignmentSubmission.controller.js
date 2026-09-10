@@ -1,9 +1,20 @@
 const service = require("../services/assignmentSubmission.service");
+const { streamFile } = require("../utils/upload");
+const { canAccessCourseOffering } = require("../utils/courseOfferingAccess");
 
 const createAssignmentSubmission = async (req, res) => {
   try {
+    const data = { ...req.body };
+
+    if (req.file) {
+      data.fileUrl = req.file.filename;
+      data.fileName = req.file.originalname;
+      data.fileType = req.file.mimetype;
+      data.fileSize = req.file.size;
+    }
+
     const submission =
-      await service.createAssignmentSubmission(req.body);
+      await service.createAssignmentSubmission(data);
 
     res.status(201).json({
       success: true,
@@ -119,6 +130,55 @@ const deleteSubmission = async (req, res) => {
   }
 };
 
+const downloadSubmission = async (req, res) => {
+  try {
+    const submission = await service.getSubmissionById(
+      Number(req.params.id)
+    );
+
+    if (!submission) {
+      return res.status(404).json({
+        success: false,
+        message: "Submission not found",
+      });
+    }
+
+    if (!submission.fileUrl) {
+      return res.status(404).json({
+        success: false,
+        message: "This submission has no file",
+      });
+    }
+
+    const isOwner =
+      submission.student?.userId === Number(req.user?.userId);
+
+    const isRelatedTeacherOrAdmin =
+      await canAccessCourseOffering(
+        req.user,
+        submission.assignment?.courseOfferingId
+      );
+
+    if (!isOwner && !isRelatedTeacherOrAdmin) {
+      return res.status(403).json({
+        success: false,
+        message: "Access denied",
+      });
+    }
+
+    return streamFile(
+      res,
+      submission.fileUrl,
+      submission.fileName
+    );
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
 module.exports = {
   createAssignmentSubmission,
   getSubmissionById,
@@ -126,4 +186,5 @@ module.exports = {
   getSubmissionsByStudent,
   updateSubmission,
   deleteSubmission,
+  downloadSubmission,
 };

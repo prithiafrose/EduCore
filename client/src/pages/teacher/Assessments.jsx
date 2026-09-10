@@ -2,6 +2,8 @@
 import { useEffect, useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 
+import TeacherSidebar from "../../components/TeacherSidebar";
+
 import {
   getAllTeacherAssignments,
 } from "../../services/teacherAssignmentApi";
@@ -569,11 +571,28 @@ const Assessments = () => {
   // Students For Selected Course
   // --------------------------------
   const courseEnrollments =
-    enrollments.filter(
-      (enrollment) =>
-        Number(
-          enrollment.courseOfferingId
-        ) === Number(courseOfferingId)
+    enrollments
+      .filter(
+        (enrollment) =>
+          Number(
+            enrollment.courseOfferingId
+          ) === Number(courseOfferingId)
+      )
+      .sort((a, b) =>
+        (a.student?.name || "").localeCompare(
+          b.student?.name || ""
+        )
+      );
+
+  // --------------------------------
+  // Total Assessment Component Marks
+  // --------------------------------
+  const totalAssessmentMarks =
+    assessments.reduce(
+      (sum, assessment) =>
+        sum +
+        Number(assessment.maxMarks || 0),
+      0
     );
 
   // ========================================
@@ -672,63 +691,6 @@ const Assessments = () => {
 
     return total;
   };
-
-  // --------------------------------
-  // Sidebar
-  // --------------------------------
-  const navigation = [
-    {
-      title: "Teaching",
-      items: [
-        {
-          name: "Dashboard",
-          path: "/teacher",
-        },
-        {
-          name: "My Courses",
-          path: "/teacher/courses",
-        },
-        {
-          name: "Class Routine",
-          path: "/teacher/routine",
-        },
-        {
-          name: "Attendance",
-          path: "/teacher/attendance",
-        },
-      ],
-    },
-    {
-      title: "Academic",
-      items: [
-        {
-          name: "Assessments",
-          path: "/teacher/assessments",
-        },
-        {
-          name: "Exams",
-          path: "/teacher/exams",
-        },
-        {
-          name: "Students",
-          path: "/teacher/students",
-        },
-      ],
-    },
-    {
-      title: "Account",
-      items: [
-        {
-          name: "Profile",
-          path: "/teacher/profile",
-        },
-        {
-          name: "Logout",
-          path: "/login",
-        },
-      ],
-    },
-  ];
 
   // ========================================
   // COURSE LIST VIEW
@@ -1379,7 +1341,7 @@ const Assessments = () => {
               </p>
 
               <p className="mt-1 text-2xl font-bold text-indigo-700">
-                40
+                {totalAssessmentMarks}
               </p>
 
               <p className="text-xs text-indigo-600">
@@ -1481,7 +1443,7 @@ const Assessments = () => {
                     )}
 
                     <th className="whitespace-nowrap bg-indigo-50 px-5 py-4 text-sm font-bold text-indigo-700">
-                      Total /40
+                      Total /{totalAssessmentMarks}
                     </th>
 
                   </tr>
@@ -1594,7 +1556,7 @@ const Assessments = () => {
                                   2
                                 )}
                                 <span className="font-medium text-indigo-400">
-                                  /40
+                                  /{totalAssessmentMarks}
                                 </span>
                               </span>
                             ) : (
@@ -1724,7 +1686,7 @@ const Assessments = () => {
                       </p>
 
                       <p className="mt-1 text-2xl font-bold text-gray-800">
-                        40
+                        {totalAssessmentMarks}
                       </p>
 
                       <p className="text-xs text-gray-500">
@@ -2069,6 +2031,109 @@ const Assessments = () => {
                     )}
 
                 </div>
+
+                <div className="mt-6 rounded-xl bg-white shadow-sm">
+
+                  <div className="flex flex-col gap-4 border-b px-6 py-5 md:flex-row md:items-center md:justify-between">
+
+                    <div>
+
+                      <h2 className="text-xl font-semibold text-gray-800">
+                        Enrolled Students
+                      </h2>
+
+                      <p className="mt-1 text-sm text-gray-500">
+                        Students enrolled in this course.
+                      </p>
+
+                    </div>
+
+                    <span className="rounded-full bg-indigo-50 px-3 py-1 text-sm font-medium text-indigo-600">
+                      {courseEnrollments.length} Students
+                    </span>
+
+                  </div>
+
+                  {courseEnrollments.length === 0 ? (
+                    <div className="p-10 text-center">
+
+                      <h3 className="text-lg font-semibold text-gray-800">
+                        No Students Found
+                      </h3>
+
+                      <p className="mt-2 text-sm text-gray-500">
+                        No students are enrolled in this
+                        course.
+                      </p>
+
+                    </div>
+                  ) : (
+                    <div className="overflow-x-auto">
+
+                      <table className="w-full">
+
+                        <thead className="bg-gray-50 text-left">
+
+                          <tr className="border-b">
+
+                            <th className="px-4 py-4 text-sm font-semibold text-gray-700">
+                              Student ID
+                            </th>
+
+                            <th className="px-4 py-4 text-sm font-semibold text-gray-700">
+                              Name
+                            </th>
+
+                            <th className="px-4 py-4 text-sm font-semibold text-gray-700">
+                              Email
+                            </th>
+
+                          </tr>
+
+                        </thead>
+
+                        <tbody className="divide-y divide-gray-200">
+
+                          {courseEnrollments.map(
+                            (enrollment) => (
+                              <tr
+                                key={enrollment.id}
+                                className="hover:bg-gray-50"
+                              >
+
+                                <td className="px-4 py-4">
+
+                                  <span className="font-medium text-indigo-600">
+                                    {enrollment.student
+                                      ?.studentId ||
+                                      "N/A"}
+                                  </span>
+
+                                </td>
+
+                                <td className="px-4 py-4 font-medium text-gray-800">
+                                  {enrollment.student
+                                    ?.name ||
+                                    "Unknown Student"}
+                                </td>
+
+                                <td className="px-4 py-4 text-sm text-gray-500">
+                                  {enrollment.student
+                                    ?.email || "N/A"}
+                                </td>
+
+                              </tr>
+                            )
+                          )}
+
+                        </tbody>
+
+                      </table>
+
+                    </div>
+                  )}
+
+                </div>
               </>
             )}
 
@@ -2083,66 +2148,10 @@ const Assessments = () => {
     <div className="flex min-h-screen bg-gray-100">
 
       {/* Sidebar */}
-      <aside className="w-64 bg-slate-900 text-white">
-
-        <div className="border-b border-slate-700 px-6 py-5">
-
-          <h1 className="text-2xl font-bold">
-            EduCore
-          </h1>
-
-          <p className="mt-1 text-xs text-slate-400">
-            Teacher Portal
-          </p>
-
-        </div>
-
-        <nav className="px-4 py-6">
-
-          {navigation.map((section) => (
-            <div
-              key={section.title}
-              className="mb-7"
-            >
-
-              <p className="mb-3 px-3 text-xs font-semibold uppercase tracking-wider text-slate-500">
-                {section.title}
-              </p>
-
-              <div className="space-y-1">
-
-                {section.items.map((item) => {
-
-                  const isActive =
-                    item.path ===
-                    "/teacher/assessments";
-
-                  return (
-                    <Link
-                      key={item.name}
-                      to={item.path}
-                      className={`block rounded-lg px-3 py-2.5 text-sm font-medium transition ${
-                        isActive
-                          ? "bg-indigo-600 text-white"
-                          : "text-slate-300 hover:bg-slate-800 hover:text-white"
-                      }`}
-                    >
-                      {item.name}
-                    </Link>
-                  );
-                })}
-
-              </div>
-
-            </div>
-          ))}
-
-        </nav>
-
-      </aside>
+      <TeacherSidebar />
 
       {/* Main */}
-      <div className="flex flex-1 flex-col">
+      <main className="ml-64 flex-1">
 
         {/* Topbar */}
         <header className="flex h-16 items-center justify-between border-b bg-white px-8">
@@ -2182,15 +2191,15 @@ const Assessments = () => {
         </header>
 
         {/* Content */}
-        <main className="flex-1 p-8">
+        <div className="p-8">
 
           {courseOfferingId
             ? renderAssessmentManagement()
             : renderCourseList()}
 
-        </main>
+        </div>
 
-      </div>
+      </main>
 
     </div>
   );

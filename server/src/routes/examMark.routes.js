@@ -4,15 +4,19 @@ const router = express.Router();
 
 const examMarkController = require("../controllers/examMark.controller");
 
-router.post("/", examMarkController.createExamMark);
+const {
+  authorize
+} = require("../middleware/role.middleware");
+
+router.post("/", authorize("ADMIN", "TEACHER"), examMarkController.createExamMark);
 
 router.get("/", examMarkController.getAllExamMarks);
 
 router.get("/:id", examMarkController.getExamMarkById);
 
-router.put("/:id", examMarkController.updateExamMark);
+router.put("/:id", authorize("ADMIN", "TEACHER"), examMarkController.updateExamMark);
 
-router.delete("/:id", examMarkController.deleteExamMark);
+router.delete("/:id", authorize("ADMIN", "TEACHER"), examMarkController.deleteExamMark);
 
 
 

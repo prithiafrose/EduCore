@@ -3,6 +3,10 @@ const express = require("express");
 const timetableController =
     require("../controllers/timetable.controller");
 
+const {
+    authorize
+} = require("../middleware/role.middleware");
+
 const router = express.Router();
 
 
@@ -10,6 +14,10 @@ const router = express.Router();
 router.get(
     "/",
     timetableController.getAllTimetables
+);
+router.get(
+    "/student/:studentId",
+    timetableController.getTimetablesByStudentId
 );
 
 
@@ -23,6 +31,7 @@ router.get(
 // CREATE timetable
 router.post(
     "/",
+    authorize("ADMIN"),
     timetableController.createTimetable
 );
 
@@ -30,6 +39,7 @@ router.post(
 // UPDATE timetable
 router.put(
     "/:id",
+    authorize("ADMIN"),
     timetableController.updateTimetable
 );
 
@@ -37,6 +47,7 @@ router.put(
 // DELETE timetable
 router.delete(
     "/:id",
+    authorize("ADMIN"),
     timetableController.deleteTimetable
 );
 

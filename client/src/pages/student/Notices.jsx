@@ -1,0 +1,303 @@
+import { useEffect, useState } from "react";
+
+import StudentSidebar from "../../components/StudentSidebar";
+
+import {
+  getNotificationsByUser,
+  markNotificationAsRead,
+  markAllNotificationsAsRead,
+} from "../../services/notificationApi";
+
+function Notices() {
+  const [notifications, setNotifications] = useState([]);
+
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
+
+  const storedUser = JSON.parse(
+    localStorage.getItem("user")
+  );
+
+  // ----------------------------
+  // Load Notifications
+  // ----------------------------
+  const loadNotifications = async () => {
+    try {
+      setLoading(true);
+      setError("");
+
+      if (!storedUser?.id) {
+        setError("User information not found.");
+        return;
+      }
+
+      const response =
+        await getNotificationsByUser(storedUser.id);
+
+      const list = Array.isArray(response)
+        ? response
+        : response?.data || [];
+
+      setNotifications(list);
+    } catch (err) {
+      console.error(err);
+
+      setError(
+        err.response?.data?.message ||
+          "Failed to load notices."
+      );
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    let ignore = false;
+
+    const fetchData = async () => {
+      if (!ignore) {
+        await loadNotifications();
+      }
+    };
+
+    fetchData();
+
+    return () => {
+      ignore = true;
+    };
+  }, []);
+
+  // ----------------------------
+  // Mark as read
+  // ----------------------------
+  const handleMarkRead = async (id) => {
+    try {
+      setError("");
+      setSuccess("");
+
+      await markNotificationAsRead(id);
+
+      await loadNotifications();
+    } catch (err) {
+      console.error(err);
+
+      setError(
+        err.response?.data?.message ||
+          "Failed to update notice."
+      );
+    }
+  };
+
+  // ----------------------------
+  // Mark all as read
+  // ----------------------------
+  const handleMarkAllRead = async () => {
+    try {
+      setError("");
+      setSuccess("");
+
+      await markAllNotificationsAsRead(storedUser.id);
+
+      setSuccess("All notices marked as read.");
+
+      await loadNotifications();
+    } catch (err) {
+      console.error(err);
+
+      setError(
+        err.response?.data?.message ||
+          "Failed to update notices."
+      );
+    }
+  };
+
+  // ----------------------------
+  // Helpers
+  // ----------------------------
+  const unreadCount = notifications.filter(
+    (notification) => !notification.isRead
+  ).length;
+
+  const getTypeClass = (type) => {
+    switch (type) {
+      case "GENERAL":
+        return "bg-blue-100 text-blue-700";
+      case "CLASS_CANCELLED":
+      case "CLASS_RESCHEDULED":
+        return "bg-orange-100 text-orange-700";
+      case "ASSIGNMENT":
+      case "ASSIGNMENT_DEADLINE":
+        return "bg-purple-100 text-purple-700";
+      case "RESULT_PUBLISHED":
+      case "ASSESSMENT_MARK_PUBLISHED":
+        return "bg-green-100 text-green-700";
+      case "PAYMENT_DUE":
+        return "bg-red-100 text-red-700";
+      case "EXAM_SCHEDULE":
+        return "bg-indigo-100 text-indigo-700";
+      default:
+        return "bg-gray-100 text-gray-700";
+    }
+  };
+
+  const formatDate = (value) => {
+    if (!value) return "-";
+
+    return new Date(value).toLocaleString("en-GB", {
+      day: "2-digit",
+      month: "short",
+      year: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+    });
+  };
+
+  return (
+    <div className="min-h-screen bg-slate-100 flex">
+      {/* Sidebar */}
+      <StudentSidebar />
+
+      {/* Main Content */}
+      <main className="ml-64 flex-1">
+        <header className="bg-white border-b border-slate-200 px-8 py-5 flex items-center justify-between">
+          <div>
+            <p className="text-sm text-slate-500">
+              Student Portal
+            </p>
+
+            <h2 className="text-2xl font-bold text-slate-800">
+              Notice Board
+            </h2>
+
+            <p className="text-sm text-slate-500 mt-1">
+              Announcements and notices for you.
+            </p>
+          </div>
+
+          <div className="flex items-center gap-3">
+            <span className="px-3 py-1 rounded-full bg-blue-100 text-blue-700 text-xs font-semibold">
+              {unreadCount} unread
+            </span>
+
+            {notifications.length > 0 && (
+              <button
+                type="button"
+                onClick={handleMarkAllRead}
+                className="px-4 py-2 rounded-lg bg-slate-900 text-white text-sm font-medium hover:bg-slate-800"
+              >
+                Mark All Read
+              </button>
+            )}
+          </div>
+        </header>
+
+        <div className="p-8">
+          {loading && (
+            <div className="bg-white rounded-xl border border-slate-200 p-10 text-center">
+              <p className="text-slate-500">
+                Loading notices...
+              </p>
+            </div>
+          )}
+
+          {!loading && error && (
+            <div className="bg-white rounded-xl border border-red-200 p-6">
+              <p className="text-red-600 font-medium">{error}</p>
+            </div>
+          )}
+
+          {success && (
+            <div className="bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded-lg mb-6">
+              {success}
+            </div>
+          )}
+
+          {!loading && !error && (
+            <>
+              {notifications.length === 0 ? (
+                <div className="bg-white rounded-xl border border-slate-200 p-10 text-center">
+                  <div className="text-4xl mb-3">📣</div>
+
+                  <h3 className="text-lg font-semibold text-slate-700">
+                    No Notices
+                  </h3>
+
+                  <p className="text-sm text-slate-500 mt-1">
+                    You have no notices at the moment.
+                  </p>
+                </div>
+              ) : (
+                <div className="space-y-4">
+                  {notifications.map((notification) => (
+                    <div
+                      key={notification.id}
+                      className={`bg-white rounded-xl border p-6 ${
+                        notification.isRead
+                          ? "border-slate-200"
+                          : "border-blue-300 ring-1 ring-blue-100"
+                      }`}
+                    >
+                      <div className="flex items-start justify-between">
+                        <div className="flex-1">
+                          <div className="flex items-center gap-3 mb-2">
+                            <span
+                              className={`px-3 py-1 rounded-full text-xs font-semibold ${getTypeClass(
+                                notification.type
+                              )}`}
+                            >
+                              {notification.type.replace(
+                                /_/g,
+                                " "
+                              )}
+                            </span>
+
+                            {!notification.isRead && (
+                              <span className="px-2 py-0.5 rounded-full bg-yellow-100 text-yellow-700 text-xs font-medium">
+                                New
+                              </span>
+                            )}
+                          </div>
+
+                          <h3 className="text-lg font-semibold text-slate-800">
+                            {notification.title}
+                          </h3>
+
+                          <p className="text-slate-600 mt-1">
+                            {notification.message}
+                          </p>
+
+                          <p className="text-xs text-slate-400 mt-3">
+                            {formatDate(
+                              notification.createdAt
+                            )}
+                          </p>
+                        </div>
+
+                        {!notification.isRead && (
+                          <button
+                            type="button"
+                            onClick={() =>
+                              handleMarkRead(
+                                notification.id
+                              )
+                            }
+                            className="ml-4 px-4 py-2 rounded-lg bg-blue-600 text-white text-sm font-medium hover:bg-blue-700"
+                          >
+                            Mark Read
+                          </button>
+                        )}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </>
+          )}
+        </div>
+      </main>
+    </div>
+  );
+}
+
+export default Notices;

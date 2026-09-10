@@ -12,13 +12,22 @@ export const getStudentById = async (id) => {
   return response.data;
 };
 
+// Get student by user ID
+export const getStudentByUserId = async (userId) => {
+  const response = await api.get(`/students/user/${userId}`);
+  return response.data;
+};
+
 // Create student
 export const createStudent = async (
   studentId,
   name,
   email,
   programId,
-  password
+  password,
+  dateOfBirth,
+  guardianName,
+  guardianPhone
 ) => {
   const response = await api.post("/students", {
     studentId,
@@ -26,6 +35,9 @@ export const createStudent = async (
     email,
     programId,
     password,
+    dateOfBirth: dateOfBirth || null,
+    guardianName: guardianName || null,
+    guardianPhone: guardianPhone || null,
   });
 
   return response.data;
@@ -37,13 +49,19 @@ export const updateStudent = async (
   studentId,
   name,
   email,
-  programId
+  programId,
+  dateOfBirth,
+  guardianName,
+  guardianPhone
 ) => {
   const response = await api.put(`/students/${id}`, {
     studentId,
     name,
     email,
     programId,
+    dateOfBirth: dateOfBirth || null,
+    guardianName: guardianName || null,
+    guardianPhone: guardianPhone || null,
   });
 
   return response.data;

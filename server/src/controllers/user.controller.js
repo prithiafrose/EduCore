@@ -70,7 +70,8 @@ const createUser = async (req, res) => {
         const {
             email,
             password,
-            role
+            role,
+            isActive
         } = req.body;
 
 
@@ -107,7 +108,10 @@ const createUser = async (req, res) => {
             await userService.createUser(
                 email,
                 password,
-                role
+                role,
+                isActive !== undefined
+                    ? Boolean(isActive)
+                    : true
             );
 
 
@@ -142,7 +146,8 @@ const updateUser = async (req, res) => {
         const {
             email,
             password,
-            role
+            role,
+            isActive
         } = req.body;
 
 
@@ -203,7 +208,8 @@ const updateUser = async (req, res) => {
                 id,
                 email,
                 password,
-                role
+                role,
+                isActive
             );
 
 
@@ -291,10 +297,65 @@ const deleteUser = async (req, res) => {
 };
 
 
+// SET user active status
+const setUserActive = async (req, res) => {
+    try {
+
+        const { id } = req.params;
+
+        const { isActive } = req.body;
+
+
+        if (
+            !Number.isInteger(Number(id)) ||
+            Number(id) <= 0
+        ) {
+            return res.status(400).json({
+                message: "Invalid user ID"
+            });
+        }
+
+
+        if (typeof isActive !== "boolean") {
+            return res.status(400).json({
+                message: "isActive must be a boolean"
+            });
+        }
+
+
+        const user =
+            await userService.setUserActive(
+                id,
+                isActive
+            );
+
+
+        res.status(200).json(user);
+
+    } catch (error) {
+
+        console.error(error);
+
+
+        if (error.code === "P2025") {
+            return res.status(404).json({
+                message: "User not found"
+            });
+        }
+
+
+        res.status(500).json({
+            message: "Failed to update user status"
+        });
+    }
+};
+
+
 module.exports = {
     getAllUsers,
     getUserById,
     createUser,
     updateUser,
-    deleteUser
+    deleteUser,
+    setUserActive
 };

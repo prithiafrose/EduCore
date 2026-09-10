@@ -3,6 +3,10 @@ const express = require("express");
 const courseController =
     require("../controllers/course.controller");
 
+const {
+    authorize
+} = require("../middleware/role.middleware");
+
 const router = express.Router();
 
 
@@ -23,6 +27,7 @@ router.get(
 // CREATE course
 router.post(
     "/",
+    authorize("ADMIN"),
     courseController.createCourse
 );
 
@@ -30,6 +35,7 @@ router.post(
 // UPDATE course
 router.put(
     "/:id",
+    authorize("ADMIN"),
     courseController.updateCourse
 );
 
@@ -37,6 +43,7 @@ router.put(
 // DELETE course
 router.delete(
     "/:id",
+    authorize("ADMIN"),
     courseController.deleteCourse
 );
 

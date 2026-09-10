@@ -3,6 +3,10 @@ const express = require("express");
 const enrollmentController =
     require("../controllers/enrollment.controller");
 
+const {
+    authorize
+} = require("../middleware/role.middleware");
+
 const router = express.Router();
 
 
@@ -10,6 +14,13 @@ const router = express.Router();
 router.get(
     "/",
     enrollmentController.getAllEnrollments
+);
+
+
+// GET enrollments by student ID
+router.get(
+    "/student/:studentId",
+    enrollmentController.getEnrollmentsByStudentId
 );
 
 
@@ -23,6 +34,7 @@ router.get(
 // CREATE enrollment
 router.post(
     "/",
+    authorize("ADMIN"),
     enrollmentController.createEnrollment
 );
 
@@ -30,6 +42,7 @@ router.post(
 // UPDATE enrollment
 router.put(
     "/:id",
+    authorize("ADMIN"),
     enrollmentController.updateEnrollment
 );
 
@@ -37,6 +50,7 @@ router.put(
 // DELETE enrollment
 router.delete(
     "/:id",
+    authorize("ADMIN"),
     enrollmentController.deleteEnrollment
 );
 

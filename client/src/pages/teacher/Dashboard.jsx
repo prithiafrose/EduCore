@@ -1,120 +1,162 @@
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+
+import TeacherSidebar from "../../components/TeacherSidebar";
+
+import { getAllTeacherAssignments } from "../../services/teacherAssignmentApi";
+import { getEnrollments } from "../../services/enrollmentApi";
+import { getAllClassSessions } from "../../services/classSessionApi";
+import { getAllAssignments } from "../../services/assignmentApi";
 
 function Dashboard() {
     const user = JSON.parse(
         localStorage.getItem("user")
     );
 
+    const [courses, setCourses] = useState([]);
+    const [studentCount, setStudentCount] = useState(0);
+    const [sessionCount, setSessionCount] = useState(0);
+    const [todaySessions, setTodaySessions] = useState([]);
+    const [assignmentCount, setAssignmentCount] = useState(0);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        const loadData = async () => {
+            try {
+                const storedUser = JSON.parse(
+                    localStorage.getItem("user")
+                );
+
+                const [
+                    assignmentsResponse,
+                    enrollmentsResponse,
+                    sessionsResponse,
+                    allAssignmentsResponse,
+                ] = await Promise.all([
+                    getAllTeacherAssignments(),
+                    getEnrollments(),
+                    getAllClassSessions(),
+                    getAllAssignments(),
+                ]);
+
+                const teacherCourses = (
+                    Array.isArray(assignmentsResponse)
+                        ? assignmentsResponse
+                        : assignmentsResponse?.data || []
+                ).filter(
+                    (assignment) =>
+                        Number(
+                            assignment.teacher?.userId
+                        ) === Number(storedUser?.id)
+                );
+
+                setCourses(teacherCourses);
+
+                const offeringIds = new Set(
+                    teacherCourses.map((c) =>
+                        Number(c.courseOfferingId)
+                    )
+                );
+
+                const allEnrollments =
+                    Array.isArray(enrollmentsResponse)
+                        ? enrollmentsResponse
+                        : enrollmentsResponse?.data || [];
+
+                setStudentCount(
+                    new Set(
+                        allEnrollments
+                            .filter((e) =>
+                                offeringIds.has(
+                                    Number(e.courseOfferingId)
+                                )
+                            )
+                            .map((e) => Number(e.studentId))
+                    ).size
+                );
+
+                const allSessions =
+                    Array.isArray(sessionsResponse)
+                        ? sessionsResponse
+                        : sessionsResponse?.data || [];
+
+                const teacherSessions = allSessions.filter(
+                    (s) =>
+                        offeringIds.has(
+                            Number(s.courseOfferingId)
+                        )
+                );
+
+                setSessionCount(
+                    teacherSessions.filter(
+                        (s) => s.status !== "CANCELLED"
+                    ).length
+                );
+
+                const now = new Date();
+                const todayString = `${now.getFullYear()}-${String(
+                    now.getMonth() + 1
+                ).padStart(2, "0")}-${String(
+                    now.getDate()
+                ).padStart(2, "0")}`;
+
+                setTodaySessions(
+                    teacherSessions
+                        .filter(
+                            (s) =>
+                                s.status !== "CANCELLED" &&
+                                (s.date || "").slice(0, 10) ===
+                                    todayString
+                        )
+                        .sort(
+                            (a, b) =>
+                                new Date(a.startTime) -
+                                new Date(b.startTime)
+                        )
+                );
+
+                const allAssignmentsList =
+                    Array.isArray(allAssignmentsResponse)
+                        ? allAssignmentsResponse
+                        : allAssignmentsResponse?.data || [];
+
+                setAssignmentCount(
+                    allAssignmentsList.filter((a) =>
+                        offeringIds.has(
+                            Number(a.courseOfferingId)
+                        )
+                    ).length
+                );
+            } catch (error) {
+                console.error(
+                    "Failed to load dashboard data:",
+                    error
+                );
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        loadData();
+    }, []);
+
+    const formatTime = (time) => {
+        if (!time) return "--:--";
+
+        return new Date(time).toLocaleTimeString([], {
+            hour: "2-digit",
+            minute: "2-digit",
+        });
+    };
+
     return (
         <div className="min-h-screen bg-slate-100 flex">
 
             {/* Sidebar */}
-            <aside className="w-64 bg-slate-900 text-white p-6 shadow-xl">
-
-                {/* Logo */}
-                <div className="mb-10">
-                    <h1 className="text-2xl font-bold tracking-tight">
-                        EduCore
-                    </h1>
-
-                    <p className="text-xs text-slate-400 mt-1">
-                        University Management System
-                    </p>
-                </div>
-
-                <nav className="space-y-1">
-
-                    {/* Dashboard */}
-                    <Link
-                        to="/teacher"
-                        className="flex items-center px-4 py-3 rounded-lg bg-indigo-600 text-white font-medium shadow-sm"
-                    >
-                        <span className="mr-3 text-sm">⌂</span>
-                        Dashboard
-                    </Link>
-
-                    {/* Teaching */}
-                    <div className="pt-5 pb-2">
-                        <p className="px-4 text-xs font-semibold text-slate-500 uppercase tracking-wider">
-                            Teaching
-                        </p>
-                    </div>
-
-                    <Link
-                        to="/teacher/courses"
-                        className="flex items-center px-4 py-3 rounded-lg text-slate-300 hover:bg-slate-800 hover:text-white transition"
-                    >
-                        <span className="mr-3 text-sm">▤</span>
-                        My Courses
-                    </Link>
-
-                    <Link
-                        to="/teacher/routine"
-                        className="flex items-center px-4 py-3 rounded-lg text-slate-300 hover:bg-slate-800 hover:text-white transition"
-                    >
-                        <span className="mr-3 text-sm">◷</span>
-                        Class Routine
-                    </Link>
-
-                    <Link
-                        to="/teacher/attendance"
-                        className="flex items-center px-4 py-3 rounded-lg text-slate-300 hover:bg-slate-800 hover:text-white transition"
-                    >
-                        <span className="mr-3 text-sm">✓</span>
-                        Attendance
-                    </Link>
-
-                    {/* Academic */}
-                    <div className="pt-5 pb-2">
-                        <p className="px-4 text-xs font-semibold text-slate-500 uppercase tracking-wider">
-                            Academic
-                        </p>
-                    </div>
-
-                    <Link
-                        to="/teacher/assessments"
-                        className="flex items-center px-4 py-3 rounded-lg text-slate-300 hover:bg-slate-800 hover:text-white transition"
-                    >
-                        <span className="mr-3 text-sm">✓</span>
-                        Assessments
-                    </Link>
-
-                    <Link
-                        to="/teacher/exams"
-                        className="flex items-center px-4 py-3 rounded-lg text-slate-300 hover:bg-slate-800 hover:text-white transition"
-                    >
-                        <span className="mr-3 text-sm">▣</span>
-                        Exams
-                    </Link>
-
-                    <Link
-                        to="/teacher/students"
-                        className="flex items-center px-4 py-3 rounded-lg text-slate-300 hover:bg-slate-800 hover:text-white transition"
-                    >
-                        <span className="mr-3 text-sm">♙</span>
-                        Students
-                    </Link>
-
-                    {/* Account */}
-                    <div className="pt-5 pb-2">
-                        <p className="px-4 text-xs font-semibold text-slate-500 uppercase tracking-wider">
-                            Account
-                        </p>
-                    </div>
-
-                    <Link
-                        to="/teacher/profile"
-                        className="flex items-center px-4 py-3 rounded-lg text-slate-300 hover:bg-slate-800 hover:text-white transition"
-                    >
-                        <span className="mr-3 text-sm">●</span>
-                        Profile
-                    </Link>
-
-                </nav>
-            </aside>
+            <TeacherSidebar />
 
             {/* Main Content */}
-            <main className="flex-1 min-w-0">
+            <main className="ml-64 flex-1 min-w-0">
 
                 {/* Topbar */}
                 <header className="bg-white border-b border-slate-200 px-8 py-5">
@@ -190,7 +232,7 @@ function Dashboard() {
                                     </p>
 
                                     <h3 className="text-2xl font-bold text-slate-900 mt-2">
-                                        View
+                                        {loading ? "…" : courses.length}
                                     </h3>
 
                                     <p className="text-xs text-slate-400 mt-2">
@@ -218,11 +260,11 @@ function Dashboard() {
                                     </p>
 
                                     <h3 className="text-2xl font-bold text-slate-900 mt-2">
-                                        View
+                                        {loading ? "…" : sessionCount}
                                     </h3>
 
                                     <p className="text-xs text-slate-400 mt-2">
-                                        Your scheduled classes
+                                        Scheduled classes
                                     </p>
                                 </div>
 
@@ -246,11 +288,11 @@ function Dashboard() {
                                     </p>
 
                                     <h3 className="text-2xl font-bold text-slate-900 mt-2">
-                                        Manage
+                                        {loading ? "…" : todaySessions.length}
                                     </h3>
 
                                     <p className="text-xs text-slate-400 mt-2">
-                                        Record student attendance
+                                        Classes today
                                     </p>
                                 </div>
 
@@ -274,7 +316,7 @@ function Dashboard() {
                                     </p>
 
                                     <h3 className="text-2xl font-bold text-slate-900 mt-2">
-                                        View
+                                        {loading ? "…" : studentCount}
                                     </h3>
 
                                     <p className="text-xs text-slate-400 mt-2">
@@ -356,45 +398,126 @@ function Dashboard() {
                                 </div>
                             </Link>
 
+                            {/* Assignments */}
+                            <Link
+                                to="/teacher/assignments"
+                                className="border border-slate-200 rounded-xl p-5 hover:border-indigo-300 hover:shadow-sm transition"
+                            >
+                                <div className="flex items-center gap-4">
+
+                                    <div className="w-11 h-11 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center">
+                                        ✎
+                                    </div>
+
+                                    <div>
+                                        <h4 className="font-semibold text-slate-800">
+                                            Assignments
+                                        </h4>
+
+                                        <p className="text-sm text-slate-500 mt-1">
+                                            {loading
+                                                ? "Loading..."
+                                                : `${assignmentCount} active assignment${
+                                                      assignmentCount === 1
+                                                          ? ""
+                                                          : "s"
+                                                  } in your courses.`}
+                                        </p>
+                                    </div>
+
+                                </div>
+                            </Link>
+
                         </div>
 
                     </div>
 
-                    {/* Recent Activity */}
+                    {/* Today's Classes */}
                     <div className="bg-white rounded-2xl shadow-sm border border-slate-200 mt-8">
 
                         <div className="px-6 py-5 border-b border-slate-200">
 
                             <h3 className="text-xl font-semibold text-slate-900">
-                                Recent Activity
+                                Today's Classes
                             </h3>
 
                             <p className="text-sm text-slate-500 mt-1">
-                                Your latest teaching activities will appear here.
+                                {loading
+                                    ? "Loading your schedule..."
+                                    : todaySessions.length === 0
+                                    ? "You have no classes scheduled today."
+                                    : `${todaySessions.length} class${
+                                          todaySessions.length === 1 ? "" : "es"
+                                      } scheduled today.`}
                             </p>
 
                         </div>
 
                         <div className="p-6">
+                            {loading ? (
+                                <p className="text-sm text-slate-500">
+                                    Loading your schedule...
+                                </p>
+                            ) : todaySessions.length === 0 ? (
+                                <div className="flex items-center gap-4">
+                                    <div className="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-slate-500">
+                                        i
+                                    </div>
 
-                            <div className="flex items-center gap-4">
+                                    <div>
+                                        <p className="text-sm font-medium text-slate-700">
+                                            No classes today.
+                                        </p>
 
-                                <div className="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-slate-500">
-                                    i
+                                        <p className="text-xs text-slate-400 mt-1">
+                                            Check your class routine for upcoming sessions.
+                                        </p>
+                                    </div>
                                 </div>
+                            ) : (
+                                <div className="divide-y divide-slate-100">
+                                    {todaySessions.map((session) => (
+                                        <div
+                                            key={session.id}
+                                            className="flex items-center justify-between py-3"
+                                        >
+                                            <div className="flex items-center gap-4">
+                                                <div className="w-11 h-11 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center text-lg">
+                                                    ◷
+                                                </div>
 
-                                <div>
-                                    <p className="text-sm font-medium text-slate-700">
-                                        No recent activity yet.
-                                    </p>
+                                                <div>
+                                                    <p className="font-medium text-slate-800">
+                                                        {session.courseOffering
+                                                            ?.course?.code ||
+                                                            "Course"}
+                                                    </p>
 
-                                    <p className="text-xs text-slate-400 mt-1">
-                                        Your teaching activities will appear here.
-                                    </p>
+                                                    <p className="text-xs text-slate-400 mt-0.5">
+                                                        {session.courseOffering
+                                                            ?.course?.name || "N/A"}
+                                                        {session.room
+                                                            ? ` · Room ${session.room}`
+                                                            : ""}
+                                                    </p>
+                                                </div>
+                                            </div>
+
+                                            <div className="text-right">
+                                                <p className="text-sm font-semibold text-slate-700">
+                                                    {formatTime(
+                                                        session.startTime
+                                                    )}
+                                                    {" - "}
+                                                    {formatTime(
+                                                        session.endTime
+                                                    )}
+                                                </p>
+                                            </div>
+                                        </div>
+                                    ))}
                                 </div>
-
-                            </div>
-
+                            )}
                         </div>
 
                     </div>

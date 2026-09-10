@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import AdminSidebar from "./AdminSidebar";
 
 import {
   getAcademicSemesters,
@@ -21,6 +22,7 @@ function AcademicSemesters() {
   const [name, setName] = useState("");
   const [order, setOrder] = useState("");
   const [programId, setProgramId] = useState("");
+  const [isActive, setIsActive] = useState(true);
 
   const [editingId, setEditingId] = useState(null);
   const [showForm, setShowForm] = useState(false);
@@ -118,6 +120,7 @@ function AcademicSemesters() {
     setName("");
     setOrder("");
     setProgramId("");
+    setIsActive(true);
 
     setEditingId(null);
     setShowForm(false);
@@ -160,7 +163,8 @@ function AcademicSemesters() {
           editingId,
           name,
           order,
-          programId
+          programId,
+          isActive
         );
 
         setSuccess(
@@ -172,7 +176,8 @@ function AcademicSemesters() {
         await createAcademicSemester(
           name,
           order,
-          programId
+          programId,
+          isActive
         );
 
         setSuccess(
@@ -227,6 +232,8 @@ function AcademicSemesters() {
         ? String(semester.programId)
         : ""
     );
+
+    setIsActive(semester.isActive !== false);
 
     setError("");
     setSuccess("");
@@ -308,15 +315,21 @@ function AcademicSemesters() {
 
     return (
 
-      <div className="min-h-screen bg-slate-50 p-6">
+      <div className="min-h-screen bg-slate-100 flex">
 
-        <div className="flex min-h-[300px] items-center justify-center">
+        <AdminSidebar current="semesters" />
 
-          <p className="text-sm text-slate-500">
-            Loading academic semesters...
-          </p>
+        <main className="ml-64 flex-1 min-w-0">
 
-        </div>
+          <div className="flex min-h-[300px] items-center justify-center">
+
+            <p className="text-sm text-slate-500">
+              Loading academic semesters...
+            </p>
+
+          </div>
+
+        </main>
 
       </div>
 
@@ -327,7 +340,13 @@ function AcademicSemesters() {
 
   return (
 
-    <div className="min-h-screen bg-slate-50 p-6">
+    <div className="min-h-screen bg-slate-100 flex">
+
+      <AdminSidebar current="semesters" />
+
+      <main className="ml-64 flex-1 min-w-0">
+
+      <div className="p-6">
 
 
       {/* Header */}
@@ -336,17 +355,21 @@ function AcademicSemesters() {
 
         <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
 
-          <div>
+          <div className="flex items-center justify-between">
 
-            <h1 className="text-3xl font-bold text-slate-900">
-              Academic Semester Management
-            </h1>
+            <div>
 
-            <p className="mt-1 text-sm text-slate-500">
-              Manage academic semesters for university programs
-            </p>
+              <h1 className="text-3xl font-bold text-slate-900">
+                Academic Semester Management
+              </h1>
 
-          </div>
+              <p className="mt-1 text-sm text-slate-500">
+                Manage academic semesters for university programs
+              </p>
+
+            </div>
+
+            </div>
 
 
           {/* Total Semesters */}
@@ -518,6 +541,27 @@ function AcademicSemesters() {
             </div>
 
 
+            {/* Active */}
+
+            <div className="flex items-center gap-2 pt-6">
+
+              <input
+                type="checkbox"
+                id="semesterActive"
+                checked={isActive}
+                onChange={(e) =>
+                  setIsActive(e.target.checked)
+                }
+                className="h-4 w-4 rounded border-slate-300"
+              />
+
+              <label htmlFor="semesterActive" className="text-sm font-medium text-slate-700">
+                Active
+              </label>
+
+            </div>
+
+
             {/* Buttons */}
 
             <div className="flex gap-3 md:col-span-3">
@@ -655,6 +699,10 @@ function AcademicSemesters() {
                   </th>
 
                   <th className="px-6 py-4 text-xs font-semibold uppercase tracking-wide text-slate-500">
+                    Status
+                  </th>
+
+                  <th className="px-6 py-4 text-xs font-semibold uppercase tracking-wide text-slate-500">
                     Semester ID
                   </th>
 
@@ -736,6 +784,23 @@ function AcademicSemesters() {
                       </td>
 
 
+                      {/* Status */}
+
+                      <td className="px-6 py-4">
+
+                        {semester.isActive !== false ? (
+                          <span className="px-2 py-1 rounded-full text-xs font-medium bg-green-100 text-green-700">
+                            Active
+                          </span>
+                        ) : (
+                          <span className="px-2 py-1 rounded-full text-xs font-medium bg-red-100 text-red-700">
+                            Inactive
+                          </span>
+                        )}
+
+                      </td>
+
+
                       {/* ID */}
 
                       <td className="px-6 py-4">
@@ -795,6 +860,10 @@ function AcademicSemesters() {
         )}
 
       </div>
+
+      </div>
+
+      </main>
 
     </div>
 

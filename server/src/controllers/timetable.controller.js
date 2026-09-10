@@ -22,7 +22,35 @@ const getAllTimetables = async (req, res) => {
         });
     }
 };
+// GET timetable by student ID
+const getTimetablesByStudentId = async (req, res) => {
+    try {
+        const { studentId } = req.params;
 
+        if (
+            !Number.isInteger(Number(studentId)) ||
+            Number(studentId) <= 0
+        ) {
+            return res.status(400).json({
+                message: "Invalid student ID"
+            });
+        }
+
+        const timetables =
+            await timetableService.getTimetablesByStudentId(
+                studentId
+            );
+
+        res.status(200).json(timetables);
+
+    } catch (error) {
+        console.error(error);
+
+        res.status(500).json({
+            message: "Failed to fetch student timetable"
+        });
+    }
+};
 
 // GET timetable by ID
 const getTimetableById = async (req, res) => {
@@ -582,6 +610,7 @@ const deleteTimetable = async (req, res) => {
 module.exports = {
     getAllTimetables,
     getTimetableById,
+    getTimetablesByStudentId,
     createTimetable,
     updateTimetable,
     deleteTimetable

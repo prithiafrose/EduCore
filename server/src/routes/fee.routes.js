@@ -12,8 +12,12 @@ const {
   deleteFee,
 } = require("../controllers/fee.controller");
 
+const {
+  authorize
+} = require("../middleware/role.middleware");
+
 // Create fee
-router.post("/", createFee);
+router.post("/", authorize("ADMIN"), createFee);
 
 // Get fees by program
 router.get("/program/:programId", getFeesByProgram);
@@ -28,9 +32,9 @@ router.get("/", getAllFees);
 router.get("/:id", getFeeById);
 
 // Update fee
-router.put("/:id", updateFee);
+router.put("/:id", authorize("ADMIN"), updateFee);
 
 // Delete fee
-router.delete("/:id", deleteFee);
+router.delete("/:id", authorize("ADMIN"), deleteFee);
 
 module.exports = router;

@@ -61,7 +61,8 @@ const createCourse = async (req, res) => {
             code,
             name,
             credit,
-            description
+            description,
+            prerequisites
         } = req.body;
 
 
@@ -136,13 +137,41 @@ if (!/^[A-Z]{3}-\d{3}$/.test(code.trim())) {
         }
 
 
+        // 5b. Prerequisites validation
+        if (
+            prerequisites !== undefined &&
+            prerequisites !== null
+        ) {
+            if (!Array.isArray(prerequisites)) {
+                return res.status(400).json({
+                    message: "Prerequisites must be an array"
+                });
+            }
+
+            const invalid = prerequisites.some((id) => {
+                const num = Number(id);
+                return (
+                    !Number.isInteger(num) || num <= 0
+                );
+            });
+
+            if (invalid) {
+                return res.status(400).json({
+                    message:
+                        "Prerequisites must be valid course IDs"
+                });
+            }
+        }
+
+
         // 6. Create course
         const course =
             await courseService.createCourse(
                 code,
                 name,
                 numericCredit,
-                description
+                description,
+                prerequisites
             );
 
 
@@ -176,7 +205,8 @@ const updateCourse = async (req, res) => {
             code,
             name,
             credit,
-            description
+            description,
+            prerequisites
         } = req.body;
 
 
@@ -262,6 +292,33 @@ if (!/^[A-Z]{3}-\d{3}$/.test(code.trim())) {
         }
 
 
+        // 6b. Prerequisites validation
+        if (
+            prerequisites !== undefined &&
+            prerequisites !== null
+        ) {
+            if (!Array.isArray(prerequisites)) {
+                return res.status(400).json({
+                    message: "Prerequisites must be an array"
+                });
+            }
+
+            const invalid = prerequisites.some((id) => {
+                const num = Number(id);
+                return (
+                    !Number.isInteger(num) || num <= 0
+                );
+            });
+
+            if (invalid) {
+                return res.status(400).json({
+                    message:
+                        "Prerequisites must be valid course IDs"
+                });
+            }
+        }
+
+
         // 7. Check course exists
         const existingCourse =
             await courseService.getCourseById(id);
@@ -280,7 +337,8 @@ if (!/^[A-Z]{3}-\d{3}$/.test(code.trim())) {
                 code,
                 name,
                 numericCredit,
-                description
+                description,
+                prerequisites
             );
 
 

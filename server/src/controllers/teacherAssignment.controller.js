@@ -258,10 +258,53 @@ const createTeacherAssignment = async (req, res) => {
         });
     }
 };
+// DELETE teacher assignment
+const deleteTeacherAssignment = async (req, res) => {
+    try {
+
+        const { id } = req.params;
+
+        if (
+            !Number.isInteger(Number(id)) ||
+            Number(id) <= 0
+        ) {
+            return res.status(400).json({
+                message: "Invalid teacher assignment ID"
+            });
+        }
+
+        const existing =
+            await teacherAssignmentService
+                .getTeacherAssignmentById(id);
+
+        if (!existing) {
+            return res.status(404).json({
+                message: "Teacher assignment not found"
+            });
+        }
+
+        await teacherAssignmentService
+            .deleteTeacherAssignment(id);
+
+        res.status(200).json({
+            success: true,
+            message: "Teacher assignment deleted successfully"
+        });
+
+    } catch (error) {
+
+        console.error(error);
+
+        res.status(500).json({
+            message: "Failed to delete teacher assignment"
+        });
+    }
+};
 module.exports = {
     getAllTeacherAssignments,
     getTeacherAssignmentById,
         getTeacherAssignmentsByTeacher,
 
-    createTeacherAssignment
+    createTeacherAssignment,
+    deleteTeacherAssignment
 };

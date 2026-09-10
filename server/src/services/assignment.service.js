@@ -1,4 +1,5 @@
 const prisma = require("../config/prisma");
+const notificationService = require("./notification.service");
 
 const createAssignment = async (data) => {
   const {
@@ -7,6 +8,10 @@ const createAssignment = async (data) => {
     title,
     description,
     deadline,
+    attachmentPath,
+    attachmentName,
+    attachmentType,
+    attachmentSize,
   } = data;
 
   const courseOffering = await prisma.courseOffering.findUnique({
@@ -25,21 +30,79 @@ const createAssignment = async (data) => {
     throw new Error("Teacher not found");
   }
 
-  return await prisma.assignment.create({
+  if (!title || !title.trim()) {
+    throw new Error("Title is required");
+  }
+
+  if (!deadline) {
+    throw new Error("Deadline is required");
+  }
+
+  if (new Date(deadline) <= new Date()) {
+    throw new Error("Deadline must be in the future");
+  }
+
+  const assignment = await prisma.assignment.create({
     data: {
       courseOfferingId: Number(courseOfferingId),
       teacherId: Number(teacherId),
       title,
       description,
       deadline: new Date(deadline),
+      attachmentPath: attachmentPath || null,
+      attachmentName: attachmentName || null,
+      attachmentType: attachmentType || null,
+      attachmentSize: attachmentSize || null,
     },
   });
+
+  // Notify enrolled students about the new assignment
+  try {
+    const enrollments = await prisma.enrollment.findMany({
+      where: {
+        courseOfferingId: Number(courseOfferingId),
+      },
+      select: {
+        student: {
+          select: { userId: true },
+        },
+      },
+    });
+
+    await Promise.all(
+      enrollments
+        .map((enrollment) => enrollment.student?.userId)
+        .filter(Boolean)
+        .map((userId) =>
+          notificationService.createNotification({
+            userId,
+            type: "ASSIGNMENT",
+            title: "New assignment posted",
+            message: `New assignment "${title}" has been posted. Deadline: ${new Date(
+              deadline
+            ).toLocaleDateString()}.`,
+          })
+        )
+    );
+  } catch (error) {
+    console.error(
+      "Failed to send assignment notifications:",
+      error
+    );
+  }
+
+  return assignment;
 };
 
 const getAllAssignments = async () => {
   return await prisma.assignment.findMany({
     include: {
-      courseOffering: true,
+      courseOffering: {
+        include: {
+          course: true,
+          academicSemester: true,
+        },
+      },
       teacher: true,
     },
     orderBy: {
@@ -54,7 +117,12 @@ const getAssignmentById = async (id) => {
       id: Number(id),
     },
     include: {
-      courseOffering: true,
+      courseOffering: {
+        include: {
+          course: true,
+          academicSemester: true,
+        },
+      },
       teacher: true,
       submissions: true,
       assessmentActivities: true,
@@ -101,6 +169,22 @@ const updateAssignment = async (id, data) => {
 
   if (data.deadline !== undefined) {
     updateData.deadline = new Date(data.deadline);
+  }
+
+  if (data.attachmentPath !== undefined) {
+    updateData.attachmentPath = data.attachmentPath;
+  }
+
+  if (data.attachmentName !== undefined) {
+    updateData.attachmentName = data.attachmentName;
+  }
+
+  if (data.attachmentType !== undefined) {
+    updateData.attachmentType = data.attachmentType;
+  }
+
+  if (data.attachmentSize !== undefined) {
+    updateData.attachmentSize = data.attachmentSize;
   }
 
   return await prisma.assignment.update({

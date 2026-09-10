@@ -3,6 +3,10 @@ const express = require("express");
 const academicSemesterController =
     require("../controllers/academicSemester.controller");
 
+const {
+    authorize
+} = require("../middleware/role.middleware");
+
 const router = express.Router();
 
 
@@ -23,6 +27,7 @@ router.get(
 // CREATE academic semester
 router.post(
     "/",
+    authorize("ADMIN"),
     academicSemesterController.createAcademicSemester
 );
 
@@ -30,6 +35,7 @@ router.post(
 // UPDATE academic semester
 router.put(
     "/:id",
+    authorize("ADMIN"),
     academicSemesterController.updateAcademicSemester
 );
 
@@ -37,6 +43,7 @@ router.put(
 // DELETE academic semester
 router.delete(
     "/:id",
+    authorize("ADMIN"),
     academicSemesterController.deleteAcademicSemester
 );
 

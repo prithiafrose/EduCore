@@ -7,7 +7,15 @@ const {
   getAssessmentsByCourseOffering,
 } = require("../controllers/assessment.controller");
 
-router.post("/", createAssessment);
+const {
+  authorize
+} = require("../middleware/role.middleware");
+
+router.post(
+  "/",
+  authorize("ADMIN", "TEACHER"),
+  createAssessment
+);
 
 router.get(
   "/course-offering/:courseOfferingId",

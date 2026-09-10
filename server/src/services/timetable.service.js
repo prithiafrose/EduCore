@@ -16,6 +16,19 @@ const getAllTimetables = async () => {
                 include: {
                     teacher: true
                 }
+            },
+            classSessions: {
+                orderBy: {
+                    date: "desc"
+                },
+                select: {
+                    id: true,
+                    date: true,
+                    startTime: true,
+                    endTime: true,
+                    status: true,
+                    room: true
+                }
             }
         },
         orderBy: {
@@ -42,6 +55,19 @@ const getTimetableById = async (id) => {
             teacherAssignment: {
                 include: {
                     teacher: true
+                }
+            },
+            classSessions: {
+                orderBy: {
+                    date: "desc"
+                },
+                select: {
+                    id: true,
+                    date: true,
+                    startTime: true,
+                    endTime: true,
+                    status: true,
+                    room: true
                 }
             }
         }
@@ -143,11 +169,90 @@ const deleteTimetable = async (id) => {
         }
     });
 };
+// GET timetable by student ID
+const getTimetablesByStudentId = async (studentId) => {
+
+    const enrollments = await prisma.enrollment.findMany({
+        where: {
+            studentId: Number(studentId)
+        },
+        select: {
+            courseOfferingId: true,
+            sectionId: true
+        }
+    });
+
+    const courseOfferingIds = enrollments.map(
+        (item) => item.courseOfferingId
+    );
+
+    const sectionIds = enrollments
+        .map((item) => item.sectionId)
+        .filter((id) => id !== null);
+
+    return await prisma.timetable.findMany({
+        where: {
+            OR: [
+                {
+                    courseOfferingId: {
+                        in: courseOfferingIds
+                    }
+                },
+                {
+                    sectionId: {
+                        in: sectionIds
+                    }
+                }
+            ]
+        },
+
+        include: {
+            courseOffering: {
+                include: {
+                    course: true,
+                    academicSemester: true
+                }
+            },
+
+            section: true,
+
+            teacherAssignment: {
+                include: {
+                    teacher: true
+                }
+            },
+
+            classSessions: {
+                orderBy: {
+                    date: "desc"
+                },
+                select: {
+                    id: true,
+                    date: true,
+                    startTime: true,
+                    endTime: true,
+                    status: true,
+                    room: true
+                }
+            }
+        },
+
+        orderBy: [
+            {
+                dayOfWeek: "asc"
+            },
+            {
+                startTime: "asc"
+            }
+        ]
+    });
+};
 
 
 module.exports = {
     getAllTimetables,
     getTimetableById,
+    getTimetablesByStudentId,
     createTimetable,
     updateTimetable,
     deleteTimetable

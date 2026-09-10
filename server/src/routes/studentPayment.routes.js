@@ -8,8 +8,14 @@ const {
   getStudentPaymentById,
   getPaymentsByStudent,
   updatePaymentStatus,
+  checkoutStudentPayment,
+  downloadReceipt,
   deleteStudentPayment,
 } = require("../controllers/studentPayment.controller");
+
+const {
+  authorize
+} = require("../middleware/role.middleware");
 
 // Create payment
 router.post("/", createStudentPayment);
@@ -23,10 +29,27 @@ router.get("/", getAllStudentPayments);
 // Get payment by ID
 router.get("/:id", getStudentPaymentById);
 
-// Update payment status
-router.put("/:id/status", updatePaymentStatus);
+// Download payment receipt (HTML)
+router.get(
+  "/:id/receipt",
+  downloadReceipt
+);
 
-// Delete payment
-router.delete("/:id", deleteStudentPayment);
+// Update payment status (admin only)
+router.put(
+  "/:id/status",
+  authorize("ADMIN"),
+  updatePaymentStatus
+);
+
+// Checkout payment (starts gateway flow)
+router.post(
+  "/:id/checkout",
+  authorize("ADMIN", "STUDENT"),
+  checkoutStudentPayment
+);
+
+// Delete payment (admin only)
+router.delete("/:id", authorize("ADMIN"), deleteStudentPayment);
 
 module.exports = router;

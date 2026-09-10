@@ -13,13 +13,17 @@ const {
 
 } = require("../controllers/studentMark.controller");
 
+const {
+    authorize
+} = require("../middleware/role.middleware");
+
 
 // Create student mark
-router.post("/", create);
+router.post("/", authorize("ADMIN", "TEACHER"), create);
 
 
 // Update student mark
-router.put("/:id", update);
+router.put("/:id", authorize("ADMIN", "TEACHER"), update);
 router.get("/", getAll);
 router.get("/enrollment/:enrollmentId", getByEnrollment);
 router.get(
@@ -29,7 +33,7 @@ router.get(
 router.get("/:id", getById);
 
 
-router.delete("/:id", remove);
+router.delete("/:id", authorize("ADMIN", "TEACHER"), remove);
 
 
 module.exports = router;

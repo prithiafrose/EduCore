@@ -5,6 +5,10 @@ const router = express.Router();
 const notificationController =
 require("../controllers/notification.controller");
 
+const {
+  authorize
+} = require("../middleware/role.middleware");
+
 // GET all notifications
 router.get(
 "/",
@@ -26,6 +30,7 @@ notificationController.getNotificationById
 // CREATE notification
 router.post(
 "/",
+authorize("ADMIN"),
 notificationController.createNotification
 );
 
@@ -41,9 +46,24 @@ router.patch(
 notificationController.markAllNotificationsAsRead
 );
 
+// ARCHIVE notification (admin)
+router.patch(
+"/:id/archive",
+authorize("ADMIN"),
+notificationController.archiveNotification
+);
+
+// UNARCHIVE notification (admin)
+router.patch(
+"/:id/unarchive",
+authorize("ADMIN"),
+notificationController.unarchiveNotification
+);
+
 // DELETE notification
 router.delete(
 "/:id",
+authorize("ADMIN"),
 notificationController.deleteNotification
 );
 

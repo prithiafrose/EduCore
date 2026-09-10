@@ -1,6 +1,6 @@
-
 import { useEffect, useState } from "react";
 import api from "../../services/axios";
+import AdminSidebar from "./AdminSidebar";
 
 function Dashboard() {
   const [stats, setStats] = useState({
@@ -10,14 +10,26 @@ function Dashboard() {
     departments: 0,
   });
 
+  const [revenue, setRevenue] = useState({
+    collected: 0,
+    outstanding: 0,
+    paidCount: 0,
+    pendingCount: 0,
+  });
+
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchStats = async () => {
       try {
-        const response = await api.get("/admin");
+        const [statsResponse, revenueResponse] = await Promise.all([
+          api.get("/admin"),
+          api.get("/admin/revenue"),
+        ]);
 
-        setStats(response.data.data);
+        setStats(statsResponse.data.data);
+
+        setRevenue(revenueResponse.data.data);
       } catch (error) {
         console.error("Failed to load dashboard statistics:", error);
       } finally {
@@ -32,144 +44,10 @@ function Dashboard() {
     <div className="min-h-screen bg-slate-100 flex">
 
       {/* Sidebar */}
-      <aside className="w-64 bg-slate-900 text-white p-6 shadow-xl">
-
-        {/* Logo */}
-        <div className="mb-10">
-          <h1 className="text-2xl font-bold tracking-tight">
-            EduCore
-          </h1>
-
-          <p className="text-xs text-slate-400 mt-1">
-            University Management System
-          </p>
-        </div>
-
-        <nav className="space-y-1">
-
-          {/* Dashboard */}
-          <a
-            href="/admin"
-            className="flex items-center px-4 py-3 rounded-lg bg-indigo-600 text-white font-medium shadow-sm"
-          >
-            <span className="mr-3 text-sm">⌂</span>
-            Dashboard
-          </a>
-
-          {/* Academic Management */}
-          <div className="pt-5 pb-2">
-            <p className="px-4 text-xs font-semibold text-slate-500 uppercase tracking-wider">
-              Academic Management
-            </p>
-          </div>
-
-          <a
-            href="/admin/departments"
-            className="flex items-center px-4 py-3 rounded-lg text-slate-300 hover:bg-slate-800 hover:text-white transition"
-          >
-            <span className="mr-3 text-sm">▦</span>
-            Departments
-          </a>
-
-          <a
-            href="/admin/programs"
-            className="flex items-center px-4 py-3 rounded-lg text-slate-300 hover:bg-slate-800 hover:text-white transition"
-          >
-            <span className="mr-3 text-sm">◈</span>
-            Programs
-          </a>
-
-          <a
-            href="/admin/academic-semesters"
-            className="flex items-center px-4 py-3 rounded-lg text-slate-300 hover:bg-slate-800 hover:text-white transition"
-          >
-            <span className="mr-3 text-sm">◷</span>
-            Semesters
-          </a>
-
-          <a
-            href="/admin/courses"
-            className="flex items-center px-4 py-3 rounded-lg text-slate-300 hover:bg-slate-800 hover:text-white transition"
-          >
-            <span className="mr-3 text-sm">▤</span>
-            Courses
-          </a>
-
-          <a
-            href="/admin/course-offerings"
-            className="flex items-center px-4 py-3 rounded-lg text-slate-300 hover:bg-slate-800 hover:text-white transition"
-          >
-            <span className="mr-3 text-sm">▣</span>
-            Course Offerings
-          </a>
-
-          {/* Users */}
-          <div className="pt-5 pb-2">
-            <p className="px-4 text-xs font-semibold text-slate-500 uppercase tracking-wider">
-              Users
-            </p>
-          </div>
-
-          <a
-            href="/admin/teachers"
-            className="flex items-center px-4 py-3 rounded-lg text-slate-300 hover:bg-slate-800 hover:text-white transition"
-          >
-            <span className="mr-3 text-sm">♙</span>
-            Teachers
-          </a>
-
-          <a
-            href="/admin/students"
-            className="flex items-center px-4 py-3 rounded-lg text-slate-300 hover:bg-slate-800 hover:text-white transition"
-          >
-            <span className="mr-3 text-sm">♙</span>
-            Students
-          </a>
-
-          {/* Academic Operations */}
-          <div className="pt-5 pb-2">
-            <p className="px-4 text-xs font-semibold text-slate-500 uppercase tracking-wider">
-              Academic Operations
-            </p>
-          </div>
-
-          <a
-            href="/admin/enrollments"
-            className="flex items-center px-4 py-3 rounded-lg text-slate-300 hover:bg-slate-800 hover:text-white transition"
-          >
-            <span className="mr-3 text-sm">◎</span>
-            Enrollments
-          </a>
-
-          <a
-            href="/admin/assessments"
-            className="flex items-center px-4 py-3 rounded-lg text-slate-300 hover:bg-slate-800 hover:text-white transition"
-          >
-            <span className="mr-3 text-sm">✓</span>
-            Assessments
-          </a>
-
-          <a
-            href="/admin/exams"
-            className="flex items-center px-4 py-3 rounded-lg text-slate-300 hover:bg-slate-800 hover:text-white transition"
-          >
-            <span className="mr-3 text-sm">▣</span>
-            Exams
-          </a>
-
-          <a
-            href="/admin/results"
-            className="flex items-center px-4 py-3 rounded-lg text-slate-300 hover:bg-slate-800 hover:text-white transition"
-          >
-            <span className="mr-3 text-sm">◉</span>
-            Results
-          </a>
-
-        </nav>
-      </aside>
+      <AdminSidebar current="dashboard" />
 
       {/* Main Content */}
-      <main className="flex-1 min-w-0">
+      <main className="ml-64 flex-1 min-w-0">
 
         {/* Topbar */}
         <header className="bg-white border-b border-slate-200 px-8 py-5">
@@ -356,6 +234,151 @@ function Dashboard() {
 
           </div>
 
+          {/* Revenue Overview */}
+          <div className="mt-8">
+
+            <div className="mb-5">
+
+              <h3 className="text-lg font-semibold text-slate-900">
+                Revenue Overview
+              </h3>
+
+              <p className="text-sm text-slate-500 mt-1">
+                Fee collection and payment statistics.
+              </p>
+
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-5">
+
+              {/* Total Collected */}
+              <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 hover:shadow-md hover:-translate-y-0.5 transition">
+
+                <div className="flex justify-between items-start">
+
+                  <div>
+                    <p className="text-sm font-medium text-slate-500">
+                      Total Collected
+                    </p>
+
+                    {loading ? (
+                      <div className="h-9 w-20 bg-slate-200 rounded mt-2 animate-pulse" />
+                    ) : (
+                      <h3 className="text-3xl font-bold text-slate-900 mt-2">
+                        ৳{(revenue.collected || 0).toLocaleString()}
+                      </h3>
+                    )}
+
+                    <p className="text-xs text-slate-400 mt-2">
+                      BDT collected
+                    </p>
+                  </div>
+
+                  <div className="w-11 h-11 rounded-xl bg-green-50 text-green-600 flex items-center justify-center text-lg">
+                    ৳
+                  </div>
+
+                </div>
+
+              </div>
+
+              {/* Outstanding */}
+              <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 hover:shadow-md hover:-translate-y-0.5 transition">
+
+                <div className="flex justify-between items-start">
+
+                  <div>
+                    <p className="text-sm font-medium text-slate-500">
+                      Outstanding
+                    </p>
+
+                    {loading ? (
+                      <div className="h-9 w-20 bg-slate-200 rounded mt-2 animate-pulse" />
+                    ) : (
+                      <h3 className="text-3xl font-bold text-slate-900 mt-2">
+                        ৳{(revenue.outstanding || 0).toLocaleString()}
+                      </h3>
+                    )}
+
+                    <p className="text-xs text-slate-400 mt-2">
+                      BDT pending
+                    </p>
+                  </div>
+
+                  <div className="w-11 h-11 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center text-lg">
+                    ৳
+                  </div>
+
+                </div>
+
+              </div>
+
+              {/* Paid Count */}
+              <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 hover:shadow-md hover:-translate-y-0.5 transition">
+
+                <div className="flex justify-between items-start">
+
+                  <div>
+                    <p className="text-sm font-medium text-slate-500">
+                      Paid Count
+                    </p>
+
+                    {loading ? (
+                      <div className="h-9 w-16 bg-slate-200 rounded mt-2 animate-pulse" />
+                    ) : (
+                      <h3 className="text-3xl font-bold text-slate-900 mt-2">
+                        {revenue.paidCount || 0}
+                      </h3>
+                    )}
+
+                    <p className="text-xs text-slate-400 mt-2">
+                      Paid payments
+                    </p>
+                  </div>
+
+                  <div className="w-11 h-11 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-lg">
+                    ✓
+                  </div>
+
+                </div>
+
+              </div>
+
+              {/* Pending Count */}
+              <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 hover:shadow-md hover:-translate-y-0.5 transition">
+
+                <div className="flex justify-between items-start">
+
+                  <div>
+                    <p className="text-sm font-medium text-slate-500">
+                      Pending Count
+                    </p>
+
+                    {loading ? (
+                      <div className="h-9 w-16 bg-slate-200 rounded mt-2 animate-pulse" />
+                    ) : (
+                      <h3 className="text-3xl font-bold text-slate-900 mt-2">
+                        {revenue.pendingCount || 0}
+                      </h3>
+                    )}
+
+                    <p className="text-xs text-slate-400 mt-2">
+                      Pending payments
+                    </p>
+                  </div>
+
+                  <div className="w-11 h-11 rounded-xl bg-red-50 text-red-600 flex items-center justify-center text-lg">
+                    !
+                  </div>
+
+                </div>
+
+              </div>
+
+            </div>
+
+          </div>
+
           {/* Recent Activity */}
           <div className="bg-white rounded-2xl shadow-sm border border-slate-200 mt-8">
 
@@ -404,4 +427,3 @@ function Dashboard() {
 }
 
 export default Dashboard;
-

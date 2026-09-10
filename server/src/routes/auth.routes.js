@@ -5,6 +5,13 @@ const router = express.Router();
 const authController =
     require("../controllers/auth.controller");
 
+const {
+    authenticate
+} = require("../middleware/auth.middleware");
+const {
+    authorize
+} = require("../middleware/role.middleware");
+
 
 // LOGIN
 router.post(
@@ -16,7 +23,21 @@ router.post(
     authController.register
 );
 router.post(
+    "/change-password",
+    authenticate,
+    authController.changePassword
+);
+router.post(
+    "/logout",
+    authenticate,
+    authController.logoutUser
+);
+
+// RESET TEACHER PASSWORD (admin only)
+router.post(
     "/reset-teacher-password",
+    authenticate,
+    authorize("ADMIN"),
     authController.resetTeacherPassword
 );
 

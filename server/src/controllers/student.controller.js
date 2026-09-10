@@ -62,6 +62,46 @@ const getStudentById = async (req, res) => {
 };
 
 
+// GET student by user ID
+const getStudentByUserId = async (req, res) => {
+    try {
+
+        const { userId } = req.params;
+
+        // Validate ID
+        if (
+            !Number.isInteger(Number(userId)) ||
+            Number(userId) <= 0
+        ) {
+            return res.status(400).json({
+                message: "Invalid user ID"
+            });
+        }
+
+        const student =
+            await studentService.getStudentByUserId(
+                userId
+            );
+
+        if (!student) {
+            return res.status(404).json({
+                message: "Student not found for this user"
+            });
+        }
+
+        res.status(200).json(student);
+
+    } catch (error) {
+
+        console.error(error);
+
+        res.status(500).json({
+            message: "Failed to fetch student"
+        });
+    }
+};
+
+
 // CREATE student
 const createStudent = async (req, res) => {
     try {
@@ -71,7 +111,10 @@ const createStudent = async (req, res) => {
             name,
             email,
             programId,
-            password
+            password,
+            dateOfBirth,
+            guardianName,
+            guardianPhone
         } = req.body;
 
 
@@ -123,7 +166,10 @@ const createStudent = async (req, res) => {
                 name,
                 email,
                 programId,
-                password
+                password,
+                dateOfBirth,
+                guardianName,
+                guardianPhone
             );
 
 
@@ -160,7 +206,10 @@ const updateStudent = async (req, res) => {
             studentId,
             name,
             email,
-            programId
+            programId,
+            dateOfBirth,
+            guardianName,
+            guardianPhone
         } = req.body;
 
 
@@ -233,7 +282,10 @@ const updateStudent = async (req, res) => {
                 studentId,
                 name,
                 email,
-                programId
+                programId,
+                dateOfBirth,
+                guardianName,
+                guardianPhone
             );
 
 
@@ -327,6 +379,7 @@ const deleteStudent = async (req, res) => {
 module.exports = {
     getAllStudents,
     getStudentById,
+    getStudentByUserId,
     createStudent,
     updateStudent,
     deleteStudent

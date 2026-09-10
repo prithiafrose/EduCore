@@ -8,6 +8,7 @@ const getAllUsers = async () => {
             id: true,
             email: true,
             role: true,
+            isActive: true,
             createdAt: true
         }
     });
@@ -24,6 +25,7 @@ const getUserById = async (id) => {
             id: true,
             email: true,
             role: true,
+            isActive: true,
             createdAt: true
         }
     });
@@ -33,7 +35,7 @@ const getUserById = async (id) => {
 // CREATE user
 const { hashPassword } = require("../utils/hash");
 
-const createUser = async (email, password, role) => {
+const createUser = async (email, password, role, isActive = true) => {
   const hashedPassword = await hashPassword(password);
 
   return await prisma.user.create({
@@ -41,11 +43,13 @@ const createUser = async (email, password, role) => {
       email,
       passwordHash: hashedPassword,
       role,
+      isActive,
     },
     select: {
       id: true,
       email: true,
       role: true,
+      isActive: true,
       createdAt: true,
     },
   });
@@ -53,7 +57,7 @@ const createUser = async (email, password, role) => {
 
 
 // UPDATE user
-const updateUser = async (id, email, password, role) => {
+const updateUser = async (id, email, password, role, isActive) => {
   const updateData = {
     email,
     role,
@@ -62,6 +66,11 @@ const updateUser = async (id, email, password, role) => {
   // Only hash if a new password is provided
   if (password) {
     updateData.passwordHash = await hashPassword(password);
+  }
+
+  // Only apply isActive when explicitly provided
+  if (isActive !== undefined && isActive !== null) {
+    updateData.isActive = Boolean(isActive);
   }
 
   return await prisma.user.update({
@@ -73,6 +82,27 @@ const updateUser = async (id, email, password, role) => {
       id: true,
       email: true,
       role: true,
+      isActive: true,
+      createdAt: true,
+    },
+  });
+};
+
+
+// Toggle user active status
+const setUserActive = async (id, isActive) => {
+  return await prisma.user.update({
+    where: {
+      id: Number(id),
+    },
+    data: {
+      isActive: Boolean(isActive),
+    },
+    select: {
+      id: true,
+      email: true,
+      role: true,
+      isActive: true,
       createdAt: true,
     },
   });
@@ -92,5 +122,6 @@ module.exports = {
     getUserById,
     createUser,
     updateUser,
-    deleteUser
+    deleteUser,
+    setUserActive
 };

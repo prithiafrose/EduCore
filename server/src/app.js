@@ -5,7 +5,10 @@ const app = express();
 
 app.use(
     cors({
-        origin: "http://localhost:5173",
+        origin: [
+            "http://localhost:5173",
+            "http://localhost:5176",
+        ],
     })
 );
 
@@ -56,6 +59,21 @@ const notificationRoutes =
     const authRoutes =
     require("./routes/auth.routes");
     const adminRoutes = require("./routes/admin.routes");
+const aiRoutes = require("./routes/ai.routes");
+const {
+    authenticate
+} = require("./middleware/auth.middleware");
+
+app.use("/api/auth", authRoutes);
+
+// Public payment gateway routes (redirects + webhooks)
+app.use(
+    "/api/payments",
+    require("./routes/paymentGateway.routes")
+);
+
+app.use("/api", authenticate);
+
 app.use("/api/departments", departmentRoutes);
 app.use("/api/programs", programRoutes);
 app.use("/api/academic-semesters", academicSemesterRoutes);
@@ -105,6 +123,7 @@ app.use(
   assignmentSubmissionRoutes
 );
 app.use("/api/assignments", assignmentRoutes);
+app.use("/api/course-materials", require("./routes/courseMaterial.routes"));
 app.use("/api/course-registrations", courseRegistrationRoutes);
 
 app.use("/api/fees", feeRoutes);
@@ -113,8 +132,8 @@ app.use(
     "/api/notifications",
     notificationRoutes
 );
-app.use("/api/auth", authRoutes);
 app.use("/api/admin", adminRoutes);
+app.use("/api/ai", aiRoutes);
 
 app.get("/", (req, res) => {
     res.json({

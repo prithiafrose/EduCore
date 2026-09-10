@@ -11,6 +11,10 @@ const {
   deleteCourseRegistration,
 } = require("../controllers/courseRegistration.controller");
 
+const {
+  authorize
+} = require("../middleware/role.middleware");
+
 // Create registration
 router.post("/", createCourseRegistration);
 
@@ -24,9 +28,13 @@ router.get("/", getAllCourseRegistrations);
 router.get("/:id", getCourseRegistrationById);
 
 // Approve / Reject registration
-router.put("/:id/status", updateRegistrationStatus);
+router.put("/:id/status", authorize("ADMIN"), updateRegistrationStatus);
 
 // Delete registration
-router.delete("/:id", deleteCourseRegistration);
+router.delete(
+  "/:id",
+  authorize("ADMIN", "STUDENT"),
+  deleteCourseRegistration
+);
 
 module.exports = router;

@@ -86,10 +86,61 @@ const getNotificationsByUser = async (userId) => {
 
     return await prisma.notification.findMany({
         where: {
-            userId: Number(userId)
+            userId: Number(userId),
+            archivedAt: null
         },
         orderBy: {
             createdAt: "desc"
+        }
+    });
+};
+
+
+// Archive notification
+const archiveNotification = async (id) => {
+
+    const notification =
+        await prisma.notification.findUnique({
+            where: {
+                id: Number(id)
+            }
+        });
+
+    if (!notification) {
+        throw new Error("Notification not found");
+    }
+
+    return await prisma.notification.update({
+        where: {
+            id: Number(id)
+        },
+        data: {
+            archivedAt: new Date()
+        }
+    });
+};
+
+
+// Unarchive notification
+const unarchiveNotification = async (id) => {
+
+    const notification =
+        await prisma.notification.findUnique({
+            where: {
+                id: Number(id)
+            }
+        });
+
+    if (!notification) {
+        throw new Error("Notification not found");
+    }
+
+    return await prisma.notification.update({
+        where: {
+            id: Number(id)
+        },
+        data: {
+            archivedAt: null
         }
     });
 };
@@ -174,5 +225,7 @@ module.exports = {
     getNotificationsByUser,
     markNotificationAsRead,
     markAllNotificationsAsRead,
+    archiveNotification,
+    unarchiveNotification,
     deleteNotification
 };
