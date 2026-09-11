@@ -5,6 +5,11 @@ export const getPrograms = async () => {
   return response.data;
 };
 
+export const getPublicPrograms = async () => {
+  const response = await api.get("/public/programs");
+  return response.data;
+};
+
 export const getProgramById = async (id) => {
   const response = await api.get(`/programs/${id}`);
   return response.data;

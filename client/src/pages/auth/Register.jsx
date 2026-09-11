@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { registerStudent } from "../../services/authApi";
-import { getPrograms } from "../../services/programApi";
+import { getPublicPrograms } from "../../services/programApi";
 
 function Register() {
   const navigate = useNavigate();
@@ -23,7 +23,7 @@ function Register() {
   useEffect(() => {
     const loadPrograms = async () => {
       try {
-        const data = await getPrograms();
+        const data = await getPublicPrograms();
         setPrograms(data);
       } catch (error) {
         console.error(error);

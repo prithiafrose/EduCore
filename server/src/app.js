@@ -72,6 +72,9 @@ const {
 
 app.use("/api/auth", authRoutes);
 
+// Public catalog routes (used by the public register page)
+app.use("/api/public", require("./routes/public.routes"));
+
 // Public payment gateway routes (redirects + webhooks)
 app.use(
     "/api/payments",
