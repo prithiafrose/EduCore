@@ -1,4 +1,6 @@
 import { Link } from "react-router-dom";
+import BlurText from "../components/reactbits/BlurText";
+import SpotlightCard from "../components/reactbits/SpotlightCard";
 
 function Home() {
   return (
@@ -106,12 +108,12 @@ function Home() {
 
               </div>
 
-              <h2 className="max-w-2xl text-4xl font-bold leading-tight tracking-tight text-slate-900 sm:text-5xl lg:text-6xl">
-                Your university,
+              <div className="max-w-2xl text-4xl font-bold leading-tight tracking-tight text-slate-900 sm:text-5xl lg:text-6xl">
+                <BlurText text="Your university," delay={60} />
                 <span className="block text-indigo-600">
-                  connected in one place.
+                  <BlurText text="connected in one place." delay={60} />
                 </span>
-              </h2>
+              </div>
 
               <p className="mt-6 max-w-xl text-base leading-8 text-slate-500 sm:text-lg">
                 EduCore brings academic information and university
@@ -151,7 +153,7 @@ function Home() {
               <div className="relative mx-auto max-w-lg">
 
                 {/* Main card */}
-                <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-2xl shadow-slate-300/40">
+                <SpotlightCard className="rounded-3xl border border-slate-200 bg-white p-6 shadow-2xl shadow-slate-300/40" spotlightColor="rgba(99, 102, 241, 0.12)">
 
                   {/* Dashboard header */}
                   <div className="flex items-center justify-between border-b border-slate-100 pb-5">
@@ -263,7 +265,7 @@ function Home() {
 
                   </div>
 
-                </div>
+                </SpotlightCard>
 
                 {/* Floating badge */}
                 <div className="absolute -bottom-6 -left-6 hidden rounded-2xl border border-slate-200 bg-white px-5 py-4 shadow-xl sm:block">
@@ -361,7 +363,7 @@ function Home() {
             <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
 
               {/* Course */}
-              <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-lg">
+              <SpotlightCard className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-lg">
 
                 <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-indigo-50 text-xl">
                   📚
@@ -376,11 +378,11 @@ function Home() {
                   academic program.
                 </p>
 
-              </div>
+              </SpotlightCard>
 
 
               {/* Attendance */}
-              <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-lg">
+              <SpotlightCard className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-lg">
 
                 <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-emerald-50 text-xl">
                   ✓
@@ -395,11 +397,11 @@ function Home() {
                   participation.
                 </p>
 
-              </div>
+              </SpotlightCard>
 
 
               {/* Assessments */}
-              <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-lg">
+              <SpotlightCard className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-lg">
 
                 <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-amber-50 text-xl">
                   📝
@@ -414,11 +416,11 @@ function Home() {
                   evaluations.
                 </p>
 
-              </div>
+              </SpotlightCard>
 
 
               {/* Results */}
-              <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-lg">
+              <SpotlightCard className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-lg">
 
                 <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-violet-50 text-xl">
                   📊
@@ -433,7 +435,7 @@ function Home() {
                   in one place.
                 </p>
 
-              </div>
+              </SpotlightCard>
 
             </div>
 

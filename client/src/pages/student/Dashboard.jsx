@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 
 import StatCard from "../../components/ui/StatCard";
 import AnimatedCard from "../../components/ui/AnimatedCard";
+import SpotlightCard from "../../components/reactbits/SpotlightCard";
 import ProgressRing from "../../components/ui/ProgressRing";
 
 import { getStudentByUserId } from "../../services/studentApi";
@@ -151,42 +152,50 @@ function StudentDashboard() {
   return (
     <div className="p-8">
             <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-5">
-              <StatCard
-                icon="▤"
-                label="Enrolled Courses"
-                value={stats.courses}
-                hint="Courses you are enrolled in"
-                accent="indigo"
-                loading={loading}
-              />
+              <SpotlightCard className="rounded-2xl">
+                <StatCard
+                  icon="▤"
+                  label="Enrolled Courses"
+                  value={stats.courses}
+                  hint="Courses you are enrolled in"
+                  accent="indigo"
+                  loading={loading}
+                />
+              </SpotlightCard>
 
-              <StatCard
-                icon="◈"
-                label="Total Credit Hours"
-                value={stats.credits}
-                hint="Credits across enrolled courses"
-                accent="purple"
-                loading={loading}
-              />
+              <SpotlightCard className="rounded-2xl">
+                <StatCard
+                  icon="◈"
+                  label="Total Credit Hours"
+                  value={stats.credits}
+                  hint="Credits across enrolled courses"
+                  accent="purple"
+                  loading={loading}
+                />
+              </SpotlightCard>
 
-              <StatCard
-                icon="✓"
-                label="Attendance"
-                value={stats.attendance}
-                suffix="%"
-                hint="Overall attendance in finished classes"
-                accent="emerald"
-                loading={loading}
-              />
+              <SpotlightCard className="rounded-2xl">
+                <StatCard
+                  icon="✓"
+                  label="Attendance"
+                  value={stats.attendance}
+                  suffix="%"
+                  hint="Overall attendance in finished classes"
+                  accent="emerald"
+                  loading={loading}
+                />
+              </SpotlightCard>
 
-              <StatCard
-                icon="₨"
-                label="Pending Payments"
-                value={stats.pendingPayments}
-                hint="Unpaid fees or invoices"
-                accent="amber"
-                loading={loading}
-              />
+              <SpotlightCard className="rounded-2xl">
+                <StatCard
+                  icon="₨"
+                  label="Pending Payments"
+                  value={stats.pendingPayments}
+                  hint="Unpaid fees or invoices"
+                  accent="amber"
+                  loading={loading}
+                />
+              </SpotlightCard>
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-5 mt-8">

@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { useLocation } from "react-router-dom";
+import { motion } from "framer-motion";
 import { sendAIMessage } from "../services/aiApi";
 
 const PUBLIC_PATHS = ["/", "/home", "/login", "/register", "/logout"];
@@ -206,15 +207,20 @@ function AiAssistant() {
                     : "justify-start"
                 }`}
               >
-                <div
-                  className={`max-w-[85%] whitespace-pre-wrap rounded-2xl px-3.5 py-2.5 text-sm leading-relaxed shadow-sm ${
-                    msg.role === "user"
-                      ? "rounded-br-md bg-indigo-600 text-white"
-                      : "rounded-bl-md border border-slate-200 bg-white text-slate-800"
-                  }`}
-                >
-                {msg.content}
-                </div>
+                {msg.role === "user" ? (
+                  <div className="max-w-[85%] whitespace-pre-wrap rounded-2xl rounded-br-md bg-indigo-600 px-3.5 py-2.5 text-sm leading-relaxed text-white shadow-sm">
+                    {msg.content}
+                  </div>
+                ) : (
+                  <motion.div
+                    initial={{ opacity: 0, y: 8 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.3, ease: "easeOut" }}
+                    className="max-w-[85%] whitespace-pre-wrap rounded-2xl rounded-bl-md border border-slate-200 bg-white px-3.5 py-2.5 text-sm leading-relaxed text-slate-800 shadow-sm"
+                  >
+                    {msg.content}
+                  </motion.div>
+                )}
               </div>
             ))}
 

@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 
 import StatCard from "../../components/ui/StatCard";
 import AnimatedCard from "../../components/ui/AnimatedCard";
+import SpotlightCard from "../../components/reactbits/SpotlightCard";
 
 import { getAllTeacherAssignments } from "../../services/teacherAssignmentApi";
 import { getEnrollments } from "../../services/enrollmentApi";
@@ -166,49 +167,57 @@ function Dashboard() {
                         </div>
 
                         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-5">
-                            <Link to="/teacher/courses">
-                                <StatCard
-                                    icon="▤"
-                                    label="My Courses"
-                                    value={courses.length}
-                                    hint="Courses assigned to you"
-                                    accent="indigo"
-                                    loading={loading}
-                                />
-                            </Link>
+                            <SpotlightCard className="rounded-2xl">
+                                <Link to="/teacher/courses">
+                                    <StatCard
+                                        icon="▤"
+                                        label="My Courses"
+                                        value={courses.length}
+                                        hint="Courses assigned to you"
+                                        accent="indigo"
+                                        loading={loading}
+                                    />
+                                </Link>
+                            </SpotlightCard>
 
-                            <Link to="/teacher/routine">
-                                <StatCard
-                                    icon="◷"
-                                    label="Class Routine"
-                                    value={sessionCount}
-                                    hint="Scheduled classes"
-                                    accent="emerald"
-                                    loading={loading}
-                                />
-                            </Link>
+                            <SpotlightCard className="rounded-2xl">
+                                <Link to="/teacher/routine">
+                                    <StatCard
+                                        icon="◷"
+                                        label="Class Routine"
+                                        value={sessionCount}
+                                        hint="Scheduled classes"
+                                        accent="emerald"
+                                        loading={loading}
+                                    />
+                                </Link>
+                            </SpotlightCard>
 
-                            <Link to="/teacher/attendance">
-                                <StatCard
-                                    icon="✓"
-                                    label="Attendance"
-                                    value={todaySessions.length}
-                                    hint="Classes today"
-                                    accent="amber"
-                                    loading={loading}
-                                />
-                            </Link>
+                            <SpotlightCard className="rounded-2xl">
+                                <Link to="/teacher/attendance">
+                                    <StatCard
+                                        icon="✓"
+                                        label="Attendance"
+                                        value={todaySessions.length}
+                                        hint="Classes today"
+                                        accent="amber"
+                                        loading={loading}
+                                    />
+                                </Link>
+                            </SpotlightCard>
 
-                            <Link to="/teacher/students">
-                                <StatCard
-                                    icon="♙"
-                                    label="Students"
-                                    value={studentCount}
-                                    hint="Students in your courses"
-                                    accent="purple"
-                                    loading={loading}
-                                />
-                            </Link>
+                            <SpotlightCard className="rounded-2xl">
+                                <Link to="/teacher/students">
+                                    <StatCard
+                                        icon="♙"
+                                        label="Students"
+                                        value={studentCount}
+                                        hint="Students in your courses"
+                                        accent="purple"
+                                        loading={loading}
+                                    />
+                                </Link>
+                            </SpotlightCard>
                         </div>
 
                         <AnimatedCard className="mt-8" hover={false}>

@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { motion } from "framer-motion";
 import { loginUser } from "../../services/authApi";
+import BlurText from "../../components/reactbits/BlurText";
 
 function Login() {
   const [email, setEmail] = useState("");
@@ -61,12 +63,24 @@ function Login() {
           ====================================================== */}
           <div className="relative hidden lg:flex flex-col justify-between overflow-hidden bg-slate-900 p-12 text-white">
 
-            {/* Decorative circles */}
-            <div className="absolute -right-24 -top-24 h-72 w-72 rounded-full bg-indigo-500/20" />
+            {/* Decorative animated background */}
+            <motion.div
+              className="absolute -right-24 -top-24 h-72 w-72 rounded-full bg-indigo-500/20"
+              animate={{ x: [0, -24, 0], y: [0, 18, 0], scale: [1, 1.06, 1] }}
+              transition={{ duration: 18, repeat: Infinity, ease: "easeInOut" }}
+            />
 
-            <div className="absolute -bottom-32 -left-20 h-80 w-80 rounded-full bg-blue-500/10" />
+            <motion.div
+              className="absolute -bottom-32 -left-20 h-80 w-80 rounded-full bg-blue-500/10"
+              animate={{ x: [0, 22, 0], y: [0, -16, 0], scale: [1, 1.08, 1] }}
+              transition={{ duration: 22, repeat: Infinity, ease: "easeInOut" }}
+            />
 
-            <div className="absolute right-10 top-1/2 h-32 w-32 rounded-full bg-indigo-400/5" />
+            <motion.div
+              className="absolute right-10 top-1/2 h-32 w-32 rounded-full bg-indigo-400/5"
+              animate={{ y: [0, 24, 0], scale: [1, 1.12, 1] }}
+              transition={{ duration: 16, repeat: Infinity, ease: "easeInOut" }}
+            />
 
             {/* Branding */}
             <div className="relative z-10">
@@ -98,12 +112,12 @@ function Login() {
                 UNIVERSITY PORTAL
               </div>
 
-              <h2 className="text-4xl font-bold leading-tight tracking-tight">
-                Welcome
+              <div className="text-4xl font-bold leading-tight tracking-tight">
+                <BlurText text="Welcome" delay={60} />
                 <span className="block text-indigo-400">
-                  back to EduCore.
+                  <BlurText text="back to EduCore." delay={60} />
                 </span>
-              </h2>
+              </div>
 
               <p className="mt-6 max-w-sm text-sm leading-7 text-slate-400">
                 Sign in to manage your academic activities,

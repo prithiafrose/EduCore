@@ -4,6 +4,7 @@ import api from "../../services/axios";
 import StatCard from "../../components/ui/StatCard";
 import AnimatedCard from "../../components/ui/AnimatedCard";
 import DonutChart from "../../components/ui/DonutChart";
+import SpotlightCard from "../../components/reactbits/SpotlightCard";
 
 function Dashboard() {
   const [stats, setStats] = useState({
@@ -61,41 +62,49 @@ function Dashboard() {
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-5">
-              <StatCard
-                icon="♙"
-                label="Students"
-                value={stats.students}
-                hint="Registered students"
-                accent="indigo"
-                loading={loading}
-              />
+              <SpotlightCard className="rounded-2xl">
+                <StatCard
+                  icon="♙"
+                  label="Students"
+                  value={stats.students}
+                  hint="Registered students"
+                  accent="indigo"
+                  loading={loading}
+                />
+              </SpotlightCard>
 
-              <StatCard
-                icon="♙"
-                label="Teachers"
-                value={stats.teachers}
-                hint="Faculty members"
-                accent="emerald"
-                loading={loading}
-              />
+              <SpotlightCard className="rounded-2xl">
+                <StatCard
+                  icon="♙"
+                  label="Teachers"
+                  value={stats.teachers}
+                  hint="Faculty members"
+                  accent="emerald"
+                  loading={loading}
+                />
+              </SpotlightCard>
 
-              <StatCard
-                icon="▤"
-                label="Courses"
-                value={stats.courses}
-                hint="Available courses"
-                accent="amber"
-                loading={loading}
-              />
+              <SpotlightCard className="rounded-2xl">
+                <StatCard
+                  icon="▤"
+                  label="Courses"
+                  value={stats.courses}
+                  hint="Available courses"
+                  accent="amber"
+                  loading={loading}
+                />
+              </SpotlightCard>
 
-              <StatCard
-                icon="▦"
-                label="Departments"
-                value={stats.departments}
-                hint="Academic departments"
-                accent="purple"
-                loading={loading}
-              />
+              <SpotlightCard className="rounded-2xl">
+                <StatCard
+                  icon="▦"
+                  label="Departments"
+                  value={stats.departments}
+                  hint="Academic departments"
+                  accent="purple"
+                  loading={loading}
+                />
+              </SpotlightCard>
             </div>
 
             <div className="mt-8">
