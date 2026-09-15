@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { motion } from "framer-motion";
 
-import TeacherSidebar from "../../components/TeacherSidebar";
+import StatCard from "../../components/ui/StatCard";
+import AnimatedCard from "../../components/ui/AnimatedCard";
 
 import { getAllTeacherAssignments } from "../../services/teacherAssignmentApi";
 import { getEnrollments } from "../../services/enrollmentApi";
@@ -9,10 +11,6 @@ import { getAllClassSessions } from "../../services/classSessionApi";
 import { getAllAssignments } from "../../services/assignmentApi";
 
 function Dashboard() {
-    const user = JSON.parse(
-        localStorage.getItem("user")
-    );
-
     const [courses, setCourses] = useState([]);
     const [studentCount, setStudentCount] = useState(0);
     const [sessionCount, setSessionCount] = useState(0);
@@ -149,385 +147,200 @@ function Dashboard() {
         });
     };
 
+    const quickAccess = [
+        { to: "/teacher/assessments", icon: "✓", title: "Assessments", subtitle: "Enter and manage student assessment marks.", accent: "bg-indigo-50 text-indigo-600" },
+        { to: "/teacher/exams", icon: "▣", title: "Exams", subtitle: "Manage examination marks and results.", accent: "bg-amber-50 text-amber-600" },
+        { to: "/teacher/assignments", icon: "✎", title: "Assignments", subtitle: loading ? "Loading..." : `${assignmentCount} active assignment${assignmentCount === 1 ? "" : "s"} in your courses.`, accent: "bg-emerald-50 text-emerald-600" },
+    ];
+
     return (
-        <div className="min-h-screen bg-slate-100 flex">
-
-            {/* Sidebar */}
-            <TeacherSidebar />
-
-            {/* Main Content */}
-            <main className="ml-64 flex-1 min-w-0">
-
-                {/* Topbar */}
-                <header className="bg-white border-b border-slate-200 px-8 py-5">
-
-                    <div className="flex justify-between items-center">
-
-                        <div>
-                            <p className="text-sm font-medium text-indigo-600 mb-1">
-                                Teacher Portal
-                            </p>
-
-                            <h2 className="text-3xl font-bold tracking-tight text-slate-900">
-                                Teacher Dashboard
-                            </h2>
-
-                            <p className="text-sm text-slate-500 mt-1">
-                                Welcome back to EduCore
-                            </p>
-                        </div>
-
-                        <div className="flex items-center gap-3">
-
-                            <div className="hidden sm:block bg-slate-50 border border-slate-200 px-4 py-2 rounded-lg">
-                                <p className="text-xs text-slate-400">
-                                    Role
-                                </p>
-
-                                <p className="text-sm font-semibold text-slate-700">
-                                    Teacher
-                                </p>
-                            </div>
-
-                            <div className="w-11 h-11 rounded-full bg-indigo-600 text-white flex items-center justify-center font-semibold shadow-sm">
-                                {user?.email
-                                    ? user.email.charAt(0).toUpperCase()
-                                    : "T"}
-                            </div>
-
-                        </div>
-                    </div>
-
-                </header>
-
-                {/* Dashboard Body */}
-                <div className="p-8">
-
-                    {/* Welcome */}
-                    <div className="mb-8">
-
-                        <h3 className="text-lg font-semibold text-slate-900">
-                            Teaching Overview
-                        </h3>
-
-                        <p className="text-sm text-slate-500 mt-1">
-                            Manage your courses, classes, attendance and academic activities.
-                        </p>
-
-                    </div>
-
-                    {/* Quick Access Cards */}
-                    <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-5">
-
-                        {/* Courses */}
-                        <Link
-                            to="/teacher/courses"
-                            className="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 hover:shadow-md hover:-translate-y-0.5 transition"
-                        >
-                            <div className="flex justify-between items-start">
-
-                                <div>
-                                    <p className="text-sm font-medium text-slate-500">
-                                        My Courses
-                                    </p>
-
-                                    <h3 className="text-2xl font-bold text-slate-900 mt-2">
-                                        {loading ? "…" : courses.length}
-                                    </h3>
-
-                                    <p className="text-xs text-slate-400 mt-2">
-                                        Courses assigned to you
-                                    </p>
-                                </div>
-
-                                <div className="w-11 h-11 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center text-lg">
-                                    ▤
-                                </div>
-
-                            </div>
-                        </Link>
-
-                        {/* Routine */}
-                        <Link
-                            to="/teacher/routine"
-                            className="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 hover:shadow-md hover:-translate-y-0.5 transition"
-                        >
-                            <div className="flex justify-between items-start">
-
-                                <div>
-                                    <p className="text-sm font-medium text-slate-500">
-                                        Class Routine
-                                    </p>
-
-                                    <h3 className="text-2xl font-bold text-slate-900 mt-2">
-                                        {loading ? "…" : sessionCount}
-                                    </h3>
-
-                                    <p className="text-xs text-slate-400 mt-2">
-                                        Scheduled classes
-                                    </p>
-                                </div>
-
-                                <div className="w-11 h-11 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-lg">
-                                    ◷
-                                </div>
-
-                            </div>
-                        </Link>
-
-                        {/* Attendance */}
-                        <Link
-                            to="/teacher/attendance"
-                            className="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 hover:shadow-md hover:-translate-y-0.5 transition"
-                        >
-                            <div className="flex justify-between items-start">
-
-                                <div>
-                                    <p className="text-sm font-medium text-slate-500">
-                                        Attendance
-                                    </p>
-
-                                    <h3 className="text-2xl font-bold text-slate-900 mt-2">
-                                        {loading ? "…" : todaySessions.length}
-                                    </h3>
-
-                                    <p className="text-xs text-slate-400 mt-2">
-                                        Classes today
-                                    </p>
-                                </div>
-
-                                <div className="w-11 h-11 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center text-lg">
-                                    ✓
-                                </div>
-
-                            </div>
-                        </Link>
-
-                        {/* Students */}
-                        <Link
-                            to="/teacher/students"
-                            className="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 hover:shadow-md hover:-translate-y-0.5 transition"
-                        >
-                            <div className="flex justify-between items-start">
-
-                                <div>
-                                    <p className="text-sm font-medium text-slate-500">
-                                        Students
-                                    </p>
-
-                                    <h3 className="text-2xl font-bold text-slate-900 mt-2">
-                                        {loading ? "…" : studentCount}
-                                    </h3>
-
-                                    <p className="text-xs text-slate-400 mt-2">
-                                        Students in your courses
-                                    </p>
-                                </div>
-
-                                <div className="w-11 h-11 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center text-lg">
-                                    ♙
-                                </div>
-
-                            </div>
-                        </Link>
-
-                    </div>
-
-                    {/* Academic Management */}
-                    <div className="bg-white rounded-2xl shadow-sm border border-slate-200 mt-8">
-
-                        <div className="px-6 py-5 border-b border-slate-200">
-
-                            <h3 className="text-xl font-semibold text-slate-900">
-                                Academic Management
+        <div className="p-8">
+                        <div className="mb-5">
+                            <h3 className="text-lg font-semibold text-slate-900">
+                                Teaching Overview
                             </h3>
 
                             <p className="text-sm text-slate-500 mt-1">
-                                Manage student assessment and examination activities.
+                                Manage your courses, classes, attendance and academic activities.
                             </p>
-
                         </div>
 
-                        <div className="p-6 grid grid-cols-1 md:grid-cols-2 gap-5">
-
-                            {/* Assessments */}
-                            <Link
-                                to="/teacher/assessments"
-                                className="border border-slate-200 rounded-xl p-5 hover:border-indigo-300 hover:shadow-sm transition"
-                            >
-                                <div className="flex items-center gap-4">
-
-                                    <div className="w-11 h-11 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center">
-                                        ✓
-                                    </div>
-
-                                    <div>
-                                        <h4 className="font-semibold text-slate-800">
-                                            Assessments
-                                        </h4>
-
-                                        <p className="text-sm text-slate-500 mt-1">
-                                            Enter and manage student assessment marks.
-                                        </p>
-                                    </div>
-
-                                </div>
+                        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-5">
+                            <Link to="/teacher/courses">
+                                <StatCard
+                                    icon="▤"
+                                    label="My Courses"
+                                    value={courses.length}
+                                    hint="Courses assigned to you"
+                                    accent="indigo"
+                                    loading={loading}
+                                />
                             </Link>
 
-                            {/* Exams */}
-                            <Link
-                                to="/teacher/exams"
-                                className="border border-slate-200 rounded-xl p-5 hover:border-indigo-300 hover:shadow-sm transition"
-                            >
-                                <div className="flex items-center gap-4">
-
-                                    <div className="w-11 h-11 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center">
-                                        ▣
-                                    </div>
-
-                                    <div>
-                                        <h4 className="font-semibold text-slate-800">
-                                            Exams
-                                        </h4>
-
-                                        <p className="text-sm text-slate-500 mt-1">
-                                            Manage examination marks and results.
-                                        </p>
-                                    </div>
-
-                                </div>
+                            <Link to="/teacher/routine">
+                                <StatCard
+                                    icon="◷"
+                                    label="Class Routine"
+                                    value={sessionCount}
+                                    hint="Scheduled classes"
+                                    accent="emerald"
+                                    loading={loading}
+                                />
                             </Link>
 
-                            {/* Assignments */}
-                            <Link
-                                to="/teacher/assignments"
-                                className="border border-slate-200 rounded-xl p-5 hover:border-indigo-300 hover:shadow-sm transition"
-                            >
-                                <div className="flex items-center gap-4">
-
-                                    <div className="w-11 h-11 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center">
-                                        ✎
-                                    </div>
-
-                                    <div>
-                                        <h4 className="font-semibold text-slate-800">
-                                            Assignments
-                                        </h4>
-
-                                        <p className="text-sm text-slate-500 mt-1">
-                                            {loading
-                                                ? "Loading..."
-                                                : `${assignmentCount} active assignment${
-                                                      assignmentCount === 1
-                                                          ? ""
-                                                          : "s"
-                                                  } in your courses.`}
-                                        </p>
-                                    </div>
-
-                                </div>
+                            <Link to="/teacher/attendance">
+                                <StatCard
+                                    icon="✓"
+                                    label="Attendance"
+                                    value={todaySessions.length}
+                                    hint="Classes today"
+                                    accent="amber"
+                                    loading={loading}
+                                />
                             </Link>
 
+                            <Link to="/teacher/students">
+                                <StatCard
+                                    icon="♙"
+                                    label="Students"
+                                    value={studentCount}
+                                    hint="Students in your courses"
+                                    accent="purple"
+                                    loading={loading}
+                                />
+                            </Link>
                         </div>
 
-                    </div>
+                        <AnimatedCard className="mt-8" hover={false}>
+                            <div className="px-6 py-5 border-b border-slate-200">
+                                <h3 className="text-xl font-semibold text-slate-900">
+                                    Academic Management
+                                </h3>
 
-                    {/* Today's Classes */}
-                    <div className="bg-white rounded-2xl shadow-sm border border-slate-200 mt-8">
-
-                        <div className="px-6 py-5 border-b border-slate-200">
-
-                            <h3 className="text-xl font-semibold text-slate-900">
-                                Today's Classes
-                            </h3>
-
-                            <p className="text-sm text-slate-500 mt-1">
-                                {loading
-                                    ? "Loading your schedule..."
-                                    : todaySessions.length === 0
-                                    ? "You have no classes scheduled today."
-                                    : `${todaySessions.length} class${
-                                          todaySessions.length === 1 ? "" : "es"
-                                      } scheduled today.`}
-                            </p>
-
-                        </div>
-
-                        <div className="p-6">
-                            {loading ? (
-                                <p className="text-sm text-slate-500">
-                                    Loading your schedule...
+                                <p className="text-sm text-slate-500 mt-1">
+                                    Manage student assessment and examination activities.
                                 </p>
-                            ) : todaySessions.length === 0 ? (
-                                <div className="flex items-center gap-4">
-                                    <div className="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-slate-500">
-                                        i
-                                    </div>
+                            </div>
 
-                                    <div>
-                                        <p className="text-sm font-medium text-slate-700">
-                                            No classes today.
-                                        </p>
-
-                                        <p className="text-xs text-slate-400 mt-1">
-                                            Check your class routine for upcoming sessions.
-                                        </p>
-                                    </div>
-                                </div>
-                            ) : (
-                                <div className="divide-y divide-slate-100">
-                                    {todaySessions.map((session) => (
-                                        <div
-                                            key={session.id}
-                                            className="flex items-center justify-between py-3"
+                            <div className="p-6 grid grid-cols-1 md:grid-cols-3 gap-5">
+                                {quickAccess.map((item, index) => (
+                                    <motion.div
+                                        key={item.to}
+                                        initial={{ opacity: 0, y: 12 }}
+                                        animate={{ opacity: 1, y: 0 }}
+                                        transition={{ delay: 0.1 + index * 0.08 }}
+                                        whileHover={{ y: -2 }}
+                                    >
+                                        <Link
+                                            to={item.to}
+                                            className="flex items-start gap-4 border border-slate-200 rounded-xl p-5 h-full hover:border-indigo-300 hover:shadow-sm transition"
                                         >
-                                            <div className="flex items-center gap-4">
-                                                <div className="w-11 h-11 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center text-lg">
-                                                    ◷
-                                                </div>
-
-                                                <div>
-                                                    <p className="font-medium text-slate-800">
-                                                        {session.courseOffering
-                                                            ?.course?.code ||
-                                                            "Course"}
-                                                    </p>
-
-                                                    <p className="text-xs text-slate-400 mt-0.5">
-                                                        {session.courseOffering
-                                                            ?.course?.name || "N/A"}
-                                                        {session.room
-                                                            ? ` · Room ${session.room}`
-                                                            : ""}
-                                                    </p>
-                                                </div>
+                                            <div className={`w-11 h-11 rounded-xl flex items-center justify-center text-lg ${item.accent}`}>
+                                                {item.icon}
                                             </div>
 
-                                            <div className="text-right">
-                                                <p className="text-sm font-semibold text-slate-700">
-                                                    {formatTime(
-                                                        session.startTime
-                                                    )}
-                                                    {" - "}
-                                                    {formatTime(
-                                                        session.endTime
-                                                    )}
+                                            <div>
+                                                <h4 className="font-semibold text-slate-800">
+                                                    {item.title}
+                                                </h4>
+
+                                                <p className="text-sm text-slate-500 mt-1">
+                                                    {item.subtitle}
                                                 </p>
                                             </div>
+                                        </Link>
+                                    </motion.div>
+                                ))}
+                            </div>
+                        </AnimatedCard>
+
+                        <AnimatedCard className="mt-8" hover={false}>
+                            <div className="px-6 py-5 border-b border-slate-200">
+                                <h3 className="text-xl font-semibold text-slate-900">
+                                    Today's Classes
+                                </h3>
+
+                                <p className="text-sm text-slate-500 mt-1">
+                                    {loading
+                                        ? "Loading your schedule..."
+                                        : todaySessions.length === 0
+                                        ? "You have no classes scheduled today."
+                                        : `${todaySessions.length} class${todaySessions.length === 1 ? "" : "es"} scheduled today.`}
+                                </p>
+                            </div>
+
+                            <div className="p-6">
+                                {loading ? (
+                                    <p className="text-sm text-slate-500">
+                                        Loading your schedule...
+                                    </p>
+                                ) : todaySessions.length === 0 ? (
+                                    <div className="flex items-center gap-4">
+                                        <div className="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-slate-500">
+                                            i
                                         </div>
-                                    ))}
-                                </div>
-                            )}
-                        </div>
 
+                                        <div>
+                                            <p className="text-sm font-medium text-slate-700">
+                                                No classes today.
+                                            </p>
+
+                                            <p className="text-xs text-slate-400 mt-1">
+                                                Check your class routine for upcoming sessions.
+                                            </p>
+                                        </div>
+                                    </div>
+                                ) : (
+                                    <div className="divide-y divide-slate-100">
+                                        {todaySessions.map((session, index) => (
+                                            <motion.div
+                                                key={session.id}
+                                                initial={{ opacity: 0, x: -10 }}
+                                                animate={{ opacity: 1, x: 0 }}
+                                                transition={{ delay: 0.1 + index * 0.06 }}
+                                                className="flex items-center justify-between py-3"
+                                            >
+                                                <div className="flex items-center gap-4">
+                                                    <div className="w-11 h-11 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center text-lg">
+                                                        ◷
+                                                    </div>
+
+                                                    <div>
+                                                        <p className="font-medium text-slate-800">
+                                                            {session.courseOffering
+                                                                ?.course?.code ||
+                                                                "Course"}
+                                                        </p>
+
+                                                        <p className="text-xs text-slate-400 mt-0.5">
+                                                            {session.courseOffering
+                                                                ?.course?.name || "N/A"}
+                                                            {session.room
+                                                                ? ` · Room ${session.room}`
+                                                                : ""}
+                                                        </p>
+                                                    </div>
+                                                </div>
+
+                                                <div className="text-right">
+                                                    <p className="text-sm font-semibold text-slate-700">
+                                                        {formatTime(
+                                                            session.startTime
+                                                        )}
+                                                        {" - "}
+                                                        {formatTime(
+                                                            session.endTime
+                                                        )}
+                                                    </p>
+                                                </div>
+                                            </motion.div>
+                                        ))}
+                                    </div>
+                                )}
+                            </div>
+                        </AnimatedCard>
                     </div>
-
-                </div>
-
-            </main>
-
-        </div>
-    );
+  );
 }
 
 export default Dashboard;

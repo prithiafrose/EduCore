@@ -1,7 +1,10 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { motion } from "framer-motion";
 
-import StudentSidebar from "../../components/StudentSidebar";
+import StatCard from "../../components/ui/StatCard";
+import AnimatedCard from "../../components/ui/AnimatedCard";
+import ProgressRing from "../../components/ui/ProgressRing";
 
 import { getStudentByUserId } from "../../services/studentApi";
 import { getEnrollmentsByStudentId } from "../../services/enrollmentApi";
@@ -146,176 +149,180 @@ function StudentDashboard() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-100 flex">
-      {/* Sidebar */}
-      <StudentSidebar />
+    <div className="p-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-5">
+              <StatCard
+                icon="▤"
+                label="Enrolled Courses"
+                value={stats.courses}
+                hint="Courses you are enrolled in"
+                accent="indigo"
+                loading={loading}
+              />
 
-      {/* Main Content */}
-      <main className="ml-64 flex-1 p-8">
-        {/* Header */}
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-slate-900">
-            Student Dashboard
-          </h1>
+              <StatCard
+                icon="◈"
+                label="Total Credit Hours"
+                value={stats.credits}
+                hint="Credits across enrolled courses"
+                accent="purple"
+                loading={loading}
+              />
 
-          <p className="text-slate-500 mt-2">
-            Welcome back, {user?.email || "Student"} 👋
-          </p>
-        </div>
+              <StatCard
+                icon="✓"
+                label="Attendance"
+                value={stats.attendance}
+                suffix="%"
+                hint="Overall attendance in finished classes"
+                accent="emerald"
+                loading={loading}
+              />
 
-        {/* Stats */}
-        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-5 mb-8">
-          <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
-            <p className="text-sm text-slate-500">
-              Enrolled Courses
-            </p>
-
-            <h2 className="text-3xl font-bold text-slate-900 mt-2">
-              {loading ? (
-                <span className="animate-pulse text-slate-300">
-                  —
-                </span>
-              ) : (
-                stats.courses
-              )}
-            </h2>
-
-            <p className="text-xs text-slate-400 mt-2">
-              Courses you are enrolled in
-            </p>
-          </div>
-
-          <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
-            <p className="text-sm text-slate-500">
-              Total Credit Hours
-            </p>
-
-            <h2 className="text-3xl font-bold text-slate-900 mt-2">
-              {loading ? (
-                <span className="animate-pulse text-slate-300">
-                  —
-                </span>
-              ) : (
-                stats.credits
-              )}
-            </h2>
-
-            <p className="text-xs text-slate-400 mt-2">
-              Credits across enrolled courses
-            </p>
-          </div>
-
-          <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
-            <p className="text-sm text-slate-500">
-              Attendance
-            </p>
-
-            <h2 className="text-3xl font-bold text-slate-900 mt-2">
-              {loading ? (
-                <span className="animate-pulse text-slate-300">
-                  —
-                </span>
-              ) : (
-                `${stats.attendance}%`
-              )}
-            </h2>
-
-            <p className="text-xs text-slate-400 mt-2">
-              Overall attendance in finished classes
-            </p>
-          </div>
-
-          <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
-            <p className="text-sm text-slate-500">
-              Pending Payments
-            </p>
-
-            <h2 className="text-3xl font-bold text-slate-900 mt-2">
-              {loading ? (
-                <span className="animate-pulse text-slate-300">
-                  —
-                </span>
-              ) : (
-                stats.pendingPayments
-              )}
-            </h2>
-
-            <p className="text-xs text-slate-400 mt-2">
-              Unpaid fees or invoices
-            </p>
-          </div>
-        </div>
-
-        {/* Latest Notices */}
-        <div className="bg-white rounded-2xl shadow-sm border border-slate-200">
-          <div className="px-6 py-5 border-b border-slate-200">
-            <h3 className="text-lg font-semibold text-slate-900">
-              Latest Notices
-            </h3>
-
-            <p className="text-sm text-slate-500 mt-1">
-              Your recent unread announcements
-            </p>
-          </div>
-
-          {loading ? (
-            <div className="p-8 text-center text-slate-400">
-              Loading notices...
+              <StatCard
+                icon="₨"
+                label="Pending Payments"
+                value={stats.pendingPayments}
+                hint="Unpaid fees or invoices"
+                accent="amber"
+                loading={loading}
+              />
             </div>
-          ) : notices.length === 0 ? (
-            <div className="p-8 text-center">
-              <p className="text-slate-400 text-sm">
-                You have no unread notices.
-              </p>
 
-              <Link
-                to="/student/notices"
-                className="mt-3 inline-block text-blue-600 text-sm font-medium hover:underline"
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-5 mt-8">
+              <AnimatedCard className="lg:col-span-1 p-6" hover={false}>
+                <div className="mb-4">
+                  <h3 className="text-lg font-semibold text-slate-900">
+                    Attendance
+                  </h3>
+
+                  <p className="text-sm text-slate-500 mt-1">
+                    Your overall class attendance
+                  </p>
+                </div>
+
+                <div className="flex justify-center">
+                  <ProgressRing
+                    value={stats.attendance}
+                    size={132}
+                    strokeWidth={10}
+                    color="#10b981"
+                    label="Overall attendance"
+                  />
+                </div>
+              </AnimatedCard>
+
+              <AnimatedCard
+                className="lg:col-span-2 bg-gradient-to-br from-indigo-600 to-violet-600 border-transparent p-6"
+                hover={false}
               >
-                View Notice Board →
-              </Link>
+                <div className="mb-4">
+                  <h3 className="text-lg font-semibold text-white">
+                    Quick Actions
+                  </h3>
+
+                  <p className="text-sm text-indigo-100 mt-1">
+                    Jump into your most used sections
+                  </p>
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  {[
+                    { to: "/student/courses", icon: "▤", label: "My Courses" },
+                    { to: "/student/assignments", icon: "✎", label: "Assignments" },
+                    { to: "/student/routine", icon: "◫", label: "Class Routine" },
+                    { to: "/student/course-registration", icon: "✎", label: "Register Courses" },
+                  ].map((action, index) => (
+                    <motion.div
+                      key={action.to}
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: 0.15 + index * 0.07 }}
+                      whileHover={{ y: -2 }}
+                    >
+                      <Link
+                        to={action.to}
+                        className="flex items-center gap-3 rounded-xl bg-white/10 border border-white/20 px-4 py-3 text-white hover:bg-white/20 transition"
+                      >
+                        <span className="text-lg">{action.icon}</span>
+                        <span className="text-sm font-medium">
+                          {action.label}
+                        </span>
+                      </Link>
+                    </motion.div>
+                  ))}
+                </div>
+              </AnimatedCard>
             </div>
-          ) : (
-            <div className="divide-y divide-slate-100">
-              {notices.map((notice) => (
-                <div
-                  key={notice.id}
-                  className="px-6 py-4 flex items-start justify-between gap-4"
-                >
-                  <div className="min-w-0">
-                    <p className="font-medium text-slate-800 truncate">
-                      {notice.title}
-                    </p>
 
-                    <p className="text-sm text-slate-500 mt-0.5 truncate">
-                      {notice.message}
-                    </p>
+            <AnimatedCard className="mt-8" hover={false}>
+              <div className="px-6 py-5 border-b border-slate-200">
+                <h3 className="text-lg font-semibold text-slate-900">
+                  Latest Notices
+                </h3>
 
-                    <p className="text-xs text-slate-400 mt-1">
-                      {formatDate(notice.createdAt)}
-                    </p>
-                  </div>
+                <p className="text-sm text-slate-500 mt-1">
+                  Your recent unread announcements
+                </p>
+              </div>
+
+              {loading ? (
+                <div className="p-8 text-center text-slate-400">
+                  Loading notices...
+                </div>
+              ) : notices.length === 0 ? (
+                <div className="p-8 text-center">
+                  <p className="text-slate-400 text-sm">
+                    You have no unread notices.
+                  </p>
 
                   <Link
                     to="/student/notices"
-                    className="shrink-0 text-blue-600 text-sm font-medium hover:underline"
+                    className="mt-3 inline-block text-blue-600 text-sm font-medium hover:underline"
                   >
-                    Open
+                    View Notice Board →
                   </Link>
                 </div>
-              ))}
+              ) : (
+                <div className="divide-y divide-slate-100">
+                  {notices.map((notice) => (
+                    <div
+                      key={notice.id}
+                      className="px-6 py-4 flex items-start justify-between gap-4"
+                    >
+                      <div className="min-w-0">
+                        <p className="font-medium text-slate-800 truncate">
+                          {notice.title}
+                        </p>
 
-              <Link
-                to="/student/notices"
-                className="block px-6 py-3 text-center text-blue-600 text-sm font-medium hover:underline"
-              >
-                View all notices
-              </Link>
-            </div>
-          )}
-        </div>
-      </main>
-    </div>
+                        <p className="text-sm text-slate-500 mt-0.5 truncate">
+                          {notice.message}
+                        </p>
+
+                        <p className="text-xs text-slate-400 mt-1">
+                          {formatDate(notice.createdAt)}
+                        </p>
+                      </div>
+
+                      <Link
+                        to="/student/notices"
+                        className="shrink-0 text-blue-600 text-sm font-medium hover:underline"
+                      >
+                        Open
+                      </Link>
+                    </div>
+                  ))}
+
+                  <Link
+                    to="/student/notices"
+                    className="block px-6 py-3 text-center text-blue-600 text-sm font-medium hover:underline"
+                  >
+                    View all notices
+                  </Link>
+                </div>
+              )}
+            </AnimatedCard>
+          </div>
   );
 }
 

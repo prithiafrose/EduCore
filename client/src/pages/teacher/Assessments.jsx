@@ -2,8 +2,6 @@
 import { useEffect, useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 
-import TeacherSidebar from "../../components/TeacherSidebar";
-
 import {
   getAllTeacherAssignments,
 } from "../../services/teacherAssignmentApi";
@@ -657,39 +655,6 @@ const Assessments = () => {
     }
 
     return assessment.name;
-  };
-
-  // ========================================
-  // GET ASSESSMENT TOTAL
-  // ========================================
-  const getStudentTotalAssessmentMark = (
-    enrollmentId
-  ) => {
-    let total = 0;
-    let hasAnyMark = false;
-
-    assessments.forEach((assessment) => {
-      if (assessment.type === "ATTENDANCE") {
-        return;
-      }
-
-      const mark =
-        getStudentAssessmentMark(
-          assessment.id,
-          enrollmentId
-        );
-
-      if (mark !== null) {
-        total += mark;
-        hasAnyMark = true;
-      }
-    });
-
-    if (!hasAnyMark) {
-      return null;
-    }
-
-    return total;
   };
 
   // ========================================
@@ -2145,13 +2110,7 @@ const Assessments = () => {
   // MAIN RETURN
   // ========================================
   return (
-    <div className="flex min-h-screen bg-gray-100">
-
-      {/* Sidebar */}
-      <TeacherSidebar />
-
-      {/* Main */}
-      <main className="ml-64 flex-1">
+    <>
 
         {/* Topbar */}
         <header className="flex h-16 items-center justify-between border-b bg-white px-8">
@@ -2199,9 +2158,7 @@ const Assessments = () => {
 
         </div>
 
-      </main>
-
-    </div>
+    </>
   );
 };
 

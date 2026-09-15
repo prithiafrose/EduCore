@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import StudentSidebar from "../../components/StudentSidebar";
 import {
     getTimetablesByStudentId
 } from "../../services/timetableApi";
@@ -176,17 +175,9 @@ const ClassRoutine = () => {
     };
 
     return (
-        <div className="min-h-screen bg-slate-100 flex">
-
-            {/* ================= SIDEBAR ================= */}
-            <StudentSidebar />
-
-
-            {/* ================= MAIN CONTENT ================= */}
-            <main className="ml-64 flex-1">
-
-                {/* TOP BAR */}
-                <header className="h-16 bg-white border-b border-slate-200 flex items-center justify-between px-8">
+        <>
+        {/* TOP BAR */}
+        <header className="h-16 bg-white border-b border-slate-200 flex items-center justify-between px-8">
 
                     <div>
                         <h2 className="text-lg font-semibold text-slate-800">
@@ -404,8 +395,8 @@ const ClassRoutine = () => {
                         )}
 
                 </div>
-            </main>
-        </div>
+
+        </>
     );
 };
 

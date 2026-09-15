@@ -1,7 +1,5 @@
 import { useEffect, useState } from "react";
 
-import StudentSidebar from "../../components/StudentSidebar";
-
 import {
   getNotificationsByUser,
   markNotificationAsRead,
@@ -154,13 +152,8 @@ function Notices() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-100 flex">
-      {/* Sidebar */}
-      <StudentSidebar />
-
-      {/* Main Content */}
-      <main className="ml-64 flex-1">
-        <header className="bg-white border-b border-slate-200 px-8 py-5 flex items-center justify-between">
+    <>
+      <header className="bg-white border-b border-slate-200 px-8 py-5 flex items-center justify-between">
           <div>
             <p className="text-sm text-slate-500">
               Student Portal
@@ -295,8 +288,7 @@ function Notices() {
             </>
           )}
         </div>
-      </main>
-    </div>
+    </>
   );
 }
 

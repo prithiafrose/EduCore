@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import AdminSidebar from "./AdminSidebar";
 
 import { getAllCourseResults, generateCourseResult } from "../../services/courseResultApi";
 
@@ -150,9 +149,6 @@ const Results = () => {
   const gradeStatKeys = Object.keys(gradeCounts);
 
   return (
-    <div className="min-h-screen bg-slate-100 flex">
-      <AdminSidebar current="results" />
-      <main className="ml-64 flex-1 min-w-0">
       <div className="p-8">
       {/* Header */}
       <div className="mb-8 flex items-center justify-between">
@@ -457,8 +453,6 @@ const Results = () => {
         </div>
       </div>
       </div>
-      </main>
-    </div>
   );
 };
 

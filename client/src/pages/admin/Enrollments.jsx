@@ -1,5 +1,4 @@
 import { useState } from "react";
-import AdminSidebar from "./AdminSidebar";
 
 import {
   getEnrollments,
@@ -271,9 +270,6 @@ const Enrollments = () => {
   };
 
   return (
-    <div className="min-h-screen bg-slate-100 flex">
-      <AdminSidebar current="enrollments" />
-      <main className="ml-64 flex-1 min-w-0">
       <div className="p-8">
       {/* Header */}
       <div className="mb-8 flex items-center justify-between">
@@ -635,8 +631,6 @@ const Enrollments = () => {
         </div>
       </div>
       </div>
-      </main>
-    </div>
   );
 };
 

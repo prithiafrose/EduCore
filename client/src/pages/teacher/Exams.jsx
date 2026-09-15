@@ -1,8 +1,6 @@
 import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 
-import TeacherSidebar from "../../components/TeacherSidebar";
-
 import {
     getAllTeacherAssignments,
 } from "../../services/teacherAssignmentApi";
@@ -615,22 +613,10 @@ const Exams = () => {
 
     if (loading) {
         return (
-            <div className="min-h-screen bg-gray-100 flex">
-
-                <TeacherSidebar />
-
-                <main className="ml-64 flex-1 p-8">
-
-                    <div className="bg-white rounded-xl shadow-sm p-10 text-center">
-
-                        <p className="text-gray-500">
-                            Loading exams...
-                        </p>
-
-                    </div>
-
-                </main>
-
+            <div className="bg-white rounded-xl shadow-sm p-10 text-center">
+                <p className="text-gray-500">
+                    Loading exams...
+                </p>
             </div>
         );
     }
@@ -640,19 +626,7 @@ const Exams = () => {
     // ========================================
 
     return (
-        <div className="min-h-screen bg-gray-100 flex">
-
-            {/* ========================================
-                SIDEBAR
-            ======================================== */}
-
-            <TeacherSidebar />
-
-            {/* ========================================
-                MAIN CONTENT
-            ======================================== */}
-
-            <main className="ml-64 flex-1">
+        <>
 
                 {/* HEADER */}
 
@@ -1168,9 +1142,8 @@ const Exams = () => {
                 )}
 
             </div>
-            </main>
+        </>
 
-        </div>
     );
 };
 

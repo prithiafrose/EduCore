@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import AdminSidebar from "./AdminSidebar";
 
 import {
   getAcademicSemesters,
@@ -315,12 +314,6 @@ function AcademicSemesters() {
 
     return (
 
-      <div className="min-h-screen bg-slate-100 flex">
-
-        <AdminSidebar current="semesters" />
-
-        <main className="ml-64 flex-1 min-w-0">
-
           <div className="flex min-h-[300px] items-center justify-center">
 
             <p className="text-sm text-slate-500">
@@ -329,22 +322,12 @@ function AcademicSemesters() {
 
           </div>
 
-        </main>
-
-      </div>
-
     );
 
   }
 
 
   return (
-
-    <div className="min-h-screen bg-slate-100 flex">
-
-      <AdminSidebar current="semesters" />
-
-      <main className="ml-64 flex-1 min-w-0">
 
       <div className="p-6">
 
@@ -862,10 +845,6 @@ function AcademicSemesters() {
       </div>
 
       </div>
-
-      </main>
-
-    </div>
 
   );
 

@@ -1,8 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
-import TeacherSidebar from "../../components/TeacherSidebar";
-
 import {
     getAllTeacherAssignments
 } from "../../services/teacherAssignmentApi";
@@ -217,52 +215,30 @@ function TeacherCourses() {
 
     if (loading) {
         return (
-            <div className="min-h-screen bg-slate-100 flex">
-
-                <TeacherSidebar />
-
-                <main className="ml-64 flex-1 p-8">
-                    <div className="bg-white rounded-2xl border border-slate-200 p-8">
-                        <p className="text-slate-500">
-                            Loading courses...
-                        </p>
-                    </div>
-                </main>
-
+            <div className="bg-white rounded-2xl border border-slate-200 p-8">
+                <p className="text-slate-500">
+                    Loading courses...
+                </p>
             </div>
         );
     }
 
     if (error) {
         return (
-            <div className="min-h-screen bg-slate-100 flex">
+            <div className="bg-white rounded-2xl border border-red-200 p-8">
+                <h2 className="text-xl font-semibold text-slate-900">
+                    My Courses
+                </h2>
 
-                <TeacherSidebar />
-
-                <main className="ml-64 flex-1 p-8">
-                    <div className="bg-white rounded-2xl border border-red-200 p-8">
-                        <h2 className="text-xl font-semibold text-slate-900">
-                            My Courses
-                        </h2>
-
-                        <p className="text-red-500 mt-3">
-                            {error}
-                        </p>
-                    </div>
-                </main>
-
+                <p className="text-red-500 mt-3">
+                    {error}
+                </p>
             </div>
         );
     }
 
     return (
-        <div className="min-h-screen bg-slate-100 flex">
-
-            {/* Sidebar */}
-            <TeacherSidebar />
-
-            {/* Main */}
-            <main className="ml-64 flex-1 min-w-0">
+        <>
 
                 {/* Topbar */}
                 <header className="bg-white border-b border-slate-200 px-8 py-5">
@@ -649,9 +625,7 @@ function TeacherCourses() {
 
                 </div>
 
-            </main>
-
-        </div>
+        </>
     );
 }
 

@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import AdminSidebar from "./AdminSidebar";
 
 import {
   getAllClassSessions,
@@ -449,25 +448,15 @@ const ClassSessions = () => {
   // Loading state
   if (loading) {
     return (
-      <div className="min-h-screen bg-slate-100 flex">
-        <AdminSidebar current="class-sessions" />
-
-        <main className="ml-64 flex-1 min-w-0">
           <div className="flex min-h-[300px] items-center justify-center">
             <p className="text-sm text-slate-500">
               Loading class sessions...
             </p>
           </div>
-        </main>
-      </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-slate-100 flex">
-      <AdminSidebar current="class-sessions" />
-
-      <main className="ml-64 flex-1 min-w-0">
         <div className="p-6">
           {/* Header */}
           <div className="mb-8">
@@ -1096,8 +1085,6 @@ const ClassSessions = () => {
             )}
           </div>
         </div>
-      </main>
-    </div>
   );
 };
 

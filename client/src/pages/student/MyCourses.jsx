@@ -1,7 +1,5 @@
 import { useEffect, useState } from "react";
 
-import StudentSidebar from "../../components/StudentSidebar";
-
 import { getStudentByUserId } from "../../services/studentApi";
 import { getEnrollmentsByStudentId } from "../../services/enrollmentApi";
 import {
@@ -107,15 +105,7 @@ function MyCourses() {
     }, []);
 
     return (
-        <div className="min-h-screen bg-slate-100 flex">
-
-            {/* Sidebar */}
-            <StudentSidebar />
-
-
-            {/* Main Content */}
-            <main className="ml-64 flex-1">
-
+        <>
                 {/* Topbar */}
                 <header className="bg-white border-b border-slate-200 px-8 py-5 flex items-center justify-between">
 
@@ -424,9 +414,7 @@ function MyCourses() {
 
                 </div>
 
-            </main>
-
-        </div>
+        </>
     );
 }
 

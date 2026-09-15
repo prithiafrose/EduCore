@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import StudentSidebar from "../../components/StudentSidebar";
 import {
     getAttendancesByStudentId
 } from "../../services/attendanceApi";
@@ -396,21 +395,10 @@ const Attendance = () => {
 
 
     return (
+        <>
+        {/* Header */}
 
-        <div className="min-h-screen bg-slate-100 flex">
-
-            {/* Sidebar */}
-
-            <StudentSidebar />
-
-
-            {/* Main */}
-
-            <main className="ml-64 flex-1">
-
-                {/* Header */}
-
-                <header className="h-16 bg-white border-b border-slate-200 flex items-center justify-between px-8">
+        <header className="h-16 bg-white border-b border-slate-200 flex items-center justify-between px-8">
 
                     <div>
 
@@ -899,10 +887,7 @@ const Attendance = () => {
 
                 </div>
 
-            </main>
-
-        </div>
-
+        </>
     );
 
 };

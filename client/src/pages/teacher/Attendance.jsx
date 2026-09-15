@@ -1,8 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 
-import TeacherSidebar from "../../components/TeacherSidebar";
-
 import {
     getAllTeacherAssignments,
 } from "../../services/teacherAssignmentApi";
@@ -635,17 +633,11 @@ const Attendance = () => {
     if (loading) {
 
         return (
-            <div className="min-h-screen bg-slate-100">
+            <div className="p-8">
 
-                <TeacherSidebar />
-
-                <main className="ml-64 p-8">
-
-                    <p className="text-slate-600">
-                        Loading attendance...
-                    </p>
-
-                </main>
+                <p className="text-slate-600">
+                    Loading attendance...
+                </p>
 
             </div>
         );
@@ -672,20 +664,16 @@ const Attendance = () => {
 
 
         return (
-            <div className="min-h-screen bg-slate-100">
+            <div className="p-8">
 
-                <TeacherSidebar />
+                <div className="mb-6">
 
-                <main className="ml-64 p-8">
-
-                    <div className="mb-6">
-
-                        <Link
-                            to={`/teacher/attendance?courseOfferingId=${courseOfferingId}`}
-                            className="text-indigo-600 hover:underline"
-                        >
-                            ← Back to Class Sessions
-                        </Link>
+                    <Link
+                        to={`/teacher/attendance?courseOfferingId=${courseOfferingId}`}
+                        className="text-indigo-600 hover:underline"
+                    >
+                        ← Back to Class Sessions
+                    </Link>
 
 
                         <h1 className="text-3xl font-bold text-slate-900 mt-4">
@@ -946,8 +934,6 @@ const Attendance = () => {
 
                     )}
 
-                </main>
-
             </div>
         );
 
@@ -1026,12 +1012,7 @@ const Attendance = () => {
 
 
         return (
-            <div className="min-h-screen bg-slate-100">
-
-                <TeacherSidebar />
-
-
-                <main className="ml-64 p-8">
+            <div className="p-8">
 
                     <Link
                         to={`/teacher/attendance?courseOfferingId=${courseOfferingId}`}
@@ -1310,8 +1291,6 @@ const Attendance = () => {
 
                     )}
 
-                </main>
-
             </div>
         );
 
@@ -1336,12 +1315,7 @@ const Attendance = () => {
 
 
         return (
-            <div className="min-h-screen bg-slate-100">
-
-                <TeacherSidebar />
-
-
-                <main className="ml-64 p-8">
+            <div className="p-8">
 
                     <Link
                         to="/teacher/attendance"
@@ -1500,8 +1474,6 @@ const Attendance = () => {
 
                     )}
 
-                </main>
-
             </div>
         );
 
@@ -1513,12 +1485,7 @@ const Attendance = () => {
     // ==================================================
 
     return (
-        <div className="min-h-screen bg-slate-100">
-
-            <TeacherSidebar />
-
-
-            <main className="ml-64 p-8">
+        <div className="p-8">
 
                 <div className="mb-8">
 
@@ -1642,8 +1609,6 @@ const Attendance = () => {
                     </div>
 
                 )}
-
-            </main>
 
         </div>
     );

@@ -1,7 +1,5 @@
 import { useEffect, useState } from "react";
 
-import TeacherSidebar from "../../components/TeacherSidebar";
-
 import { getAllTeacherAssignments } from "../../services/teacherAssignmentApi";
 import { getEnrollments } from "../../services/enrollmentApi";
 
@@ -180,17 +178,11 @@ function Students() {
 
     if (loading) {
         return (
-            <div className="min-h-screen bg-gray-100 flex">
-                <TeacherSidebar />
-
-                <main className="ml-64 flex-1">
-                    <div className="p-8">
+            <div className="p-8">
                         <div className="bg-white rounded-xl shadow-sm p-10 text-center text-gray-500">
                             Loading students...
                         </div>
                     </div>
-                </main>
-            </div>
         );
     }
 
@@ -200,19 +192,13 @@ function Students() {
 
     if (error) {
         return (
-            <div className="min-h-screen bg-gray-100 flex">
-                <TeacherSidebar />
-
-                <main className="ml-64 flex-1">
-                    <div className="p-8">
+            <div className="p-8">
                         <div className="bg-white rounded-xl shadow-sm p-10">
                             <p className="text-red-600">
                                 {error}
                             </p>
                         </div>
                     </div>
-                </main>
-            </div>
         );
     }
 
@@ -221,10 +207,7 @@ function Students() {
     // --------------------------------------------------
 
     return (
-        <div className="min-h-screen bg-gray-100 flex">
-            <TeacherSidebar />
-
-            <main className="ml-64 flex-1">
+        <>
                 <header className="bg-white border-b border-slate-200 px-8 py-5 flex items-center justify-between">
                     <div>
                         <p className="text-sm font-medium text-indigo-600">
@@ -481,8 +464,7 @@ function Students() {
                     </div>
 
                 </div>
-            </main>
-        </div>
+    </>
     );
 }
 

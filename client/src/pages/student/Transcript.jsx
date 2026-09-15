@@ -1,7 +1,5 @@
 import { useEffect, useState } from "react";
 
-import StudentSidebar from "../../components/StudentSidebar";
-
 import { getStudentByUserId } from "../../services/studentApi";
 import { getStudentTranscript } from "../../services/courseResultApi";
 
@@ -77,12 +75,7 @@ function Transcript() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-slate-100 flex">
-      {/* Sidebar */}
-      <StudentSidebar />
-
-      {/* Main Content */}
-      <main className="ml-64 flex-1 p-8">
+        <>
         {/* Header */}
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-slate-900">
@@ -278,8 +271,7 @@ function Transcript() {
             )}
           </>
         )}
-      </main>
-    </div>
+        </>
   );
 }
 

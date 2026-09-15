@@ -1,7 +1,5 @@
 import { useEffect, useState } from "react";
 
-import StudentSidebar from "../../components/StudentSidebar";
-
 import { getStudentByUserId } from "../../services/studentApi";
 import { updateStudent } from "../../services/studentApi";
 import api from "../../services/axios";
@@ -314,15 +312,9 @@ const Profile = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-slate-100 flex">
-        <StudentSidebar />
-
-        <main className="ml-64 flex-1 flex items-center justify-center">
           <div className="text-gray-600 text-lg">
             Loading profile...
           </div>
-        </main>
-      </div>
     );
   }
 
@@ -332,15 +324,9 @@ const Profile = () => {
 
   if (error && !student) {
     return (
-      <div className="min-h-screen bg-slate-100 flex">
-        <StudentSidebar />
-
-        <main className="ml-64 flex-1 p-8">
           <div className="mt-6 bg-white rounded-xl shadow-sm border border-red-200 p-6">
             <p className="text-red-600">{error}</p>
           </div>
-        </main>
-      </div>
     );
   }
 
@@ -349,11 +335,8 @@ const Profile = () => {
   // ==============================
 
   return (
-    <div className="min-h-screen bg-gray-100 flex">
-      <StudentSidebar />
-
-      <main className="ml-64 flex-1">
-        <div className="bg-white border-b">
+        <>
+          <div className="bg-white border-b">
           <div className="px-8 py-6">
             <h1 className="text-3xl font-bold text-gray-800 mt-4">
               My Profile
@@ -719,8 +702,7 @@ const Profile = () => {
           </div>
         </div>
       </div>
-      </main>
-    </div>
+    </>
   );
 };
 

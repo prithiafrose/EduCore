@@ -1,7 +1,5 @@
 import { useEffect, useState } from "react";
 
-import StudentSidebar from "../../components/StudentSidebar";
-
 import { getStudentByUserId } from "../../services/studentApi";
 import { getFeesByProgram } from "../../services/feeApi";
 
@@ -263,14 +261,7 @@ function Payments() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-100 flex">
-
-      {/* Sidebar */}
-      <StudentSidebar />
-
-      {/* Main */}
-      <main className="ml-64 flex-1 p-8">
-
+        <>
         {/* Header */}
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-gray-800">
@@ -676,9 +667,7 @@ function Payments() {
 
         </div>
 
-      </main>
-
-    </div>
+        </>
   );
 }
 

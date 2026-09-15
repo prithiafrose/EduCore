@@ -1,5 +1,4 @@
 import { useState } from "react";
-import AdminSidebar from "./AdminSidebar";
 
 import { changePassword } from "../../services/authApi";
 
@@ -71,12 +70,6 @@ const ChangePassword = () => {
 
 
   return (
-    <div className="min-h-screen bg-slate-100 flex">
-
-      <AdminSidebar current="change-password" />
-
-      <main className="ml-64 flex-1 min-w-0">
-
       <div className="p-6">
 
       <div className="flex items-center justify-between">
@@ -199,9 +192,6 @@ const ChangePassword = () => {
 
       </div>
 
-      </main>
-
-    </div>
   );
 };
 

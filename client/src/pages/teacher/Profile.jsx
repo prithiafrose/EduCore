@@ -1,7 +1,5 @@
 import { useEffect, useState } from "react";
 
-import TeacherSidebar from "../../components/TeacherSidebar";
-
 import api from "../../services/axios";
 
 import {
@@ -465,17 +463,11 @@ const Profile = () => {
 if (loading) {
 
         return (
-            <div className="min-h-screen bg-gray-100 flex">
+            <div className="p-8">
 
-                <TeacherSidebar />
-
-                <main className="ml-64 flex-1 flex items-center justify-center">
-
-                    <div className="text-gray-600 text-lg">
-                        Loading profile...
-                    </div>
-
-                </main>
+                <div className="bg-white rounded-xl border border-slate-200 p-10 text-center text-slate-500">
+                    Loading profile...
+                </div>
 
             </div>
         );
@@ -489,22 +481,16 @@ if (loading) {
     if (error && !teacher) {
 
         return (
-            <div className="min-h-screen bg-gray-100 flex">
+            <div className="p-8">
 
-                <TeacherSidebar />
+                <div className="max-w-5xl mx-auto mt-6 bg-white rounded-xl shadow-sm border border-red-200 p-6">
 
-                <main className="ml-64 flex-1 p-8">
+                    <p className="text-red-600">
 
-                    <div className="max-w-5xl mx-auto mt-6 bg-white rounded-xl shadow-sm border border-red-200 p-6">
+                        {error}
+                    </p>
 
-                        <p className="text-red-600">
-
-                            {error}
-                        </p>
-
-                    </div>
-
-                </main>
+                </div>
 
             </div>
         );
@@ -516,11 +502,7 @@ if (loading) {
     // ==============================
 
     return (
-        <div className="min-h-screen bg-gray-100 flex">
-
-            <TeacherSidebar />
-
-            <main className="ml-64 flex-1">
+        <>
 
             {/* ==============================
                 HEADER
@@ -1158,9 +1140,7 @@ if (loading) {
 
             </div>
 
-            </main>
-
-        </div>
+        </>
     );
 };
 

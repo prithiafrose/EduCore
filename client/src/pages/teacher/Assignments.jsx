@@ -1,8 +1,6 @@
 import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 
-import TeacherSidebar from "../../components/TeacherSidebar";
-
 import { getAllTeacherAssignments } from "../../services/teacherAssignmentApi";
 
 import {
@@ -421,12 +419,7 @@ function Assignments() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 flex">
-      {/* Sidebar */}
-      <TeacherSidebar />
-
-      {/* Main Content */}
-      <main className="ml-64 flex-1 p-8">
+    <>
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-gray-800">
             Assignment Management
@@ -968,8 +961,7 @@ function Assignments() {
             )}
           </>
         )}
-      </main>
-    </div>
+    </>
   );
 }
 
