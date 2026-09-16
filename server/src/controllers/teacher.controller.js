@@ -1,6 +1,10 @@
 const teacherService =
     require("../services/teacher.service");
 
+const {
+    validateEmail
+} = require("../utils/email");
+
 
 // GET all teachers
 const getAllTeachers = async (req, res) => {
@@ -98,6 +102,17 @@ const createTeacher = async (req, res) => {
         }
 
 
+        // Validate email format (rejects invalid / disposable addresses)
+        const emailError = validateEmail(email);
+
+        if (emailError) {
+
+            return res.status(400).json({
+                message: emailError
+            });
+        }
+
+
         const teacher =
             await teacherService.createTeacher(
                 name,
@@ -171,6 +186,17 @@ const updateTeacher = async (req, res) => {
             return res.status(400).json({
                 message:
                     "Name, email and employeeId are required"
+            });
+        }
+
+
+        // Validate email format (rejects invalid / disposable addresses)
+        const emailError = validateEmail(email);
+
+        if (emailError) {
+
+            return res.status(400).json({
+                message: emailError
             });
         }
 

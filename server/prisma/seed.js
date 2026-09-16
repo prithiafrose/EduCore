@@ -1,10 +1,21 @@
 require("dotenv").config();
 const prisma = require("../src/config/prisma");
 const { hashPassword } = require("../src/utils/hash");
+const { validateEmail } = require("../src/utils/email");
 
 async function main() {
   const adminEmail = process.env.SEED_ADMIN_EMAIL || "admin@educore.edu";
   const adminPassword = process.env.SEED_ADMIN_PASSWORD || "Admin@123";
+
+  const adminEmailError = validateEmail(adminEmail);
+
+  if (adminEmailError) {
+    throw new Error(`Invalid SEED_ADMIN_EMAIL: ${adminEmailError}`);
+  }
+
+  if (!adminPassword || adminPassword.length < 6) {
+    throw new Error("SEED_ADMIN_PASSWORD must be at least 6 characters");
+  }
 
   const admin = await prisma.user.upsert({
     where: { email: adminEmail },

@@ -1,6 +1,10 @@
 const userService =
     require("../services/user.service");
 
+const {
+    validateEmail
+} = require("../utils/email");
+
 
 // GET all users
 const getAllUsers = async (req, res) => {
@@ -88,6 +92,16 @@ const createUser = async (req, res) => {
         }
 
 
+        // Validate email format (rejects invalid / disposable addresses)
+        const emailError = validateEmail(email);
+
+        if (emailError) {
+            return res.status(400).json({
+                message: emailError
+            });
+        }
+
+
         // Validate role
         const validRoles = [
             "ADMIN",
@@ -171,6 +185,16 @@ const updateUser = async (req, res) => {
             return res.status(400).json({
                 message:
                     "email and role are required"
+            });
+        }
+
+
+        // Validate email format (rejects invalid / disposable addresses)
+        const emailError = validateEmail(email);
+
+        if (emailError) {
+            return res.status(400).json({
+                message: emailError
             });
         }
 
