@@ -66,4 +66,9 @@ Project documentation is available inside the `docs/` directory.
 
 ## 📌 Project Status
 
-🚧 Currently in development.
+✅ **Deployed** — all core features implemented across backend and frontend.
+
+- Frontend: Vercel
+- Backend: Render (PostgreSQL)
+
+> Note: Payments run on a sandbox gateway (no real money charged). A production gateway, automated tests, and CI/CD pipelines are planned next.

@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Building2, Pencil, Plus, Trash2 } from "lucide-react";
 
 import {
   getDepartments,
@@ -6,6 +7,10 @@ import {
   deleteDepartment,
   updateDepartment,
 } from "../../services/departmentApi";
+
+import PageHeader from "../../components/ui/PageHeader";
+import DataTable from "../../components/ui/DataTable";
+import EmptyState from "../../components/ui/EmptyState";
 
 
 function Departments() {
@@ -239,9 +244,7 @@ function Departments() {
 
           <div className="flex min-h-[300px] items-center justify-center">
 
-            <p className="text-sm text-slate-500">
-              Loading departments...
-            </p>
+            <div className="h-8 w-8 animate-spin rounded-full border-2 border-slate-200 border-t-indigo-600" />
 
           </div>
 
@@ -252,56 +255,34 @@ function Departments() {
 
   return (
 
-      <div className="p-6">
-
+      <div className="ec-page">
 
       {/* Header */}
 
-      <div className="mb-8">
-
-        <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-
-          <div className="flex items-center justify-between">
-
-            <div>
-
-              <h1 className="text-3xl font-bold text-slate-900">
-                Department Management
-              </h1>
-
-              <p className="mt-1 text-sm text-slate-500">
-                Manage university departments and their codes
-              </p>
-
-            </div>
-
-            </div>
-
-
-          {/* Total Departments */}
-
-          <div className="rounded-xl bg-white px-4 py-3 shadow-sm ring-1 ring-slate-200">
-
-            <p className="text-xs font-medium uppercase tracking-wide text-slate-400">
-              Total Departments
-            </p>
-
-            <p className="mt-1 text-2xl font-bold text-slate-900">
-              {departments.length}
-            </p>
-
-          </div>
-
-        </div>
-
-      </div>
+      <PageHeader
+        title="Departments"
+        subtitle="Manage university departments and their codes."
+        actions={[
+          !showForm && (
+            <button
+              key="add"
+              type="button"
+              onClick={handleAdd}
+              className="ec-btn ec-btn-primary"
+            >
+              <Plus size={16} />
+              Add Department
+            </button>
+          ),
+        ]}
+      />
 
 
       {/* Messages */}
 
       {success && (
 
-        <div className="mb-5 rounded-xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm font-medium text-emerald-700">
+        <div className="rounded-xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm font-medium text-emerald-700">
           {success}
         </div>
 
@@ -310,7 +291,7 @@ function Departments() {
 
       {error && (
 
-        <div className="mb-5 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm font-medium text-red-700">
+        <div className="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm font-medium text-red-700">
           {error}
         </div>
 
@@ -321,8 +302,7 @@ function Departments() {
 
       {showForm && (
 
-        <div className="mb-8 rounded-2xl bg-white p-6 shadow-sm ring-1 ring-slate-200">
-
+        <div className="ec-card ec-card-pad">
 
           <div className="mb-6">
 
@@ -353,9 +333,9 @@ function Departments() {
 
             {/* Department Name */}
 
-            <div>
+            <div className="ec-field md:mb-0">
 
-              <label className="mb-2 block text-sm font-medium text-slate-700">
+              <label className="ec-label">
                 Department Name
               </label>
 
@@ -367,7 +347,7 @@ function Departments() {
                 }
                 placeholder="Software Engineering"
                 required
-                className="w-full rounded-xl border border-slate-300 px-4 py-3 text-sm outline-none transition focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100"
+                className="ec-input"
               />
 
             </div>
@@ -375,9 +355,9 @@ function Departments() {
 
             {/* Department Code */}
 
-            <div>
+            <div className="ec-field md:mb-0">
 
-              <label className="mb-2 block text-sm font-medium text-slate-700">
+              <label className="ec-label">
                 Department Code
               </label>
 
@@ -389,7 +369,7 @@ function Departments() {
                 }
                 placeholder="SWE"
                 required
-                className="w-full rounded-xl border border-slate-300 px-4 py-3 text-sm uppercase outline-none transition focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100"
+                className="ec-input uppercase"
               />
 
             </div>
@@ -402,7 +382,7 @@ function Departments() {
               <button
                 type="submit"
                 disabled={saving}
-                className="rounded-xl bg-indigo-600 px-6 py-3 text-sm font-semibold text-white transition hover:bg-indigo-700 disabled:cursor-not-allowed disabled:opacity-60"
+                className="ec-btn ec-btn-primary"
               >
 
                 {saving
@@ -418,7 +398,7 @@ function Departments() {
                 type="button"
                 onClick={resetForm}
                 disabled={saving}
-                className="rounded-xl border border-slate-300 bg-white px-6 py-3 text-sm font-semibold text-slate-700 transition hover:bg-slate-50 disabled:opacity-60"
+                className="ec-btn ec-btn-secondary"
               >
                 Cancel
               </button>
@@ -434,28 +414,34 @@ function Departments() {
 
       {/* Department List */}
 
-      <div className="rounded-2xl bg-white shadow-sm ring-1 ring-slate-200">
-
+      <div className="ec-card overflow-hidden">
 
         {/* List Header */}
 
-        <div className="flex flex-col gap-4 border-b border-slate-200 p-6 sm:flex-row sm:items-center sm:justify-between">
+        <div className="flex flex-col gap-4 border-b border-slate-100 p-6 sm:flex-row sm:items-center sm:justify-between">
 
-          <div>
+          <div className="flex items-center gap-4">
 
-            <h2 className="text-lg font-semibold text-slate-900">
-              Departments
-            </h2>
+            <div>
 
-            <p className="mt-1 text-sm text-slate-500">
-              View and manage university departments
-            </p>
+              <h2 className="text-base font-semibold text-slate-900">
+                Departments
+              </h2>
+
+              <p className="mt-0.5 text-sm text-slate-500">
+                View and manage university departments
+              </p>
+
+            </div>
+
+            <span className="ec-badge ec-badge-indigo">
+              {departments.length} total
+            </span>
 
           </div>
 
 
           <div className="flex w-full flex-col gap-3 sm:w-auto sm:flex-row">
-
 
             {/* Search */}
 
@@ -466,23 +452,8 @@ function Departments() {
                 setSearch(e.target.value)
               }
               placeholder="Search departments..."
-              className="w-full rounded-xl border border-slate-300 px-4 py-3 text-sm outline-none transition focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100 sm:w-72"
+              className="ec-search"
             />
-
-
-            {/* Add Button */}
-
-            {!showForm && (
-
-              <button
-                type="button"
-                onClick={handleAdd}
-                className="rounded-xl bg-indigo-600 px-5 py-3 text-sm font-semibold text-white transition hover:bg-indigo-700"
-              >
-                Add Department
-              </button>
-
-            )}
 
           </div>
 
@@ -491,145 +462,106 @@ function Departments() {
 
         {/* Department Table */}
 
-        {filteredDepartments.length === 0 ? (
+        <DataTable
+          columns={["Department", "Code", "Department ID", ""]}
+          empty={
+            filteredDepartments.length === 0 && (
+              <EmptyState
+                icon={Building2}
+                title="No departments found"
+                description="Try a different search or add a new department."
+              />
+            )
+          }
+        >
 
-          <div className="p-10 text-center">
+          {filteredDepartments.map(
+            (department) => (
 
-            <p className="font-medium text-slate-700">
-              No departments found
-            </p>
-
-            <p className="mt-1 text-sm text-slate-400">
-              Try a different search or add a new department.
-            </p>
-
-          </div>
-
-        ) : (
-
-          <div className="overflow-x-auto">
-
-            <table className="w-full text-left">
-
-              <thead>
-
-                <tr className="border-b border-slate-200 bg-slate-50">
-
-                  <th className="px-6 py-4 text-xs font-semibold uppercase tracking-wide text-slate-500">
-                    Department
-                  </th>
-
-                  <th className="px-6 py-4 text-xs font-semibold uppercase tracking-wide text-slate-500">
-                    Code
-                  </th>
-
-                  <th className="px-6 py-4 text-xs font-semibold uppercase tracking-wide text-slate-500">
-                    Department ID
-                  </th>
-
-                  <th className="px-6 py-4 text-right text-xs font-semibold uppercase tracking-wide text-slate-500">
-                    Actions
-                  </th>
-
-                </tr>
-
-              </thead>
+              <tr
+                key={department.id}
+              >
 
 
-              <tbody>
+                {/* Department */}
 
-                {filteredDepartments.map(
-                  (department) => (
+                <td>
 
-                    <tr
-                      key={department.id}
-                      className="border-b border-slate-100 last:border-0 hover:bg-slate-50"
+                  <p className="font-medium text-slate-900">
+                    {department.name}
+                  </p>
+
+                  <p className="mt-0.5 text-xs text-slate-400">
+                    University Department
+                  </p>
+
+                </td>
+
+
+                {/* Code */}
+
+                <td>
+
+                  <span className="ec-badge ec-badge-indigo">
+                    {department.code}
+                  </span>
+
+                </td>
+
+
+                {/* ID */}
+
+                <td>
+
+                  <span className="text-sm text-slate-500">
+                    {department.id}
+                  </span>
+
+                </td>
+
+
+                {/* Actions */}
+
+                <td>
+
+                  <div className="flex justify-end gap-2">
+
+                    <button
+                      type="button"
+                      onClick={() =>
+                        handleEdit(
+                          department
+                        )
+                      }
+                      aria-label="Edit department"
+                      className="ec-icon-btn"
                     >
+                      <Pencil size={16} />
+                    </button>
 
+                    <button
+                      type="button"
+                      onClick={() =>
+                        handleDelete(
+                          department.id
+                        )
+                      }
+                      aria-label="Delete department"
+                      className="ec-icon-btn ec-icon-btn-danger"
+                    >
+                      <Trash2 size={16} />
+                    </button>
 
-                      {/* Department */}
+                  </div>
 
-                      <td className="px-6 py-4">
+                </td>
 
-                        <p className="font-medium text-slate-900">
-                          {department.name}
-                        </p>
+              </tr>
 
-                        <p className="mt-1 text-xs text-slate-400">
-                          University Department
-                        </p>
+            )
+          )}
 
-                      </td>
-
-
-                      {/* Code */}
-
-                      <td className="px-6 py-4">
-
-                        <span className="rounded-lg bg-indigo-50 px-3 py-1.5 text-sm font-semibold text-indigo-700">
-                          {department.code}
-                        </span>
-
-                      </td>
-
-
-                      {/* ID */}
-
-                      <td className="px-6 py-4">
-
-                        <span className="text-sm text-slate-500">
-                          {department.id}
-                        </span>
-
-                      </td>
-
-
-                      {/* Actions */}
-
-                      <td className="px-6 py-4">
-
-                        <div className="flex justify-end gap-2">
-
-                          <button
-                            type="button"
-                            onClick={() =>
-                              handleEdit(
-                                department
-                              )
-                            }
-                            className="rounded-lg border border-slate-300 px-3 py-2 text-xs font-semibold text-slate-700 transition hover:bg-slate-100"
-                          >
-                            Edit
-                          </button>
-
-                          <button
-                            type="button"
-                            onClick={() =>
-                              handleDelete(
-                                department.id
-                              )
-                            }
-                            className="rounded-lg border border-red-200 px-3 py-2 text-xs font-semibold text-red-600 transition hover:bg-red-50"
-                          >
-                            Delete
-                          </button>
-
-                        </div>
-
-                      </td>
-
-                    </tr>
-
-                  )
-                )}
-
-              </tbody>
-
-            </table>
-
-          </div>
-
-        )}
+        </DataTable>
 
       </div>
 

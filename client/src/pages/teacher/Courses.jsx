@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { BookOpen, Download, Trash2 } from "lucide-react";
 
 import {
     getAllTeacherAssignments
@@ -10,6 +11,9 @@ import {
     downloadCourseMaterialFile,
     deleteCourseMaterial
 } from "../../services/courseMaterialApi";
+
+import PageHeader from "../../components/ui/PageHeader";
+import EmptyState from "../../components/ui/EmptyState";
 
 function TeacherCourses() {
     const [assignments, setAssignments] = useState([]);
@@ -215,417 +219,397 @@ function TeacherCourses() {
 
     if (loading) {
         return (
-            <div className="bg-white rounded-2xl border border-slate-200 p-8">
-                <p className="text-slate-500">
-                    Loading courses...
-                </p>
+            <div className="flex min-h-[300px] items-center justify-center">
+                <div className="h-8 w-8 animate-spin rounded-full border-2 border-slate-200 border-t-indigo-600" />
             </div>
         );
     }
 
     if (error) {
         return (
-            <div className="bg-white rounded-2xl border border-red-200 p-8">
-                <h2 className="text-xl font-semibold text-slate-900">
-                    My Courses
-                </h2>
+            <div className="ec-page">
+                <PageHeader
+                    title="My Courses"
+                    subtitle="Courses assigned to you"
+                />
 
-                <p className="text-red-500 mt-3">
+                <div className="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm font-medium text-red-700">
                     {error}
-                </p>
+                </div>
             </div>
         );
     }
 
     return (
-        <>
+        <div className="ec-page">
 
-                {/* Topbar */}
-                <header className="bg-white border-b border-slate-200 px-8 py-5">
+            {/* Header */}
 
-                    <div className="flex justify-between items-center">
+            <PageHeader
+                title="My Courses"
+                subtitle="Courses assigned to you"
+                actions={[
+                    <span
+                        key="total"
+                        className="ec-badge ec-badge-indigo"
+                    >
+                        {assignments.length} Total Courses
+                    </span>,
+                ]}
+            />
 
-                        <div>
-                            <p className="text-sm font-medium text-indigo-600 mb-1">
-                                Teacher Portal
-                            </p>
 
-                            <h2 className="text-3xl font-bold tracking-tight text-slate-900">
-                                My Courses
-                            </h2>
+            {/* Messages */}
 
-                            <p className="text-sm text-slate-500 mt-1">
-                                Courses assigned to you
-                            </p>
-                        </div>
+            {materialError && (
+                <div className="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm font-medium text-red-700">
+                    {materialError}
+                </div>
+            )}
 
-                        <div className="flex items-center gap-3">
+            {materialSuccess && (
+                <div className="rounded-xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm font-medium text-emerald-700">
+                    {materialSuccess}
+                </div>
+            )}
 
-                            <div className="hidden sm:block bg-slate-50 border border-slate-200 px-4 py-2 rounded-lg">
-                                <p className="text-xs text-slate-400">
-                                    Total Courses
-                                </p>
 
-                                <p className="text-sm font-semibold text-slate-700">
-                                    {assignments.length}
-                                </p>
-                            </div>
+            {/* Assigned Courses List */}
 
-                            <div className="w-11 h-11 rounded-full bg-indigo-600 text-white flex items-center justify-center font-semibold shadow-sm">
-                                T
-                            </div>
+            <div className="ec-card overflow-hidden">
 
-                        </div>
+                {/* List Header */}
 
-                    </div>
+                <div className="flex flex-col gap-4 border-b border-slate-100 p-6 sm:flex-row sm:items-center sm:justify-between">
 
-                </header>
+                    <div>
 
-                {/* Content */}
-                <div className="p-8">
-
-                    {/* Overview */}
-                    <div className="mb-6">
-
-                        <h3 className="text-lg font-semibold text-slate-900">
+                        <h2 className="text-base font-semibold text-slate-900">
                             Assigned Courses
-                        </h3>
+                        </h2>
 
-                        <p className="text-sm text-slate-500 mt-1">
+                        <p className="mt-0.5 text-sm text-slate-500">
                             View the courses, semesters and sections assigned to you.
                         </p>
 
                     </div>
 
-                    {materialError && (
-                        <div className="mb-6 rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-red-700">
-                            {materialError}
-                        </div>
-                    )}
+                </div>
 
-                    {materialSuccess && (
-                        <div className="mb-6 rounded-lg border border-green-200 bg-green-50 px-4 py-3 text-green-700">
-                            {materialSuccess}
-                        </div>
-                    )}
+                {assignments.length === 0 ? (
 
-                    {assignments.length === 0 ? (
+                    <EmptyState
+                        icon={BookOpen}
+                        title="No Courses Assigned"
+                        description="You currently have no courses assigned to you."
+                    />
 
-                        <div className="bg-white rounded-2xl border border-slate-200 shadow-sm p-10 text-center">
+                ) : (
 
-                            <div className="w-14 h-14 mx-auto rounded-2xl bg-slate-100 flex items-center justify-center text-slate-500 text-xl">
-                                ▤
-                            </div>
+                    <div className="grid grid-cols-1 gap-6 p-6 md:grid-cols-2 xl:grid-cols-3">
 
-                            <h3 className="text-lg font-semibold text-slate-800 mt-4">
-                                No Courses Assigned
-                            </h3>
+                        {assignments.map((assignment) => (
 
-                            <p className="text-sm text-slate-500 mt-2">
-                                You currently have no courses assigned to you.
-                            </p>
+                            <div
+                                key={assignment.id}
+                                className="ec-card flex flex-col overflow-hidden"
+                            >
 
-                        </div>
+                                {/* Card Header */}
 
-                    ) : (
+                                <div className="border-b border-slate-100 p-6">
 
-                        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+                                    <div className="flex items-start justify-between">
 
-                            {assignments.map((assignment) => (
+                                        <div>
 
-                                <div
-                                    key={assignment.id}
-                                    className="bg-white rounded-2xl border border-slate-200 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition overflow-hidden"
-                                >
+                                            <p className="text-xs font-semibold text-indigo-600 uppercase tracking-wider">
+                                                Course
+                                            </p>
 
-                                    {/* Card Header */}
-                                    <div className="p-6 border-b border-slate-100">
-
-                                        <div className="flex justify-between items-start">
-
-                                            <div>
-                                                <p className="text-xs font-semibold text-indigo-600 uppercase tracking-wider">
-                                                    Course
-                                                </p>
-
-                                                <h3 className="text-xl font-bold text-slate-900 mt-2">
-                                                    {assignment.courseOffering?.course?.code}
-                                                </h3>
-                                            </div>
-
-                                            <div className="w-11 h-11 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center">
-                                                ▤
-                                            </div>
+                                            <h3 className="text-xl font-bold text-slate-900 mt-2">
+                                                {assignment.courseOffering?.course?.code}
+                                            </h3>
 
                                         </div>
 
-                                        <p className="text-sm font-medium text-slate-700 mt-3">
-                                            {assignment.courseOffering?.course?.name}
-                                        </p>
+                                        <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-indigo-50 text-indigo-600">
+                                            <BookOpen size={20} />
+                                        </div>
 
                                     </div>
 
-                                    {/* Card Details */}
-                                    <div className="p-6 space-y-4">
+                                    <p className="text-sm font-medium text-slate-700 mt-3">
+                                        {assignment.courseOffering?.course?.name}
+                                    </p>
 
-                                        <div>
-                                            <p className="text-xs text-slate-400 uppercase tracking-wide">
-                                                Semester
+                                </div>
+
+                                {/* Card Details */}
+
+                                <div className="flex-1 space-y-4 p-6">
+
+                                    <div>
+                                        <p className="text-xs text-slate-400 uppercase tracking-wide">
+                                            Semester
+                                        </p>
+
+                                        <p className="text-sm font-medium text-slate-700 mt-1">
+                                            {assignment.courseOffering
+                                                ?.academicSemester?.name}
+                                        </p>
+                                    </div>
+
+                                    <div>
+                                        <p className="text-xs text-slate-400 uppercase tracking-wide">
+                                            Section
+                                        </p>
+
+                                        <p className="text-sm font-medium text-slate-700 mt-1">
+                                            {assignment.section?.name ||
+                                                "All Sections"}
+                                        </p>
+                                    </div>
+
+                                    <div className="pt-2">
+
+                                        <Link
+                                            to={`/teacher/assessments?courseOfferingId=${assignment.courseOfferingId}`}
+                                            className="ec-btn ec-btn-primary w-full"
+                                        >
+                                            Manage Course
+                                        </Link>
+
+                                    </div>
+
+                                    {/* Materials */}
+
+                                    <div className="pt-3 border-t border-slate-100">
+
+                                        <div className="flex items-center justify-between">
+
+                                            <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider">
+                                                Materials
                                             </p>
 
-                                            <p className="text-sm font-medium text-slate-700 mt-1">
-                                                {assignment.courseOffering
-                                                    ?.academicSemester?.name}
-                                            </p>
-                                        </div>
-
-                                        <div>
-                                            <p className="text-xs text-slate-400 uppercase tracking-wide">
-                                                Section
-                                            </p>
-
-                                            <p className="text-sm font-medium text-slate-700 mt-1">
-                                                {assignment.section?.name ||
-                                                    "All Sections"}
-                                            </p>
-                                        </div>
-
-                                        <div className="pt-2">
-
-                                            <Link
-                                                to={`/teacher/assessments?courseOfferingId=${assignment.courseOfferingId}`}
-                                                className="block w-full text-center bg-indigo-600 text-white py-2.5 rounded-lg text-sm font-medium hover:bg-indigo-700 transition"
+                                            <button
+                                                type="button"
+                                                onClick={() =>
+                                                    toggleMaterialSection(
+                                                        assignment.courseOfferingId
+                                                    )
+                                                }
+                                                className="text-xs font-medium text-indigo-600 hover:text-indigo-800"
                                             >
-                                                Manage Course
-                                            </Link>
+                                                {showUploadCourse[
+                                                    assignment.courseOfferingId
+                                                ]
+                                                    ? "Cancel"
+                                                    : "+ Upload"}
+                                            </button>
 
                                         </div>
 
-                                        {/* Materials */}
-                                        <div className="pt-3 border-t border-slate-100">
+                                        {loadingMaterials[
+                                            assignment.courseOfferingId
+                                        ] ? (
+                                            <p className="text-xs text-slate-400 mt-3">
+                                                Loading materials...
+                                            </p>
+                                        ) : (
+                                            <>
+                                                {(materialsByCourse[
+                                                    assignment.courseOfferingId
+                                                ] || []).length === 0 ? (
+                                                    <p className="text-xs text-slate-400 mt-3">
+                                                        No materials uploaded yet.
+                                                    </p>
+                                                ) : (
+                                                    <div className="mt-3 space-y-2">
+                                                        {(
+                                                            materialsByCourse[
+                                                                assignment
+                                                                    .courseOfferingId
+                                                            ] || []
+                                                        ).map((material) => (
+                                                            <div
+                                                                key={material.id}
+                                                                className="rounded-xl border border-slate-200 p-3"
+                                                            >
+                                                                <div className="flex items-start justify-between gap-2">
+                                                                    <div className="min-w-0">
+                                                                        <p className="text-sm font-medium text-slate-800 break-words">
+                                                                            {material.title}
+                                                                        </p>
 
-                                            <div className="flex items-center justify-between">
-
-                                                <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider">
-                                                    Materials
-                                                </p>
-
-                                                <button
-                                                    type="button"
-                                                    onClick={() =>
-                                                        toggleMaterialSection(
-                                                            assignment.courseOfferingId
-                                                        )
-                                                    }
-                                                    className="text-xs font-medium text-indigo-600 hover:text-indigo-800"
-                                                >
-                                                    {showUploadCourse[
-                                                        assignment.courseOfferingId
-                                                    ]
-                                                        ? "Cancel"
-                                                        : "+ Upload"}
-                                                </button>
-
-                                            </div>
-
-                                            {loadingMaterials[
-                                                assignment.courseOfferingId
-                                            ] ? (
-                                                <p className="text-xs text-slate-400 mt-3">
-                                                    Loading materials...
-                                                </p>
-                                            ) : (
-                                                <>
-                                                    {(materialsByCourse[
-                                                        assignment.courseOfferingId
-                                                    ] || []).length === 0 ? (
-                                                        <p className="text-xs text-slate-400 mt-3">
-                                                            No materials uploaded yet.
-                                                        </p>
-                                                    ) : (
-                                                        <div className="mt-3 space-y-2">
-                                                            {(
-                                                                materialsByCourse[
-                                                                    assignment
-                                                                        .courseOfferingId
-                                                                ] || []
-                                                            ).map((material) => (
-                                                                <div
-                                                                    key={material.id}
-                                                                    className="border border-slate-200 rounded-lg p-3"
-                                                                >
-                                                                    <div className="flex items-start justify-between gap-2">
-                                                                        <div className="min-w-0">
-                                                                            <p className="text-sm font-medium text-slate-800 break-words">
-                                                                                {material.title}
+                                                                        {material.description && (
+                                                                            <p className="text-xs text-slate-500 mt-1 break-words">
+                                                                                {material.description}
                                                                             </p>
+                                                                        )}
 
-                                                                            {material.description && (
-                                                                                <p className="text-xs text-slate-500 mt-1 break-words">
-                                                                                    {material.description}
-                                                                                </p>
-                                                                            )}
+                                                                        <p className="text-xs text-slate-400 mt-1">
+                                                                            {material.createdAt
+                                                                                ? new Date(
+                                                                                      material.createdAt
+                                                                                  ).toLocaleDateString(
+                                                                                      "en-GB",
+                                                                                      {
+                                                                                          day: "2-digit",
+                                                                                          month: "short",
+                                                                                          year: "numeric"
+                                                                                      }
+                                                                                  )
+                                                                                : "-"}
+                                                                        </p>
+                                                                    </div>
 
-                                                                            <p className="text-xs text-slate-400 mt-1">
-                                                                                {material.createdAt
-                                                                                    ? new Date(
-                                                                                          material.createdAt
-                                                                                      ).toLocaleDateString(
-                                                                                          "en-GB",
-                                                                                          {
-                                                                                              day: "2-digit",
-                                                                                              month: "short",
-                                                                                              year: "numeric"
-                                                                                          }
-                                                                                      )
-                                                                                    : "-"}
-                                                                            </p>
-                                                                        </div>
+                                                                    <div className="flex gap-1.5 shrink-0">
+                                                                        <button
+                                                                            type="button"
+                                                                            onClick={() =>
+                                                                                handleDownloadMaterial(
+                                                                                    material.id
+                                                                                )
+                                                                            }
+                                                                            aria-label="Download material"
+                                                                            className="ec-icon-btn"
+                                                                        >
+                                                                            <Download size={16} />
+                                                                        </button>
 
-                                                                        <div className="flex gap-1.5 shrink-0">
-                                                                            <button
-                                                                                type="button"
-                                                                                onClick={() =>
-                                                                                    handleDownloadMaterial(
-                                                                                        material.id
-                                                                                    )
-                                                                                }
-                                                                                className="rounded-md bg-indigo-600 text-white px-3 py-1.5 text-xs font-medium hover:bg-indigo-700"
-                                                                            >
-                                                                                Download
-                                                                            </button>
-
-                                                                            <button
-                                                                                type="button"
-                                                                                onClick={() =>
-                                                                                    handleDeleteMaterial(
-                                                                                        material.id,
-                                                                                        assignment.courseOfferingId
-                                                                                    )
-                                                                                }
-                                                                                className="rounded-md bg-red-600 text-white px-3 py-1.5 text-xs font-medium hover:bg-red-700"
-                                                                            >
-                                                                                Delete
-                                                                            </button>
-                                                                        </div>
+                                                                        <button
+                                                                            type="button"
+                                                                            onClick={() =>
+                                                                                handleDeleteMaterial(
+                                                                                    material.id,
+                                                                                    assignment.courseOfferingId
+                                                                                )
+                                                                            }
+                                                                            aria-label="Delete material"
+                                                                            className="ec-icon-btn ec-icon-btn-danger"
+                                                                        >
+                                                                            <Trash2 size={16} />
+                                                                        </button>
                                                                     </div>
                                                                 </div>
-                                                            ))}
-                                                        </div>
-                                                    )}
-                                                </>
-                                            )}
+                                                            </div>
+                                                        ))}
+                                                    </div>
+                                                )}
+                                            </>
+                                        )}
 
-                                            {showUploadCourse[
-                                                assignment.courseOfferingId
-                                            ] && (
-                                                <form
-                                                    onSubmit={(e) =>
-                                                        handleUploadMaterial(
-                                                            e,
-                                                            assignment.courseOfferingId
-                                                        )
-                                                    }
-                                                    className="mt-3 space-y-3 border border-slate-200 rounded-lg p-3 bg-slate-50"
+                                        {showUploadCourse[
+                                            assignment.courseOfferingId
+                                        ] && (
+                                            <form
+                                                onSubmit={(e) =>
+                                                    handleUploadMaterial(
+                                                        e,
+                                                        assignment.courseOfferingId
+                                                    )
+                                                }
+                                                className="ec-stack mt-3 rounded-xl border border-slate-200 bg-slate-50 p-3"
+                                            >
+                                                <div className="ec-field md:mb-0">
+                                                    <label className="ec-label">
+                                                        Title
+                                                    </label>
+
+                                                    <input
+                                                        type="text"
+                                                        value={
+                                                            (materialForm[
+                                                                assignment
+                                                                    .courseOfferingId
+                                                            ] || {}).title || ""
+                                                        }
+                                                        onChange={(e) =>
+                                                            handleMaterialInput(
+                                                                assignment.courseOfferingId,
+                                                                "title",
+                                                                e.target.value
+                                                            )
+                                                        }
+                                                        required
+                                                        className="ec-input"
+                                                        placeholder="Material title"
+                                                    />
+                                                </div>
+
+                                                <div className="ec-field md:mb-0">
+                                                    <label className="ec-label">
+                                                        Description
+                                                        (optional)
+                                                    </label>
+
+                                                    <textarea
+                                                        value={
+                                                            (materialForm[
+                                                                assignment
+                                                                    .courseOfferingId
+                                                            ] || {}).description || ""
+                                                        }
+                                                        onChange={(e) =>
+                                                            handleMaterialInput(
+                                                                assignment.courseOfferingId,
+                                                                "description",
+                                                                e.target.value
+                                                            )
+                                                        }
+                                                        rows="2"
+                                                        className="ec-textarea"
+                                                        placeholder="Short description"
+                                                    />
+                                                </div>
+
+                                                <div className="ec-field md:mb-0">
+                                                    <label className="ec-label">
+                                                        File
+                                                    </label>
+
+                                                    <input
+                                                        type="file"
+                                                        onChange={(e) =>
+                                                            handleMaterialInput(
+                                                                assignment.courseOfferingId,
+                                                                "file",
+                                                                e.target.files[0] ||
+                                                                    null
+                                                            )
+                                                        }
+                                                        className="w-full text-sm text-slate-600 file:mr-3 file:rounded-lg file:border-0 file:bg-indigo-600 file:px-3 file:py-2 file:text-sm file:font-medium file:text-white hover:file:bg-indigo-700"
+                                                    />
+                                                </div>
+
+                                                <button
+                                                    type="submit"
+                                                    disabled={materialSaving}
+                                                    className="ec-btn ec-btn-primary w-full"
                                                 >
-                                                    <div>
-                                                        <label className="mb-1 block text-xs font-medium text-slate-600">
-                                                            Title
-                                                        </label>
-
-                                                        <input
-                                                            type="text"
-                                                            value={
-                                                                (materialForm[
-                                                                    assignment
-                                                                        .courseOfferingId
-                                                                ] || {}).title || ""
-                                                            }
-                                                            onChange={(e) =>
-                                                                handleMaterialInput(
-                                                                    assignment.courseOfferingId,
-                                                                    "title",
-                                                                    e.target.value
-                                                                )
-                                                            }
-                                                            required
-                                                            className="w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-200"
-                                                            placeholder="Material title"
-                                                        />
-                                                    </div>
-
-                                                    <div>
-                                                        <label className="mb-1 block text-xs font-medium text-slate-600">
-                                                            Description
-                                                            (optional)
-                                                        </label>
-
-                                                        <textarea
-                                                            value={
-                                                                (materialForm[
-                                                                    assignment
-                                                                        .courseOfferingId
-                                                                ] || {}).description || ""
-                                                            }
-                                                            onChange={(e) =>
-                                                                handleMaterialInput(
-                                                                    assignment.courseOfferingId,
-                                                                    "description",
-                                                                    e.target.value
-                                                                )
-                                                            }
-                                                            rows="2"
-                                                            className="w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-200"
-                                                            placeholder="Short description"
-                                                        />
-                                                    </div>
-
-                                                    <div>
-                                                        <label className="mb-1 block text-xs font-medium text-slate-600">
-                                                            File
-                                                        </label>
-
-                                                        <input
-                                                            type="file"
-                                                            onChange={(e) =>
-                                                                handleMaterialInput(
-                                                                    assignment.courseOfferingId,
-                                                                    "file",
-                                                                    e.target.files[0] ||
-                                                                        null
-                                                                )
-                                                            }
-                                                            className="w-full text-sm text-slate-600 file:mr-3 file:rounded-lg file:border-0 file:bg-indigo-600 file:px-3 file:py-2 file:text-sm file:font-medium file:text-white hover:file:bg-indigo-700"
-                                                        />
-                                                    </div>
-
-                                                    <button
-                                                        type="submit"
-                                                        disabled={materialSaving}
-                                                        className="w-full rounded-lg bg-green-600 py-2 text-sm font-medium text-white hover:bg-green-700 disabled:opacity-50"
-                                                    >
-                                                        {materialSaving
-                                                            ? "Uploading..."
-                                                            : "Upload Material"}
-                                                    </button>
-                                                </form>
-                                            )}
-
-                                        </div>
+                                                    {materialSaving
+                                                        ? "Uploading..."
+                                                        : "Upload Material"}
+                                                </button>
+                                            </form>
+                                        )}
 
                                     </div>
 
                                 </div>
 
-                            ))}
+                            </div>
 
-                        </div>
+                        ))}
 
-                    )}
+                    </div>
 
-                </div>
+                )}
 
-        </>
+            </div>
+
+        </div>
     );
 }
 
