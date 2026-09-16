@@ -71,8 +71,6 @@ const portals = [
     tag: "bg-indigo-50 text-indigo-700",
     title: "Students",
     desc: "Access courses, attendance, assessments, results and academic services.",
-    cta: "Create student account",
-    to: "/register",
   },
   {
     icon: Users,
@@ -80,8 +78,6 @@ const portals = [
     tag: "bg-emerald-50 text-emerald-700",
     title: "Teachers",
     desc: "Manage assigned courses, exams, marks and student activities.",
-    cta: "Teacher sign in",
-    to: "/login",
   },
   {
     icon: UserCog,
@@ -89,8 +85,6 @@ const portals = [
     tag: "bg-violet-50 text-violet-700",
     title: "Administrators",
     desc: "Manage academic structure, users, programs and university operations.",
-    cta: "Administrator sign in",
-    to: "/login",
   },
 ];
 
@@ -167,7 +161,7 @@ function Home() {
           <div className="flex items-center gap-3">
             <Link
               to="/login"
-              className="hidden rounded-xl px-4 py-2.5 text-sm font-semibold text-slate-300 transition hover:bg-white/5 hover:text-white sm:block"
+              className="rounded-xl px-4 py-2.5 text-sm font-semibold text-slate-300 transition hover:bg-white/5 hover:text-white"
             >
               Sign In
             </Link>
@@ -240,20 +234,11 @@ function Home() {
               </ScrollReveal>
 
               <ScrollReveal delay={0.3}>
-                <div className="mt-10 flex flex-col gap-3 sm:flex-row">
-                  <Link
-                    to="/login"
-                    className="group inline-flex items-center justify-center gap-2 rounded-xl bg-indigo-500 px-7 py-3.5 text-sm font-semibold text-white shadow-lg shadow-indigo-500/30 transition hover:bg-indigo-400"
-                  >
-                    Access Portal
-                    <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-                  </Link>
-                  <Link
-                    to="/register"
-                    className="inline-flex items-center justify-center rounded-xl border border-white/10 bg-white/5 px-7 py-3.5 text-sm font-semibold text-white backdrop-blur transition hover:bg-white/10"
-                  >
-                    Create Student Account
-                  </Link>
+                <div className="mt-10 flex items-center gap-3 text-sm text-slate-400">
+                  <span className="flex h-9 w-9 items-center justify-center rounded-full border border-white/10 bg-white/5">
+                    <ShieldCheck className="h-4 w-4 text-emerald-400" />
+                  </span>
+                  Secure, role-based access for students, teachers and admins.
                 </div>
               </ScrollReveal>
             </div>
@@ -516,7 +501,7 @@ function Home() {
             </ScrollReveal>
 
             <div className="mt-14 grid gap-6 md:grid-cols-3">
-              {portals.map(({ icon: Icon, chip, tag, title, desc, cta, to }, index) => (
+              {portals.map(({ icon: Icon, chip, tag, title, desc }, index) => (
                 <ScrollReveal key={title} delay={index * 0.08}>
                   <SpotlightCard className="group h-full rounded-2xl border border-white/10 bg-white/[0.03] p-7 transition duration-300 hover:-translate-y-1">
                     <div
@@ -532,69 +517,11 @@ function Home() {
                     <p className="mt-4 text-sm leading-6 text-slate-400">
                       {desc}
                     </p>
-                    <Link
-                      to={to}
-                      className="mt-7 inline-flex items-center gap-1.5 text-sm font-semibold text-indigo-400 transition group-hover:gap-2.5 hover:text-indigo-300"
-                    >
-                      {cta} <ArrowRight className="h-4 w-4" />
-                    </Link>
                   </SpotlightCard>
                 </ScrollReveal>
               ))}
             </div>
           </div>
-        </section>
-
-        {/* =====================================================
-            CTA
-        ====================================================== */}
-        <section className="px-6 pb-24 lg:px-8">
-          <ScrollReveal>
-            <div className="relative mx-auto max-w-7xl overflow-hidden rounded-3xl bg-slate-900 px-8 py-16 text-center sm:px-12">
-              <div
-                aria-hidden="true"
-                className="absolute -top-32 left-1/2 h-72 w-[600px] -translate-x-1/2 rounded-full bg-indigo-600/30 blur-[100px]"
-              />
-              <div
-                aria-hidden="true"
-                className="absolute -bottom-24 -left-16 h-56 w-56 rounded-full bg-violet-600/25 blur-[90px]"
-              />
-              <ParticleField quantity={40} color="#a5b4fc" />
-
-              <div className="relative">
-                <p className="text-xs font-bold tracking-[0.18em] text-indigo-400">
-                  GET STARTED
-                </p>
-                <h2 className="mt-4 text-3xl font-bold tracking-tight text-white sm:text-4xl">
-                  <GradientText
-                    colors={["#ffffff", "#c7d2fe", "#a5b4fc", "#e0e7ff"]}
-                    animationSpeed={3}
-                  >
-                    Ready to access EduCore?
-                  </GradientText>
-                </h2>
-                <p className="mx-auto mt-4 max-w-xl text-sm leading-6 text-slate-400 sm:text-base">
-                  Sign in to your existing account or create a new student
-                  account to get started.
-                </p>
-
-                <div className="mt-9 flex flex-col justify-center gap-3 sm:flex-row">
-                  <Link
-                    to="/login"
-                    className="rounded-xl bg-indigo-500 px-7 py-3.5 text-sm font-semibold text-white transition hover:bg-indigo-400"
-                  >
-                    Sign In
-                  </Link>
-                  <Link
-                    to="/register"
-                    className="rounded-xl border border-white/10 bg-white/5 px-7 py-3.5 text-sm font-semibold text-slate-200 backdrop-blur transition hover:bg-white/10"
-                  >
-                    Student Registration
-                  </Link>
-                </div>
-              </div>
-            </div>
-          </ScrollReveal>
         </section>
       </main>
 
