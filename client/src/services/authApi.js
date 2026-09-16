@@ -32,6 +32,20 @@ export const logoutUser = async () => {
   return response.data;
 };
 
+// GET CURRENT PROFILE
+export const getProfile = async () => {
+  const response = await api.get("/auth/profile");
+
+  return response.data;
+};
+
+// UPDATE PROFILE (name / email / avatarUrl)
+export const updateProfile = async (data) => {
+  const response = await api.put("/auth/profile", data);
+
+  return response.data;
+};
+
 // REGISTER STUDENT
 export const registerStudent = async (
   name,

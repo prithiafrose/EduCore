@@ -14,7 +14,6 @@ import {
   LayoutDashboard,
   LayoutGrid,
   Library,
-  LogOut,
   Megaphone,
   NotebookPen,
   PanelLeft,
@@ -72,8 +71,8 @@ function sidebarData(role) {
         {
           title: "Account",
           items: [
+            { to: "/admin/profile", label: "Profile", icon: User },
             { to: "/admin/change-password", label: "Change Password", icon: KeyRound },
-            { to: "/logout", label: "Logout", icon: LogOut },
           ],
         },
       ],
@@ -112,7 +111,6 @@ function sidebarData(role) {
           title: "Account",
           items: [
             { to: "/teacher/profile", label: "Profile", icon: User },
-            { to: "/logout", label: "Logout", icon: LogOut },
           ],
         },
       ],
@@ -147,13 +145,12 @@ function sidebarData(role) {
           { to: "/student/notices", label: "Notice Board", icon: Megaphone },
         ],
       },
-      {
-        title: "Account",
-        items: [
-          { to: "/student/profile", label: "Profile", icon: User },
-          { to: "/logout", label: "Logout", icon: LogOut },
-        ],
-      },
+{
+          title: "Account",
+          items: [
+            { to: "/student/profile", label: "Profile", icon: User },
+          ],
+        },
     ],
   };
 }

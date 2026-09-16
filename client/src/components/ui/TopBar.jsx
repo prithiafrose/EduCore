@@ -16,6 +16,7 @@ function TopBar({
   role = "User",
   initial = "U",
   email = "",
+  avatar = "",
   onMenuClick,
   notifications = [],
   unread = 0,
@@ -190,9 +191,19 @@ function TopBar({
               aria-label="Open user menu"
               className="flex items-center gap-3 rounded-full border border-white/10 bg-white/5 pl-1 pr-2 py-1 hover:bg-white/10 transition"
             >
-              <span className="w-8 h-8 rounded-full bg-gradient-to-br from-indigo-500 to-violet-600 text-white flex items-center justify-center text-sm font-semibold">
-                {initial}
-              </span>
+              {avatar ? (
+                <span className="w-8 h-8 rounded-full overflow-hidden ring-1 ring-white/20 shrink-0">
+                  <img
+                    src={avatar}
+                    alt="Profile"
+                    className="w-full h-full object-cover"
+                  />
+                </span>
+              ) : (
+                <span className="w-8 h-8 rounded-full bg-gradient-to-br from-indigo-500 to-violet-600 text-white flex items-center justify-center text-sm font-semibold">
+                  {initial}
+                </span>
+              )}
 
               <span className="hidden md:block text-left">
                 <span className="block text-xs font-semibold text-slate-100 max-w-[140px] truncate">

@@ -1,13 +1,11 @@
 import { useEffect, useState } from "react";
 
-import { getStudentByUserId } from "../../services/studentApi";
-import { updateStudent } from "../../services/studentApi";
+import { getProfile, updateProfile } from "../../services/authApi";
 import api from "../../services/axios";
-import { updateProfile } from "../../services/authApi";
 import AvatarUploader from "../../components/ui/AvatarUploader";
 
-const Profile = () => {
-  const [student, setStudent] = useState(null);
+const AdminProfile = () => {
+  const [profile, setProfile] = useState(null);
 
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -15,33 +13,37 @@ const Profile = () => {
 
   const [editing, setEditing] = useState(false);
   const [saving, setSaving] = useState(false);
+  const [avatarSaving, setAvatarSaving] = useState(false);
 
   const [formData, setFormData] = useState({
-    studentId: "",
     name: "",
     email: "",
   });
 
-  // Avatar state
-  const [avatarUrl, setAvatarUrl] = useState("");
-  const [avatarSaving, setAvatarSaving] = useState(false);
-
-  // Change password state
+  // Password form state
   const [passwordForm, setPasswordForm] = useState({
     oldPassword: "",
     newPassword: "",
     confirmPassword: "",
   });
 
-  const [passwordSaving, setPasswordSaving] =
-    useState(false);
-  const [passwordError, setPasswordError] =
-    useState("");
-  const [passwordSuccess, setPasswordSuccess] =
-    useState("");
+  const [passwordError, setPasswordError] = useState("");
+  const [passwordSuccess, setPasswordSuccess] = useState("");
+  const [passwordSaving, setPasswordSaving] = useState(false);
+
+  const syncStoredUser = (patch) => {
+    const storedUser = JSON.parse(localStorage.getItem("user") || "{}");
+
+    if (storedUser?.id) {
+      localStorage.setItem(
+        "user",
+        JSON.stringify({ ...storedUser, ...patch })
+      );
+    }
+  };
 
   // ==============================
-  // LOAD STUDENT PROFILE
+  // LOAD ADMIN PROFILE
   // ==============================
 
   useEffect(() => {
@@ -50,42 +52,26 @@ const Profile = () => {
         setLoading(true);
         setError("");
 
-        const storedUser = JSON.parse(
-          localStorage.getItem("user")
-        );
+        const response = await getProfile();
 
-        if (!storedUser?.id) {
-          setError(
-            "User information not found. Please login again."
-          );
+        const currentUser = response?.data?.user || null;
+
+        if (!currentUser) {
+          setError("User information not found. Please login again.");
           return;
         }
 
-        const currentStudent = await getStudentByUserId(
-          storedUser.id
-        );
-
-        if (!currentStudent) {
-          setError("Student profile not found.");
-          return;
-        }
-
-        setStudent(currentStudent);
-
-        setAvatarUrl(storedUser?.avatarUrl || "");
+        setProfile(currentUser);
 
         setFormData({
-          studentId:
-            currentStudent.studentId || "",
-          name: currentStudent.name || "",
-          email: currentStudent.email || "",
+          name: currentUser.name || "",
+          email: currentUser.email || "",
         });
       } catch (error) {
         console.error(error);
 
         setError(
-          error?.response?.data?.message ||
-            "Failed to load student profile."
+          error?.response?.data?.message || "Failed to load profile."
         );
       } finally {
         setLoading(false);
@@ -96,16 +82,13 @@ const Profile = () => {
   }, []);
 
   // ==============================
-  // HANDLE PROFILE INPUT
+  // HANDLE INPUT
   // ==============================
 
   const handleChange = (event) => {
     const { name, value } = event.target;
 
-    setFormData((previous) => ({
-      ...previous,
-      [name]: value,
-    }));
+    setFormData((previous) => ({ ...previous, [name]: value }));
 
     setSuccess("");
     setError("");
@@ -117,9 +100,8 @@ const Profile = () => {
 
   const handleEdit = () => {
     setFormData({
-      studentId: student?.studentId || "",
-      name: student?.name || "",
-      email: student?.email || "",
+      name: profile?.name || "",
+      email: profile?.email || "",
     });
 
     setEditing(true);
@@ -133,14 +115,66 @@ const Profile = () => {
 
   const handleCancel = () => {
     setFormData({
-      studentId: student?.studentId || "",
-      name: student?.name || "",
-      email: student?.email || "",
+      name: profile?.name || "",
+      email: profile?.email || "",
     });
 
     setEditing(false);
-    setError("");
     setSuccess("");
+    setError("");
+  };
+
+  // ==============================
+  // SAVE PROFILE
+  // ==============================
+
+  const handleSave = async (event) => {
+    event.preventDefault();
+
+    if (!formData.email.trim()) {
+      setError("Email is required.");
+      return;
+    }
+
+    try {
+      setSaving(true);
+      setError("");
+      setSuccess("");
+
+      const response = await updateProfile({
+        name: formData.name.trim(),
+        email: formData.email.trim(),
+      });
+
+      const updatedUser = response?.data?.user || {};
+
+      setProfile((previous) => ({
+        ...(previous || {}),
+        ...updatedUser,
+      }));
+
+      setFormData({
+        name: updatedUser.name || "",
+        email: updatedUser.email || "",
+      });
+
+      syncStoredUser({
+        email: updatedUser.email,
+        name: updatedUser.name || undefined,
+        avatarUrl: updatedUser.avatarUrl || undefined,
+      });
+
+      setEditing(false);
+      setSuccess("Profile updated successfully.");
+    } catch (error) {
+      console.error(error);
+
+      setError(
+        error?.response?.data?.message || "Failed to update profile."
+      );
+    } finally {
+      setSaving(false);
+    }
   };
 
   // ==============================
@@ -157,23 +191,15 @@ const Profile = () => {
 
       const updatedUser = response?.data?.user || {};
 
-      const storedUser = JSON.parse(
-        localStorage.getItem("user")
-      );
+      setProfile((previous) => ({
+        ...(previous || {}),
+        name: previous?.name || updatedUser.name,
+        avatarUrl: updatedUser.avatarUrl || null,
+      }));
 
-      if (storedUser) {
-        const updatedUserData = {
-          ...storedUser,
-          avatarUrl: updatedUser.avatarUrl || dataUrl || null,
-        };
-
-        localStorage.setItem(
-          "user",
-          JSON.stringify(updatedUserData)
-        );
-      }
-
-      setAvatarUrl(updatedUser.avatarUrl || dataUrl || "");
+      syncStoredUser({
+        avatarUrl: updatedUser.avatarUrl || undefined,
+      });
 
       setSuccess(
         dataUrl
@@ -193,102 +219,16 @@ const Profile = () => {
   };
 
   // ==============================
-  // SAVE PROFILE
-  // ==============================
-
-  const handleSave = async (event) => {
-    event.preventDefault();
-
-    if (!formData.name.trim()) {
-      setError("Name is required.");
-      return;
-    }
-
-    if (!formData.email.trim()) {
-      setError("Email is required.");
-      return;
-    }
-
-    if (!student?.id) {
-      setError("Student information is missing.");
-      return;
-    }
-
-    try {
-      setSaving(true);
-      setError("");
-      setSuccess("");
-
-      const response = await updateStudent(
-        student.id,
-        formData.studentId.trim(),
-        formData.name.trim(),
-        formData.email.trim(),
-        student.programId
-      );
-
-      const updatedStudent =
-        response?.student || response;
-
-      setStudent(updatedStudent);
-
-      setFormData({
-        studentId:
-          updatedStudent.studentId || "",
-        name: updatedStudent.name || "",
-        email: updatedStudent.email || "",
-      });
-
-      // Update stored user email
-      const storedUser = JSON.parse(
-        localStorage.getItem("user")
-      );
-
-      if (storedUser) {
-        const updatedUser = {
-          ...storedUser,
-          email: updatedStudent.email,
-        };
-
-        localStorage.setItem(
-          "user",
-          JSON.stringify(updatedUser)
-        );
-      }
-
-      setEditing(false);
-      setSuccess("Profile updated successfully.");
-    } catch (error) {
-      console.error(error);
-
-      setError(
-        error?.response?.data?.message ||
-          "Failed to update profile."
-      );
-    } finally {
-      setSaving(false);
-    }
-  };
-
-  // ==============================
-  // HANDLE PASSWORD INPUT
+  // CHANGE PASSWORD
   // ==============================
 
   const handlePasswordChange = (event) => {
     const { name, value } = event.target;
 
-    setPasswordForm((previous) => ({
-      ...previous,
-      [name]: value,
-    }));
-
+    setPasswordForm((previous) => ({ ...previous, [name]: value }));
     setPasswordError("");
     setPasswordSuccess("");
   };
-
-  // ==============================
-  // CHANGE PASSWORD
-  // ==============================
 
   const handleChangePassword = async (event) => {
     event.preventDefault();
@@ -304,23 +244,16 @@ const Profile = () => {
     }
 
     if (passwordForm.newPassword.length < 6) {
-      setPasswordError(
-        "New password must be at least 6 characters."
-      );
+      setPasswordError("New password must be at least 6 characters.");
       return;
     }
 
-    if (
-      passwordForm.newPassword !==
-      passwordForm.confirmPassword
-    ) {
+    if (passwordForm.newPassword !== passwordForm.confirmPassword) {
       setPasswordError("Passwords do not match.");
       return;
     }
 
-    const storedUser = JSON.parse(
-      localStorage.getItem("user")
-    );
+    const storedUser = JSON.parse(localStorage.getItem("user") || "{}");
 
     if (!storedUser?.id) {
       setPasswordError("User information not found.");
@@ -332,14 +265,11 @@ const Profile = () => {
       setPasswordError("");
       setPasswordSuccess("");
 
-      const response = await api.post(
-        "/auth/change-password",
-        {
-          userId: storedUser.id,
-          oldPassword: passwordForm.oldPassword,
-          newPassword: passwordForm.newPassword,
-        }
-      );
+      const response = await api.post("/auth/change-password", {
+        userId: storedUser.id,
+        oldPassword: passwordForm.oldPassword,
+        newPassword: passwordForm.newPassword,
+      });
 
       setPasswordForm({
         oldPassword: "",
@@ -348,15 +278,13 @@ const Profile = () => {
       });
 
       setPasswordSuccess(
-        response?.data?.message ||
-          "Password changed successfully."
+        response?.data?.message || "Password changed successfully."
       );
     } catch (error) {
       console.error(error);
 
       setPasswordError(
-        error?.response?.data?.message ||
-          "Failed to change password."
+        error?.response?.data?.message || "Failed to change password."
       );
     } finally {
       setPasswordSaving(false);
@@ -369,9 +297,11 @@ const Profile = () => {
 
   if (loading) {
     return (
-          <div className="text-slate-300 text-lg">
-            Loading profile...
-          </div>
+      <div className="p-8">
+        <div className="bg-white/[0.03] rounded-xl border border-white/10 p-10 text-center text-slate-500">
+          Loading profile...
+        </div>
+      </div>
     );
   }
 
@@ -379,11 +309,13 @@ const Profile = () => {
   // ERROR
   // ==============================
 
-  if (error && !student) {
+  if (error && !profile) {
     return (
-          <div className="mt-6 bg-white/[0.03] rounded-xl shadow-sm border border-red-500/20 p-6">
-            <p className="text-red-400">{error}</p>
-          </div>
+      <div className="p-8">
+        <div className="max-w-5xl mx-auto mt-6 bg-white/[0.03] rounded-xl shadow-sm border border-red-500/20 p-6">
+          <p className="text-red-400">{error}</p>
+        </div>
+      </div>
     );
   }
 
@@ -391,29 +323,44 @@ const Profile = () => {
   // PROFILE
   // ==============================
 
-  return (
-        <>
-          <div className="bg-white/[0.03] border-b">
-          <div className="px-8 py-6">
-            <h1 className="text-3xl font-bold text-slate-100 mt-4">
-              My Profile
-            </h1>
+  const displayName =
+    profile?.name ||
+    (profile?.email ? profile.email.split("@")[0] : "Administrator");
 
-            <p className="text-slate-400 mt-1">
-              View and manage your student profile
-            </p>
-          </div>
+  return (
+    <>
+      {/* ==============================
+          HEADER
+      ============================== */}
+
+      <div className="bg-white/[0.03] border-b">
+        <div className="px-8 py-6">
+          <h1 className="text-3xl font-bold text-slate-100 mt-4">
+            My Profile
+          </h1>
+
+          <p className="text-slate-400 mt-1">
+            View and manage your administrator profile
+          </p>
         </div>
+      </div>
+
+      {/* ==============================
+          CONTENT
+      ============================== */}
 
       <div className="max-w-5xl mx-auto px-6 py-8">
         <div className="bg-white/[0.03] rounded-2xl shadow-sm border overflow-hidden">
-          {/* Profile Header */}
+          {/* ==============================
+              PROFILE HEADER
+          ============================== */}
+
           <div className="bg-blue-600 px-8 py-8">
-            <div className="flex items-center gap-5">
+            <div className="flex items-center gap-6">
               <AvatarUploader
-                size="md"
-                avatarUrl={avatarUrl}
-                name={student?.name || ""}
+                size="lg"
+                avatarUrl={profile?.avatarUrl || ""}
+                name={displayName}
                 busy={avatarSaving}
                 onSelect={handleAvatarSelect}
                 onError={setError}
@@ -421,17 +368,25 @@ const Profile = () => {
 
               <div>
                 <h2 className="text-2xl font-bold text-white">
-                  {student?.name}
+                  {displayName}
                 </h2>
 
-                <p className="text-blue-100 mt-1">
-                  Student
+                <p className="text-blue-100 mt-1">Administrator</p>
+
+                <p className="text-blue-200/80 mt-2 text-sm">
+                  {profile?.email}
                 </p>
               </div>
             </div>
           </div>
 
+          {/* ==============================
+              PROFILE BODY
+          ============================== */}
+
           <div className="p-8">
+            {/* Messages */}
+
             {error && (
               <div className="mb-6 bg-red-500/10 border border-red-500/20 text-red-300 px-4 py-3 rounded-lg">
                 {error}
@@ -444,7 +399,10 @@ const Profile = () => {
               </div>
             )}
 
-            {/* Title + Edit Button */}
+            {/* ==============================
+                TITLE + EDIT BUTTON
+            ============================== */}
+
             <div className="flex items-center justify-between mb-6">
               <h3 className="text-lg font-semibold text-slate-100">
                 Personal Information
@@ -461,113 +419,68 @@ const Profile = () => {
               )}
             </div>
 
-            {/* View Mode */}
+            {/* ==============================
+                VIEW MODE
+            ============================== */}
+
             {!editing && (
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {/* Name */}
                 <div>
                   <label className="block text-sm font-medium text-slate-400 mb-2">
                     Full Name
                   </label>
 
                   <div className="border rounded-lg px-4 py-3 bg-white/5 text-slate-100">
-                    {student?.name || "N/A"}
+                    {profile?.name || "Not set"}
                   </div>
                 </div>
 
+                {/* Email */}
                 <div>
                   <label className="block text-sm font-medium text-slate-400 mb-2">
                     Email
                   </label>
 
                   <div className="border rounded-lg px-4 py-3 bg-white/5 text-slate-100">
-                    {student?.email || "N/A"}
+                    {profile?.email || "N/A"}
                   </div>
                 </div>
 
-                <div>
-                  <label className="block text-sm font-medium text-slate-400 mb-2">
-                    Student ID
-                  </label>
-
-                  <div className="border rounded-lg px-4 py-3 bg-white/5 text-slate-100">
-                    {student?.studentId || "N/A"}
-                  </div>
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-slate-400 mb-2">
-                    Program
-                  </label>
-
-                  <div className="border rounded-lg px-4 py-3 bg-white/5 text-slate-100">
-                    {student?.program?.name || "N/A"}
-                  </div>
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-slate-400 mb-2">
-                    Date of Birth
-                  </label>
-
-                  <div className="border rounded-lg px-4 py-3 bg-white/5 text-slate-100">
-                    {student?.dateOfBirth
-                      ? new Date(
-                          student.dateOfBirth
-                        ).toLocaleDateString()
-                      : "N/A"}
-                  </div>
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-slate-400 mb-2">
-                    Guardian Name
-                  </label>
-
-                  <div className="border rounded-lg px-4 py-3 bg-white/5 text-slate-100">
-                    {student?.guardianName || "N/A"}
-                  </div>
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-slate-400 mb-2">
-                    Guardian Phone
-                  </label>
-
-                  <div className="border rounded-lg px-4 py-3 bg-white/5 text-slate-100">
-                    {student?.guardianPhone || "N/A"}
-                  </div>
-                </div>
-
+                {/* User ID */}
                 <div>
                   <label className="block text-sm font-medium text-slate-400 mb-2">
                     User ID
                   </label>
 
                   <div className="border rounded-lg px-4 py-3 bg-white/5 text-slate-100">
-                    {student?.userId || "N/A"}
+                    {profile?.id || "N/A"}
                   </div>
                 </div>
 
+                {/* Created At */}
                 <div>
                   <label className="block text-sm font-medium text-slate-400 mb-2">
                     Account Created
                   </label>
 
                   <div className="border rounded-lg px-4 py-3 bg-white/5 text-slate-100">
-                    {student?.createdAt
-                      ? new Date(
-                          student.createdAt
-                        ).toLocaleDateString()
+                    {profile?.createdAt
+                      ? new Date(profile.createdAt).toLocaleDateString()
                       : "N/A"}
                   </div>
                 </div>
               </div>
             )}
 
-            {/* Edit Mode */}
+            {/* ==============================
+                EDIT MODE
+            ============================== */}
+
             {editing && (
               <form onSubmit={handleSave}>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  {/* Name */}
                   <div>
                     <label className="block text-sm font-medium text-slate-200 mb-2">
                       Full Name
@@ -583,6 +496,7 @@ const Profile = () => {
                     />
                   </div>
 
+                  {/* Email */}
                   <div>
                     <label className="block text-sm font-medium text-slate-200 mb-2">
                       Email
@@ -597,34 +511,9 @@ const Profile = () => {
                       placeholder="Enter your email"
                     />
                   </div>
-
-                  <div>
-                    <label className="block text-sm font-medium text-slate-200 mb-2">
-                      Student ID
-                    </label>
-
-                    <input
-                      type="text"
-                      name="studentId"
-                      value={formData.studentId}
-                      onChange={handleChange}
-                      className="w-full border rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                      placeholder="Enter your student ID"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium text-slate-400 mb-2">
-                      Program
-                    </label>
-
-                    <div className="border rounded-lg px-4 py-3 bg-white/5 text-slate-300">
-                      {student?.program?.name ||
-                        "N/A"}
-                    </div>
-                  </div>
                 </div>
 
+                {/* Buttons */}
                 <div className="flex justify-end gap-3 mt-8 pt-6 border-t">
                   <button
                     type="button"
@@ -640,15 +529,16 @@ const Profile = () => {
                     disabled={saving}
                     className="px-5 py-2.5 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition disabled:opacity-50"
                   >
-                    {saving
-                      ? "Saving..."
-                      : "Save Changes"}
+                    {saving ? "Saving..." : "Save Changes"}
                   </button>
                 </div>
               </form>
             )}
 
-            {/* Account Information */}
+            {/* ==============================
+                ACCOUNT INFORMATION
+            ============================== */}
+
             {!editing && (
               <div className="mt-8 pt-6 border-t">
                 <h3 className="text-lg font-semibold text-slate-100 mb-4">
@@ -662,18 +552,21 @@ const Profile = () => {
                     </p>
 
                     <p className="text-sm text-slate-400 mt-1">
-                      Your account has student access
+                      Your account has administrator access
                     </p>
                   </div>
 
                   <span className="px-3 py-1 rounded-full text-sm font-medium bg-emerald-500/15 text-emerald-300">
-                    STUDENT
+                    ADMIN
                   </span>
                 </div>
               </div>
             )}
 
-            {/* Change Password */}
+            {/* ==============================
+                CHANGE PASSWORD
+            ============================== */}
+
             {!editing && (
               <div className="mt-8 pt-6 border-t">
                 <h3 className="text-lg font-semibold text-slate-100 mb-4">
@@ -734,9 +627,7 @@ const Profile = () => {
                     <input
                       type="password"
                       name="confirmPassword"
-                      value={
-                        passwordForm.confirmPassword
-                      }
+                      value={passwordForm.confirmPassword}
                       onChange={handlePasswordChange}
                       className="w-full border rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
                       placeholder="Re-enter new password"
@@ -749,9 +640,7 @@ const Profile = () => {
                       disabled={passwordSaving}
                       className="px-5 py-2.5 bg-slate-900 text-white rounded-lg hover:bg-white/10 transition disabled:opacity-50"
                     >
-                      {passwordSaving
-                        ? "Changing..."
-                        : "Change Password"}
+                      {passwordSaving ? "Changing..." : "Change Password"}
                     </button>
                   </div>
                 </form>
@@ -764,4 +653,4 @@ const Profile = () => {
   );
 };
 
-export default Profile;
+export default AdminProfile;

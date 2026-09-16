@@ -39,6 +39,7 @@ import TeacherAssignments from "../pages/teacher/Assignments";
 import TeacherNotices from "../pages/teacher/Notices";
 import StudentTranscript from "../pages/student/Transcript";
 import AdminChangePassword from "../pages/admin/ChangePassword";
+import AdminProfile from "../pages/admin/Profile";
 
 import AdminResults from "../pages/admin/Results";
 import AdminFees from "../pages/admin/Fees";
@@ -81,6 +82,7 @@ function AppRoutes() {
             <Route path="/admin/class-sessions" element={<AdminClassSessions />} />
             <Route path="/admin/notices" element={<AdminNotices />} />
             <Route path="/admin/change-password" element={<AdminChangePassword />} />
+            <Route path="/admin/profile" element={<AdminProfile />} />
           </Route>
         </Route>
 

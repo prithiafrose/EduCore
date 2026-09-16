@@ -254,6 +254,8 @@ model StudentPayment {
 model User {
   id            Int            @id @default(autoincrement())
   email         String         @unique
+  name          String?
+  avatarUrl     String?
   passwordHash  String
   role          UserRole
   isActive      Boolean        @default(true)

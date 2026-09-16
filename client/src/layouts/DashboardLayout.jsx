@@ -34,6 +34,7 @@ const routeMeta = {
   "/admin/class-sessions": { title: "Class Sessions", crumb: "Academic Operations" },
   "/admin/notices": { title: "Notices", crumb: "Academic Operations" },
   "/admin/change-password": { title: "Change Password", crumb: "Account" },
+  "/admin/profile": { title: "Profile", crumb: "Account" },
   "/teacher": { title: "Teacher Dashboard" },
   "/teacher/courses": { title: "My Courses", crumb: "Teaching" },
   "/teacher/routine": { title: "Class Routine", crumb: "Teaching" },
@@ -72,6 +73,7 @@ function DashboardLayout() {
   const [collapsed, setCollapsed] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [notifications, setNotifications] = useState([]);
+  const [avatar, setAvatar] = useState(user?.avatarUrl || "");
 
   useEffect(() => {
     const loadNotifications = async () => {
@@ -94,6 +96,10 @@ function DashboardLayout() {
 
   useEffect(() => {
     setMobileOpen(false);
+
+    const currentUser = JSON.parse(localStorage.getItem("user") || "{}");
+
+    setAvatar(currentUser?.avatarUrl || "");
   }, [location.pathname]);
 
   const handleMarkAllRead = async () => {
@@ -185,6 +191,7 @@ function DashboardLayout() {
           role={meta.label}
           initial={initial}
           email={user?.email || ""}
+          avatar={avatar}
           onMenuClick={() => setMobileOpen((open) => !open)}
           notifications={notifications}
           unread={unread}

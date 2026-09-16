@@ -93,6 +93,8 @@ const login = async (req, res) => {
                 user: {
                     id: user.id,
                     email: user.email,
+                    name: user.name,
+                    avatarUrl: user.avatarUrl,
                     role: user.role,
                     isActive: user.isActive
                 }
@@ -373,6 +375,150 @@ const changePassword = async (req, res) => {
 };
 
 
+// GET CURRENT PROFILE
+const getProfile = async (req, res) => {
+    try {
+        const user = await prisma.user.findUnique({
+            where: {
+                id: Number(req.user.userId)
+            }
+        });
+
+        if (!user) {
+            return res.status(404).json({
+                success: false,
+                message: "User not found"
+            });
+        }
+
+        res.status(200).json({
+            success: true,
+            data: {
+                user: {
+                    id: user.id,
+                    email: user.email,
+                    name: user.name,
+                    avatarUrl: user.avatarUrl,
+                    role: user.role,
+                    isActive: user.isActive,
+                    createdAt: user.createdAt
+                }
+            }
+        });
+
+    } catch (error) {
+        console.error(error);
+
+        res.status(500).json({
+            success: false,
+            message: "Failed to load profile"
+        });
+    }
+};
+
+// UPDATE PROFILE (name / email / avatarUrl for the authenticated user)
+const updateProfile = async (req, res) => {
+    try {
+        const userId = Number(req.user.userId);
+        const { name, email, avatarUrl } = req.body;
+
+        if (email !== undefined) {
+            if (
+                !email ||
+                !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
+            ) {
+                return res.status(400).json({
+                    success: false,
+                    message: "Invalid email format"
+                });
+            }
+        }
+
+        if (
+            name !== undefined &&
+            typeof name !== "string"
+        ) {
+            return res.status(400).json({
+                success: false,
+                message: "Name must be a string"
+            });
+        }
+
+        if (avatarUrl !== undefined && avatarUrl) {
+            if (
+                !/^data:image\/(png|jpe?g|gif|webp);base64,/i.test(
+                    avatarUrl
+                )
+            ) {
+                return res.status(400).json({
+                    success: false,
+                    message: "Invalid image format"
+                });
+            }
+
+            if (avatarUrl.length > 5000000) {
+                return res.status(400).json({
+                    success: false,
+                    message:
+                        "Image is too large. Please use a smaller picture."
+                });
+            }
+        }
+
+        const data = {};
+
+        if (name !== undefined) {
+            data.name = name.trim() || null;
+        }
+
+        if (email !== undefined) {
+            data.email = email.trim().toLowerCase();
+        }
+
+        if (avatarUrl !== undefined) {
+            data.avatarUrl = avatarUrl || null;
+        }
+
+        const updatedUser = await prisma.user.update({
+            where: {
+                id: userId
+            },
+            data
+        });
+
+        res.status(200).json({
+            success: true,
+            message: "Profile updated successfully",
+            data: {
+                user: {
+                    id: updatedUser.id,
+                    email: updatedUser.email,
+                    name: updatedUser.name,
+                    avatarUrl: updatedUser.avatarUrl,
+                    role: updatedUser.role,
+                    isActive: updatedUser.isActive
+                }
+            }
+        });
+
+    } catch (error) {
+        console.error(error);
+
+        if (error.code === "P2002") {
+            return res.status(409).json({
+                success: false,
+                message: "Email already exists"
+            });
+        }
+
+        res.status(500).json({
+            success: false,
+            message: "Failed to update profile"
+        });
+    }
+};
+
+
 // LOGOUT
 const logoutUser = async (req, res) => {
     try {
@@ -402,6 +548,8 @@ module.exports = {
      register,
          resetTeacherPassword,
          changePassword,
+         getProfile,
+         updateProfile,
          logoutUser
 
 };

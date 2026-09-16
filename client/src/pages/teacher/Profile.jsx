@@ -7,6 +7,13 @@ import {
     updateTeacher
 } from "../../services/teacherApi";
 
+import {
+    updateProfile
+} from "../../services/authApi";
+
+import AvatarUploader
+    from "../../components/ui/AvatarUploader";
+
 
 const Profile = () => {
 
@@ -28,6 +35,13 @@ const Profile = () => {
         email: "",
         employeeId: ""
     });
+
+
+    // Avatar state
+
+    const [avatarUrl, setAvatarUrl] = useState("");
+
+    const [avatarSaving, setAvatarSaving] = useState(false);
 
 
     // Password form state
@@ -107,6 +121,11 @@ const Profile = () => {
 
 
                 setTeacher(currentTeacher);
+
+
+                setAvatarUrl(
+                    storedUser?.avatarUrl || ""
+                );
 
 
                 setFormData({
@@ -197,6 +216,81 @@ const Profile = () => {
 
         setError("");
         setSuccess("");
+    };
+
+
+    // ==============================
+    // PROFILE PICTURE
+    // ==============================
+
+    const handleAvatarSelect = async (dataUrl) => {
+
+        try {
+
+            setAvatarSaving(true);
+
+            setSuccess("");
+            setError("");
+
+
+            const response =
+                await updateProfile({
+                    avatarUrl: dataUrl
+                });
+
+
+            const updatedUser =
+                response?.data?.user || {};
+
+
+            const storedUser =
+                JSON.parse(
+                    localStorage.getItem("user")
+                );
+
+
+            if (storedUser) {
+
+                const updatedUserData = {
+                    ...storedUser,
+                    avatarUrl:
+                        updatedUser.avatarUrl ||
+                        dataUrl || null
+                };
+
+
+                localStorage.setItem(
+                    "user",
+                    JSON.stringify(updatedUserData)
+                );
+            }
+
+
+            setAvatarUrl(
+                updatedUser.avatarUrl ||
+                dataUrl || ""
+            );
+
+
+            setSuccess(
+                dataUrl
+                    ? "Profile picture updated successfully."
+                    : "Profile picture removed."
+            );
+
+        } catch (error) {
+
+            console.error(error);
+
+            setError(
+                error?.response?.data?.message ||
+                "Failed to update profile picture."
+            );
+
+        } finally {
+
+            setAvatarSaving(false);
+        }
     };
 
 
@@ -546,17 +640,14 @@ if (loading) {
 
                             {/* Avatar */}
 
-                            <div className="w-20 h-20 rounded-full bg-white/[0.03] flex items-center justify-center">
-
-                                <span className="text-3xl font-bold text-blue-400">
-
-                                    {teacher?.name
-                                        ?.charAt(0)
-                                        ?.toUpperCase()}
-
-                                </span>
-
-                            </div>
+                            <AvatarUploader
+                                size="md"
+                                avatarUrl={avatarUrl}
+                                name={teacher?.name || ""}
+                                busy={avatarSaving}
+                                onSelect={handleAvatarSelect}
+                                onError={setError}
+                            />
 
 
                             {/* Name */}

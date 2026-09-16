@@ -27,6 +27,16 @@ router.post(
     authenticate,
     authController.changePassword
 );
+router.get(
+    "/profile",
+    authenticate,
+    authController.getProfile
+);
+router.put(
+    "/profile",
+    authenticate,
+    authController.updateProfile
+);
 router.post(
     "/logout",
     authenticate,

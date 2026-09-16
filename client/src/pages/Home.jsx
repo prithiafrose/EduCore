@@ -213,9 +213,10 @@ function Home() {
 
               <h1 className="text-4xl font-bold leading-tight tracking-tight sm:text-5xl lg:text-6xl">
                 <span className="block">
-                  <SplitText text="Your university," delay={100} />
+                  <SplitText text="WELCOME TO EDUCORE" delay={100} />
                 </span>
                 <span className="block">
+
                   <GradientText
                     colors={["#818cf8", "#c084fc", "#22d3ee", "#818cf8"]}
                     animationSpeed={5}
@@ -271,7 +272,7 @@ function Home() {
                   {/* Mockup welcome */}
                   <div className="py-6">
                     <p className="text-xs font-medium tracking-wide text-slate-500">
-                      WELCOME TO YOUR PORTAL
+                      WELCOME TO EDUCORE
                     </p>
                     <h3 className="mt-2 text-2xl font-bold text-white">
                       Everything academic,
