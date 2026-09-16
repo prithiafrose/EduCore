@@ -371,7 +371,7 @@ function Home() {
         {/* =====================================================
             FEATURES
         ====================================================== */}
-        <section id="features" className="bg-slate-950">
+        <section id="features" className="scroll-mt-24 bg-slate-950">
           <div className="mx-auto max-w-7xl px-6 py-24 lg:px-8">
             <ScrollReveal className="mb-14 max-w-2xl">
               <p className="text-xs font-bold tracking-[0.18em] text-indigo-400">
@@ -396,21 +396,25 @@ function Home() {
 
             <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
               {features.map(({ icon: Icon, badge, title, desc }, index) => (
-                <ScrollReveal key={title} delay={index * 0.06}>
-                  <SpotlightCard className="group h-full rounded-2xl border border-white/10 bg-white/[0.03] p-6 transition duration-300 hover:-translate-y-1.5 hover:border-white/20 hover:bg-white/[0.06]">
-                    <div
-                      className={`flex h-12 w-12 items-center justify-center rounded-xl ${badge}`}
-                    >
-                      <Icon className="h-6 w-6" />
-                    </div>
-                    <h3 className="mt-5 font-bold text-white">{title}</h3>
-                    <p className="mt-2 text-sm leading-6 text-slate-400">
-                      {desc}
-                    </p>
-                    <div className="mt-5 flex items-center gap-1.5 text-sm font-semibold text-indigo-400 opacity-0 transition group-hover:opacity-100">
-                      Learn more <ArrowRight className="h-3.5 w-3.5" />
-                    </div>
-                  </SpotlightCard>
+                <ScrollReveal key={title} delay={index * 0.06} className="h-full">
+                  <Link to="/login" className="block h-full group rounded-2xl" aria-label={`Explore the ${title} module`}>
+                    <SpotlightCard className="h-full rounded-2xl border border-white/10 bg-white/[0.03] transition duration-300 group-hover:border-white/20 group-hover:bg-white/[0.06] group-hover:-translate-y-1.5">
+                      <div className="flex h-full flex-col p-6">
+                        <div
+                          className={`flex h-12 w-12 items-center justify-center rounded-xl ${badge}`}
+                        >
+                          <Icon className="h-6 w-6" />
+                        </div>
+                        <h3 className="mt-5 font-bold text-white">{title}</h3>
+                        <p className="mt-2 text-sm leading-6 text-slate-400">
+                          {desc}
+                        </p>
+                        <div className="mt-auto flex items-center gap-1.5 pt-5 text-sm font-semibold text-indigo-400 transition-all duration-300 group-hover:gap-2.5 group-hover:text-indigo-300">
+                          Explore module <ArrowRight className="h-3.5 w-3.5" />
+                        </div>
+                      </div>
+                    </SpotlightCard>
+                  </Link>
                 </ScrollReveal>
               ))}
             </div>
@@ -420,7 +424,7 @@ function Home() {
         {/* =====================================================
             ABOUT
         ====================================================== */}
-        <section id="about" className="border-y border-white/5 bg-white/[0.02]">
+        <section id="about" className="scroll-mt-24 border-y border-white/5 bg-white/[0.02]">
           <div className="mx-auto max-w-7xl px-6 py-24 lg:px-8">
             <div className="grid items-center gap-14 lg:grid-cols-2">
               <div className="relative">
@@ -496,7 +500,7 @@ function Home() {
         {/* =====================================================
             PORTAL ACCESS
         ====================================================== */}
-        <section id="access" className="bg-slate-950">
+        <section id="access" className="scroll-mt-24 bg-slate-950">
           <div className="mx-auto max-w-7xl px-6 py-24 lg:px-8">
             <ScrollReveal className="mx-auto max-w-3xl text-center">
               <p className="text-xs font-bold tracking-[0.18em] text-indigo-400">
