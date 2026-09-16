@@ -1,7 +1,9 @@
 const courseOfferingService =
     require("../services/courseOffering.service");
 
-const prisma = require("../config/prisma");
+const courseService = require("../services/course.service");
+const academicSemesterService =
+    require("../services/academicSemester.service");
 
 
 // GET all course offerings
@@ -102,11 +104,7 @@ const createCourseOffering = async (req, res) => {
 
         // 4. Check course exists
         const course =
-            await prisma.course.findUnique({
-                where: {
-                    id: Number(courseId)
-                }
-            });
+            await courseService.getCourseById(courseId);
 
         if (!course) {
             return res.status(404).json({
@@ -117,14 +115,7 @@ const createCourseOffering = async (req, res) => {
 
         // 5. Check academic semester exists
         const semester =
-            await prisma.academicSemester.findUnique({
-                where: {
-                    id: Number(academicSemesterId)
-                },
-                include: {
-                    program: true
-                }
-            });
+            await academicSemesterService.getAcademicSemesterById(academicSemesterId);
 
         if (!semester) {
             return res.status(404).json({
@@ -136,14 +127,10 @@ const createCourseOffering = async (req, res) => {
         // 6. Check whether course already exists
         // in another semester of the SAME program
         const existingOffering =
-            await prisma.courseOffering.findFirst({
-                where: {
-                    courseId: Number(courseId),
-                    academicSemester: {
-                        programId: semester.programId
-                    }
-                }
-            });
+            await courseOfferingService.getCourseOfferingByCourseAndProgram(
+                courseId,
+                semester.programId
+            );
 
 
         if (existingOffering) {
@@ -253,11 +240,7 @@ const updateCourseOffering = async (req, res) => {
 
         // 6. Check course exists
         const course =
-            await prisma.course.findUnique({
-                where: {
-                    id: Number(courseId)
-                }
-            });
+            await courseService.getCourseById(courseId);
 
         if (!course) {
             return res.status(404).json({
@@ -268,14 +251,7 @@ const updateCourseOffering = async (req, res) => {
 
         // 7. Check semester exists
         const semester =
-            await prisma.academicSemester.findUnique({
-                where: {
-                    id: Number(academicSemesterId)
-                },
-                include: {
-                    program: true
-                }
-            });
+            await academicSemesterService.getAcademicSemesterById(academicSemesterId);
 
         if (!semester) {
             return res.status(404).json({
@@ -286,17 +262,11 @@ const updateCourseOffering = async (req, res) => {
 
         // 8. Check course repetition
         const duplicateOffering =
-            await prisma.courseOffering.findFirst({
-                where: {
-                    courseId: Number(courseId),
-                    academicSemester: {
-                        programId: semester.programId
-                    },
-                    NOT: {
-                        id: Number(id)
-                    }
-                }
-            });
+            await courseOfferingService.getCourseOfferingByCourseAndProgram(
+                courseId,
+                semester.programId,
+                id
+            );
 
 
         if (duplicateOffering) {

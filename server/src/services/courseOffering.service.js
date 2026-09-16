@@ -95,10 +95,34 @@ const deleteCourseOffering = async (id) => {
 };
 
 
+// GET course offering by course + program
+// (existence / duplicate-across-semester check)
+const getCourseOfferingByCourseAndProgram = async (
+    courseId,
+    programId,
+    excludeId = null
+) => {
+    return await prisma.courseOffering.findFirst({
+        where: {
+            courseId: Number(courseId),
+            academicSemester: {
+                programId: Number(programId)
+            },
+            ...(excludeId !== null && {
+                NOT: {
+                    id: Number(excludeId)
+                }
+            })
+        }
+    });
+};
+
+
 module.exports = {
     getAllCourseOfferings,
     getCourseOfferingById,
     createCourseOffering,
     updateCourseOffering,
-    deleteCourseOffering
+    deleteCourseOffering,
+    getCourseOfferingByCourseAndProgram
 };

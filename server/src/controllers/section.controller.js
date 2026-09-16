@@ -1,5 +1,5 @@
 const sectionService = require("../services/section.service");
-const prisma = require("../config/prisma");
+const courseOfferingService = require("../services/courseOffering.service");
 
 
 // GET all sections
@@ -100,11 +100,7 @@ const createSection = async (req, res) => {
 
         // 4. Check course offering exists
         const courseOffering =
-            await prisma.courseOffering.findUnique({
-                where: {
-                    id: Number(courseOfferingId)
-                }
-            });
+            await courseOfferingService.getCourseOfferingById(courseOfferingId);
 
         if (!courseOffering) {
             return res.status(404).json({
@@ -211,11 +207,7 @@ const updateSection = async (req, res) => {
 
         // 6. Check course offering exists
         const courseOffering =
-            await prisma.courseOffering.findUnique({
-                where: {
-                    id: Number(courseOfferingId)
-                }
-            });
+            await courseOfferingService.getCourseOfferingById(courseOfferingId);
 
         if (!courseOffering) {
             return res.status(404).json({

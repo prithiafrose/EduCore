@@ -87,6 +87,24 @@ const getStudentPaymentById = async (id) => {
   });
 };
 
+// Get payment by ID with full relations (for receipts)
+const getPaymentWithRelationsById = async (id) => {
+  return prisma.studentPayment.findUnique({
+    where: {
+      id: Number(id),
+    },
+    include: {
+      student: { include: { program: true } },
+      fee: {
+        include: {
+          academicSemester: true,
+          program: true,
+        },
+      },
+    },
+  });
+};
+
 // Get payments by student
 const getPaymentsByStudent = async (studentId) => {
   return prisma.studentPayment.findMany({
@@ -213,6 +231,7 @@ module.exports = {
   createStudentPayment,
   getAllStudentPayments,
   getStudentPaymentById,
+  getPaymentWithRelationsById,
   getPaymentsByStudent,
   updatePaymentStatus,
   createCheckout,

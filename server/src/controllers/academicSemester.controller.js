@@ -1,7 +1,7 @@
 const academicSemesterService =
     require("../services/academicSemester.service");
 
-const prisma = require("../config/prisma");
+const programService = require("../services/program.service");
 
 
 // GET all academic semesters
@@ -116,11 +116,7 @@ const createAcademicSemester = async (req, res) => {
 
         // 5. Check program exists
         const program =
-            await prisma.program.findUnique({
-                where: {
-                    id: Number(programId)
-                }
-            });
+            await programService.getProgramById(programId);
 
 
         if (!program) {
@@ -267,11 +263,7 @@ const updateAcademicSemester = async (req, res) => {
 
         // 7. Check program exists
         const program =
-            await prisma.program.findUnique({
-                where: {
-                    id: Number(programId)
-                }
-            });
+            await programService.getProgramById(programId);
 
 
         if (!program) {

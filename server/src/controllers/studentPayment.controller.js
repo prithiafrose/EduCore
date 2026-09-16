@@ -1,7 +1,6 @@
 const studentPaymentService = require("../services/studentPayment.service");
 const studentService = require("../services/student.service");
 const paymentGateway = require("../payment/gateway");
-const prisma = require("../config/prisma");
 
 const escapeHtml = (value) =>
   String(value ?? "").replace(
@@ -31,18 +30,8 @@ const downloadReceipt = async (req, res) => {
       });
     }
 
-    const payment = await prisma.studentPayment.findUnique({
-      where: { id: Number(id) },
-      include: {
-        student: { include: { program: true } },
-        fee: {
-          include: {
-            academicSemester: true,
-            program: true,
-          },
-        },
-      },
-    });
+    const payment =
+      await studentPaymentService.getPaymentWithRelationsById(id);
 
     if (!payment) {
       return res.status(404).json({

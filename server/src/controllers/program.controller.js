@@ -1,5 +1,5 @@
 const programService = require("../services/program.service");
-const prisma = require("../config/prisma");
+const departmentService = require("../services/department.service");
 
 
 // GET all programs
@@ -162,11 +162,7 @@ if (
 
         // 6. Check department exists
         const department =
-            await prisma.department.findUnique({
-                where: {
-                    id: Number(departmentId)
-                }
-            });
+            await departmentService.getDepartmentById(departmentId);
 
 
         if (!department) {
@@ -326,11 +322,7 @@ if (
 
         // 8. Check department exists
         const department =
-            await prisma.department.findUnique({
-                where: {
-                    id: Number(departmentId)
-                }
-            });
+            await departmentService.getDepartmentById(departmentId);
 
         if (!department) {
             return res.status(404).json({

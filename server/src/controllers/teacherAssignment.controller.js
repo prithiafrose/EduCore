@@ -1,7 +1,9 @@
 const teacherAssignmentService =
     require("../services/teacherAssignment.service");
 
-const prisma = require("../config/prisma");
+const teacherService = require("../services/teacher.service");
+const courseOfferingService = require("../services/courseOffering.service");
+const sectionService = require("../services/section.service");
 // GET teacher assignments by teacher ID
 const getTeacherAssignmentsByTeacher = async (
     req,
@@ -163,11 +165,7 @@ const createTeacherAssignment = async (req, res) => {
 
         // 5. Check teacher exists
         const teacher =
-            await prisma.teacher.findUnique({
-                where: {
-                    id: Number(teacherId)
-                }
-            });
+            await teacherService.getTeacherById(teacherId);
 
         if (!teacher) {
             return res.status(404).json({
@@ -178,11 +176,7 @@ const createTeacherAssignment = async (req, res) => {
 
         // 6. Check course offering exists
         const courseOffering =
-            await prisma.courseOffering.findUnique({
-                where: {
-                    id: Number(courseOfferingId)
-                }
-            });
+            await courseOfferingService.getCourseOfferingById(courseOfferingId);
 
         if (!courseOffering) {
             return res.status(404).json({
@@ -197,11 +191,7 @@ const createTeacherAssignment = async (req, res) => {
         if (sectionId !== undefined && sectionId !== null) {
 
             section =
-                await prisma.section.findUnique({
-                    where: {
-                        id: Number(sectionId)
-                    }
-                });
+                await sectionService.getSectionById(sectionId);
 
 
             if (!section) {

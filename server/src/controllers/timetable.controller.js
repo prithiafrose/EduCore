@@ -1,7 +1,9 @@
 const timetableService =
     require("../services/timetable.service");
 
-const prisma = require("../config/prisma");
+const courseOfferingService = require("../services/courseOffering.service");
+const sectionService = require("../services/section.service");
+const teacherAssignmentService = require("../services/teacherAssignment.service");
 
 
 // GET all timetables
@@ -196,11 +198,7 @@ const createTimetable = async (req, res) => {
 
         // Check course offering
         const courseOffering =
-            await prisma.courseOffering.findUnique({
-                where: {
-                    id: Number(courseOfferingId)
-                }
-            });
+            await courseOfferingService.getCourseOfferingById(courseOfferingId);
 
 
         if (!courseOffering) {
@@ -214,11 +212,7 @@ const createTimetable = async (req, res) => {
         if (sectionId !== null && sectionId !== undefined) {
 
             const section =
-                await prisma.section.findUnique({
-                    where: {
-                        id: Number(sectionId)
-                    }
-                });
+                await sectionService.getSectionById(sectionId);
 
 
             if (!section) {
@@ -243,11 +237,7 @@ const createTimetable = async (req, res) => {
 
         // Check teacher assignment
         const teacherAssignment =
-            await prisma.teacherAssignment.findUnique({
-                where: {
-                    id: Number(teacherAssignmentId)
-                }
-            });
+            await teacherAssignmentService.getTeacherAssignmentById(teacherAssignmentId);
 
 
         if (!teacherAssignment) {
@@ -426,11 +416,7 @@ const updateTimetable = async (req, res) => {
 
         // Check course offering
         const courseOffering =
-            await prisma.courseOffering.findUnique({
-                where: {
-                    id: Number(courseOfferingId)
-                }
-            });
+            await courseOfferingService.getCourseOfferingById(courseOfferingId);
 
 
         if (!courseOffering) {
@@ -454,11 +440,7 @@ const updateTimetable = async (req, res) => {
 
 
             const section =
-                await prisma.section.findUnique({
-                    where: {
-                        id: Number(sectionId)
-                    }
-                });
+                await sectionService.getSectionById(sectionId);
 
 
             if (!section) {
@@ -482,11 +464,7 @@ const updateTimetable = async (req, res) => {
 
         // Check teacher assignment
         const teacherAssignment =
-            await prisma.teacherAssignment.findUnique({
-                where: {
-                    id: Number(teacherAssignmentId)
-                }
-            });
+            await teacherAssignmentService.getTeacherAssignmentById(teacherAssignmentId);
 
 
         if (!teacherAssignment) {

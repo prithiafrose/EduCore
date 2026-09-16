@@ -1,6 +1,5 @@
 const courseResultService = require("../services/courseResult.service");
-
-const prisma = require("../config/prisma");
+const studentService = require("../services/student.service");
 
 // Generate Course Result
 const generateCourseResult = async (req, res) => {
@@ -83,10 +82,7 @@ const getStudentTranscript = async (req, res) => {
     // - Admin can view any transcript
     // - A student can only view their own transcript
     if (req.user?.role !== "ADMIN") {
-      const student = await prisma.student.findUnique({
-        where: { id: studentId },
-        select: { userId: true },
-      });
+      const student = await studentService.getStudentById(studentId);
 
       if (
         !student ||

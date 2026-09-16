@@ -1,7 +1,8 @@
 const studentService =
     require("../services/student.service");
 
-const prisma = require("../config/prisma");
+const programService = require("../services/program.service");
+const { validateEmail } = require("../utils/email");
 
 
 // GET all students
@@ -144,13 +145,19 @@ const createStudent = async (req, res) => {
         }
 
 
+        // 2b. Validate email format (rejects invalid / disposable addresses)
+        const emailError = validateEmail(email);
+
+        if (emailError) {
+            return res.status(400).json({
+                message: emailError
+            });
+        }
+
+
         // 3. Check program exists
         const program =
-            await prisma.program.findUnique({
-                where: {
-                    id: Number(programId)
-                }
-            });
+            await programService.getProgramById(programId);
 
         if (!program) {
             return res.status(404).json({
@@ -249,6 +256,16 @@ const updateStudent = async (req, res) => {
         }
 
 
+        // 3b. Validate email format (rejects invalid / disposable addresses)
+        const emailError = validateEmail(email);
+
+        if (emailError) {
+            return res.status(400).json({
+                message: emailError
+            });
+        }
+
+
         // 4. Check student exists
         const existingStudent =
             await studentService.getStudentById(id);
@@ -262,11 +279,7 @@ const updateStudent = async (req, res) => {
 
         // 5. Check program exists
         const program =
-            await prisma.program.findUnique({
-                where: {
-                    id: Number(programId)
-                }
-            });
+            await programService.getProgramById(programId);
 
         if (!program) {
             return res.status(404).json({
