@@ -481,3 +481,32 @@
     transform: translateY(0);
   }
 }
+
+/* ---- Landing page helpers ---- */
+.bg-grid {
+  background-image: linear-gradient(
+      to right,
+      rgba(148, 163, 184, 0.09) 1px,
+      transparent 1px
+    ),
+    linear-gradient(to bottom, rgba(148, 163, 184, 0.09) 1px, transparent 1px);
+  background-size: 56px 56px;
+}
+
+@keyframes ec-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-12px);
+  }
+}
+
+.ec-float {
+  animation: ec-float 6s ease-in-out infinite;
+}
+
+.ec-float-delayed {
+  animation: ec-float 7s ease-in-out 1.2s infinite;
+}
