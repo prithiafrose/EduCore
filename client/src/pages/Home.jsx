@@ -211,7 +211,7 @@ function Home() {
                 </div>
               </ScrollReveal>
 
-              <h1 className="text-4xl font-bold leading-tight tracking-tight sm:text-5xl lg:text-6xl">
+              <h1 className="text-3xl font-bold leading-tight tracking-tight sm:text-5xl lg:text-4xl">
                 <span className="block">
                   <SplitText text="WELCOME TO EDUCORE" delay={100} />
                 </span>
