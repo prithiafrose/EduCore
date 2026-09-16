@@ -149,15 +149,15 @@ function Dashboard() {
     };
 
     const quickAccess = [
-        { to: "/teacher/assessments", icon: "✓", title: "Assessments", subtitle: "Enter and manage student assessment marks.", accent: "bg-indigo-50 text-indigo-600" },
-        { to: "/teacher/exams", icon: "▣", title: "Exams", subtitle: "Manage examination marks and results.", accent: "bg-amber-50 text-amber-600" },
-        { to: "/teacher/assignments", icon: "✎", title: "Assignments", subtitle: loading ? "Loading..." : `${assignmentCount} active assignment${assignmentCount === 1 ? "" : "s"} in your courses.`, accent: "bg-emerald-50 text-emerald-600" },
+        { to: "/teacher/assessments", icon: "✓", title: "Assessments", subtitle: "Enter and manage student assessment marks.", accent: "bg-indigo-500/10 text-indigo-400" },
+        { to: "/teacher/exams", icon: "▣", title: "Exams", subtitle: "Manage examination marks and results.", accent: "bg-amber-500/10 text-amber-400" },
+        { to: "/teacher/assignments", icon: "✎", title: "Assignments", subtitle: loading ? "Loading..." : `${assignmentCount} active assignment${assignmentCount === 1 ? "" : "s"} in your courses.`, accent: "bg-emerald-500/10 text-emerald-400" },
     ];
 
     return (
         <div className="p-8">
                         <div className="mb-5">
-                            <h3 className="text-lg font-semibold text-slate-900">
+                            <h3 className="text-lg font-semibold text-white">
                                 Teaching Overview
                             </h3>
 
@@ -221,8 +221,8 @@ function Dashboard() {
                         </div>
 
                         <AnimatedCard className="mt-8" hover={false}>
-                            <div className="px-6 py-5 border-b border-slate-200">
-                                <h3 className="text-xl font-semibold text-slate-900">
+                            <div className="px-6 py-5 border-b border-white/10">
+                                <h3 className="text-xl font-semibold text-white">
                                     Academic Management
                                 </h3>
 
@@ -242,14 +242,14 @@ function Dashboard() {
                                     >
                                         <Link
                                             to={item.to}
-                                            className="flex items-start gap-4 border border-slate-200 rounded-xl p-5 h-full hover:border-indigo-300 hover:shadow-sm transition"
+                                            className="flex items-start gap-4 border border-white/10 rounded-xl p-5 h-full hover:border-indigo-300 hover:shadow-sm transition"
                                         >
                                             <div className={`w-11 h-11 rounded-xl flex items-center justify-center text-lg ${item.accent}`}>
                                                 {item.icon}
                                             </div>
 
                                             <div>
-                                                <h4 className="font-semibold text-slate-800">
+                                                <h4 className="font-semibold text-slate-100">
                                                     {item.title}
                                                 </h4>
 
@@ -264,8 +264,8 @@ function Dashboard() {
                         </AnimatedCard>
 
                         <AnimatedCard className="mt-8" hover={false}>
-                            <div className="px-6 py-5 border-b border-slate-200">
-                                <h3 className="text-xl font-semibold text-slate-900">
+                            <div className="px-6 py-5 border-b border-white/10">
+                                <h3 className="text-xl font-semibold text-white">
                                     Today's Classes
                                 </h3>
 
@@ -285,22 +285,22 @@ function Dashboard() {
                                     </p>
                                 ) : todaySessions.length === 0 ? (
                                     <div className="flex items-center gap-4">
-                                        <div className="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-slate-500">
+                                        <div className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-slate-500">
                                             i
                                         </div>
 
                                         <div>
-                                            <p className="text-sm font-medium text-slate-700">
+                                            <p className="text-sm font-medium text-slate-200">
                                                 No classes today.
                                             </p>
 
-                                            <p className="text-xs text-slate-400 mt-1">
+                                            <p className="text-xs text-slate-500 mt-1">
                                                 Check your class routine for upcoming sessions.
                                             </p>
                                         </div>
                                     </div>
                                 ) : (
-                                    <div className="divide-y divide-slate-100">
+                                    <div className="divide-y divide-white/5">
                                         {todaySessions.map((session, index) => (
                                             <motion.div
                                                 key={session.id}
@@ -310,18 +310,18 @@ function Dashboard() {
                                                 className="flex items-center justify-between py-3"
                                             >
                                                 <div className="flex items-center gap-4">
-                                                    <div className="w-11 h-11 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center text-lg">
+                                                    <div className="w-11 h-11 rounded-xl bg-indigo-500/10 text-indigo-400 flex items-center justify-center text-lg">
                                                         ◷
                                                     </div>
 
                                                     <div>
-                                                        <p className="font-medium text-slate-800">
+                                                        <p className="font-medium text-slate-100">
                                                             {session.courseOffering
                                                                 ?.course?.code ||
                                                                 "Course"}
                                                         </p>
 
-                                                        <p className="text-xs text-slate-400 mt-0.5">
+                                                        <p className="text-xs text-slate-500 mt-0.5">
                                                             {session.courseOffering
                                                                 ?.course?.name || "N/A"}
                                                             {session.room
@@ -332,7 +332,7 @@ function Dashboard() {
                                                 </div>
 
                                                 <div className="text-right">
-                                                    <p className="text-sm font-semibold text-slate-700">
+                                                    <p className="text-sm font-semibold text-slate-200">
                                                         {formatTime(
                                                             session.startTime
                                                         )}

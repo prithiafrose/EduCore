@@ -349,7 +349,7 @@ function Programs() {
 
             <div>
 
-              <h1 className="text-3xl font-bold text-slate-900">
+              <h1 className="text-3xl font-bold text-white">
                 Program Management
               </h1>
 
@@ -364,13 +364,13 @@ function Programs() {
 
           {/* Total Programs */}
 
-          <div className="rounded-xl bg-white px-4 py-3 shadow-sm ring-1 ring-slate-200">
+          <div className="rounded-xl bg-white/[0.03] px-4 py-3 shadow-sm ring-1 ring-white/10">
 
-            <p className="text-xs font-medium uppercase tracking-wide text-slate-400">
+            <p className="text-xs font-medium uppercase tracking-wide text-slate-500">
               Total Programs
             </p>
 
-            <p className="mt-1 text-2xl font-bold text-slate-900">
+            <p className="mt-1 text-2xl font-bold text-white">
               {programs.length}
             </p>
 
@@ -385,7 +385,7 @@ function Programs() {
 
       {success && (
 
-        <div className="mb-5 rounded-xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm font-medium text-emerald-700">
+        <div className="mb-5 rounded-xl border border-emerald-500/20 bg-emerald-500/10 px-4 py-3 text-sm font-medium text-emerald-300">
           {success}
         </div>
 
@@ -394,7 +394,7 @@ function Programs() {
 
       {error && (
 
-        <div className="mb-5 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm font-medium text-red-700">
+        <div className="mb-5 rounded-xl border border-red-500/20 bg-red-500/10 px-4 py-3 text-sm font-medium text-red-300">
           {error}
         </div>
 
@@ -405,12 +405,12 @@ function Programs() {
 
       {showForm && (
 
-        <div className="mb-8 rounded-2xl bg-white p-6 shadow-sm ring-1 ring-slate-200">
+        <div className="mb-8 rounded-2xl bg-white/[0.03] p-6 shadow-sm ring-1 ring-white/10">
 
 
           <div className="mb-6">
 
-            <h2 className="text-lg font-semibold text-slate-900">
+            <h2 className="text-lg font-semibold text-white">
 
               {editingId !== null
                 ? "Edit Program"
@@ -439,7 +439,7 @@ function Programs() {
 
             <div>
 
-              <label className="mb-2 block text-sm font-medium text-slate-700">
+              <label className="mb-2 block text-sm font-medium text-slate-200">
                 Program Name
               </label>
 
@@ -451,7 +451,7 @@ function Programs() {
                 }
                 placeholder="Software Engineering"
                 required
-                className="w-full rounded-xl border border-slate-300 px-4 py-3 text-sm outline-none transition focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100"
+                className="w-full rounded-xl border border-white/15 px-4 py-3 text-sm outline-none transition focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100"
               />
 
             </div>
@@ -461,7 +461,7 @@ function Programs() {
 
             <div>
 
-              <label className="mb-2 block text-sm font-medium text-slate-700">
+              <label className="mb-2 block text-sm font-medium text-slate-200">
                 Program Code
               </label>
 
@@ -473,7 +473,7 @@ function Programs() {
                 }
                 placeholder="SWE"
                 required
-                className="w-full rounded-xl border border-slate-300 px-4 py-3 text-sm uppercase outline-none transition focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100"
+                className="w-full rounded-xl border border-white/15 px-4 py-3 text-sm uppercase outline-none transition focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100"
               />
 
             </div>
@@ -483,7 +483,7 @@ function Programs() {
 
             <div>
 
-              <label className="mb-2 block text-sm font-medium text-slate-700">
+              <label className="mb-2 block text-sm font-medium text-slate-200">
                 Program Type
               </label>
 
@@ -495,7 +495,7 @@ function Programs() {
                   )
                 }
                 required
-                className="w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm outline-none transition focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100"
+                className="w-full rounded-xl border border-white/15 bg-white/[0.03] px-4 py-3 text-sm outline-none transition focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100"
               >
 
                 <option value="BACHELOR">
@@ -519,7 +519,7 @@ function Programs() {
 
             <div>
 
-              <label className="mb-2 block text-sm font-medium text-slate-700">
+              <label className="mb-2 block text-sm font-medium text-slate-200">
                 Department
               </label>
 
@@ -531,7 +531,7 @@ function Programs() {
                   )
                 }
                 required
-                className="w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm outline-none transition focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100"
+                className="w-full rounded-xl border border-white/15 bg-white/[0.03] px-4 py-3 text-sm outline-none transition focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100"
               >
 
                 <option value="">
@@ -561,7 +561,7 @@ function Programs() {
 
             <div>
 
-              <label className="mb-2 block text-sm font-medium text-slate-700">
+              <label className="mb-2 block text-sm font-medium text-slate-200">
                 Duration (Years)
               </label>
 
@@ -576,7 +576,7 @@ function Programs() {
                 }
                 placeholder="4"
                 required
-                className="w-full rounded-xl border border-slate-300 px-4 py-3 text-sm outline-none transition focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100"
+                className="w-full rounded-xl border border-white/15 px-4 py-3 text-sm outline-none transition focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100"
               />
 
             </div>
@@ -586,7 +586,7 @@ function Programs() {
 
             <div>
 
-              <label className="mb-2 block text-sm font-medium text-slate-700">
+              <label className="mb-2 block text-sm font-medium text-slate-200">
                 Total Semesters
               </label>
 
@@ -601,7 +601,7 @@ function Programs() {
                 }
                 placeholder="8"
                 required
-                className="w-full rounded-xl border border-slate-300 px-4 py-3 text-sm outline-none transition focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100"
+                className="w-full rounded-xl border border-white/15 px-4 py-3 text-sm outline-none transition focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100"
               />
 
             </div>
@@ -630,7 +630,7 @@ function Programs() {
                 type="button"
                 onClick={resetForm}
                 disabled={saving}
-                className="rounded-xl border border-slate-300 bg-white px-6 py-3 text-sm font-semibold text-slate-700 transition hover:bg-slate-50 disabled:opacity-60"
+                className="rounded-xl border border-white/15 bg-white/[0.03] px-6 py-3 text-sm font-semibold text-slate-200 transition hover:bg-white/5 disabled:opacity-60"
               >
                 Cancel
               </button>
@@ -646,16 +646,16 @@ function Programs() {
 
       {/* Program List */}
 
-      <div className="rounded-2xl bg-white shadow-sm ring-1 ring-slate-200">
+      <div className="rounded-2xl bg-white/[0.03] shadow-sm ring-1 ring-white/10">
 
 
         {/* List Header */}
 
-        <div className="flex flex-col gap-4 border-b border-slate-200 p-6 sm:flex-row sm:items-center sm:justify-between">
+        <div className="flex flex-col gap-4 border-b border-white/10 p-6 sm:flex-row sm:items-center sm:justify-between">
 
           <div>
 
-            <h2 className="text-lg font-semibold text-slate-900">
+            <h2 className="text-lg font-semibold text-white">
               Programs
             </h2>
 
@@ -678,7 +678,7 @@ function Programs() {
                 setSearch(e.target.value)
               }
               placeholder="Search programs..."
-              className="w-full rounded-xl border border-slate-300 px-4 py-3 text-sm outline-none transition focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100 sm:w-72"
+              className="w-full rounded-xl border border-white/15 px-4 py-3 text-sm outline-none transition focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100 sm:w-72"
             />
 
 
@@ -707,11 +707,11 @@ function Programs() {
 
           <div className="p-10 text-center">
 
-            <p className="font-medium text-slate-700">
+            <p className="font-medium text-slate-200">
               No programs found
             </p>
 
-            <p className="mt-1 text-sm text-slate-400">
+            <p className="mt-1 text-sm text-slate-500">
               Try a different search or add a new program.
             </p>
 
@@ -725,7 +725,7 @@ function Programs() {
 
               <thead>
 
-                <tr className="border-b border-slate-200 bg-slate-50">
+                <tr className="border-b border-white/10 bg-white/5">
 
                   <th className="px-6 py-4 text-xs font-semibold uppercase tracking-wide text-slate-500">
                     Program
@@ -767,7 +767,7 @@ function Programs() {
 
                     <tr
                       key={program.id}
-                      className="border-b border-slate-100 last:border-0 hover:bg-slate-50"
+                      className="border-b border-white/5 last:border-0 hover:bg-white/5"
                     >
 
 
@@ -775,11 +775,11 @@ function Programs() {
 
                       <td className="px-6 py-4">
 
-                        <p className="font-medium text-slate-900">
+                        <p className="font-medium text-white">
                           {program.name}
                         </p>
 
-                        <p className="mt-1 text-xs text-slate-400">
+                        <p className="mt-1 text-xs text-slate-500">
                           Program ID: {program.id}
                         </p>
 
@@ -790,7 +790,7 @@ function Programs() {
 
                       <td className="px-6 py-4">
 
-                        <span className="rounded-lg bg-indigo-50 px-3 py-1.5 text-sm font-semibold text-indigo-700">
+                        <span className="rounded-lg bg-indigo-500/10 px-3 py-1.5 text-sm font-semibold text-indigo-300">
                           {program.code}
                         </span>
 
@@ -801,7 +801,7 @@ function Programs() {
 
                       <td className="px-6 py-4">
 
-                        <span className="rounded-lg bg-slate-100 px-3 py-1.5 text-xs font-semibold text-slate-600">
+                        <span className="rounded-lg bg-white/5 px-3 py-1.5 text-xs font-semibold text-slate-300">
                           {program.programType || "—"}
                         </span>
 
@@ -810,7 +810,7 @@ function Programs() {
 
                       {/* Duration */}
 
-                      <td className="px-6 py-4 text-sm text-slate-600">
+                      <td className="px-6 py-4 text-sm text-slate-300">
 
                         {program.durationYears
                           ? `${program.durationYears} years`
@@ -821,7 +821,7 @@ function Programs() {
 
                       {/* Semesters */}
 
-                      <td className="px-6 py-4 text-sm text-slate-600">
+                      <td className="px-6 py-4 text-sm text-slate-300">
 
                         {program.totalSemesters ?? "—"}
 
@@ -832,13 +832,13 @@ function Programs() {
 
                       <td className="px-6 py-4">
 
-                        <p className="text-sm font-medium text-slate-700">
+                        <p className="text-sm font-medium text-slate-200">
                           {program.department?.name || "—"}
                         </p>
 
                         {program.department?.code && (
 
-                          <p className="mt-1 text-xs text-slate-400">
+                          <p className="mt-1 text-xs text-slate-500">
                             {program.department.code}
                           </p>
 
@@ -858,7 +858,7 @@ function Programs() {
                             onClick={() =>
                               handleEdit(program)
                             }
-                            className="rounded-lg border border-slate-300 px-3 py-2 text-xs font-semibold text-slate-700 transition hover:bg-slate-100"
+                            className="rounded-lg border border-white/15 px-3 py-2 text-xs font-semibold text-slate-200 transition hover:bg-white/5"
                           >
                             Edit
                           </button>
@@ -870,7 +870,7 @@ function Programs() {
                                 program.id
                               )
                             }
-                            className="rounded-lg border border-red-200 px-3 py-2 text-xs font-semibold text-red-600 transition hover:bg-red-50"
+                            className="rounded-lg border border-red-500/20 px-3 py-2 text-xs font-semibold text-red-400 transition hover:bg-red-500/10"
                           >
                             Delete
                           </button>

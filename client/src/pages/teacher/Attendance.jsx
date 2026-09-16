@@ -635,7 +635,7 @@ const Attendance = () => {
         return (
             <div className="p-8">
 
-                <p className="text-slate-600">
+                <p className="text-slate-300">
                     Loading attendance...
                 </p>
 
@@ -670,13 +670,13 @@ const Attendance = () => {
 
                     <Link
                         to={`/teacher/attendance?courseOfferingId=${courseOfferingId}`}
-                        className="text-indigo-600 hover:underline"
+                        className="text-indigo-400 hover:underline"
                     >
                         ← Back to Class Sessions
                     </Link>
 
 
-                        <h1 className="text-3xl font-bold text-slate-900 mt-4">
+                        <h1 className="text-3xl font-bold text-white mt-4">
                             Full Classroom Attendance
                         </h1>
 
@@ -689,7 +689,7 @@ const Attendance = () => {
 
 
                     {error && (
-                        <div className="mb-5 bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg">
+                        <div className="mb-5 bg-red-500/10 border border-red-500/20 text-red-300 px-4 py-3 rounded-lg">
                             {error}
                         </div>
                     )}
@@ -697,7 +697,7 @@ const Attendance = () => {
 
                     {loadingClassroom ? (
 
-                        <div className="bg-white rounded-xl shadow-sm p-8 text-center">
+                        <div className="bg-white/[0.03] rounded-xl shadow-sm p-8 text-center">
 
                             <p className="text-slate-500">
                                 Loading classroom attendance...
@@ -707,7 +707,7 @@ const Attendance = () => {
 
                     ) : classroomStudents.length === 0 ? (
 
-                        <div className="bg-white rounded-xl shadow-sm p-8 text-center">
+                        <div className="bg-white/[0.03] rounded-xl shadow-sm p-8 text-center">
 
                             <p className="text-slate-500">
                                 No students found.
@@ -717,7 +717,7 @@ const Attendance = () => {
 
                     ) : (
 
-                        <div className="bg-white rounded-xl shadow-sm overflow-hidden">
+                        <div className="bg-white/[0.03] rounded-xl shadow-sm overflow-hidden">
 
                             <div className="overflow-x-auto">
 
@@ -777,22 +777,22 @@ const Attendance = () => {
                                     </thead>
 
 
-                                    <tbody className="divide-y divide-slate-200">
+                                    <tbody className="divide-y divide-white/10">
 
                                         {classroomStudents.map(
                                             (student) => (
 
                                                 <tr
                                                     key={student.studentId}
-                                                    className="hover:bg-slate-50"
+                                                    className="hover:bg-white/5"
                                                 >
 
-                                                    <td className="px-5 py-4 font-medium text-slate-900 whitespace-nowrap">
+                                                    <td className="px-5 py-4 font-medium text-white whitespace-nowrap">
                                                         {student.studentName}
                                                     </td>
 
 
-                                                    <td className="px-5 py-4 text-slate-600 whitespace-nowrap">
+                                                    <td className="px-5 py-4 text-slate-300 whitespace-nowrap">
                                                         {student.studentCode}
                                                     </td>
 
@@ -824,14 +824,14 @@ const Attendance = () => {
                                                                 >
 
                                                                     {status === "PRESENT" && (
-                                                                        <span className="inline-flex px-2.5 py-1 rounded-full text-xs font-semibold bg-green-100 text-green-700">
+                                                                        <span className="inline-flex px-2.5 py-1 rounded-full text-xs font-semibold bg-emerald-500/15 text-emerald-300">
                                                                             P
                                                                         </span>
                                                                     )}
 
 
                                                                     {status === "ABSENT" && (
-                                                                        <span className="inline-flex px-2.5 py-1 rounded-full text-xs font-semibold bg-red-100 text-red-700">
+                                                                        <span className="inline-flex px-2.5 py-1 rounded-full text-xs font-semibold bg-red-500/15 text-red-300">
                                                                             A
                                                                         </span>
                                                                     )}
@@ -845,7 +845,7 @@ const Attendance = () => {
 
 
                                                                     {status === "-" && (
-                                                                        <span className="text-slate-400">
+                                                                        <span className="text-slate-500">
                                                                             —
                                                                         </span>
                                                                     )}
@@ -857,12 +857,12 @@ const Attendance = () => {
                                                     )}
 
 
-                                                    <td className="px-5 py-4 text-center font-medium text-slate-700">
+                                                    <td className="px-5 py-4 text-center font-medium text-slate-200">
                                                         {student.attendedClasses}
                                                     </td>
 
 
-                                                    <td className="px-5 py-4 text-center text-slate-700">
+                                                    <td className="px-5 py-4 text-center text-slate-200">
                                                         {student.totalClasses}
                                                     </td>
 
@@ -874,12 +874,12 @@ const Attendance = () => {
                                                                 Number(
                                                                     student.attendancePercentage
                                                                 ) >= 80
-                                                                    ? "text-green-600"
+                                                                    ? "text-emerald-400"
                                                                     : Number(
                                                                         student.attendancePercentage
                                                                     ) >= 60
                                                                     ? "text-yellow-600"
-                                                                    : "text-red-600"
+                                                                    : "text-red-400"
                                                             }`}
                                                         >
                                                             {student.attendancePercentage}%
@@ -899,12 +899,12 @@ const Attendance = () => {
                             </div>
 
 
-                            <div className="px-6 py-4 border-t border-slate-200 bg-slate-50">
+                            <div className="px-6 py-4 border-t border-white/10 bg-white/5">
 
-                                <div className="flex flex-wrap gap-5 text-sm text-slate-600">
+                                <div className="flex flex-wrap gap-5 text-sm text-slate-300">
 
                                     <span>
-                                        <strong className="text-green-600">
+                                        <strong className="text-emerald-400">
                                             P
                                         </strong>{" "}
                                         Present
@@ -912,7 +912,7 @@ const Attendance = () => {
 
 
                                     <span>
-                                        <strong className="text-red-600">
+                                        <strong className="text-red-400">
                                             A
                                         </strong>{" "}
                                         Absent
@@ -1016,7 +1016,7 @@ const Attendance = () => {
 
                     <Link
                         to={`/teacher/attendance?courseOfferingId=${courseOfferingId}`}
-                        className="text-indigo-600 hover:underline"
+                        className="text-indigo-400 hover:underline"
                     >
                         ← Back to Class Sessions
                     </Link>
@@ -1024,7 +1024,7 @@ const Attendance = () => {
 
                     <div className="mt-4 mb-6">
 
-                        <h1 className="text-3xl font-bold text-slate-900">
+                        <h1 className="text-3xl font-bold text-white">
                             Take Attendance
                         </h1>
 
@@ -1061,14 +1061,14 @@ const Attendance = () => {
 
 
                     {error && (
-                        <div className="mb-5 bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg">
+                        <div className="mb-5 bg-red-500/10 border border-red-500/20 text-red-300 px-4 py-3 rounded-lg">
                             {error}
                         </div>
                     )}
 
 
                     {success && (
-                        <div className="mb-5 bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded-lg">
+                        <div className="mb-5 bg-emerald-500/10 border border-emerald-500/20 text-emerald-300 px-4 py-3 rounded-lg">
                             {success}
                         </div>
                     )}
@@ -1076,7 +1076,7 @@ const Attendance = () => {
 
                     {loadingStudents ? (
 
-                        <div className="bg-white rounded-xl shadow-sm p-8 text-center">
+                        <div className="bg-white/[0.03] rounded-xl shadow-sm p-8 text-center">
 
                             Loading students...
 
@@ -1084,7 +1084,7 @@ const Attendance = () => {
 
                     ) : students.length === 0 ? (
 
-                        <div className="bg-white rounded-xl shadow-sm p-8 text-center">
+                        <div className="bg-white/[0.03] rounded-xl shadow-sm p-8 text-center">
 
                             No students enrolled in this course.
 
@@ -1092,7 +1092,7 @@ const Attendance = () => {
 
                     ) : (
 
-                        <div className="bg-white rounded-xl shadow-sm overflow-hidden">
+                        <div className="bg-white/[0.03] rounded-xl shadow-sm overflow-hidden">
 
                             <div className="overflow-x-auto">
 
@@ -1121,7 +1121,7 @@ const Attendance = () => {
                                     </thead>
 
 
-                                    <tbody className="divide-y divide-slate-200">
+                                    <tbody className="divide-y divide-white/10">
 
                                         {students.map(
                                             (student) => {
@@ -1136,7 +1136,7 @@ const Attendance = () => {
                                                 return (
                                                     <tr
                                                         key={student.id}
-                                                        className="hover:bg-slate-50"
+                                                        className="hover:bg-white/5"
                                                     >
 
                                                         <td className="px-6 py-5 font-medium">
@@ -1146,7 +1146,7 @@ const Attendance = () => {
                                                         </td>
 
 
-                                                        <td className="px-6 py-5 text-slate-600">
+                                                        <td className="px-6 py-5 text-slate-300">
 
                                                             {student.studentId}
 
@@ -1174,7 +1174,7 @@ const Attendance = () => {
                                                                     className={`px-4 py-2 rounded-lg font-medium ${
                                                                         status === "PRESENT"
                                                                             ? "bg-green-600 text-white"
-                                                                            : "bg-green-50 text-green-700 hover:bg-green-100"
+                                                                            : "bg-emerald-500/10 text-emerald-300 hover:bg-emerald-500/15"
                                                                     } ${
                                                                         isAttendanceLocked
                                                                             ? "opacity-50 cursor-not-allowed"
@@ -1201,7 +1201,7 @@ const Attendance = () => {
                                                                     className={`px-4 py-2 rounded-lg font-medium ${
                                                                         status === "ABSENT"
                                                                             ? "bg-red-600 text-white"
-                                                                            : "bg-red-50 text-red-700 hover:bg-red-100"
+                                                                            : "bg-red-500/10 text-red-300 hover:bg-red-500/15"
                                                                     } ${
                                                                         isAttendanceLocked
                                                                             ? "opacity-50 cursor-not-allowed"
@@ -1257,7 +1257,7 @@ const Attendance = () => {
 
                             {/* SAVE */}
 
-                            <div className="p-6 border-t border-slate-200">
+                            <div className="p-6 border-t border-white/10">
 
                                 <button
                                     type="button"
@@ -1319,7 +1319,7 @@ const Attendance = () => {
 
                     <Link
                         to="/teacher/attendance"
-                        className="text-indigo-600 hover:underline"
+                        className="text-indigo-400 hover:underline"
                     >
                         ← Back to My Courses
                     </Link>
@@ -1329,7 +1329,7 @@ const Attendance = () => {
 
                         <div>
 
-                            <h1 className="text-3xl font-bold text-slate-900">
+                            <h1 className="text-3xl font-bold text-white">
                                 Class Sessions
                             </h1>
 
@@ -1370,7 +1370,7 @@ const Attendance = () => {
 
 
                     {error && (
-                        <div className="mb-5 bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg">
+                        <div className="mb-5 bg-red-500/10 border border-red-500/20 text-red-300 px-4 py-3 rounded-lg">
                             {error}
                         </div>
                     )}
@@ -1378,7 +1378,7 @@ const Attendance = () => {
 
                     {loadingSessions ? (
 
-                        <div className="bg-white rounded-xl shadow-sm p-8 text-center">
+                        <div className="bg-white/[0.03] rounded-xl shadow-sm p-8 text-center">
 
                             Loading class sessions...
 
@@ -1386,7 +1386,7 @@ const Attendance = () => {
 
                     ) : sessions.length === 0 ? (
 
-                        <div className="bg-white rounded-xl shadow-sm p-8 text-center">
+                        <div className="bg-white/[0.03] rounded-xl shadow-sm p-8 text-center">
 
                             No class sessions found.
 
@@ -1412,12 +1412,12 @@ const Attendance = () => {
                                     return (
                                         <div
                                             key={session.id}
-                                            className="bg-white rounded-xl shadow-sm p-6 flex items-center justify-between"
+                                            className="bg-white/[0.03] rounded-xl shadow-sm p-6 flex items-center justify-between"
                                         >
 
                                             <div>
 
-                                                <h2 className="text-lg font-semibold text-slate-900">
+                                                <h2 className="text-lg font-semibold text-white">
 
                                                     {date}
 
@@ -1435,10 +1435,10 @@ const Attendance = () => {
                                                 <span
                                                     className={`inline-block mt-3 px-3 py-1 rounded-full text-xs font-semibold ${
                                                         status === "FINISHED"
-                                                            ? "bg-green-100 text-green-700"
+                                                            ? "bg-emerald-500/15 text-emerald-300"
                                                             : status === "CANCELLED"
-                                                            ? "bg-red-100 text-red-700"
-                                                            : "bg-blue-100 text-blue-700"
+                                                            ? "bg-red-500/15 text-red-300"
+                                                            : "bg-blue-500/15 text-blue-300"
                                                     }`}
                                                 >
 
@@ -1489,7 +1489,7 @@ const Attendance = () => {
 
                 <div className="mb-8">
 
-                    <h1 className="text-3xl font-bold text-slate-900">
+                    <h1 className="text-3xl font-bold text-white">
                         Attendance
                     </h1>
 
@@ -1502,7 +1502,7 @@ const Attendance = () => {
 
 
                 {error && (
-                    <div className="mb-5 bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg">
+                    <div className="mb-5 bg-red-500/10 border border-red-500/20 text-red-300 px-4 py-3 rounded-lg">
                         {error}
                     </div>
                 )}
@@ -1510,7 +1510,7 @@ const Attendance = () => {
 
                 {courses.length === 0 ? (
 
-                    <div className="bg-white rounded-xl shadow-sm p-8 text-center">
+                    <div className="bg-white/[0.03] rounded-xl shadow-sm p-8 text-center">
 
                         <p className="text-slate-500">
                             No courses assigned.
@@ -1538,17 +1538,17 @@ const Attendance = () => {
                                 return (
                                     <div
                                         key={assignment.id}
-                                        className="bg-white rounded-xl shadow-sm p-6"
+                                        className="bg-white/[0.03] rounded-xl shadow-sm p-6"
                                     >
 
-                                        <h2 className="text-xl font-bold text-slate-900">
+                                        <h2 className="text-xl font-bold text-white">
 
                                             {course?.code}
 
                                         </h2>
 
 
-                                        <p className="text-slate-600 mt-1">
+                                        <p className="text-slate-300 mt-1">
 
                                             {course?.name}
 
@@ -1561,7 +1561,7 @@ const Attendance = () => {
 
                                                 Section:{" "}
 
-                                                <span className="font-medium text-slate-700">
+                                                <span className="font-medium text-slate-200">
 
                                                     {
                                                         section?.name ||
@@ -1578,7 +1578,7 @@ const Attendance = () => {
 
                                                 Semester:{" "}
 
-                                                <span className="font-medium text-slate-700">
+                                                <span className="font-medium text-slate-200">
 
                                                     {
                                                         courseOffering

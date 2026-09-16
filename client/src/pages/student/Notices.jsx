@@ -120,22 +120,22 @@ function Notices() {
   const getTypeClass = (type) => {
     switch (type) {
       case "GENERAL":
-        return "bg-blue-100 text-blue-700";
+        return "bg-blue-500/15 text-blue-300";
       case "CLASS_CANCELLED":
       case "CLASS_RESCHEDULED":
         return "bg-orange-100 text-orange-700";
       case "ASSIGNMENT":
       case "ASSIGNMENT_DEADLINE":
-        return "bg-purple-100 text-purple-700";
+        return "bg-purple-500/15 text-purple-300";
       case "RESULT_PUBLISHED":
       case "ASSESSMENT_MARK_PUBLISHED":
-        return "bg-green-100 text-green-700";
+        return "bg-emerald-500/15 text-emerald-300";
       case "PAYMENT_DUE":
-        return "bg-red-100 text-red-700";
+        return "bg-red-500/15 text-red-300";
       case "EXAM_SCHEDULE":
-        return "bg-indigo-100 text-indigo-700";
+        return "bg-indigo-500/15 text-indigo-300";
       default:
-        return "bg-gray-100 text-gray-700";
+        return "bg-white/5 text-slate-200";
     }
   };
 
@@ -153,13 +153,13 @@ function Notices() {
 
   return (
     <>
-      <header className="bg-white border-b border-slate-200 px-8 py-5 flex items-center justify-between">
+      <header className="bg-white/[0.03] border-b border-white/10 px-8 py-5 flex items-center justify-between">
           <div>
             <p className="text-sm text-slate-500">
               Student Portal
             </p>
 
-            <h2 className="text-2xl font-bold text-slate-800">
+            <h2 className="text-2xl font-bold text-slate-100">
               Notice Board
             </h2>
 
@@ -169,7 +169,7 @@ function Notices() {
           </div>
 
           <div className="flex items-center gap-3">
-            <span className="px-3 py-1 rounded-full bg-blue-100 text-blue-700 text-xs font-semibold">
+            <span className="px-3 py-1 rounded-full bg-blue-500/15 text-blue-300 text-xs font-semibold">
               {unreadCount} unread
             </span>
 
@@ -177,7 +177,7 @@ function Notices() {
               <button
                 type="button"
                 onClick={handleMarkAllRead}
-                className="px-4 py-2 rounded-lg bg-slate-900 text-white text-sm font-medium hover:bg-slate-800"
+                className="px-4 py-2 rounded-lg bg-slate-900 text-white text-sm font-medium hover:bg-white/10"
               >
                 Mark All Read
               </button>
@@ -187,7 +187,7 @@ function Notices() {
 
         <div className="p-8">
           {loading && (
-            <div className="bg-white rounded-xl border border-slate-200 p-10 text-center">
+            <div className="bg-white/[0.03] rounded-xl border border-white/10 p-10 text-center">
               <p className="text-slate-500">
                 Loading notices...
               </p>
@@ -195,13 +195,13 @@ function Notices() {
           )}
 
           {!loading && error && (
-            <div className="bg-white rounded-xl border border-red-200 p-6">
-              <p className="text-red-600 font-medium">{error}</p>
+            <div className="bg-white/[0.03] rounded-xl border border-red-500/20 p-6">
+              <p className="text-red-400 font-medium">{error}</p>
             </div>
           )}
 
           {success && (
-            <div className="bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded-lg mb-6">
+            <div className="bg-emerald-500/10 border border-emerald-500/20 text-emerald-300 px-4 py-3 rounded-lg mb-6">
               {success}
             </div>
           )}
@@ -209,10 +209,10 @@ function Notices() {
           {!loading && !error && (
             <>
               {notifications.length === 0 ? (
-                <div className="bg-white rounded-xl border border-slate-200 p-10 text-center">
+                <div className="bg-white/[0.03] rounded-xl border border-white/10 p-10 text-center">
                   <div className="text-4xl mb-3">📣</div>
 
-                  <h3 className="text-lg font-semibold text-slate-700">
+                  <h3 className="text-lg font-semibold text-slate-200">
                     No Notices
                   </h3>
 
@@ -225,9 +225,9 @@ function Notices() {
                   {notifications.map((notification) => (
                     <div
                       key={notification.id}
-                      className={`bg-white rounded-xl border p-6 ${
+                      className={`bg-white/[0.03] rounded-xl border p-6 ${
                         notification.isRead
-                          ? "border-slate-200"
+                          ? "border-white/10"
                           : "border-blue-300 ring-1 ring-blue-100"
                       }`}
                     >
@@ -252,15 +252,15 @@ function Notices() {
                             )}
                           </div>
 
-                          <h3 className="text-lg font-semibold text-slate-800">
+                          <h3 className="text-lg font-semibold text-slate-100">
                             {notification.title}
                           </h3>
 
-                          <p className="text-slate-600 mt-1">
+                          <p className="text-slate-300 mt-1">
                             {notification.message}
                           </p>
 
-                          <p className="text-xs text-slate-400 mt-3">
+                          <p className="text-xs text-slate-500 mt-3">
                             {formatDate(
                               notification.createdAt
                             )}

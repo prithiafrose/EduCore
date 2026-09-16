@@ -402,7 +402,7 @@ const Courses = () => {
 
             <div>
 
-              <h1 className="text-3xl font-bold text-slate-900">
+              <h1 className="text-3xl font-bold text-white">
                 Course Management
               </h1>
 
@@ -417,13 +417,13 @@ const Courses = () => {
 
           {/* Total Courses */}
 
-          <div className="rounded-xl bg-white px-4 py-3 shadow-sm ring-1 ring-slate-200">
+          <div className="rounded-xl bg-white/[0.03] px-4 py-3 shadow-sm ring-1 ring-white/10">
 
-            <p className="text-xs font-medium uppercase tracking-wide text-slate-400">
+            <p className="text-xs font-medium uppercase tracking-wide text-slate-500">
               Total Courses
             </p>
 
-            <p className="mt-1 text-2xl font-bold text-slate-900">
+            <p className="mt-1 text-2xl font-bold text-white">
               {courses.length}
             </p>
 
@@ -438,7 +438,7 @@ const Courses = () => {
 
       {success && (
 
-        <div className="mb-5 rounded-xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm font-medium text-emerald-700">
+        <div className="mb-5 rounded-xl border border-emerald-500/20 bg-emerald-500/10 px-4 py-3 text-sm font-medium text-emerald-300">
           {success}
         </div>
 
@@ -449,7 +449,7 @@ const Courses = () => {
 
       {error && (
 
-        <div className="mb-5 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm font-medium text-red-700">
+        <div className="mb-5 rounded-xl border border-red-500/20 bg-red-500/10 px-4 py-3 text-sm font-medium text-red-300">
           {error}
         </div>
 
@@ -460,12 +460,12 @@ const Courses = () => {
 
       {showForm && (
 
-        <div className="mb-8 rounded-2xl bg-white p-6 shadow-sm ring-1 ring-slate-200">
+        <div className="mb-8 rounded-2xl bg-white/[0.03] p-6 shadow-sm ring-1 ring-white/10">
 
 
           <div className="mb-6">
 
-            <h2 className="text-lg font-semibold text-slate-900">
+            <h2 className="text-lg font-semibold text-white">
 
               {editingId !== null
                 ? "Edit Course"
@@ -494,7 +494,7 @@ const Courses = () => {
 
             <div>
 
-              <label className="mb-2 block text-sm font-medium text-slate-700">
+              <label className="mb-2 block text-sm font-medium text-slate-200">
                 Course Code
               </label>
 
@@ -506,7 +506,7 @@ const Courses = () => {
                 }
                 placeholder="e.g. SWE-301"
                 required
-                className="w-full rounded-xl border border-slate-300 px-4 py-3 text-sm uppercase outline-none transition focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100"
+                className="w-full rounded-xl border border-white/15 px-4 py-3 text-sm uppercase outline-none transition focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100"
               />
 
             </div>
@@ -516,7 +516,7 @@ const Courses = () => {
 
             <div>
 
-              <label className="mb-2 block text-sm font-medium text-slate-700">
+              <label className="mb-2 block text-sm font-medium text-slate-200">
                 Course Name
               </label>
 
@@ -528,7 +528,7 @@ const Courses = () => {
                 }
                 placeholder="Software Requirements Engineering"
                 required
-                className="w-full rounded-xl border border-slate-300 px-4 py-3 text-sm outline-none transition focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100"
+                className="w-full rounded-xl border border-white/15 px-4 py-3 text-sm outline-none transition focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100"
               />
 
             </div>
@@ -538,7 +538,7 @@ const Courses = () => {
 
             <div>
 
-              <label className="mb-2 block text-sm font-medium text-slate-700">
+              <label className="mb-2 block text-sm font-medium text-slate-200">
                 Credit
               </label>
 
@@ -552,7 +552,7 @@ const Courses = () => {
                 }
                 placeholder="e.g. 3"
                 required
-                className="w-full rounded-xl border border-slate-300 px-4 py-3 text-sm outline-none transition focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100"
+                className="w-full rounded-xl border border-white/15 px-4 py-3 text-sm outline-none transition focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100"
               />
 
             </div>
@@ -562,7 +562,7 @@ const Courses = () => {
 
             <div>
 
-              <label className="mb-2 block text-sm font-medium text-slate-700">
+              <label className="mb-2 block text-sm font-medium text-slate-200">
                 Description
               </label>
 
@@ -573,7 +573,7 @@ const Courses = () => {
                 }
                 placeholder="Course description"
                 rows="3"
-                className="w-full resize-none rounded-xl border border-slate-300 px-4 py-3 text-sm outline-none transition focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100"
+                className="w-full resize-none rounded-xl border border-white/15 px-4 py-3 text-sm outline-none transition focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100"
               />
 
             </div>
@@ -583,21 +583,21 @@ const Courses = () => {
 
             <div className="md:col-span-2">
 
-              <label className="mb-2 block text-sm font-medium text-slate-700">
+              <label className="mb-2 block text-sm font-medium text-slate-200">
                 Prerequisites
               </label>
 
               {availablePrerequisites.length === 0 ? (
-                <p className="text-sm text-slate-400">
+                <p className="text-sm text-slate-500">
                   No other courses available as prerequisites.
                 </p>
               ) : (
-                <div className="max-h-48 overflow-y-auto rounded-xl border border-slate-300 p-4">
+                <div className="max-h-48 overflow-y-auto rounded-xl border border-white/15 p-4">
                   {availablePrerequisites.map(
                     (course) => (
                       <label
                         key={course.id}
-                        className="flex items-center gap-3 py-1.5 cursor-pointer hover:bg-slate-50 rounded px-2"
+                        className="flex items-center gap-3 py-1.5 cursor-pointer hover:bg-white/5 rounded px-2"
                       >
                         <input
                           type="checkbox"
@@ -607,10 +607,10 @@ const Courses = () => {
                           onChange={() =>
                             togglePrerequisite(course.id)
                           }
-                          className="h-4 w-4 rounded border-slate-300"
+                          className="h-4 w-4 rounded border-white/15"
                         />
 
-                        <span className="text-sm text-slate-700">
+                        <span className="text-sm text-slate-200">
                           {course.code} — {course.name}
                         </span>
 
@@ -646,7 +646,7 @@ const Courses = () => {
                 type="button"
                 onClick={handleCancel}
                 disabled={formLoading}
-                className="rounded-xl border border-slate-300 bg-white px-6 py-3 text-sm font-semibold text-slate-700 transition hover:bg-slate-50 disabled:opacity-60"
+                className="rounded-xl border border-white/15 bg-white/[0.03] px-6 py-3 text-sm font-semibold text-slate-200 transition hover:bg-white/5 disabled:opacity-60"
               >
                 Cancel
               </button>
@@ -662,16 +662,16 @@ const Courses = () => {
 
       {/* Course List */}
 
-      <div className="rounded-2xl bg-white shadow-sm ring-1 ring-slate-200">
+      <div className="rounded-2xl bg-white/[0.03] shadow-sm ring-1 ring-white/10">
 
 
         {/* List Header */}
 
-        <div className="flex flex-col gap-4 border-b border-slate-200 p-6 sm:flex-row sm:items-center sm:justify-between">
+        <div className="flex flex-col gap-4 border-b border-white/10 p-6 sm:flex-row sm:items-center sm:justify-between">
 
           <div>
 
-            <h2 className="text-lg font-semibold text-slate-900">
+            <h2 className="text-lg font-semibold text-white">
               Courses
             </h2>
 
@@ -694,7 +694,7 @@ const Courses = () => {
                 setSearch(e.target.value)
               }
               placeholder="Search courses..."
-              className="w-full rounded-xl border border-slate-300 px-4 py-3 text-sm outline-none transition focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100 sm:w-72"
+              className="w-full rounded-xl border border-white/15 px-4 py-3 text-sm outline-none transition focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100 sm:w-72"
             />
 
 
@@ -723,11 +723,11 @@ const Courses = () => {
 
           <div className="p-10 text-center">
 
-            <p className="font-medium text-slate-700">
+            <p className="font-medium text-slate-200">
               No courses found
             </p>
 
-            <p className="mt-1 text-sm text-slate-400">
+            <p className="mt-1 text-sm text-slate-500">
               Try a different search or add a new course.
             </p>
 
@@ -741,7 +741,7 @@ const Courses = () => {
 
               <thead>
 
-                <tr className="border-b border-slate-200 bg-slate-50">
+                <tr className="border-b border-white/10 bg-white/5">
 
                   <th className="px-6 py-4 text-xs font-semibold uppercase tracking-wide text-slate-500">
                     Course
@@ -779,7 +779,7 @@ const Courses = () => {
 
                     <tr
                       key={course.id}
-                      className="border-b border-slate-100 last:border-0 hover:bg-slate-50"
+                      className="border-b border-white/5 last:border-0 hover:bg-white/5"
                     >
 
 
@@ -787,11 +787,11 @@ const Courses = () => {
 
                       <td className="px-6 py-4">
 
-                        <p className="font-medium text-slate-900">
+                        <p className="font-medium text-white">
                           {course.name}
                         </p>
 
-                        <p className="mt-1 text-xs text-slate-400">
+                        <p className="mt-1 text-xs text-slate-500">
                           Course ID: {course.id}
                         </p>
 
@@ -802,7 +802,7 @@ const Courses = () => {
 
                       <td className="px-6 py-4">
 
-                        <span className="rounded-lg bg-indigo-50 px-3 py-1.5 text-sm font-semibold text-indigo-700">
+                        <span className="rounded-lg bg-indigo-500/10 px-3 py-1.5 text-sm font-semibold text-indigo-300">
                           {course.code}
                         </span>
 
@@ -813,7 +813,7 @@ const Courses = () => {
 
                       <td className="px-6 py-4">
 
-                        <span className="rounded-lg bg-slate-100 px-3 py-1.5 text-sm font-semibold text-slate-600">
+                        <span className="rounded-lg bg-white/5 px-3 py-1.5 text-sm font-semibold text-slate-300">
                           {course.credit}
                         </span>
 
@@ -825,7 +825,7 @@ const Courses = () => {
                       <td className="max-w-md px-6 py-4">
 
                         <p
-                          className="truncate text-sm text-slate-600"
+                          className="truncate text-sm text-slate-300"
                           title={course.description || ""}
                         >
                           {course.description || "—"}
@@ -845,7 +845,7 @@ const Courses = () => {
                               (prereq) => (
                                 <span
                                   key={prereq.id}
-                                  className="rounded-md bg-amber-50 px-2 py-1 text-xs font-medium text-amber-700"
+                                  className="rounded-md bg-amber-500/10 px-2 py-1 text-xs font-medium text-amber-300"
                                 >
                                   {prereq.code}
                                 </span>
@@ -853,7 +853,7 @@ const Courses = () => {
                             )}
                           </div>
                         ) : (
-                          <span className="text-sm text-slate-400">
+                          <span className="text-sm text-slate-500">
                             —
                           </span>
                         )}
@@ -872,7 +872,7 @@ const Courses = () => {
                             onClick={() =>
                               handleEdit(course)
                             }
-                            className="rounded-lg border border-slate-300 px-3 py-2 text-xs font-semibold text-slate-700 transition hover:bg-slate-100"
+                            className="rounded-lg border border-white/15 px-3 py-2 text-xs font-semibold text-slate-200 transition hover:bg-white/5"
                           >
                             Edit
                           </button>
@@ -884,7 +884,7 @@ const Courses = () => {
                                 course.id
                               )
                             }
-                            className="rounded-lg border border-red-200 px-3 py-2 text-xs font-semibold text-red-600 transition hover:bg-red-50"
+                            className="rounded-lg border border-red-500/20 px-3 py-2 text-xs font-semibold text-red-400 transition hover:bg-red-500/10"
                           >
                             Delete
                           </button>

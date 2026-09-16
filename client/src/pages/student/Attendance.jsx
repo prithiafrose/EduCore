@@ -353,7 +353,7 @@ const Attendance = () => {
 
         if (status === "PRESENT") {
 
-            return "bg-green-100 text-green-700";
+            return "bg-emerald-500/15 text-emerald-300";
 
         }
 
@@ -363,7 +363,7 @@ const Attendance = () => {
 
         }
 
-        return "bg-red-100 text-red-700";
+        return "bg-red-500/15 text-red-300";
 
     };
 
@@ -398,11 +398,11 @@ const Attendance = () => {
         <>
         {/* Header */}
 
-        <header className="h-16 bg-white border-b border-slate-200 flex items-center justify-between px-8">
+        <header className="h-16 bg-white/[0.03] border-b border-white/10 flex items-center justify-between px-8">
 
                     <div>
 
-                        <h2 className="text-lg font-semibold text-slate-800">
+                        <h2 className="text-lg font-semibold text-slate-100">
                             Attendance
                         </h2>
 
@@ -413,7 +413,7 @@ const Attendance = () => {
 
                         <div className="text-right">
 
-                            <p className="font-medium text-slate-800">
+                            <p className="font-medium text-slate-100">
                                 {student.name}
                             </p>
 
@@ -434,7 +434,7 @@ const Attendance = () => {
 
                     <div className="mb-8">
 
-                        <h1 className="text-2xl font-bold text-slate-800">
+                        <h1 className="text-2xl font-bold text-slate-100">
                             My Attendance
                         </h1>
 
@@ -449,7 +449,7 @@ const Attendance = () => {
 
                     {loading && (
 
-                        <div className="bg-white rounded-xl shadow-sm p-10 text-center">
+                        <div className="bg-white/[0.03] rounded-xl shadow-sm p-10 text-center">
 
                             <p className="text-slate-500">
                                 Loading attendance...
@@ -464,7 +464,7 @@ const Attendance = () => {
 
                     {!loading && error && (
 
-                        <div className="bg-red-50 border border-red-200 text-red-700 rounded-xl p-5">
+                        <div className="bg-red-500/10 border border-red-500/20 text-red-300 rounded-xl p-5">
 
                             {error}
 
@@ -479,7 +479,7 @@ const Attendance = () => {
 
                             {/* Overall Attendance */}
 
-                            <div className="bg-white rounded-xl shadow-sm p-6 mb-8">
+                            <div className="bg-white/[0.03] rounded-xl shadow-sm p-6 mb-8">
 
                                 <div className="flex items-center justify-between">
 
@@ -489,7 +489,7 @@ const Attendance = () => {
                                             Overall Attendance
                                         </p>
 
-                                        <p className="text-3xl font-bold text-slate-800 mt-1">
+                                        <p className="text-3xl font-bold text-slate-100 mt-1">
                                             {overallPercentage.toFixed(2)}%
                                         </p>
 
@@ -509,8 +509,8 @@ const Attendance = () => {
                                         <p
                                             className={`text-lg font-semibold mt-1 ${
                                                 overallPercentage >= 75
-                                                    ? "text-green-600"
-                                                    : "text-red-600"
+                                                    ? "text-emerald-400"
+                                                    : "text-red-400"
                                             }`}
                                         >
                                             {overallPercentage >= 75
@@ -527,7 +527,7 @@ const Attendance = () => {
 
                                 <div className="mt-5">
 
-                                    <div className="w-full bg-slate-200 rounded-full h-3">
+                                    <div className="w-full bg-white/10 rounded-full h-3">
 
                                         <div
                                             className="bg-blue-600 h-3 rounded-full"
@@ -550,16 +550,16 @@ const Attendance = () => {
 
                             <div className="mb-8">
 
-                                <h2 className="text-xl font-bold text-slate-800 mb-4">
+                                <h2 className="text-xl font-bold text-slate-100 mb-4">
                                     Course-wise Attendance
                                 </h2>
 
 
                                 {courses.length === 0 ? (
 
-                                    <div className="bg-white rounded-xl shadow-sm p-10 text-center">
+                                    <div className="bg-white/[0.03] rounded-xl shadow-sm p-10 text-center">
 
-                                        <h3 className="text-lg font-semibold text-slate-700">
+                                        <h3 className="text-lg font-semibold text-slate-200">
                                             No Courses Found
                                         </h3>
 
@@ -580,18 +580,18 @@ const Attendance = () => {
                                                     key={
                                                         course.courseOfferingId
                                                     }
-                                                    className="bg-white rounded-xl shadow-sm p-6"
+                                                    className="bg-white/[0.03] rounded-xl shadow-sm p-6"
                                                 >
 
                                                     <div className="flex justify-between items-start">
 
                                                         <div>
 
-                                                            <p className="text-sm font-semibold text-blue-600">
+                                                            <p className="text-sm font-semibold text-blue-400">
                                                                 {course.code}
                                                             </p>
 
-                                                            <h3 className="text-lg font-semibold text-slate-800 mt-1">
+                                                            <h3 className="text-lg font-semibold text-slate-100 mt-1">
                                                                 {course.name}
                                                             </h3>
 
@@ -614,18 +614,18 @@ const Attendance = () => {
 
                                                         <div className="flex justify-between mb-2">
 
-                                                            <span className="text-sm text-slate-600">
+                                                            <span className="text-sm text-slate-300">
                                                                 Attendance
                                                             </span>
 
-                                                            <span className="text-sm font-semibold text-slate-800">
+                                                            <span className="text-sm font-semibold text-slate-100">
                                                                 {course.percentage}%
                                                             </span>
 
                                                         </div>
 
 
-                                                        <div className="w-full bg-slate-200 rounded-full h-2.5">
+                                                        <div className="w-full bg-white/10 rounded-full h-2.5">
 
                                                             <div
                                                                 className="bg-blue-600 h-2.5 rounded-full"
@@ -644,39 +644,39 @@ const Attendance = () => {
 
                                                     <div className="grid grid-cols-3 gap-3 mt-6">
 
-                                                        <div className="bg-slate-50 rounded-lg p-3">
+                                                        <div className="bg-white/5 rounded-lg p-3">
 
                                                             <p className="text-xs text-slate-500">
                                                                 Attended
                                                             </p>
 
-                                                            <p className="font-semibold text-slate-800 mt-1">
+                                                            <p className="font-semibold text-slate-100 mt-1">
                                                                 {course.attendedClasses}
                                                             </p>
 
                                                         </div>
 
 
-                                                        <div className="bg-slate-50 rounded-lg p-3">
+                                                        <div className="bg-white/5 rounded-lg p-3">
 
                                                             <p className="text-xs text-slate-500">
                                                                 Total
                                                             </p>
 
-                                                            <p className="font-semibold text-slate-800 mt-1">
+                                                            <p className="font-semibold text-slate-100 mt-1">
                                                                 {course.totalClasses}
                                                             </p>
 
                                                         </div>
 
 
-                                                        <div className="bg-slate-50 rounded-lg p-3">
+                                                        <div className="bg-white/5 rounded-lg p-3">
 
                                                             <p className="text-xs text-slate-500">
                                                                 Marks
                                                             </p>
 
-                                                            <p className="font-semibold text-slate-800 mt-1">
+                                                            <p className="font-semibold text-slate-100 mt-1">
                                                                 {course.attendanceMarks}/10
                                                             </p>
 
@@ -700,16 +700,16 @@ const Attendance = () => {
 
                             <div>
 
-                                <h2 className="text-xl font-bold text-slate-800 mb-4">
+                                <h2 className="text-xl font-bold text-slate-100 mb-4">
                                     Attendance History
                                 </h2>
 
 
                                 {attendanceRecords.length === 0 ? (
 
-                                    <div className="bg-white rounded-xl shadow-sm p-10 text-center">
+                                    <div className="bg-white/[0.03] rounded-xl shadow-sm p-10 text-center">
 
-                                        <h3 className="text-lg font-semibold text-slate-700">
+                                        <h3 className="text-lg font-semibold text-slate-200">
                                             No Attendance Records
                                         </h3>
 
@@ -721,33 +721,33 @@ const Attendance = () => {
 
                                 ) : (
 
-                                    <div className="bg-white rounded-xl shadow-sm overflow-hidden">
+                                    <div className="bg-white/[0.03] rounded-xl shadow-sm overflow-hidden">
 
                                         <div className="overflow-x-auto">
 
                                             <table className="w-full">
 
-                                                <thead className="bg-slate-50 border-b border-slate-200">
+                                                <thead className="bg-white/5 border-b border-white/10">
 
                                                     <tr>
 
-                                                        <th className="text-left px-6 py-4 text-sm font-semibold text-slate-600">
+                                                        <th className="text-left px-6 py-4 text-sm font-semibold text-slate-300">
                                                             Date
                                                         </th>
 
-                                                        <th className="text-left px-6 py-4 text-sm font-semibold text-slate-600">
+                                                        <th className="text-left px-6 py-4 text-sm font-semibold text-slate-300">
                                                             Course
                                                         </th>
 
-                                                        <th className="text-left px-6 py-4 text-sm font-semibold text-slate-600">
+                                                        <th className="text-left px-6 py-4 text-sm font-semibold text-slate-300">
                                                             Class Time
                                                         </th>
 
-                                                        <th className="text-left px-6 py-4 text-sm font-semibold text-slate-600">
+                                                        <th className="text-left px-6 py-4 text-sm font-semibold text-slate-300">
                                                             Room
                                                         </th>
 
-                                                        <th className="text-left px-6 py-4 text-sm font-semibold text-slate-600">
+                                                        <th className="text-left px-6 py-4 text-sm font-semibold text-slate-300">
                                                             Status
                                                         </th>
 
@@ -756,7 +756,7 @@ const Attendance = () => {
                                                 </thead>
 
 
-                                                <tbody className="divide-y divide-slate-100">
+                                                <tbody className="divide-y divide-white/5">
 
                                                     {[...attendanceRecords]
                                                         .sort(
@@ -784,10 +784,10 @@ const Attendance = () => {
                                                                         key={
                                                                             record.id
                                                                         }
-                                                                        className="hover:bg-slate-50"
+                                                                        className="hover:bg-white/5"
                                                                     >
 
-                                                                        <td className="px-6 py-4 text-sm text-slate-700">
+                                                                        <td className="px-6 py-4 text-sm text-slate-200">
 
                                                                             {formatDate(
                                                                                 session?.date
@@ -798,18 +798,18 @@ const Attendance = () => {
 
                                                                         <td className="px-6 py-4">
 
-                                                                            <p className="text-sm font-semibold text-blue-600">
+                                                                            <p className="text-sm font-semibold text-blue-400">
                                                                                 {course?.code || "N/A"}
                                                                             </p>
 
-                                                                            <p className="text-sm text-slate-600">
+                                                                            <p className="text-sm text-slate-300">
                                                                                 {course?.name || "N/A"}
                                                                             </p>
 
                                                                         </td>
 
 
-                                                                        <td className="px-6 py-4 text-sm text-slate-600">
+                                                                        <td className="px-6 py-4 text-sm text-slate-300">
 
                                                                             {session?.startTime
                                                                                 ? new Date(
@@ -842,7 +842,7 @@ const Attendance = () => {
                                                                         </td>
 
 
-                                                                        <td className="px-6 py-4 text-sm text-slate-600">
+                                                                        <td className="px-6 py-4 text-sm text-slate-300">
 
                                                                             {session?.room ||
                                                                                 "Not assigned"}

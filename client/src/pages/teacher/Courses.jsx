@@ -220,7 +220,7 @@ function TeacherCourses() {
     if (loading) {
         return (
             <div className="flex min-h-[300px] items-center justify-center">
-                <div className="h-8 w-8 animate-spin rounded-full border-2 border-slate-200 border-t-indigo-600" />
+                <div className="h-8 w-8 animate-spin rounded-full border-2 border-white/10 border-t-indigo-600" />
             </div>
         );
     }
@@ -233,7 +233,7 @@ function TeacherCourses() {
                     subtitle="Courses assigned to you"
                 />
 
-                <div className="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm font-medium text-red-700">
+                <div className="rounded-xl border border-red-500/20 bg-red-500/10 px-4 py-3 text-sm font-medium text-red-300">
                     {error}
                 </div>
             </div>
@@ -262,13 +262,13 @@ function TeacherCourses() {
             {/* Messages */}
 
             {materialError && (
-                <div className="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm font-medium text-red-700">
+                <div className="rounded-xl border border-red-500/20 bg-red-500/10 px-4 py-3 text-sm font-medium text-red-300">
                     {materialError}
                 </div>
             )}
 
             {materialSuccess && (
-                <div className="rounded-xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm font-medium text-emerald-700">
+                <div className="rounded-xl border border-emerald-500/20 bg-emerald-500/10 px-4 py-3 text-sm font-medium text-emerald-300">
                     {materialSuccess}
                 </div>
             )}
@@ -280,11 +280,11 @@ function TeacherCourses() {
 
                 {/* List Header */}
 
-                <div className="flex flex-col gap-4 border-b border-slate-100 p-6 sm:flex-row sm:items-center sm:justify-between">
+                <div className="flex flex-col gap-4 border-b border-white/5 p-6 sm:flex-row sm:items-center sm:justify-between">
 
                     <div>
 
-                        <h2 className="text-base font-semibold text-slate-900">
+                        <h2 className="text-base font-semibold text-white">
                             Assigned Courses
                         </h2>
 
@@ -317,29 +317,29 @@ function TeacherCourses() {
 
                                 {/* Card Header */}
 
-                                <div className="border-b border-slate-100 p-6">
+                                <div className="border-b border-white/5 p-6">
 
                                     <div className="flex items-start justify-between">
 
                                         <div>
 
-                                            <p className="text-xs font-semibold text-indigo-600 uppercase tracking-wider">
+                                            <p className="text-xs font-semibold text-indigo-400 uppercase tracking-wider">
                                                 Course
                                             </p>
 
-                                            <h3 className="text-xl font-bold text-slate-900 mt-2">
+                                            <h3 className="text-xl font-bold text-white mt-2">
                                                 {assignment.courseOffering?.course?.code}
                                             </h3>
 
                                         </div>
 
-                                        <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-indigo-50 text-indigo-600">
+                                        <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-indigo-500/10 text-indigo-400">
                                             <BookOpen size={20} />
                                         </div>
 
                                     </div>
 
-                                    <p className="text-sm font-medium text-slate-700 mt-3">
+                                    <p className="text-sm font-medium text-slate-200 mt-3">
                                         {assignment.courseOffering?.course?.name}
                                     </p>
 
@@ -350,22 +350,22 @@ function TeacherCourses() {
                                 <div className="flex-1 space-y-4 p-6">
 
                                     <div>
-                                        <p className="text-xs text-slate-400 uppercase tracking-wide">
+                                        <p className="text-xs text-slate-500 uppercase tracking-wide">
                                             Semester
                                         </p>
 
-                                        <p className="text-sm font-medium text-slate-700 mt-1">
+                                        <p className="text-sm font-medium text-slate-200 mt-1">
                                             {assignment.courseOffering
                                                 ?.academicSemester?.name}
                                         </p>
                                     </div>
 
                                     <div>
-                                        <p className="text-xs text-slate-400 uppercase tracking-wide">
+                                        <p className="text-xs text-slate-500 uppercase tracking-wide">
                                             Section
                                         </p>
 
-                                        <p className="text-sm font-medium text-slate-700 mt-1">
+                                        <p className="text-sm font-medium text-slate-200 mt-1">
                                             {assignment.section?.name ||
                                                 "All Sections"}
                                         </p>
@@ -384,11 +384,11 @@ function TeacherCourses() {
 
                                     {/* Materials */}
 
-                                    <div className="pt-3 border-t border-slate-100">
+                                    <div className="pt-3 border-t border-white/5">
 
                                         <div className="flex items-center justify-between">
 
-                                            <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider">
+                                            <p className="text-xs font-semibold text-slate-500 uppercase tracking-wider">
                                                 Materials
                                             </p>
 
@@ -399,7 +399,7 @@ function TeacherCourses() {
                                                         assignment.courseOfferingId
                                                     )
                                                 }
-                                                className="text-xs font-medium text-indigo-600 hover:text-indigo-800"
+                                                className="text-xs font-medium text-indigo-400 hover:text-indigo-300"
                                             >
                                                 {showUploadCourse[
                                                     assignment.courseOfferingId
@@ -413,7 +413,7 @@ function TeacherCourses() {
                                         {loadingMaterials[
                                             assignment.courseOfferingId
                                         ] ? (
-                                            <p className="text-xs text-slate-400 mt-3">
+                                            <p className="text-xs text-slate-500 mt-3">
                                                 Loading materials...
                                             </p>
                                         ) : (
@@ -421,7 +421,7 @@ function TeacherCourses() {
                                                 {(materialsByCourse[
                                                     assignment.courseOfferingId
                                                 ] || []).length === 0 ? (
-                                                    <p className="text-xs text-slate-400 mt-3">
+                                                    <p className="text-xs text-slate-500 mt-3">
                                                         No materials uploaded yet.
                                                     </p>
                                                 ) : (
@@ -434,11 +434,11 @@ function TeacherCourses() {
                                                         ).map((material) => (
                                                             <div
                                                                 key={material.id}
-                                                                className="rounded-xl border border-slate-200 p-3"
+                                                                className="rounded-xl border border-white/10 p-3"
                                                             >
                                                                 <div className="flex items-start justify-between gap-2">
                                                                     <div className="min-w-0">
-                                                                        <p className="text-sm font-medium text-slate-800 break-words">
+                                                                        <p className="text-sm font-medium text-slate-100 break-words">
                                                                             {material.title}
                                                                         </p>
 
@@ -448,7 +448,7 @@ function TeacherCourses() {
                                                                             </p>
                                                                         )}
 
-                                                                        <p className="text-xs text-slate-400 mt-1">
+                                                                        <p className="text-xs text-slate-500 mt-1">
                                                                             {material.createdAt
                                                                                 ? new Date(
                                                                                       material.createdAt
@@ -510,7 +510,7 @@ function TeacherCourses() {
                                                         assignment.courseOfferingId
                                                     )
                                                 }
-                                                className="ec-stack mt-3 rounded-xl border border-slate-200 bg-slate-50 p-3"
+                                                className="ec-stack mt-3 rounded-xl border border-white/10 bg-white/5 p-3"
                                             >
                                                 <div className="ec-field md:mb-0">
                                                     <label className="ec-label">
@@ -579,7 +579,7 @@ function TeacherCourses() {
                                                                     null
                                                             )
                                                         }
-                                                        className="w-full text-sm text-slate-600 file:mr-3 file:rounded-lg file:border-0 file:bg-indigo-600 file:px-3 file:py-2 file:text-sm file:font-medium file:text-white hover:file:bg-indigo-700"
+                                                        className="w-full text-sm text-slate-300 file:mr-3 file:rounded-lg file:border-0 file:bg-indigo-600 file:px-3 file:py-2 file:text-sm file:font-medium file:text-white hover:file:bg-indigo-700"
                                                     />
                                                 </div>
 

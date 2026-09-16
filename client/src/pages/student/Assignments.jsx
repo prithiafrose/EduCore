@@ -264,10 +264,10 @@ function Assignments() {
 
   return (
     <>
-      <header className="bg-white border-b border-slate-200 px-8 py-5">
+      <header className="bg-white/[0.03] border-b border-white/10 px-8 py-5">
           <p className="text-sm text-slate-500">Student Portal</p>
 
-          <h2 className="text-2xl font-bold text-slate-800">
+          <h2 className="text-2xl font-bold text-slate-100">
             Assignments
           </h2>
 
@@ -278,28 +278,28 @@ function Assignments() {
 
         <div className="p-8">
           {success && (
-            <div className="bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded-lg mb-6">
+            <div className="bg-emerald-500/10 border border-emerald-500/20 text-emerald-300 px-4 py-3 rounded-lg mb-6">
               {success}
             </div>
           )}
 
           {error && (
-            <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg mb-6">
+            <div className="bg-red-500/10 border border-red-500/20 text-red-300 px-4 py-3 rounded-lg mb-6">
               {error}
             </div>
           )}
 
           {loading ? (
-            <div className="bg-white rounded-xl border border-slate-200 p-10 text-center text-slate-500">
+            <div className="bg-white/[0.03] rounded-xl border border-white/10 p-10 text-center text-slate-500">
               Loading assignments...
             </div>
           ) : (
             <>
               {allAssignments.length === 0 ? (
-                <div className="bg-white rounded-xl border border-slate-200 p-10 text-center">
+                <div className="bg-white/[0.03] rounded-xl border border-white/10 p-10 text-center">
                   <div className="text-4xl mb-3">📝</div>
 
-                  <h3 className="text-lg font-semibold text-slate-700">
+                  <h3 className="text-lg font-semibold text-slate-200">
                     No Assignments
                   </h3>
 
@@ -312,27 +312,27 @@ function Assignments() {
                 <>
                   {/* Summary */}
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-                    <div className="bg-white rounded-xl border border-slate-200 p-6">
+                    <div className="bg-white/[0.03] rounded-xl border border-white/10 p-6">
                       <p className="text-sm text-slate-500">
                         Total Assignments
                       </p>
 
-                      <p className="text-3xl font-bold text-slate-800 mt-2">
+                      <p className="text-3xl font-bold text-slate-100 mt-2">
                         {allAssignments.length}
                       </p>
                     </div>
 
-                    <div className="bg-white rounded-xl border border-slate-200 p-6">
+                    <div className="bg-white/[0.03] rounded-xl border border-white/10 p-6">
                       <p className="text-sm text-slate-500">
                         Submitted
                       </p>
 
-                      <p className="text-3xl font-bold text-green-600 mt-2">
+                      <p className="text-3xl font-bold text-emerald-400 mt-2">
                         {submittedCount}
                       </p>
                     </div>
 
-                    <div className="bg-white rounded-xl border border-slate-200 p-6">
+                    <div className="bg-white/[0.03] rounded-xl border border-white/10 p-6">
                       <p className="text-sm text-slate-500">
                         Pending
                       </p>
@@ -345,21 +345,21 @@ function Assignments() {
                   </div>
 
                   {/* Submit Form */}
-                  <div className="bg-white rounded-xl border border-slate-200 p-6 mb-8">
-                    <h3 className="text-lg font-semibold text-slate-800 mb-4">
+                  <div className="bg-white/[0.03] rounded-xl border border-white/10 p-6 mb-8">
+                    <h3 className="text-lg font-semibold text-slate-100 mb-4">
                       Submit Assignment
                     </h3>
 
                     <form onSubmit={handleSubmit}>
                       <div className="mb-4">
-                        <label className="mb-2 block text-sm font-medium text-slate-700">
+                        <label className="mb-2 block text-sm font-medium text-slate-200">
                           Assignment
                         </label>
 
                         <select
                           value={selectedAssignmentId}
                           onChange={handleAssignmentChange}
-                          className="w-full md:w-1/2 rounded-lg border border-slate-300 bg-white px-4 py-2.5 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
+                          className="w-full md:w-1/2 rounded-lg border border-white/15 bg-white/[0.03] px-4 py-2.5 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
                         >
                           {assignments.map((assignment) => {
                             const submission = getSubmission(
@@ -405,12 +405,12 @@ function Assignments() {
                       </div>
 
                       <div className="mb-4">
-                        <label className="mb-2 block text-sm font-medium text-slate-700">
+                        <label className="mb-2 block text-sm font-medium text-slate-200">
                           Submission Note
                         </label>
 
                         {isResubmitting && (
-                          <p className="mb-2 text-sm text-amber-600">
+                          <p className="mb-2 text-sm text-amber-400">
                             You have already submitted this
                             assignment. You can resubmit before
                             the deadline.
@@ -421,13 +421,13 @@ function Assignments() {
                           value={note}
                           onChange={(e) => setNote(e.target.value)}
                           rows="3"
-                          className="w-full rounded-lg border border-slate-300 bg-white px-4 py-2.5 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
+                          className="w-full rounded-lg border border-white/15 bg-white/[0.03] px-4 py-2.5 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
                           placeholder="Add a note for your submission"
                         ></textarea>
                       </div>
 
                       <div className="mb-4">
-                        <label className="mb-2 block text-sm font-medium text-slate-700">
+                        <label className="mb-2 block text-sm font-medium text-slate-200">
                           Attachment (Optional)
                         </label>
 
@@ -440,11 +440,11 @@ function Assignments() {
 
                             setFile(selectedFile);
                           }}
-                          className="w-full md:w-1/2 rounded-lg border border-slate-300 bg-white px-4 py-2.5 text-sm text-slate-600"
+                          className="w-full md:w-1/2 rounded-lg border border-white/15 bg-white/[0.03] px-4 py-2.5 text-sm text-slate-300"
                         />
 
                         {file && (
-                          <p className="mt-2 text-sm text-slate-600">
+                          <p className="mt-2 text-sm text-slate-300">
                             Selected file: {file.name}
                           </p>
                         )}
@@ -474,31 +474,31 @@ function Assignments() {
                       return (
                         <div
                           key={assignment.id}
-                          className="bg-white rounded-xl border border-slate-200 p-6"
+                          className="bg-white/[0.03] rounded-xl border border-white/10 p-6"
                         >
                           <div className="flex items-center justify-between">
                             <div className="flex-1">
-                              <p className="text-xs font-semibold uppercase tracking-wide text-blue-600">
+                              <p className="text-xs font-semibold uppercase tracking-wide text-blue-400">
                                 {getCourseName(
                                   assignment.courseOfferingId
                                 )}
                               </p>
 
-                              <h4 className="text-lg font-semibold text-slate-800 mt-1">
+                              <h4 className="text-lg font-semibold text-slate-100 mt-1">
                                 {assignment.title}
                               </h4>
 
-                              <p className="text-sm text-slate-600 mt-1">
+                              <p className="text-sm text-slate-300 mt-1">
                                 {assignment.description ||
                                   "No description provided."}
                               </p>
 
-                              <p className="text-xs text-slate-400 mt-2">
+                              <p className="text-xs text-slate-500 mt-2">
                                 Deadline:{" "}
                                 <span
                                   className={
                                     isOverdue(assignment)
-                                      ? "text-red-600 font-medium"
+                                      ? "text-red-400 font-medium"
                                       : ""
                                   }
                                 >
@@ -523,7 +523,7 @@ function Assignments() {
                                       assignment.id
                                     )
                                   }
-                                  className="mt-1 inline-flex items-center rounded-lg bg-slate-100 px-3 py-1.5 text-xs font-medium text-slate-700 hover:bg-slate-200"
+                                  className="mt-1 inline-flex items-center rounded-lg bg-white/5 px-3 py-1.5 text-xs font-medium text-slate-200 hover:bg-white/10"
                                 >
                                   Download
                                 </button>
@@ -536,7 +536,7 @@ function Assignments() {
                                   <button
                                     type="button"
                                     disabled
-                                    className="px-4 py-2 rounded-lg bg-green-100 text-green-700 text-sm font-medium"
+                                    className="px-4 py-2 rounded-lg bg-emerald-500/15 text-emerald-300 text-sm font-medium"
                                   >
                                     Submitted
                                   </button>
@@ -565,13 +565,13 @@ function Assignments() {
                                           submission.id
                                         )
                                       }
-                                      className="mt-1 inline-flex items-center rounded-lg bg-slate-100 px-3 py-1.5 text-xs font-medium text-slate-700 hover:bg-slate-200"
+                                      className="mt-1 inline-flex items-center rounded-lg bg-white/5 px-3 py-1.5 text-xs font-medium text-slate-200 hover:bg-white/10"
                                     >
                                       Download
                                     </button>
                                   )}
 
-                                  <p className="text-xs text-slate-400 mt-1">
+                                  <p className="text-xs text-slate-500 mt-1">
                                     {submission.marks === null
                                       ? `Submitted on ${formatDate(
                                           submission.submittedAt
@@ -582,7 +582,7 @@ function Assignments() {
                                   {submission.marks !== null &&
                                     submission.marks !==
                                       undefined && (
-                                      <p className="text-sm font-semibold text-slate-700 mt-2">
+                                      <p className="text-sm font-semibold text-slate-200 mt-2">
                                         Marks: {submission.marks}
                                       </p>
                                     )}
@@ -598,7 +598,7 @@ function Assignments() {
                                 <button
                                   type="button"
                                   disabled
-                                  className="px-4 py-2 rounded-lg bg-red-100 text-red-700 text-sm font-medium"
+                                  className="px-4 py-2 rounded-lg bg-red-500/15 text-red-300 text-sm font-medium"
                                 >
                                   Overdue
                                 </button>

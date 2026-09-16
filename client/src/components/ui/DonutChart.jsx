@@ -42,7 +42,7 @@ function DonutChart({
               cy={size / 2}
               r={radius}
               fill="none"
-              stroke="#e2e8f0"
+              stroke="#1e293b"
               strokeWidth={strokeWidth}
             />
           )}
@@ -63,7 +63,7 @@ function DonutChart({
         </svg>
 
         <div className="absolute inset-0 flex items-center justify-center">
-          <p className="text-center text-lg font-bold text-slate-900">
+          <p className="text-center text-lg font-bold text-white">
             {centerLabel}
           </p>
         </div>
@@ -80,11 +80,11 @@ function DonutChart({
               style={{ background: item.color }}
             />
 
-            <span className="text-sm text-slate-600">
+            <span className="text-sm text-slate-300">
               {item.label}
             </span>
 
-            <span className="text-sm font-semibold text-slate-900">
+            <span className="text-sm font-semibold text-white">
               {Number(item.value || 0).toLocaleString()}
             </span>
           </div>

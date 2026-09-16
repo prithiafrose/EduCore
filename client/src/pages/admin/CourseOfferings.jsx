@@ -623,7 +623,7 @@ const CourseOfferings = () => {
 
             <div>
 
-              <h1 className="text-3xl font-bold text-slate-900">
+              <h1 className="text-3xl font-bold text-white">
                 Course Offering Management
               </h1>
 
@@ -638,13 +638,13 @@ const CourseOfferings = () => {
 
           {/* Total Offerings */}
 
-          <div className="rounded-xl bg-white px-4 py-3 shadow-sm ring-1 ring-slate-200">
+          <div className="rounded-xl bg-white/[0.03] px-4 py-3 shadow-sm ring-1 ring-white/10">
 
-            <p className="text-xs font-medium uppercase tracking-wide text-slate-400">
+            <p className="text-xs font-medium uppercase tracking-wide text-slate-500">
               Total Offerings
             </p>
 
-            <p className="mt-1 text-2xl font-bold text-slate-900">
+            <p className="mt-1 text-2xl font-bold text-white">
               {offerings.length}
             </p>
 
@@ -659,7 +659,7 @@ const CourseOfferings = () => {
 
       {success && (
 
-        <div className="mb-5 rounded-xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm font-medium text-emerald-700">
+        <div className="mb-5 rounded-xl border border-emerald-500/20 bg-emerald-500/10 px-4 py-3 text-sm font-medium text-emerald-300">
           {success}
         </div>
 
@@ -670,7 +670,7 @@ const CourseOfferings = () => {
 
       {error && (
 
-        <div className="mb-5 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm font-medium text-red-700">
+        <div className="mb-5 rounded-xl border border-red-500/20 bg-red-500/10 px-4 py-3 text-sm font-medium text-red-300">
           {error}
         </div>
 
@@ -681,12 +681,12 @@ const CourseOfferings = () => {
 
       {showForm && (
 
-        <div className="mb-8 rounded-2xl bg-white p-6 shadow-sm ring-1 ring-slate-200">
+        <div className="mb-8 rounded-2xl bg-white/[0.03] p-6 shadow-sm ring-1 ring-white/10">
 
 
           <div className="mb-6">
 
-            <h2 className="text-lg font-semibold text-slate-900">
+            <h2 className="text-lg font-semibold text-white">
 
               {editingId !== null
                 ? "Edit Course Offering"
@@ -715,7 +715,7 @@ const CourseOfferings = () => {
 
             <div>
 
-              <label className="mb-2 block text-sm font-medium text-slate-700">
+              <label className="mb-2 block text-sm font-medium text-slate-200">
                 Course
               </label>
 
@@ -725,7 +725,7 @@ const CourseOfferings = () => {
                   setCourseId(e.target.value)
                 }
                 required
-                className="w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm outline-none transition focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100"
+                className="w-full rounded-xl border border-white/15 bg-white/[0.03] px-4 py-3 text-sm outline-none transition focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100"
               >
 
                 <option value="">
@@ -754,7 +754,7 @@ const CourseOfferings = () => {
 
             <div>
 
-              <label className="mb-2 block text-sm font-medium text-slate-700">
+              <label className="mb-2 block text-sm font-medium text-slate-200">
                 Academic Semester
               </label>
 
@@ -766,7 +766,7 @@ const CourseOfferings = () => {
                   )
                 }
                 required
-                className="w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm outline-none transition focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100"
+                className="w-full rounded-xl border border-white/15 bg-white/[0.03] px-4 py-3 text-sm outline-none transition focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100"
               >
 
                 <option value="">
@@ -816,7 +816,7 @@ const CourseOfferings = () => {
                 type="button"
                 onClick={handleCancel}
                 disabled={formLoading}
-                className="rounded-xl border border-slate-300 bg-white px-6 py-3 text-sm font-semibold text-slate-700 transition hover:bg-slate-50 disabled:opacity-60"
+                className="rounded-xl border border-white/15 bg-white/[0.03] px-6 py-3 text-sm font-semibold text-slate-200 transition hover:bg-white/5 disabled:opacity-60"
               >
                 Cancel
               </button>
@@ -834,12 +834,12 @@ const CourseOfferings = () => {
 
       {showAssignForm && (
 
-        <div className="mb-8 rounded-2xl bg-white p-6 shadow-sm ring-1 ring-slate-200">
+        <div className="mb-8 rounded-2xl bg-white/[0.03] p-6 shadow-sm ring-1 ring-white/10">
 
 
           <div className="mb-6">
 
-            <h2 className="text-lg font-semibold text-slate-900">
+            <h2 className="text-lg font-semibold text-white">
               Assign Teacher to Offering
             </h2>
 
@@ -860,7 +860,7 @@ const CourseOfferings = () => {
 
             <div>
 
-              <label className="mb-2 block text-sm font-medium text-slate-700">
+              <label className="mb-2 block text-sm font-medium text-slate-200">
                 Course Offering
               </label>
 
@@ -870,7 +870,7 @@ const CourseOfferings = () => {
                   setAssignOfferingId(e.target.value)
                 }
                 required
-                className="w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm outline-none transition focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100"
+                className="w-full rounded-xl border border-white/15 bg-white/[0.03] px-4 py-3 text-sm outline-none transition focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100"
               >
 
                 <option value="">
@@ -898,7 +898,7 @@ const CourseOfferings = () => {
 
             <div>
 
-              <label className="mb-2 block text-sm font-medium text-slate-700">
+              <label className="mb-2 block text-sm font-medium text-slate-200">
                 Teacher
               </label>
 
@@ -908,7 +908,7 @@ const CourseOfferings = () => {
                   setAssignTeacherId(e.target.value)
                 }
                 required
-                className="w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm outline-none transition focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100"
+                className="w-full rounded-xl border border-white/15 bg-white/[0.03] px-4 py-3 text-sm outline-none transition focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100"
               >
 
                 <option value="">
@@ -936,7 +936,7 @@ const CourseOfferings = () => {
 
             <div>
 
-              <label className="mb-2 block text-sm font-medium text-slate-700">
+              <label className="mb-2 block text-sm font-medium text-slate-200">
                 Section (optional)
               </label>
 
@@ -945,7 +945,7 @@ const CourseOfferings = () => {
                 onChange={(e) =>
                   setAssignSectionId(e.target.value)
                 }
-                className="w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm outline-none transition focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100"
+                className="w-full rounded-xl border border-white/15 bg-white/[0.03] px-4 py-3 text-sm outline-none transition focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100"
               >
 
                 <option value="">
@@ -990,7 +990,7 @@ const CourseOfferings = () => {
                   clearMessages();
                 }}
                 disabled={assignLoading}
-                className="rounded-xl border border-slate-300 bg-white px-6 py-3 text-sm font-semibold text-slate-700 transition hover:bg-slate-50 disabled:opacity-60"
+                className="rounded-xl border border-white/15 bg-white/[0.03] px-6 py-3 text-sm font-semibold text-slate-200 transition hover:bg-white/5 disabled:opacity-60"
               >
                 Cancel
               </button>
@@ -1006,16 +1006,16 @@ const CourseOfferings = () => {
 
       {/* Course Offering List */}
 
-      <div className="rounded-2xl bg-white shadow-sm ring-1 ring-slate-200">
+      <div className="rounded-2xl bg-white/[0.03] shadow-sm ring-1 ring-white/10">
 
 
         {/* List Header */}
 
-        <div className="flex flex-col gap-4 border-b border-slate-200 p-6 sm:flex-row sm:items-center sm:justify-between">
+        <div className="flex flex-col gap-4 border-b border-white/10 p-6 sm:flex-row sm:items-center sm:justify-between">
 
           <div>
 
-            <h2 className="text-lg font-semibold text-slate-900">
+            <h2 className="text-lg font-semibold text-white">
               Course Offerings
             </h2>
 
@@ -1038,7 +1038,7 @@ const CourseOfferings = () => {
                 setSearch(e.target.value)
               }
               placeholder="Search offerings..."
-              className="w-full rounded-xl border border-slate-300 px-4 py-3 text-sm outline-none transition focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100 sm:w-72"
+              className="w-full rounded-xl border border-white/15 px-4 py-3 text-sm outline-none transition focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100 sm:w-72"
             />
 
 
@@ -1055,7 +1055,7 @@ const CourseOfferings = () => {
                   behavior: "smooth",
                 });
               }}
-              className="rounded-xl border border-indigo-200 bg-indigo-50 px-5 py-3 text-sm font-semibold text-indigo-700 transition hover:bg-indigo-100"
+              className="rounded-xl border border-indigo-500/20 bg-indigo-500/10 px-5 py-3 text-sm font-semibold text-indigo-300 transition hover:bg-indigo-500/15"
             >
               Assign Teacher
             </button>
@@ -1086,11 +1086,11 @@ const CourseOfferings = () => {
 
           <div className="p-10 text-center">
 
-            <p className="font-medium text-slate-700">
+            <p className="font-medium text-slate-200">
               No course offerings found
             </p>
 
-            <p className="mt-1 text-sm text-slate-400">
+            <p className="mt-1 text-sm text-slate-500">
               Try a different search or add a new course offering.
             </p>
 
@@ -1104,7 +1104,7 @@ const CourseOfferings = () => {
 
               <thead>
 
-                <tr className="border-b border-slate-200 bg-slate-50">
+                <tr className="border-b border-white/10 bg-white/5">
 
                   <th className="px-6 py-4 text-xs font-semibold uppercase tracking-wide text-slate-500">
                     Course
@@ -1146,7 +1146,7 @@ const CourseOfferings = () => {
 
                     <tr
                       key={offering.id}
-                      className="border-b border-slate-100 last:border-0 hover:bg-slate-50"
+                      className="border-b border-white/5 last:border-0 hover:bg-white/5"
                     >
 
 
@@ -1154,11 +1154,11 @@ const CourseOfferings = () => {
 
                       <td className="px-6 py-4">
 
-                        <p className="font-medium text-slate-900">
+                        <p className="font-medium text-white">
                           {offering.course?.name || "—"}
                         </p>
 
-                        <p className="mt-1 text-xs text-slate-400">
+                        <p className="mt-1 text-xs text-slate-500">
                           Course
                         </p>
 
@@ -1169,7 +1169,7 @@ const CourseOfferings = () => {
 
                       <td className="px-6 py-4">
 
-                        <span className="rounded-lg bg-indigo-50 px-3 py-1.5 text-sm font-semibold text-indigo-700">
+                        <span className="rounded-lg bg-indigo-500/10 px-3 py-1.5 text-sm font-semibold text-indigo-300">
                           {offering.course?.code || "—"}
                         </span>
 
@@ -1180,7 +1180,7 @@ const CourseOfferings = () => {
 
                       <td className="px-6 py-4">
 
-                        <p className="text-sm font-medium text-slate-700">
+                        <p className="text-sm font-medium text-slate-200">
                           {offering.academicSemester
                             ?.program
                             ?.name || "—"}
@@ -1190,7 +1190,7 @@ const CourseOfferings = () => {
                           ?.program
                           ?.code && (
 
-                          <p className="mt-1 text-xs text-slate-400">
+                          <p className="mt-1 text-xs text-slate-500">
                             {offering.academicSemester.program.code}
                           </p>
 
@@ -1203,7 +1203,7 @@ const CourseOfferings = () => {
 
                       <td className="px-6 py-4">
 
-                        <span className="rounded-lg bg-slate-100 px-3 py-1.5 text-sm font-semibold text-slate-600">
+                        <span className="rounded-lg bg-white/5 px-3 py-1.5 text-sm font-semibold text-slate-300">
                           {offering.academicSemester
                             ?.name || "—"}
                         </span>
@@ -1224,7 +1224,7 @@ const CourseOfferings = () => {
                           if (!teacher) {
 
                             return (
-                              <span className="text-sm text-slate-400">
+                              <span className="text-sm text-slate-500">
                                 No teacher assigned
                               </span>
                             );
@@ -1235,11 +1235,11 @@ const CourseOfferings = () => {
 
                             <div>
 
-                              <p className="text-sm font-medium text-slate-700">
+                              <p className="text-sm font-medium text-slate-200">
                                 {teacher.name || "Teacher"}
                               </p>
 
-                              <p className="mt-1 text-xs text-slate-400">
+                              <p className="mt-1 text-xs text-slate-500">
                                 {teacher.designation ||
                                   "No designation"}
                               </p>
@@ -1252,7 +1252,7 @@ const CourseOfferings = () => {
                                     teacher.id
                                   )
                                 }
-                                className="mt-2 rounded-lg border border-red-200 px-3 py-1 text-xs font-semibold text-red-600 transition hover:bg-red-50"
+                                className="mt-2 rounded-lg border border-red-500/20 px-3 py-1 text-xs font-semibold text-red-400 transition hover:bg-red-500/10"
                               >
                                 Unassign
                               </button>
@@ -1290,7 +1290,7 @@ const CourseOfferings = () => {
                                 offering
                               )
                             }
-                            className="rounded-lg border border-slate-300 px-3 py-2 text-xs font-semibold text-slate-700 transition hover:bg-slate-100"
+                            className="rounded-lg border border-white/15 px-3 py-2 text-xs font-semibold text-slate-200 transition hover:bg-white/5"
                           >
                             Edit
                           </button>
@@ -1302,7 +1302,7 @@ const CourseOfferings = () => {
                                 offering.id
                               )
                             }
-                            className="rounded-lg border border-red-200 px-3 py-2 text-xs font-semibold text-red-600 transition hover:bg-red-50"
+                            className="rounded-lg border border-red-500/20 px-3 py-2 text-xs font-semibold text-red-400 transition hover:bg-red-500/10"
                           >
                             Delete
                           </button>

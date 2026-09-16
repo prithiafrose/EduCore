@@ -185,19 +185,19 @@ function Payments() {
   const getStatusClass = (status) => {
     switch (status) {
       case "PAID":
-        return "bg-green-100 text-green-700";
+        return "bg-emerald-500/15 text-emerald-300";
 
       case "PENDING":
         return "bg-yellow-100 text-yellow-700";
 
       case "FAILED":
-        return "bg-red-100 text-red-700";
+        return "bg-red-500/15 text-red-300";
 
       case "CANCELLED":
-        return "bg-gray-100 text-gray-600";
+        return "bg-white/5 text-slate-300";
 
       default:
-        return "bg-gray-100 text-gray-600";
+        return "bg-white/5 text-slate-300";
     }
   };
 
@@ -252,8 +252,8 @@ function Payments() {
   // Loading
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-100 flex items-center justify-center">
-        <div className="text-gray-600 text-lg">
+      <div className="min-h-screen bg-white/5 flex items-center justify-center">
+        <div className="text-slate-300 text-lg">
           Loading payment information...
         </div>
       </div>
@@ -264,29 +264,29 @@ function Payments() {
         <>
         {/* Header */}
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-800">
+          <h1 className="text-3xl font-bold text-slate-100">
             Payments
           </h1>
 
-          <p className="text-gray-500 mt-1">
+          <p className="text-slate-400 mt-1">
             Manage your university fees and payments
           </p>
         </div>
 
         {/* Student Information */}
         {student && (
-          <div className="bg-white rounded-xl shadow-sm p-6 mb-6">
+          <div className="bg-white/[0.03] rounded-xl shadow-sm p-6 mb-6">
 
-            <h2 className="text-xl font-semibold text-gray-800">
+            <h2 className="text-xl font-semibold text-slate-100">
               {student.name}
             </h2>
 
-            <p className="text-gray-500 mt-1">
+            <p className="text-slate-400 mt-1">
               Student ID: {student.studentId}
             </p>
 
             {student.program && (
-              <p className="text-gray-500">
+              <p className="text-slate-400">
                 Program: {student.program.name}
               </p>
             )}
@@ -296,14 +296,14 @@ function Payments() {
 
         {/* Success */}
         {success && (
-          <div className="bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded-lg mb-6">
+          <div className="bg-emerald-500/10 border border-emerald-500/20 text-emerald-300 px-4 py-3 rounded-lg mb-6">
             {success}
           </div>
         )}
 
         {/* Error */}
         {error && (
-          <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg mb-6">
+          <div className="bg-red-500/10 border border-red-500/20 text-red-300 px-4 py-3 rounded-lg mb-6">
             {error}
           </div>
         )}
@@ -311,28 +311,28 @@ function Payments() {
         {/* Summary */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
 
-          <div className="bg-white rounded-xl shadow-sm p-6">
-            <p className="text-sm text-gray-500">
+          <div className="bg-white/[0.03] rounded-xl shadow-sm p-6">
+            <p className="text-sm text-slate-400">
               Total Fees
             </p>
 
-            <p className="text-2xl font-bold text-gray-800 mt-2">
+            <p className="text-2xl font-bold text-slate-100 mt-2">
               ৳ {formatAmount(totalAmount)}
             </p>
           </div>
 
-          <div className="bg-white rounded-xl shadow-sm p-6">
-            <p className="text-sm text-gray-500">
+          <div className="bg-white/[0.03] rounded-xl shadow-sm p-6">
+            <p className="text-sm text-slate-400">
               Paid
             </p>
 
-            <p className="text-2xl font-bold text-green-600 mt-2">
+            <p className="text-2xl font-bold text-emerald-400 mt-2">
               ৳ {formatAmount(paidAmount)}
             </p>
           </div>
 
-          <div className="bg-white rounded-xl shadow-sm p-6">
-            <p className="text-sm text-gray-500">
+          <div className="bg-white/[0.03] rounded-xl shadow-sm p-6">
+            <p className="text-sm text-slate-400">
               Remaining
             </p>
 
@@ -347,21 +347,21 @@ function Payments() {
         </div>
 
         {/* Available Fees */}
-        <div className="bg-white rounded-xl shadow-sm">
+        <div className="bg-white/[0.03] rounded-xl shadow-sm">
 
           <div className="p-6 border-b">
-            <h2 className="text-xl font-semibold text-gray-800">
+            <h2 className="text-xl font-semibold text-slate-100">
               Available Fees
             </h2>
 
-            <p className="text-sm text-gray-500 mt-1">
+            <p className="text-sm text-slate-400 mt-1">
               Fees assigned to your program
             </p>
           </div>
 
           {fees.length === 0 ? (
 
-            <div className="p-8 text-center text-gray-500">
+            <div className="p-8 text-center text-slate-400">
               No fees found for your program.
             </div>
 
@@ -377,7 +377,7 @@ function Payments() {
                 return (
                   <div
                     key={fee.id}
-                    className="p-6 hover:bg-gray-50"
+                    className="p-6 hover:bg-white/5"
                   >
 
                     <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
@@ -387,7 +387,7 @@ function Payments() {
 
                         <div className="flex items-center gap-3">
 
-                          <h3 className="text-lg font-semibold text-gray-800">
+                          <h3 className="text-lg font-semibold text-slate-100">
                             {fee.type}
                           </h3>
 
@@ -404,7 +404,7 @@ function Payments() {
                         </div>
 
                         {fee.description && (
-                          <p className="text-gray-500 mt-2">
+                          <p className="text-slate-400 mt-2">
                             {fee.description}
                           </p>
                         )}
@@ -413,11 +413,11 @@ function Payments() {
 
                           {fee.academicSemester && (
                             <div>
-                              <span className="text-gray-400">
+                              <span className="text-slate-500">
                                 Semester
                               </span>
 
-                              <p className="font-medium text-gray-700">
+                              <p className="font-medium text-slate-200">
                                 {
                                   fee
                                     .academicSemester
@@ -428,11 +428,11 @@ function Payments() {
                           )}
 
                           <div>
-                            <span className="text-gray-400">
+                            <span className="text-slate-500">
                               Due Date
                             </span>
 
-                            <p className="font-medium text-gray-700">
+                            <p className="font-medium text-slate-200">
                               {formatDate(
                                 fee.dueDate
                               )}
@@ -441,11 +441,11 @@ function Payments() {
 
                           {payment?.paidAt && (
                             <div>
-                              <span className="text-gray-400">
+                              <span className="text-slate-500">
                                 Paid On
                               </span>
 
-                              <p className="font-medium text-gray-700">
+                              <p className="font-medium text-slate-200">
                                 {formatDate(
                                   payment.paidAt
                                 )}
@@ -462,11 +462,11 @@ function Payments() {
 
                         <div className="text-right">
 
-                          <p className="text-sm text-gray-500">
+                          <p className="text-sm text-slate-400">
                             Amount
                           </p>
 
-                          <p className="text-xl font-bold text-gray-800">
+                          <p className="text-xl font-bold text-slate-100">
                             ৳{" "}
                             {formatAmount(
                               fee.amount
@@ -480,7 +480,7 @@ function Payments() {
 
                           <button
                             disabled
-                            className="px-5 py-2.5 rounded-lg bg-green-100 text-green-700 font-medium cursor-not-allowed"
+                            className="px-5 py-2.5 rounded-lg bg-emerald-500/15 text-emerald-300 font-medium cursor-not-allowed"
                           >
                             Paid
                           </button>
@@ -505,7 +505,7 @@ function Payments() {
                               processingFeeId ===
                               fee.id
                             }
-                            className="px-5 py-2.5 rounded-lg bg-slate-900 text-white font-medium hover:bg-slate-800 disabled:opacity-50 disabled:cursor-not-allowed"
+                            className="px-5 py-2.5 rounded-lg bg-slate-900 text-white font-medium hover:bg-white/10 disabled:opacity-50 disabled:cursor-not-allowed"
                           >
                             {processingFeeId ===
                             fee.id
@@ -531,15 +531,15 @@ function Payments() {
         </div>
 
         {/* Payment History */}
-        <div className="bg-white rounded-xl shadow-sm mt-8">
+        <div className="bg-white/[0.03] rounded-xl shadow-sm mt-8">
 
           <div className="p-6 border-b">
 
-            <h2 className="text-xl font-semibold text-gray-800">
+            <h2 className="text-xl font-semibold text-slate-100">
               Payment History
             </h2>
 
-            <p className="text-sm text-gray-500 mt-1">
+            <p className="text-sm text-slate-400 mt-1">
               Your previous payment records
             </p>
 
@@ -547,7 +547,7 @@ function Payments() {
 
           {payments.length === 0 ? (
 
-            <div className="p-8 text-center text-gray-500">
+            <div className="p-8 text-center text-slate-400">
               No payment history available.
             </div>
 
@@ -557,31 +557,31 @@ function Payments() {
 
               <table className="w-full">
 
-                <thead className="bg-gray-50">
+                <thead className="bg-white/5">
 
                   <tr>
 
-                    <th className="text-left px-6 py-4 text-sm font-semibold text-gray-600">
+                    <th className="text-left px-6 py-4 text-sm font-semibold text-slate-300">
                       Fee
                     </th>
 
-                    <th className="text-left px-6 py-4 text-sm font-semibold text-gray-600">
+                    <th className="text-left px-6 py-4 text-sm font-semibold text-slate-300">
                       Semester
                     </th>
 
-                    <th className="text-left px-6 py-4 text-sm font-semibold text-gray-600">
+                    <th className="text-left px-6 py-4 text-sm font-semibold text-slate-300">
                       Amount
                     </th>
 
-                    <th className="text-left px-6 py-4 text-sm font-semibold text-gray-600">
+                    <th className="text-left px-6 py-4 text-sm font-semibold text-slate-300">
                       Status
                     </th>
 
-                    <th className="text-left px-6 py-4 text-sm font-semibold text-gray-600">
+                    <th className="text-left px-6 py-4 text-sm font-semibold text-slate-300">
                       Paid On
                     </th>
 
-                    <th className="text-left px-6 py-4 text-sm font-semibold text-gray-600">
+                    <th className="text-left px-6 py-4 text-sm font-semibold text-slate-300">
                       Receipt
                     </th>
 
@@ -595,22 +595,22 @@ function Payments() {
 
                     <tr
                       key={payment.id}
-                      className="hover:bg-gray-50"
+                      className="hover:bg-white/5"
                     >
 
-                      <td className="px-6 py-4 text-gray-800 font-medium">
+                      <td className="px-6 py-4 text-slate-100 font-medium">
                         {payment.fee?.type ||
                           "Fee"}
                       </td>
 
-                      <td className="px-6 py-4 text-gray-600">
+                      <td className="px-6 py-4 text-slate-300">
                         {payment.fee
                           ?.academicSemester
                           ?.name ||
                           "-"}
                       </td>
 
-                      <td className="px-6 py-4 text-gray-800">
+                      <td className="px-6 py-4 text-slate-100">
                         ৳{" "}
                         {formatAmount(
                           payment.amount
@@ -629,7 +629,7 @@ function Payments() {
 
                       </td>
 
-                      <td className="px-6 py-4 text-gray-600">
+                      <td className="px-6 py-4 text-slate-300">
                         {formatDate(
                           payment.paidAt
                         )}
@@ -647,7 +647,7 @@ function Payments() {
                           className={
                             payment.status === "PAID"
                               ? "px-4 py-2 rounded-lg bg-blue-600 text-white text-sm font-medium hover:bg-blue-700"
-                              : "px-4 py-2 rounded-lg bg-gray-100 text-gray-400 text-sm font-medium cursor-not-allowed"
+                              : "px-4 py-2 rounded-lg bg-white/5 text-slate-500 text-sm font-medium cursor-not-allowed"
                           }
                         >
                           Receipt

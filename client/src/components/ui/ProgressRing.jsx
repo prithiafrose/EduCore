@@ -25,7 +25,7 @@ function ProgressRing({
             cy={size / 2}
             r={radius}
             fill="none"
-            stroke="#e2e8f0"
+            stroke="#1e293b"
             strokeWidth={strokeWidth}
           />
 
@@ -55,13 +55,13 @@ function ProgressRing({
       </div>
 
       {label && (
-        <p className="mt-2 text-sm font-medium text-slate-700">
+        <p className="mt-2 text-sm font-medium text-slate-300">
           {label}
         </p>
       )}
 
       {hint && (
-        <p className="text-xs text-slate-400 mt-0.5">{hint}</p>
+        <p className="text-xs text-slate-500 mt-0.5">{hint}</p>
       )}
     </div>
   );

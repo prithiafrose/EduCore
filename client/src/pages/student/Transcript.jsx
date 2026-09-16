@@ -78,7 +78,7 @@ function Transcript() {
         <>
         {/* Header */}
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-slate-900">
+          <h1 className="text-3xl font-bold text-white">
             Academic Transcript
           </h1>
 
@@ -89,8 +89,8 @@ function Transcript() {
 
         {/* Loading */}
         {loading && (
-          <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-8 text-center">
-            <p className="text-slate-400">
+          <div className="bg-white/[0.03] rounded-2xl shadow-sm border border-white/10 p-8 text-center">
+            <p className="text-slate-500">
               Loading transcript...
             </p>
           </div>
@@ -98,8 +98,8 @@ function Transcript() {
 
         {/* Error */}
         {!loading && error && (
-          <div className="bg-white rounded-2xl shadow-sm border border-red-200 p-6">
-            <p className="text-red-600 font-medium">
+          <div className="bg-white/[0.03] rounded-2xl shadow-sm border border-red-500/20 p-6">
+            <p className="text-red-400 font-medium">
               {error}
             </p>
           </div>
@@ -108,7 +108,7 @@ function Transcript() {
         {!loading && !error && (
           <>
             {/* Student Summary */}
-            <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 mb-8">
+            <div className="bg-white/[0.03] rounded-2xl shadow-sm border border-white/10 p-6 mb-8">
               <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
                 <div className="flex items-center gap-4">
                   <div className="w-14 h-14 rounded-full bg-slate-900 text-white flex items-center justify-center text-xl font-bold">
@@ -118,7 +118,7 @@ function Transcript() {
                   </div>
 
                   <div>
-                    <h2 className="text-xl font-bold text-slate-900">
+                    <h2 className="text-xl font-bold text-white">
                       {student?.name}
                     </h2>
 
@@ -137,7 +137,7 @@ function Transcript() {
                       CGPA
                     </p>
 
-                    <p className="text-3xl font-bold text-slate-900 mt-1">
+                    <p className="text-3xl font-bold text-white mt-1">
                       {cgpa !== null ? cgpa : "N/A"}
                     </p>
                   </div>
@@ -147,7 +147,7 @@ function Transcript() {
                       Completed Credits
                     </p>
 
-                    <p className="text-3xl font-bold text-indigo-600 mt-1">
+                    <p className="text-3xl font-bold text-indigo-400 mt-1">
                       {completedCredits ?? "N/A"}
                     </p>
                   </div>
@@ -157,8 +157,8 @@ function Transcript() {
 
             {/* Semester Transcripts */}
             {semesters.length === 0 ? (
-              <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-10 text-center">
-                <p className="text-slate-400 text-sm">
+              <div className="bg-white/[0.03] rounded-2xl shadow-sm border border-white/10 p-10 text-center">
+                <p className="text-slate-500 text-sm">
                   No course results have been published yet.
                 </p>
               </div>
@@ -170,10 +170,10 @@ function Transcript() {
                     group.semester?.name ||
                     "semester"
                   }
-                  className="bg-white rounded-2xl shadow-sm border border-slate-200 mb-6 overflow-hidden"
+                  className="bg-white/[0.03] rounded-2xl shadow-sm border border-white/10 mb-6 overflow-hidden"
                 >
-                  <div className="px-6 py-5 border-b border-slate-200">
-                    <h3 className="text-lg font-semibold text-slate-900">
+                  <div className="px-6 py-5 border-b border-white/10">
+                    <h3 className="text-lg font-semibold text-white">
                       Academic Transcript
                     </h3>
 
@@ -184,35 +184,35 @@ function Transcript() {
 
                   <div className="overflow-x-auto">
                     <table className="w-full">
-                      <thead className="bg-slate-50 border-b border-slate-200">
+                      <thead className="bg-white/5 border-b border-white/10">
                         <tr>
-                          <th className="text-left px-6 py-4 text-sm font-semibold text-slate-600">
+                          <th className="text-left px-6 py-4 text-sm font-semibold text-slate-300">
                             Code
                           </th>
 
-                          <th className="text-left px-6 py-4 text-sm font-semibold text-slate-600">
+                          <th className="text-left px-6 py-4 text-sm font-semibold text-slate-300">
                             Course
                           </th>
 
-                          <th className="text-left px-6 py-4 text-sm font-semibold text-slate-600">
+                          <th className="text-left px-6 py-4 text-sm font-semibold text-slate-300">
                             Credit
                           </th>
 
-                          <th className="text-left px-6 py-4 text-sm font-semibold text-slate-600">
+                          <th className="text-left px-6 py-4 text-sm font-semibold text-slate-300">
                             Total Marks
                           </th>
 
-                          <th className="text-left px-6 py-4 text-sm font-semibold text-slate-600">
+                          <th className="text-left px-6 py-4 text-sm font-semibold text-slate-300">
                             Grade
                           </th>
 
-                          <th className="text-left px-6 py-4 text-sm font-semibold text-slate-600">
+                          <th className="text-left px-6 py-4 text-sm font-semibold text-slate-300">
                             Grade Point
                           </th>
                         </tr>
                       </thead>
 
-                      <tbody className="divide-y divide-slate-100">
+                      <tbody className="divide-y divide-white/5">
                         {group.courses.map((courseRow) => {
                           const hasMarks =
                             courseRow.totalMarks !== null &&
@@ -221,37 +221,37 @@ function Transcript() {
                           return (
                             <tr
                               key={courseRow.enrollmentId}
-                              className="hover:bg-slate-50"
+                              className="hover:bg-white/5"
                             >
-                              <td className="px-6 py-4 text-sm text-slate-600">
+                              <td className="px-6 py-4 text-sm text-slate-300">
                                 {courseRow.course?.code ||
                                   "-"}
                               </td>
 
-                              <td className="px-6 py-4 text-sm font-medium text-slate-800">
+                              <td className="px-6 py-4 text-sm font-medium text-slate-100">
                                 {courseRow.course?.name ||
                                   "Unknown Course"}
                               </td>
 
-                              <td className="px-6 py-4 text-sm text-slate-600">
+                              <td className="px-6 py-4 text-sm text-slate-300">
                                 {courseRow.course?.credit ??
                                   "-"}
                               </td>
 
-                              <td className="px-6 py-4 text-sm text-slate-700">
+                              <td className="px-6 py-4 text-sm text-slate-200">
                                 {hasMarks
                                   ? courseRow.totalMarks
                                   : "—"}
                               </td>
 
-                              <td className="px-6 py-4 text-sm text-slate-700">
+                              <td className="px-6 py-4 text-sm text-slate-200">
                                 {hasMarks &&
                                 courseRow.grade
                                   ? courseRow.grade
                                   : "—"}
                               </td>
 
-                              <td className="px-6 py-4 text-sm text-slate-700">
+                              <td className="px-6 py-4 text-sm text-slate-200">
                                 {hasMarks &&
                                 courseRow.gradePoint !==
                                   null &&

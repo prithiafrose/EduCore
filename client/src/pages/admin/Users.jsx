@@ -223,13 +223,13 @@ const Users = () => {
       {/* Messages */}
 
       {error && (
-        <div className="mb-4 p-3 rounded bg-red-100 text-red-700">
+        <div className="mb-4 p-3 rounded bg-red-500/15 text-red-300">
           {error}
         </div>
       )}
 
       {success && (
-        <div className="mb-4 p-3 rounded bg-green-100 text-green-700">
+        <div className="mb-4 p-3 rounded bg-emerald-500/15 text-emerald-300">
           {success}
         </div>
       )}
@@ -237,7 +237,7 @@ const Users = () => {
 
       {/* User Form */}
 
-      <div className="bg-white p-6 rounded-lg shadow mb-8">
+      <div className="bg-white/[0.03] p-6 rounded-lg shadow mb-8">
 
         <h2 className="text-lg font-semibold mb-4">
           {editingId ? "Edit User" : "Add User"}
@@ -273,7 +273,7 @@ const Users = () => {
             <label className="block text-sm font-medium mb-1">
               Password
               {editingId && (
-                <span className="text-gray-500 font-normal">
+                <span className="text-slate-400 font-normal">
                   {" "} (leave blank to keep current password)
                 </span>
               )}
@@ -337,7 +337,7 @@ const Users = () => {
               id="isActive"
               checked={isActive}
               onChange={(e) => setIsActive(e.target.checked)}
-              className="h-4 w-4 rounded border-gray-300"
+              className="h-4 w-4 rounded border-white/15"
             />
 
             <label htmlFor="isActive" className="text-sm font-medium">
@@ -378,11 +378,11 @@ const Users = () => {
 
       {/* Users Table */}
 
-      <div className="bg-white rounded-lg shadow overflow-x-auto">
+      <div className="bg-white/[0.03] rounded-lg shadow overflow-x-auto">
 
         <table className="w-full">
 
-          <thead className="bg-gray-100">
+          <thead className="bg-white/5">
 
             <tr>
 
@@ -423,7 +423,7 @@ const Users = () => {
 
                 <td
                   colSpan="6"
-                  className="px-4 py-6 text-center text-gray-500"
+                  className="px-4 py-6 text-center text-slate-400"
                 >
                   No users found.
                 </td>
@@ -453,11 +453,11 @@ const Users = () => {
 
                   <td className="px-4 py-3">
                     {user.isActive !== false ? (
-                      <span className="px-2 py-1 rounded-full text-xs font-medium bg-green-100 text-green-700">
+                      <span className="px-2 py-1 rounded-full text-xs font-medium bg-emerald-500/15 text-emerald-300">
                         Active
                       </span>
                     ) : (
-                      <span className="px-2 py-1 rounded-full text-xs font-medium bg-red-100 text-red-700">
+                      <span className="px-2 py-1 rounded-full text-xs font-medium bg-red-500/15 text-red-300">
                         Inactive
                       </span>
                     )}

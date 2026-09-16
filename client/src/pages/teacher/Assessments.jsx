@@ -664,18 +664,18 @@ const Assessments = () => {
     return (
       <>
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-800">
+          <h1 className="text-3xl font-bold text-slate-100">
             Assessments
           </h1>
 
-          <p className="mt-2 text-gray-500">
+          <p className="mt-2 text-slate-400">
             Manage assessments and student marks
             for your assigned courses.
           </p>
         </div>
 
         {error && (
-          <div className="mb-6 rounded-lg border border-red-200 bg-red-50 px-5 py-4 text-red-700">
+          <div className="mb-6 rounded-lg border border-red-500/20 bg-red-500/10 px-5 py-4 text-red-300">
             {error}
           </div>
         )}
@@ -683,44 +683,44 @@ const Assessments = () => {
         {!loadingCourses && !error && (
           <div className="mb-8 grid grid-cols-1 gap-5 md:grid-cols-3">
 
-            <div className="rounded-xl bg-white p-6 shadow-sm">
-              <p className="text-sm font-medium text-gray-500">
+            <div className="rounded-xl bg-white/[0.03] p-6 shadow-sm">
+              <p className="text-sm font-medium text-slate-400">
                 Assigned Courses
               </p>
 
-              <p className="mt-2 text-3xl font-bold text-gray-800">
+              <p className="mt-2 text-3xl font-bold text-slate-100">
                 {assignments.length}
               </p>
 
-              <p className="mt-1 text-sm text-gray-400">
+              <p className="mt-1 text-sm text-slate-500">
                 Courses available
               </p>
             </div>
 
-            <div className="rounded-xl bg-white p-6 shadow-sm">
-              <p className="text-sm font-medium text-gray-500">
+            <div className="rounded-xl bg-white/[0.03] p-6 shadow-sm">
+              <p className="text-sm font-medium text-slate-400">
                 Assessment Types
               </p>
 
-              <p className="mt-2 text-3xl font-bold text-gray-800">
+              <p className="mt-2 text-3xl font-bold text-slate-100">
                 3
               </p>
 
-              <p className="mt-1 text-sm text-gray-400">
+              <p className="mt-1 text-sm text-slate-500">
                 Attendance, Midterm & Evaluation
               </p>
             </div>
 
-            <div className="rounded-xl bg-white p-6 shadow-sm">
-              <p className="text-sm font-medium text-gray-500">
+            <div className="rounded-xl bg-white/[0.03] p-6 shadow-sm">
+              <p className="text-sm font-medium text-slate-400">
                 Assessment Marks
               </p>
 
-              <p className="mt-2 text-3xl font-bold text-gray-800">
+              <p className="mt-2 text-3xl font-bold text-slate-100">
                 40
               </p>
 
-              <p className="mt-1 text-sm text-gray-400">
+              <p className="mt-1 text-sm text-slate-500">
                 Total assessment component
               </p>
             </div>
@@ -728,23 +728,23 @@ const Assessments = () => {
           </div>
         )}
 
-        <div className="rounded-xl bg-white shadow-sm">
+        <div className="rounded-xl bg-white/[0.03] shadow-sm">
 
           <div className="flex items-center justify-between border-b px-6 py-5">
 
             <div>
-              <h2 className="text-xl font-semibold text-gray-800">
+              <h2 className="text-xl font-semibold text-slate-100">
                 My Courses
               </h2>
 
-              <p className="mt-1 text-sm text-gray-500">
+              <p className="mt-1 text-sm text-slate-400">
                 Select a course to manage its
                 assessments.
               </p>
             </div>
 
             {!loadingCourses && (
-              <span className="rounded-full bg-indigo-50 px-3 py-1 text-sm font-medium text-indigo-600">
+              <span className="rounded-full bg-indigo-500/10 px-3 py-1 text-sm font-medium text-indigo-400">
                 {assignments.length} Courses
               </span>
             )}
@@ -754,9 +754,9 @@ const Assessments = () => {
           {loadingCourses && (
             <div className="p-10 text-center">
 
-              <div className="mx-auto mb-4 h-8 w-8 animate-spin rounded-full border-4 border-gray-200 border-t-indigo-600"></div>
+              <div className="mx-auto mb-4 h-8 w-8 animate-spin rounded-full border-4 border-white/10 border-t-indigo-600"></div>
 
-              <p className="text-sm text-gray-500">
+              <p className="text-sm text-slate-400">
                 Loading your courses...
               </p>
 
@@ -768,15 +768,15 @@ const Assessments = () => {
             assignments.length === 0 && (
               <div className="p-10 text-center">
 
-                <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-gray-100 text-2xl">
+                <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-white/5 text-2xl">
                   📚
                 </div>
 
-                <h3 className="text-lg font-semibold text-gray-800">
+                <h3 className="text-lg font-semibold text-slate-100">
                   No Courses Assigned
                 </h3>
 
-                <p className="mt-2 text-sm text-gray-500">
+                <p className="mt-2 text-sm text-slate-400">
                   You currently don't have any
                   assigned courses.
                 </p>
@@ -804,19 +804,19 @@ const Assessments = () => {
                     return (
                       <div
                         key={assignment.id}
-                        className="rounded-xl border border-gray-200 p-5 transition hover:-translate-y-0.5 hover:border-indigo-200 hover:shadow-md"
+                        className="rounded-xl border border-white/10 p-5 transition hover:-translate-y-0.5 hover:border-indigo-500/20 hover:shadow-md"
                       >
 
                         <div className="flex items-start justify-between">
 
-                          <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-indigo-50 text-lg font-bold text-indigo-600">
+                          <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-indigo-500/10 text-lg font-bold text-indigo-400">
                             {course?.code?.substring(
                               0,
                               2
                             ) || "CR"}
                           </div>
 
-                          <span className="rounded-full bg-green-50 px-3 py-1 text-xs font-medium text-green-600">
+                          <span className="rounded-full bg-emerald-500/10 px-3 py-1 text-xs font-medium text-emerald-400">
                             Assigned
                           </span>
 
@@ -824,12 +824,12 @@ const Assessments = () => {
 
                         <div className="mt-5">
 
-                          <p className="text-sm font-semibold text-indigo-600">
+                          <p className="text-sm font-semibold text-indigo-400">
                             {course?.code ||
                               "Course Code"}
                           </p>
 
-                          <h3 className="mt-1 text-lg font-semibold text-gray-800">
+                          <h3 className="mt-1 text-lg font-semibold text-slate-100">
                             {course?.name ||
                               "Course Name"}
                           </h3>
@@ -839,22 +839,22 @@ const Assessments = () => {
                         <div className="mt-5 space-y-2.5 border-t pt-4">
 
                           <div className="flex justify-between text-sm">
-                            <span className="text-gray-500">
+                            <span className="text-slate-400">
                               Semester
                             </span>
 
-                            <span className="font-medium text-gray-700">
+                            <span className="font-medium text-slate-200">
                               {semester?.name ||
                                 "N/A"}
                             </span>
                           </div>
 
                           <div className="flex justify-between text-sm">
-                            <span className="text-gray-500">
+                            <span className="text-slate-400">
                               Section
                             </span>
 
-                            <span className="font-medium text-gray-700">
+                            <span className="font-medium text-slate-200">
                               {section?.name ||
                                 "All Sections"}
                             </span>
@@ -903,41 +903,41 @@ const Assessments = () => {
           <button
             type="button"
             onClick={handleBackToActivities}
-            className="inline-flex items-center gap-2 text-sm font-medium text-indigo-600 hover:text-indigo-700"
+            className="inline-flex items-center gap-2 text-sm font-medium text-indigo-400 hover:text-indigo-300"
           >
             ← Back to Activities
           </button>
 
         </div>
 
-        <div className="mb-6 rounded-xl bg-white p-6 shadow-sm">
+        <div className="mb-6 rounded-xl bg-white/[0.03] p-6 shadow-sm">
 
           <div className="flex flex-col justify-between gap-5 md:flex-row md:items-center">
 
             <div>
 
-              <p className="text-sm font-semibold text-indigo-600">
+              <p className="text-sm font-semibold text-indigo-400">
                 Student Marks
               </p>
 
-              <h1 className="mt-1 text-2xl font-bold text-gray-800">
+              <h1 className="mt-1 text-2xl font-bold text-slate-100">
                 {selectedActivity?.name}
               </h1>
 
-              <p className="mt-2 text-sm text-gray-500">
+              <p className="mt-2 text-sm text-slate-400">
                 View and manage marks for each
                 enrolled student.
               </p>
 
             </div>
 
-            <div className="rounded-lg bg-indigo-50 px-6 py-4 text-center">
+            <div className="rounded-lg bg-indigo-500/10 px-6 py-4 text-center">
 
-              <p className="text-xs font-medium uppercase tracking-wide text-indigo-600">
+              <p className="text-xs font-medium uppercase tracking-wide text-indigo-400">
                 Maximum Marks
               </p>
 
-              <p className="mt-1 text-2xl font-bold text-indigo-700">
+              <p className="mt-1 text-2xl font-bold text-indigo-300">
                 {selectedActivity?.maxMarks}
               </p>
 
@@ -948,13 +948,13 @@ const Assessments = () => {
         </div>
 
         {marksError && (
-          <div className="mb-5 rounded-lg border border-red-200 bg-red-50 px-5 py-4 text-red-700">
+          <div className="mb-5 rounded-lg border border-red-500/20 bg-red-500/10 px-5 py-4 text-red-300">
             {marksError}
           </div>
         )}
 
         {successMessage && (
-          <div className="mb-5 rounded-lg border border-green-200 bg-green-50 px-5 py-4 text-green-700">
+          <div className="mb-5 rounded-lg border border-emerald-500/20 bg-emerald-500/10 px-5 py-4 text-emerald-300">
             {successMessage}
           </div>
         )}
@@ -962,33 +962,33 @@ const Assessments = () => {
         {!loadingMarks && (
           <div className="mb-6 grid grid-cols-1 gap-5 md:grid-cols-3">
 
-            <div className="rounded-xl bg-white p-5 shadow-sm">
+            <div className="rounded-xl bg-white/[0.03] p-5 shadow-sm">
 
-              <p className="text-sm font-medium text-gray-500">
+              <p className="text-sm font-medium text-slate-400">
                 Total Students
               </p>
 
-              <p className="mt-2 text-2xl font-bold text-gray-800">
+              <p className="mt-2 text-2xl font-bold text-slate-100">
                 {courseEnrollments.length}
               </p>
 
             </div>
 
-            <div className="rounded-xl bg-white p-5 shadow-sm">
+            <div className="rounded-xl bg-white/[0.03] p-5 shadow-sm">
 
-              <p className="text-sm font-medium text-gray-500">
+              <p className="text-sm font-medium text-slate-400">
                 Marks Entered
               </p>
 
-              <p className="mt-2 text-2xl font-bold text-green-600">
+              <p className="mt-2 text-2xl font-bold text-emerald-400">
                 {marks.length}
               </p>
 
             </div>
 
-            <div className="rounded-xl bg-white p-5 shadow-sm">
+            <div className="rounded-xl bg-white/[0.03] p-5 shadow-sm">
 
-              <p className="text-sm font-medium text-gray-500">
+              <p className="text-sm font-medium text-slate-400">
                 Marks Pending
               </p>
 
@@ -1005,15 +1005,15 @@ const Assessments = () => {
           </div>
         )}
 
-        <div className="rounded-xl bg-white shadow-sm">
+        <div className="rounded-xl bg-white/[0.03] shadow-sm">
 
           <div className="border-b px-6 py-5">
 
-            <h2 className="text-xl font-semibold text-gray-800">
+            <h2 className="text-xl font-semibold text-slate-100">
               Student Marks
             </h2>
 
-            <p className="mt-1 text-sm text-gray-500">
+            <p className="mt-1 text-sm text-slate-400">
               All students enrolled in this course
               are listed below.
             </p>
@@ -1023,9 +1023,9 @@ const Assessments = () => {
           {loadingMarks && (
             <div className="p-10 text-center">
 
-              <div className="mx-auto mb-4 h-8 w-8 animate-spin rounded-full border-4 border-gray-200 border-t-indigo-600"></div>
+              <div className="mx-auto mb-4 h-8 w-8 animate-spin rounded-full border-4 border-white/10 border-t-indigo-600"></div>
 
-              <p className="text-sm text-gray-500">
+              <p className="text-sm text-slate-400">
                 Loading student marks...
               </p>
 
@@ -1036,15 +1036,15 @@ const Assessments = () => {
             courseEnrollments.length === 0 && (
               <div className="p-10 text-center">
 
-                <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-gray-100 text-2xl">
+                <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-white/5 text-2xl">
                   👨‍🎓
                 </div>
 
-                <h3 className="text-lg font-semibold text-gray-800">
+                <h3 className="text-lg font-semibold text-slate-100">
                   No Students Found
                 </h3>
 
-                <p className="mt-2 text-sm text-gray-500">
+                <p className="mt-2 text-sm text-slate-400">
                   No students are enrolled in this
                   course.
                 </p>
@@ -1058,31 +1058,31 @@ const Assessments = () => {
 
                 <table className="w-full">
 
-                  <thead className="bg-gray-50 text-left">
+                  <thead className="bg-white/5 text-left">
 
                     <tr className="border-b">
 
-                      <th className="px-6 py-4 text-sm font-semibold text-gray-700">
+                      <th className="px-6 py-4 text-sm font-semibold text-slate-200">
                         Student ID
                       </th>
 
-                      <th className="px-6 py-4 text-sm font-semibold text-gray-700">
+                      <th className="px-6 py-4 text-sm font-semibold text-slate-200">
                         Student Name
                       </th>
 
-                      <th className="px-6 py-4 text-sm font-semibold text-gray-700">
+                      <th className="px-6 py-4 text-sm font-semibold text-slate-200">
                         Email
                       </th>
 
-                      <th className="px-6 py-4 text-sm font-semibold text-gray-700">
+                      <th className="px-6 py-4 text-sm font-semibold text-slate-200">
                         Marks
                       </th>
 
-                      <th className="px-6 py-4 text-sm font-semibold text-gray-700">
+                      <th className="px-6 py-4 text-sm font-semibold text-slate-200">
                         Status
                       </th>
 
-                      <th className="px-6 py-4 text-sm font-semibold text-gray-700">
+                      <th className="px-6 py-4 text-sm font-semibold text-slate-200">
                         Action
                       </th>
 
@@ -1090,7 +1090,7 @@ const Assessments = () => {
 
                   </thead>
 
-                  <tbody className="divide-y divide-gray-200">
+                  <tbody className="divide-y divide-white/10">
 
                     {courseEnrollments.map(
                       (enrollment) => {
@@ -1123,12 +1123,12 @@ const Assessments = () => {
                             key={
                               enrollment.id
                             }
-                            className="hover:bg-gray-50"
+                            className="hover:bg-white/5"
                           >
 
                             <td className="px-6 py-4">
 
-                              <span className="font-medium text-indigo-600">
+                              <span className="font-medium text-indigo-400">
                                 {enrollment.student
                                   ?.studentId ||
                                   "N/A"}
@@ -1138,7 +1138,7 @@ const Assessments = () => {
 
                             <td className="px-6 py-4">
 
-                              <p className="font-medium text-gray-800">
+                              <p className="font-medium text-slate-100">
                                 {enrollment.student
                                   ?.name ||
                                   "Unknown Student"}
@@ -1146,7 +1146,7 @@ const Assessments = () => {
 
                             </td>
 
-                            <td className="px-6 py-4 text-sm text-gray-500">
+                            <td className="px-6 py-4 text-sm text-slate-400">
                               {enrollment.student
                                 ?.email ||
                                 "N/A"}
@@ -1175,11 +1175,11 @@ const Assessments = () => {
                                         .value
                                     )
                                   }
-                                  className="w-24 rounded-lg border border-gray-300 px-3 py-2 text-sm outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100"
+                                  className="w-24 rounded-lg border border-white/15 px-3 py-2 text-sm outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100"
                                   placeholder="Marks"
                                 />
 
-                                <span className="text-sm text-gray-400">
+                                <span className="text-sm text-slate-500">
                                   /
                                   {
                                     selectedActivity?.maxMarks
@@ -1193,7 +1193,7 @@ const Assessments = () => {
                             <td className="px-6 py-4">
 
                               {existingMark ? (
-                                <span className="inline-flex rounded-full bg-green-50 px-3 py-1 text-xs font-semibold text-green-700">
+                                <span className="inline-flex rounded-full bg-emerald-500/10 px-3 py-1 text-xs font-semibold text-emerald-300">
                                   Entered
                                 </span>
                               ) : (
@@ -1269,47 +1269,47 @@ const Assessments = () => {
           <button
             type="button"
             onClick={handleCloseAllMarks}
-            className="inline-flex items-center gap-2 text-sm font-medium text-indigo-600 hover:text-indigo-700"
+            className="inline-flex items-center gap-2 text-sm font-medium text-indigo-400 hover:text-indigo-300"
           >
             ← Back to Assessments
           </button>
 
         </div>
 
-        <div className="mb-6 rounded-xl bg-white p-6 shadow-sm">
+        <div className="mb-6 rounded-xl bg-white/[0.03] p-6 shadow-sm">
 
           <div className="flex flex-col justify-between gap-5 md:flex-row md:items-center">
 
             <div>
 
-              <p className="text-sm font-semibold text-indigo-600">
+              <p className="text-sm font-semibold text-indigo-400">
                 Assessment Marks
               </p>
 
-              <h1 className="mt-1 text-2xl font-bold text-gray-800">
+              <h1 className="mt-1 text-2xl font-bold text-slate-100">
                 {selectedAssignment?.courseOffering?.course?.code ||
                   "Course"}{" "}
                 — All Students
               </h1>
 
-              <p className="mt-2 text-sm text-gray-500">
+              <p className="mt-2 text-sm text-slate-400">
                 Complete assessment marks for all
                 students enrolled in this course.
               </p>
 
             </div>
 
-            <div className="rounded-lg bg-indigo-50 px-6 py-4 text-center">
+            <div className="rounded-lg bg-indigo-500/10 px-6 py-4 text-center">
 
-              <p className="text-xs font-medium uppercase tracking-wide text-indigo-600">
+              <p className="text-xs font-medium uppercase tracking-wide text-indigo-400">
                 Assessment Component
               </p>
 
-              <p className="mt-1 text-2xl font-bold text-indigo-700">
+              <p className="mt-1 text-2xl font-bold text-indigo-300">
                 {totalAssessmentMarks}
               </p>
 
-              <p className="text-xs text-indigo-600">
+              <p className="text-xs text-indigo-400">
                 marks
               </p>
 
@@ -1320,48 +1320,48 @@ const Assessments = () => {
         </div>
 
         {allMarksError && (
-          <div className="mb-6 rounded-lg border border-red-200 bg-red-50 px-5 py-4 text-red-700">
+          <div className="mb-6 rounded-lg border border-red-500/20 bg-red-500/10 px-5 py-4 text-red-300">
             {allMarksError}
           </div>
         )}
 
         {loadingAllMarks ? (
-          <div className="rounded-xl bg-white p-12 text-center shadow-sm">
+          <div className="rounded-xl bg-white/[0.03] p-12 text-center shadow-sm">
 
-            <div className="mx-auto mb-4 h-8 w-8 animate-spin rounded-full border-4 border-gray-200 border-t-indigo-600"></div>
+            <div className="mx-auto mb-4 h-8 w-8 animate-spin rounded-full border-4 border-white/10 border-t-indigo-600"></div>
 
-            <p className="text-sm text-gray-500">
+            <p className="text-sm text-slate-400">
               Loading all assessment marks...
             </p>
 
           </div>
         ) : courseEnrollments.length === 0 ? (
-          <div className="rounded-xl bg-white p-12 text-center shadow-sm">
+          <div className="rounded-xl bg-white/[0.03] p-12 text-center shadow-sm">
 
-            <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-gray-100 text-2xl">
+            <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-white/5 text-2xl">
               👨‍🎓
             </div>
 
-            <h3 className="text-lg font-semibold text-gray-800">
+            <h3 className="text-lg font-semibold text-slate-100">
               No Students Found
             </h3>
 
-            <p className="mt-2 text-sm text-gray-500">
+            <p className="mt-2 text-sm text-slate-400">
               No students are enrolled in this
               course.
             </p>
 
           </div>
         ) : (
-          <div className="rounded-xl bg-white shadow-sm">
+          <div className="rounded-xl bg-white/[0.03] shadow-sm">
 
             <div className="border-b px-6 py-5">
 
-              <h2 className="text-xl font-semibold text-gray-800">
+              <h2 className="text-xl font-semibold text-slate-100">
                 Course Assessment Marks
               </h2>
 
-              <p className="mt-1 text-sm text-gray-500">
+              <p className="mt-1 text-sm text-slate-400">
                 Marks are automatically calculated
                 from individual assessment activities.
               </p>
@@ -1372,20 +1372,20 @@ const Assessments = () => {
 
               <table className="w-full">
 
-                <thead className="bg-gray-50 text-left">
+                <thead className="bg-white/5 text-left">
 
                   <tr className="border-b">
 
-                    <th className="whitespace-nowrap px-5 py-4 text-sm font-semibold text-gray-700">
+                    <th className="whitespace-nowrap px-5 py-4 text-sm font-semibold text-slate-200">
                       Student ID
                     </th>
 
-                    <th className="whitespace-nowrap px-5 py-4 text-sm font-semibold text-gray-700">
+                    <th className="whitespace-nowrap px-5 py-4 text-sm font-semibold text-slate-200">
                       Student
                     </th>
 
                     {attendanceAssessment && (
-                      <th className="whitespace-nowrap px-5 py-4 text-sm font-semibold text-gray-700">
+                      <th className="whitespace-nowrap px-5 py-4 text-sm font-semibold text-slate-200">
                         Attendance /10
                       </th>
                     )}
@@ -1394,7 +1394,7 @@ const Assessments = () => {
                       (assessment) => (
                         <th
                           key={assessment.id}
-                          className="whitespace-nowrap px-5 py-4 text-sm font-semibold text-gray-700"
+                          className="whitespace-nowrap px-5 py-4 text-sm font-semibold text-slate-200"
                         >
                           {getAssessmentLabel(
                             assessment
@@ -1407,7 +1407,7 @@ const Assessments = () => {
                       )
                     )}
 
-                    <th className="whitespace-nowrap bg-indigo-50 px-5 py-4 text-sm font-bold text-indigo-700">
+                    <th className="whitespace-nowrap bg-indigo-500/10 px-5 py-4 text-sm font-bold text-indigo-300">
                       Total /{totalAssessmentMarks}
                     </th>
 
@@ -1415,7 +1415,7 @@ const Assessments = () => {
 
                 </thead>
 
-                <tbody className="divide-y divide-gray-200">
+                <tbody className="divide-y divide-white/10">
 
                   {courseEnrollments.map(
                     (enrollment) => {
@@ -1426,12 +1426,12 @@ const Assessments = () => {
                       return (
                         <tr
                           key={enrollment.id}
-                          className="hover:bg-gray-50"
+                          className="hover:bg-white/5"
                         >
 
                           <td className="whitespace-nowrap px-5 py-4">
 
-                            <span className="font-medium text-indigo-600">
+                            <span className="font-medium text-indigo-400">
                               {enrollment.student
                                 ?.studentId ||
                                 "N/A"}
@@ -1443,13 +1443,13 @@ const Assessments = () => {
 
                             <div>
 
-                              <p className="font-medium text-gray-800">
+                              <p className="font-medium text-slate-100">
                                 {enrollment.student
                                   ?.name ||
                                   "Unknown Student"}
                               </p>
 
-                              <p className="mt-0.5 text-xs text-gray-400">
+                              <p className="mt-0.5 text-xs text-slate-500">
                                 {enrollment.student
                                   ?.email ||
                                   "N/A"}
@@ -1462,7 +1462,7 @@ const Assessments = () => {
                           {attendanceAssessment && (
                             <td className="whitespace-nowrap px-5 py-4">
 
-                              <span className="inline-flex rounded-full bg-green-50 px-3 py-1 text-xs font-semibold text-green-700">
+                              <span className="inline-flex rounded-full bg-emerald-500/10 px-3 py-1 text-xs font-semibold text-emerald-300">
                                 Automatic
                               </span>
 
@@ -1494,9 +1494,9 @@ const Assessments = () => {
                                   className="whitespace-nowrap px-5 py-4"
                                 >
                                   {mark !== null ? (
-                                    <span className="font-medium text-gray-800">
+                                    <span className="font-medium text-slate-100">
                                       {mark}
-                                      <span className="text-gray-400">
+                                      <span className="text-slate-500">
                                         /
                                         {
                                           assessment.maxMarks
@@ -1504,7 +1504,7 @@ const Assessments = () => {
                                       </span>
                                     </span>
                                   ) : (
-                                    <span className="text-gray-400">
+                                    <span className="text-slate-500">
                                       —
                                     </span>
                                   )}
@@ -1513,10 +1513,10 @@ const Assessments = () => {
                             }
                           )}
 
-                          <td className="whitespace-nowrap bg-indigo-50 px-5 py-4">
+                          <td className="whitespace-nowrap bg-indigo-500/10 px-5 py-4">
 
                             {hasAnyMark ? (
-                              <span className="font-bold text-indigo-700">
+                              <span className="font-bold text-indigo-300">
                                 {total.toFixed(
                                   2
                                 )}
@@ -1525,7 +1525,7 @@ const Assessments = () => {
                                 </span>
                               </span>
                             ) : (
-                              <span className="text-gray-400">
+                              <span className="text-slate-500">
                                 —
                               </span>
                             )}
@@ -1543,22 +1543,22 @@ const Assessments = () => {
 
             </div>
 
-            <div className="border-t bg-gray-50 px-6 py-4">
+            <div className="border-t bg-white/5 px-6 py-4">
 
               <div className="flex flex-wrap items-center gap-4 text-sm">
 
                 <div className="flex items-center gap-2">
                   <span className="h-2.5 w-2.5 rounded-full bg-green-500"></span>
-                  <span className="text-gray-600">
+                  <span className="text-slate-300">
                     Automatic attendance
                   </span>
                 </div>
 
                 <div className="flex items-center gap-2">
-                  <span className="text-gray-400">
+                  <span className="text-slate-500">
                     —
                   </span>
-                  <span className="text-gray-600">
+                  <span className="text-slate-300">
                     Marks not entered
                   </span>
                 </div>
@@ -1601,20 +1601,20 @@ const Assessments = () => {
 
                   <Link
                     to="/teacher/assessments"
-                    className="inline-flex items-center gap-2 text-sm font-medium text-indigo-600 hover:text-indigo-700"
+                    className="inline-flex items-center gap-2 text-sm font-medium text-indigo-400 hover:text-indigo-300"
                   >
                     ← Back to Courses
                   </Link>
 
                 </div>
 
-                <div className="mb-8 rounded-xl bg-white p-6 shadow-sm">
+                <div className="mb-8 rounded-xl bg-white/[0.03] p-6 shadow-sm">
 
                   <div className="flex flex-col justify-between gap-5 md:flex-row md:items-center">
 
                     <div className="flex items-center gap-4">
 
-                      <div className="flex h-14 w-14 items-center justify-center rounded-xl bg-indigo-50 text-lg font-bold text-indigo-600">
+                      <div className="flex h-14 w-14 items-center justify-center rounded-xl bg-indigo-500/10 text-lg font-bold text-indigo-400">
                         {course?.code?.substring(
                           0,
                           2
@@ -1623,17 +1623,17 @@ const Assessments = () => {
 
                       <div>
 
-                        <p className="text-sm font-semibold text-indigo-600">
+                        <p className="text-sm font-semibold text-indigo-400">
                           {course?.code ||
                             "Course Code"}
                         </p>
 
-                        <h1 className="text-2xl font-bold text-gray-800">
+                        <h1 className="text-2xl font-bold text-slate-100">
                           {course?.name ||
                             "Course Name"}
                         </h1>
 
-                        <p className="mt-1 text-sm text-gray-500">
+                        <p className="mt-1 text-sm text-slate-400">
                           {semester?.name || "N/A"}
                           {" • "}
                           {section?.name ||
@@ -1644,17 +1644,17 @@ const Assessments = () => {
 
                     </div>
 
-                    <div className="rounded-lg bg-gray-50 px-5 py-3 text-center">
+                    <div className="rounded-lg bg-white/5 px-5 py-3 text-center">
 
-                      <p className="text-xs font-medium uppercase tracking-wide text-gray-500">
+                      <p className="text-xs font-medium uppercase tracking-wide text-slate-400">
                         Assessment Component
                       </p>
 
-                      <p className="mt-1 text-2xl font-bold text-gray-800">
+                      <p className="mt-1 text-2xl font-bold text-slate-100">
                         {totalAssessmentMarks}
                       </p>
 
-                      <p className="text-xs text-gray-500">
+                      <p className="text-xs text-slate-400">
                         marks
                       </p>
 
@@ -1665,22 +1665,22 @@ const Assessments = () => {
                 </div>
 
                 {error && (
-                  <div className="mb-6 rounded-lg border border-red-200 bg-red-50 px-5 py-4 text-red-700">
+                  <div className="mb-6 rounded-lg border border-red-500/20 bg-red-500/10 px-5 py-4 text-red-300">
                     {error}
                   </div>
                 )}
 
-                <div className="rounded-xl bg-white shadow-sm">
+                <div className="rounded-xl bg-white/[0.03] shadow-sm">
 
                   <div className="flex flex-col gap-4 border-b px-6 py-5 md:flex-row md:items-center md:justify-between">
 
                     <div>
 
-                      <h2 className="text-xl font-semibold text-gray-800">
+                      <h2 className="text-xl font-semibold text-slate-100">
                         Assessments
                       </h2>
 
-                      <p className="mt-1 text-sm text-gray-500">
+                      <p className="mt-1 text-sm text-slate-400">
                         View assessment structures and
                         manage student marks.
                       </p>
@@ -1714,9 +1714,9 @@ const Assessments = () => {
                   {loadingAssessments && (
                     <div className="p-10 text-center">
 
-                      <div className="mx-auto mb-4 h-8 w-8 animate-spin rounded-full border-4 border-gray-200 border-t-indigo-600"></div>
+                      <div className="mx-auto mb-4 h-8 w-8 animate-spin rounded-full border-4 border-white/10 border-t-indigo-600"></div>
 
-                      <p className="text-sm text-gray-500">
+                      <p className="text-sm text-slate-400">
                         Loading assessments...
                       </p>
 
@@ -1727,15 +1727,15 @@ const Assessments = () => {
                     assessments.length === 0 && (
                       <div className="p-10 text-center">
 
-                        <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-gray-100 text-2xl">
+                        <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-white/5 text-2xl">
                           📝
                         </div>
 
-                        <h3 className="text-lg font-semibold text-gray-800">
+                        <h3 className="text-lg font-semibold text-slate-100">
                           No Assessments Found
                         </h3>
 
-                        <p className="mt-2 text-sm text-gray-500">
+                        <p className="mt-2 text-sm text-slate-400">
                           No assessments have been
                           created for this course yet.
                         </p>
@@ -1765,22 +1765,22 @@ const Assessments = () => {
                                 key={
                                   assessment.id
                                 }
-                                className="rounded-xl border border-gray-200"
+                                className="rounded-xl border border-white/10"
                               >
 
-                                <div className="flex flex-col gap-4 border-b bg-gray-50 p-5 md:flex-row md:items-center md:justify-between">
+                                <div className="flex flex-col gap-4 border-b bg-white/5 p-5 md:flex-row md:items-center md:justify-between">
 
                                   <div>
 
                                     <div className="flex items-center gap-3">
 
-                                      <h3 className="text-lg font-semibold text-gray-800">
+                                      <h3 className="text-lg font-semibold text-slate-100">
                                         {
                                           assessment.name
                                         }
                                       </h3>
 
-                                      <span className="rounded-full bg-indigo-50 px-3 py-1 text-xs font-semibold text-indigo-600">
+                                      <span className="rounded-full bg-indigo-500/10 px-3 py-1 text-xs font-semibold text-indigo-400">
                                         {
                                           assessment.type
                                         }
@@ -1788,9 +1788,9 @@ const Assessments = () => {
 
                                     </div>
 
-                                    <p className="mt-1 text-sm text-gray-500">
+                                    <p className="mt-1 text-sm text-slate-400">
                                       Maximum Marks:{" "}
-                                      <span className="font-medium text-gray-700">
+                                      <span className="font-medium text-slate-200">
                                         {
                                           assessment.maxMarks
                                         }
@@ -1801,7 +1801,7 @@ const Assessments = () => {
 
                                   {assessment.type ===
                                   "ATTENDANCE" ? (
-                                    <span className="rounded-lg bg-green-50 px-4 py-2 text-sm font-medium text-green-700">
+                                    <span className="rounded-lg bg-emerald-500/10 px-4 py-2 text-sm font-medium text-emerald-300">
                                       Automatic
                                     </span>
                                   ) : (
@@ -1826,14 +1826,14 @@ const Assessments = () => {
                                   "ATTENDANCE" && (
                                   <div className="p-5">
 
-                                    <div className="rounded-lg border border-green-200 bg-green-50 px-4 py-4">
+                                    <div className="rounded-lg border border-emerald-500/20 bg-emerald-500/10 px-4 py-4">
 
-                                      <p className="font-medium text-green-800">
+                                      <p className="font-medium text-emerald-300">
                                         Attendance marks are
                                         calculated automatically.
                                       </p>
 
-                                      <p className="mt-1 text-sm text-green-700">
+                                      <p className="mt-1 text-sm text-emerald-300">
                                         Teachers do not enter
                                         attendance marks here.
                                       </p>
@@ -1851,11 +1851,11 @@ const Assessments = () => {
 
                                       <div className="mb-4 flex items-center justify-between">
 
-                                        <h4 className="font-semibold text-gray-800">
+                                        <h4 className="font-semibold text-slate-100">
                                           Activities
                                         </h4>
 
-                                        <span className="text-sm text-gray-500">
+                                        <span className="text-sm text-slate-400">
                                           {
                                             assessmentActivities.length
                                           }{" "}
@@ -1868,23 +1868,23 @@ const Assessments = () => {
 
                                         <table className="w-full">
 
-                                          <thead className="bg-gray-50 text-left">
+                                          <thead className="bg-white/5 text-left">
 
                                             <tr className="border-b">
 
-                                              <th className="px-4 py-3 text-sm font-semibold text-gray-700">
+                                              <th className="px-4 py-3 text-sm font-semibold text-slate-200">
                                                 Activity
                                               </th>
 
-                                              <th className="px-4 py-3 text-sm font-semibold text-gray-700">
+                                              <th className="px-4 py-3 text-sm font-semibold text-slate-200">
                                                 Maximum Marks
                                               </th>
 
-                                              <th className="px-4 py-3 text-sm font-semibold text-gray-700">
+                                              <th className="px-4 py-3 text-sm font-semibold text-slate-200">
                                                 Date
                                               </th>
 
-                                              <th className="px-4 py-3 text-sm font-semibold text-gray-700">
+                                              <th className="px-4 py-3 text-sm font-semibold text-slate-200">
                                                 Action
                                               </th>
 
@@ -1892,7 +1892,7 @@ const Assessments = () => {
 
                                           </thead>
 
-                                          <tbody className="divide-y divide-gray-200">
+                                          <tbody className="divide-y divide-white/10">
 
                                             {assessmentActivities.map(
                                               (activity) => (
@@ -1900,22 +1900,22 @@ const Assessments = () => {
                                                   key={
                                                     activity.id
                                                   }
-                                                  className="hover:bg-gray-50"
+                                                  className="hover:bg-white/5"
                                                 >
 
-                                                  <td className="px-4 py-4 font-medium text-gray-800">
+                                                  <td className="px-4 py-4 font-medium text-slate-100">
                                                     {
                                                       activity.name
                                                     }
                                                   </td>
 
-                                                  <td className="px-4 py-4 text-sm text-gray-700">
+                                                  <td className="px-4 py-4 text-sm text-slate-200">
                                                     {
                                                       activity.maxMarks
                                                     }
                                                   </td>
 
-                                                  <td className="px-4 py-4 text-sm text-gray-500">
+                                                  <td className="px-4 py-4 text-sm text-slate-400">
                                                     {activity.activityDate
                                                       ? new Date(
                                                           activity.activityDate
@@ -1934,7 +1934,7 @@ const Assessments = () => {
                                                             activity
                                                           )
                                                         }
-                                                        className="rounded-lg border border-indigo-200 bg-indigo-50 px-4 py-2 text-sm font-medium text-indigo-700 hover:bg-indigo-100"
+                                                        className="rounded-lg border border-indigo-500/20 bg-indigo-500/10 px-4 py-2 text-sm font-medium text-indigo-300 hover:bg-indigo-500/15"
                                                       >
                                                         View Marks
                                                       </button>
@@ -1997,23 +1997,23 @@ const Assessments = () => {
 
                 </div>
 
-                <div className="mt-6 rounded-xl bg-white shadow-sm">
+                <div className="mt-6 rounded-xl bg-white/[0.03] shadow-sm">
 
                   <div className="flex flex-col gap-4 border-b px-6 py-5 md:flex-row md:items-center md:justify-between">
 
                     <div>
 
-                      <h2 className="text-xl font-semibold text-gray-800">
+                      <h2 className="text-xl font-semibold text-slate-100">
                         Enrolled Students
                       </h2>
 
-                      <p className="mt-1 text-sm text-gray-500">
+                      <p className="mt-1 text-sm text-slate-400">
                         Students enrolled in this course.
                       </p>
 
                     </div>
 
-                    <span className="rounded-full bg-indigo-50 px-3 py-1 text-sm font-medium text-indigo-600">
+                    <span className="rounded-full bg-indigo-500/10 px-3 py-1 text-sm font-medium text-indigo-400">
                       {courseEnrollments.length} Students
                     </span>
 
@@ -2022,11 +2022,11 @@ const Assessments = () => {
                   {courseEnrollments.length === 0 ? (
                     <div className="p-10 text-center">
 
-                      <h3 className="text-lg font-semibold text-gray-800">
+                      <h3 className="text-lg font-semibold text-slate-100">
                         No Students Found
                       </h3>
 
-                      <p className="mt-2 text-sm text-gray-500">
+                      <p className="mt-2 text-sm text-slate-400">
                         No students are enrolled in this
                         course.
                       </p>
@@ -2037,19 +2037,19 @@ const Assessments = () => {
 
                       <table className="w-full">
 
-                        <thead className="bg-gray-50 text-left">
+                        <thead className="bg-white/5 text-left">
 
                           <tr className="border-b">
 
-                            <th className="px-4 py-4 text-sm font-semibold text-gray-700">
+                            <th className="px-4 py-4 text-sm font-semibold text-slate-200">
                               Student ID
                             </th>
 
-                            <th className="px-4 py-4 text-sm font-semibold text-gray-700">
+                            <th className="px-4 py-4 text-sm font-semibold text-slate-200">
                               Name
                             </th>
 
-                            <th className="px-4 py-4 text-sm font-semibold text-gray-700">
+                            <th className="px-4 py-4 text-sm font-semibold text-slate-200">
                               Email
                             </th>
 
@@ -2057,18 +2057,18 @@ const Assessments = () => {
 
                         </thead>
 
-                        <tbody className="divide-y divide-gray-200">
+                        <tbody className="divide-y divide-white/10">
 
                           {courseEnrollments.map(
                             (enrollment) => (
                               <tr
                                 key={enrollment.id}
-                                className="hover:bg-gray-50"
+                                className="hover:bg-white/5"
                               >
 
                                 <td className="px-4 py-4">
 
-                                  <span className="font-medium text-indigo-600">
+                                  <span className="font-medium text-indigo-400">
                                     {enrollment.student
                                       ?.studentId ||
                                       "N/A"}
@@ -2076,13 +2076,13 @@ const Assessments = () => {
 
                                 </td>
 
-                                <td className="px-4 py-4 font-medium text-gray-800">
+                                <td className="px-4 py-4 font-medium text-slate-100">
                                   {enrollment.student
                                     ?.name ||
                                     "Unknown Student"}
                                 </td>
 
-                                <td className="px-4 py-4 text-sm text-gray-500">
+                                <td className="px-4 py-4 text-sm text-slate-400">
                                   {enrollment.student
                                     ?.email || "N/A"}
                                 </td>
@@ -2113,15 +2113,15 @@ const Assessments = () => {
     <>
 
         {/* Topbar */}
-        <header className="flex h-16 items-center justify-between border-b bg-white px-8">
+        <header className="flex h-16 items-center justify-between border-b bg-white/[0.03] px-8">
 
           <div>
 
-            <p className="text-sm text-gray-500">
+            <p className="text-sm text-slate-400">
               Teacher Portal
             </p>
 
-            <h2 className="text-lg font-semibold text-gray-800">
+            <h2 className="text-lg font-semibold text-slate-100">
               Assessment Management
             </h2>
 
@@ -2131,11 +2131,11 @@ const Assessments = () => {
 
             <div className="hidden text-right sm:block">
 
-              <p className="text-sm font-medium text-gray-800">
+              <p className="text-sm font-medium text-slate-100">
                 Teacher
               </p>
 
-              <p className="text-xs text-gray-500">
+              <p className="text-xs text-slate-400">
                 Academic Staff
               </p>
 

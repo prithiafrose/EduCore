@@ -421,37 +421,37 @@ function Assignments() {
   return (
     <>
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-800">
+          <h1 className="text-3xl font-bold text-slate-100">
             Assignment Management
           </h1>
 
-          <p className="mt-2 text-gray-500">
+          <p className="mt-2 text-slate-400">
             Create assignments, review submissions and grade
             your students.
           </p>
         </div>
 
         {success && (
-          <div className="mb-5 rounded-lg border border-green-200 bg-green-50 px-4 py-3 text-green-700">
+          <div className="mb-5 rounded-lg border border-emerald-500/20 bg-emerald-500/10 px-4 py-3 text-emerald-300">
             {success}
           </div>
         )}
 
         {error && (
-          <div className="mb-5 rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-red-700">
+          <div className="mb-5 rounded-lg border border-red-500/20 bg-red-500/10 px-4 py-3 text-red-300">
             {error}
           </div>
         )}
 
         {loading ? (
-          <div className="bg-white rounded-xl shadow p-8 text-center text-gray-500">
+          <div className="bg-white/[0.03] rounded-xl shadow p-8 text-center text-slate-400">
             Loading assignments...
           </div>
         ) : (
           <>
             {/* Course Selector */}
-            <div className="bg-white rounded-xl shadow p-6 mb-6">
-              <label className="mb-2 block text-sm font-medium text-gray-700">
+            <div className="bg-white/[0.03] rounded-xl shadow p-6 mb-6">
+              <label className="mb-2 block text-sm font-medium text-slate-200">
                 Select Course
               </label>
 
@@ -462,7 +462,7 @@ function Assignments() {
                   setSuccess("");
                   setError("");
                 }}
-                className="w-full md:w-96 rounded-lg border border-gray-300 bg-white px-4 py-2.5 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
+                className="w-full md:w-96 rounded-lg border border-white/15 bg-white/[0.03] px-4 py-2.5 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
               >
                 <option value="">Select a course</option>
 
@@ -480,21 +480,21 @@ function Assignments() {
             </div>
 
             {!selectedCourseId ? (
-              <div className="bg-white rounded-xl shadow p-10 text-center text-gray-500">
+              <div className="bg-white/[0.03] rounded-xl shadow p-10 text-center text-slate-400">
                 Please select a course to manage its
                 assignments.
               </div>
             ) : (
               <>
                 {/* Create Assignment */}
-                <div className="bg-white rounded-xl shadow mb-6 overflow-hidden">
+                <div className="bg-white/[0.03] rounded-xl shadow mb-6 overflow-hidden">
                   <div className="flex items-center justify-between border-b px-6 py-5">
                     <div>
-                      <h2 className="text-xl font-semibold text-gray-800">
+                      <h2 className="text-xl font-semibold text-slate-100">
                         Assignments
                       </h2>
 
-                      <p className="text-sm text-gray-500">
+                      <p className="text-sm text-slate-400">
                         {getSelectedCourse()?.courseOffering
                           ?.course?.name || "Course"}{" "}
                         — Total: {assignments.length}
@@ -521,8 +521,8 @@ function Assignments() {
                   </div>
 
                   {showForm && (
-                    <div className="border-b bg-gray-50 p-6">
-                      <h3 className="mb-4 text-lg font-semibold text-gray-800">
+                    <div className="border-b bg-white/5 p-6">
+                      <h3 className="mb-4 text-lg font-semibold text-slate-100">
                         {editingAssignment
                           ? `Edit Assignment: ${editingAssignment.title}`
                           : "Create New Assignment"}
@@ -531,7 +531,7 @@ function Assignments() {
                       <form onSubmit={handleCreateAssignment}>
                         <div className="grid grid-cols-1 gap-5 md:grid-cols-3">
                           <div>
-                            <label className="mb-2 block text-sm font-medium text-gray-700">
+                            <label className="mb-2 block text-sm font-medium text-slate-200">
                               Title
                             </label>
 
@@ -541,14 +541,14 @@ function Assignments() {
                               onChange={(e) =>
                                 setTitle(e.target.value)
                               }
-                              className="w-full rounded-lg border border-gray-300 bg-white px-4 py-2.5 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
+                              className="w-full rounded-lg border border-white/15 bg-white/[0.03] px-4 py-2.5 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
                               placeholder="e.g. Chapter 3 Exercises"
                               required
                             />
                           </div>
 
                           <div>
-                            <label className="mb-2 block text-sm font-medium text-gray-700">
+                            <label className="mb-2 block text-sm font-medium text-slate-200">
                               Description
                             </label>
 
@@ -560,13 +560,13 @@ function Assignments() {
                                   e.target.value
                                 )
                               }
-                              className="w-full rounded-lg border border-gray-300 bg-white px-4 py-2.5 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
+                              className="w-full rounded-lg border border-white/15 bg-white/[0.03] px-4 py-2.5 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
                               placeholder="Short description"
                             />
                           </div>
 
                           <div>
-                            <label className="mb-2 block text-sm font-medium text-gray-700">
+                            <label className="mb-2 block text-sm font-medium text-slate-200">
                               Deadline
                             </label>
 
@@ -576,14 +576,14 @@ function Assignments() {
                               onChange={(e) =>
                                 setDeadline(e.target.value)
                               }
-                              className="w-full rounded-lg border border-gray-300 bg-white px-4 py-2.5 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
+                              className="w-full rounded-lg border border-white/15 bg-white/[0.03] px-4 py-2.5 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
                               required
                             />
                           </div>
                         </div>
 
                         <div className="mt-5">
-                          <label className="mb-2 block text-sm font-medium text-gray-700">
+                          <label className="mb-2 block text-sm font-medium text-slate-200">
                             Attachment (optional)
                           </label>
 
@@ -594,11 +594,11 @@ function Assignments() {
                                 e.target.files[0] || null
                               )
                             }
-                            className="w-full rounded-lg border border-gray-300 bg-white px-4 py-2.5 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
+                            className="w-full rounded-lg border border-white/15 bg-white/[0.03] px-4 py-2.5 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
                           />
 
                           {assignmentFile && (
-                            <p className="mt-2 text-sm text-gray-600">
+                            <p className="mt-2 text-sm text-slate-300">
                               Selected file: {assignmentFile.name}
                             </p>
                           )}
@@ -633,40 +633,40 @@ function Assignments() {
 
                   {/* Assignments List */}
                   {assignments.length === 0 ? (
-                    <div className="p-8 text-center text-gray-500">
+                    <div className="p-8 text-center text-slate-400">
                       No assignments for this course yet.
                     </div>
                   ) : (
                     <table className="w-full">
-                      <thead className="bg-gray-50 text-left">
+                      <thead className="bg-white/5 text-left">
                         <tr className="border-b">
-                          <th className="px-5 py-3 text-sm font-semibold text-gray-700">
+                          <th className="px-5 py-3 text-sm font-semibold text-slate-200">
                             #
                           </th>
 
-                          <th className="px-5 py-3 text-sm font-semibold text-gray-700">
+                          <th className="px-5 py-3 text-sm font-semibold text-slate-200">
                             Title
                           </th>
 
-                          <th className="px-5 py-3 text-sm font-semibold text-gray-700">
+                          <th className="px-5 py-3 text-sm font-semibold text-slate-200">
                             Description
                           </th>
 
-                          <th className="px-5 py-3 text-sm font-semibold text-gray-700">
+                          <th className="px-5 py-3 text-sm font-semibold text-slate-200">
                             Deadline
                           </th>
 
-                          <th className="px-5 py-3 text-sm font-semibold text-gray-700">
+                          <th className="px-5 py-3 text-sm font-semibold text-slate-200">
                             Submissions
                           </th>
 
-                          <th className="px-5 py-3 text-center text-sm font-semibold text-gray-700">
+                          <th className="px-5 py-3 text-center text-sm font-semibold text-slate-200">
                             Actions
                           </th>
                         </tr>
                       </thead>
 
-                      <tbody className="divide-y divide-gray-200">
+                      <tbody className="divide-y divide-white/10">
                         {assignments.map((assignment, index) => {
                           const count = Array.isArray(
                             assignment.submissions
@@ -677,25 +677,25 @@ function Assignments() {
                           return (
                             <tr
                               key={assignment.id}
-                              className="hover:bg-gray-50"
+                              className="hover:bg-white/5"
                             >
-                              <td className="px-5 py-4 text-sm text-gray-600">
+                              <td className="px-5 py-4 text-sm text-slate-300">
                                 {index + 1}
                               </td>
 
-                              <td className="px-5 py-4 font-medium text-gray-800">
+                              <td className="px-5 py-4 font-medium text-slate-100">
                                 {assignment.title}
                               </td>
 
-                              <td className="px-5 py-4 text-sm text-gray-600 max-w-xs">
+                              <td className="px-5 py-4 text-sm text-slate-300 max-w-xs">
                                 {assignment.description || "-"}
                               </td>
 
-                              <td className="px-5 py-4 text-sm text-gray-700">
+                              <td className="px-5 py-4 text-sm text-slate-200">
                                 <span
                                   className={
                                     isOverdue(assignment)
-                                      ? "text-red-600"
+                                      ? "text-red-400"
                                       : ""
                                   }
                                 >
@@ -705,7 +705,7 @@ function Assignments() {
                                 </span>
                               </td>
 
-                              <td className="px-5 py-4 text-sm text-gray-700">
+                              <td className="px-5 py-4 text-sm text-slate-200">
                                 {count} submission(s)
                               </td>
 
@@ -772,81 +772,81 @@ function Assignments() {
 
                 {/* Submissions Section */}
                 {selectedAssignment && (
-                  <div className="bg-white rounded-xl shadow overflow-hidden">
+                  <div className="bg-white/[0.03] rounded-xl shadow overflow-hidden">
                     <div className="border-b px-6 py-5">
-                      <h2 className="text-xl font-semibold text-gray-800">
+                      <h2 className="text-xl font-semibold text-slate-100">
                         Submissions — {selectedAssignment.title}
                       </h2>
 
-                      <p className="text-sm text-gray-500">
+                      <p className="text-sm text-slate-400">
                         Grade and provide feedback for student
                         submissions.
                       </p>
                     </div>
 
                     {loadingSubmissions ? (
-                      <div className="p-8 text-center text-gray-500">
+                      <div className="p-8 text-center text-slate-400">
                         Loading submissions...
                       </div>
                     ) : submissions.length === 0 ? (
-                      <div className="p-8 text-center text-gray-500">
+                      <div className="p-8 text-center text-slate-400">
                         No submissions for this assignment yet.
                       </div>
                     ) : (
                       <div className="overflow-x-auto">
                         <table className="w-full">
-                          <thead className="bg-gray-50 text-left">
+                          <thead className="bg-white/5 text-left">
                             <tr className="border-b">
-                              <th className="px-5 py-3 text-sm font-semibold text-gray-700">
+                              <th className="px-5 py-3 text-sm font-semibold text-slate-200">
                                 #</th>
 
-                              <th className="px-5 py-3 text-sm font-semibold text-gray-700">
+                              <th className="px-5 py-3 text-sm font-semibold text-slate-200">
                                 Student
                               </th>
 
-                              <th className="px-5 py-3 text-sm font-semibold text-gray-700">
+                              <th className="px-5 py-3 text-sm font-semibold text-slate-200">
                                 Submission
                               </th>
 
-                              <th className="px-5 py-3 text-sm font-semibold text-gray-700">
+                              <th className="px-5 py-3 text-sm font-semibold text-slate-200">
                                 Submitted
                               </th>
 
-                              <th className="px-5 py-3 text-sm font-semibold text-gray-700">
+                              <th className="px-5 py-3 text-sm font-semibold text-slate-200">
                                 Marks
                               </th>
 
-                              <th className="px-5 py-3 text-sm font-semibold text-gray-700">
+                              <th className="px-5 py-3 text-sm font-semibold text-slate-200">
                                 Feedback
                               </th>
 
-                              <th className="px-5 py-3 text-sm font-semibold text-gray-700">
+                              <th className="px-5 py-3 text-sm font-semibold text-slate-200">
                                 Current Grade
                               </th>
 
-                              <th className="px-5 py-3 text-center text-sm font-semibold text-gray-700">
+                              <th className="px-5 py-3 text-center text-sm font-semibold text-slate-200">
                                 Actions
                               </th>
                             </tr>
                           </thead>
 
-                          <tbody className="divide-y divide-gray-200">
+                          <tbody className="divide-y divide-white/10">
                             {submissions.map((submission, index) => (
                               <tr
                                 key={submission.id}
-                                className="hover:bg-gray-50"
+                                className="hover:bg-white/5"
                               >
-                                <td className="px-5 py-4 text-sm text-gray-600">
+                                <td className="px-5 py-4 text-sm text-slate-300">
                                   {index + 1}
                                 </td>
 
                                 <td className="px-5 py-4">
-                                  <p className="font-medium text-gray-800">
+                                  <p className="font-medium text-slate-100">
                                     {submission.student?.name ||
                                       "Unknown"}
                                   </p>
 
-                                  <p className="text-xs text-gray-500">
+                                  <p className="text-xs text-slate-400">
                                     {submission.student
                                       ?.studentId || ""}
                                   </p>
@@ -855,7 +855,7 @@ function Assignments() {
                                 <td className="px-5 py-4">
                                   {submission.fileName ? (
                                     <div className="flex items-center gap-2">
-                                      <p className="text-sm text-gray-700 break-words max-w-[8rem]">
+                                      <p className="text-sm text-slate-200 break-words max-w-[8rem]">
                                         {submission.fileName}
                                       </p>
 
@@ -872,13 +872,13 @@ function Assignments() {
                                       </button>
                                     </div>
                                   ) : (
-                                    <p className="text-sm text-gray-400">
+                                    <p className="text-sm text-slate-500">
                                       No file
                                     </p>
                                   )}
                                 </td>
 
-                                <td className="px-5 py-4 text-sm text-gray-700">
+                                <td className="px-5 py-4 text-sm text-slate-200">
                                   {formatDate(
                                     submission.submittedAt
                                   )}
@@ -900,7 +900,7 @@ function Assignments() {
                                           e.target.value,
                                       }))
                                     }
-                                    className="w-24 rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
+                                    className="w-24 rounded-lg border border-white/15 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
                                     placeholder="Marks"
                                   />
                                 </td>
@@ -922,12 +922,12 @@ function Assignments() {
                                         })
                                       )
                                     }
-                                    className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
+                                    className="w-full rounded-lg border border-white/15 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
                                     placeholder="Feedback"
                                   />
                                 </td>
 
-                                <td className="px-5 py-4 text-sm text-gray-700">
+                                <td className="px-5 py-4 text-sm text-slate-200">
                                   {submission.marks !== null &&
                                   submission.marks !== undefined
                                     ? `${submission.marks} marks`

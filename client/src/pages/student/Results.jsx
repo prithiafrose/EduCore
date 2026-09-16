@@ -187,13 +187,13 @@ function Results() {
 
   return (
     <>
-      <header className="bg-white border-b border-slate-200 px-8 py-5 flex items-center justify-between">
+      <header className="bg-white/[0.03] border-b border-white/10 px-8 py-5 flex items-center justify-between">
           <div>
             <p className="text-sm text-slate-500">
               Student Portal
             </p>
 
-            <h2 className="text-2xl font-bold text-slate-800">
+            <h2 className="text-2xl font-bold text-slate-100">
               Results
             </h2>
 
@@ -203,7 +203,7 @@ function Results() {
 
             <Link
               to="/student/transcript"
-              className="inline-block mt-3 text-blue-600 text-sm font-medium hover:underline"
+              className="inline-block mt-3 text-blue-400 text-sm font-medium hover:underline"
             >
               View Full Transcript →
             </Link>
@@ -211,7 +211,7 @@ function Results() {
 
           <div className="flex items-center gap-3">
             <div className="text-right">
-              <p className="text-sm font-semibold text-slate-700">
+              <p className="text-sm font-semibold text-slate-200">
                 {student?.name || "Student"}
               </p>
 
@@ -220,7 +220,7 @@ function Results() {
               </p>
             </div>
 
-            <div className="w-10 h-10 rounded-full bg-slate-800 text-white flex items-center justify-center font-semibold">
+            <div className="w-10 h-10 rounded-full bg-white/10 text-white flex items-center justify-center font-semibold">
               {student?.name
                 ? student.name
                     .charAt(0)
@@ -232,7 +232,7 @@ function Results() {
 
         <div className="p-8">
           {loading && (
-            <div className="bg-white rounded-xl border border-slate-200 p-10 text-center">
+            <div className="bg-white/[0.03] rounded-xl border border-white/10 p-10 text-center">
               <p className="text-slate-500">
                 Loading your results...
               </p>
@@ -240,8 +240,8 @@ function Results() {
           )}
 
           {!loading && error && (
-            <div className="bg-white rounded-xl border border-red-200 p-6">
-              <p className="text-red-600 font-medium">
+            <div className="bg-white/[0.03] rounded-xl border border-red-500/20 p-6">
+              <p className="text-red-400 font-medium">
                 {error}
               </p>
             </div>
@@ -250,14 +250,14 @@ function Results() {
           {!loading && !error && (
             <>
               {/* Student Info */}
-              <div className="bg-white rounded-xl border border-slate-200 p-6 mb-6">
+              <div className="bg-white/[0.03] rounded-xl border border-white/10 p-6 mb-6">
                 <div className="flex items-center justify-between">
                   <div>
                     <p className="text-sm text-slate-500">
                       Student
                     </p>
 
-                    <h3 className="text-xl font-bold text-slate-800 mt-1">
+                    <h3 className="text-xl font-bold text-slate-100 mt-1">
                       {student?.name}
                     </h3>
 
@@ -279,13 +279,13 @@ function Results() {
                       Current CGPA
                     </p>
 
-                    <p className="text-3xl font-bold text-slate-800">
+                    <p className="text-3xl font-bold text-slate-100">
                       {gradedRows.length > 0
                         ? cgpa
                         : "-"}
                     </p>
 
-                    <p className="text-xs text-slate-400 mt-1">
+                    <p className="text-xs text-slate-500 mt-1">
                       Based on {gradedRows.length} graded
                       course(s)
                     </p>
@@ -295,32 +295,32 @@ function Results() {
 
               {/* Summary Cards */}
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-                <div className="bg-white rounded-xl shadow-sm p-6">
-                  <p className="text-sm text-gray-500">
+                <div className="bg-white/[0.03] rounded-xl shadow-sm p-6">
+                  <p className="text-sm text-slate-400">
                     Enrolled Courses
                   </p>
 
-                  <p className="text-2xl font-bold text-gray-800 mt-2">
+                  <p className="text-2xl font-bold text-slate-100 mt-2">
                     {rows.length}
                   </p>
                 </div>
 
-                <div className="bg-white rounded-xl shadow-sm p-6">
-                  <p className="text-sm text-gray-500">
+                <div className="bg-white/[0.03] rounded-xl shadow-sm p-6">
+                  <p className="text-sm text-slate-400">
                     Completed Courses
                   </p>
 
-                  <p className="text-2xl font-bold text-green-600 mt-2">
+                  <p className="text-2xl font-bold text-emerald-400 mt-2">
                     {gradedRows.length}
                   </p>
                 </div>
 
-                <div className="bg-white rounded-xl shadow-sm p-6">
-                  <p className="text-sm text-gray-500">
+                <div className="bg-white/[0.03] rounded-xl shadow-sm p-6">
+                  <p className="text-sm text-slate-400">
                     Total Credits
                   </p>
 
-                  <p className="text-2xl font-bold text-indigo-600 mt-2">
+                  <p className="text-2xl font-bold text-indigo-400 mt-2">
                     {rows.reduce(
                       (sum, row) => sum + row.credit,
                       0
@@ -340,11 +340,11 @@ function Results() {
                 return (
                   <div
                     key={group.name}
-                    className="bg-white rounded-xl border border-slate-200 mb-8 overflow-hidden"
+                    className="bg-white/[0.03] rounded-xl border border-white/10 mb-8 overflow-hidden"
                   >
-                    <div className="flex items-center justify-between px-6 py-5 border-b border-slate-200">
+                    <div className="flex items-center justify-between px-6 py-5 border-b border-white/10">
                       <div>
-                        <h3 className="text-xl font-bold text-slate-800">
+                        <h3 className="text-xl font-bold text-slate-100">
                           {group.name}
                         </h3>
 
@@ -358,7 +358,7 @@ function Results() {
                           Semester GPA
                         </p>
 
-                        <p className="text-2xl font-bold text-slate-800">
+                        <p className="text-2xl font-bold text-slate-100">
                           {graded.length > 0
                             ? gpa
                             : "-"}
@@ -368,54 +368,54 @@ function Results() {
 
                     <div className="overflow-x-auto">
                       <table className="w-full">
-                        <thead className="bg-gray-50">
+                        <thead className="bg-white/5">
                           <tr>
-                            <th className="text-left px-6 py-4 text-sm font-semibold text-gray-600">
+                            <th className="text-left px-6 py-4 text-sm font-semibold text-slate-300">
                               Course
                             </th>
 
-                            <th className="text-left px-6 py-4 text-sm font-semibold text-gray-600">
+                            <th className="text-left px-6 py-4 text-sm font-semibold text-slate-300">
                               Code
                             </th>
 
-                            <th className="text-left px-6 py-4 text-sm font-semibold text-gray-600">
+                            <th className="text-left px-6 py-4 text-sm font-semibold text-slate-300">
                               Credit
                             </th>
 
-                            <th className="text-left px-6 py-4 text-sm font-semibold text-gray-600">
+                            <th className="text-left px-6 py-4 text-sm font-semibold text-slate-300">
                               Total Marks
                             </th>
 
-                            <th className="text-left px-6 py-4 text-sm font-semibold text-gray-600">
+                            <th className="text-left px-6 py-4 text-sm font-semibold text-slate-300">
                               Grade
                             </th>
 
-                            <th className="text-left px-6 py-4 text-sm font-semibold text-gray-600">
+                            <th className="text-left px-6 py-4 text-sm font-semibold text-slate-300">
                               Grade Point
                             </th>
                           </tr>
                         </thead>
 
-                        <tbody className="divide-y divide-gray-200">
+                        <tbody className="divide-y divide-white/10">
                           {group.rows.map((row) => (
                             <tr
                               key={row.enrollment.id}
-                              className="hover:bg-gray-50"
+                              className="hover:bg-white/5"
                             >
-                              <td className="px-6 py-4 font-medium text-gray-800">
+                              <td className="px-6 py-4 font-medium text-slate-100">
                                 {row.course?.name ||
                                   "Unknown Course"}
                               </td>
 
-                              <td className="px-6 py-4 text-gray-600">
+                              <td className="px-6 py-4 text-slate-300">
                                 {row.course?.code || "-"}
                               </td>
 
-                              <td className="px-6 py-4 text-gray-600">
+                              <td className="px-6 py-4 text-slate-300">
                                 {row.credit || "-"}
                               </td>
 
-                              <td className="px-6 py-4 text-gray-700">
+                              <td className="px-6 py-4 text-slate-200">
                                 {row.totalMarks !== null
                                   ? row.totalMarks
                                   : "-"}
@@ -423,19 +423,19 @@ function Results() {
 
                               <td className="px-6 py-4">
                                 {row.result ? (
-                                  <span className="px-3 py-1 rounded-full text-xs font-semibold bg-indigo-100 text-indigo-700">
+                                  <span className="px-3 py-1 rounded-full text-xs font-semibold bg-indigo-500/15 text-indigo-300">
                                     {formatGrade(
                                       row.result.grade
                                     )}
                                   </span>
                                 ) : (
-                                  <span className="px-3 py-1 rounded-full text-xs font-medium bg-gray-100 text-gray-500">
+                                  <span className="px-3 py-1 rounded-full text-xs font-medium bg-white/5 text-slate-400">
                                     Not Graded
                                   </span>
                                 )}
                               </td>
 
-                              <td className="px-6 py-4 text-gray-700">
+                              <td className="px-6 py-4 text-slate-200">
                                 {row.gradePoint !== null
                                   ? row.gradePoint
                                   : "-"}
@@ -451,12 +451,12 @@ function Results() {
 
               {/* Empty state */}
               {rows.length === 0 && (
-                <div className="bg-white rounded-xl border border-slate-200 p-10 text-center">
+                <div className="bg-white/[0.03] rounded-xl border border-white/10 p-10 text-center">
                   <div className="text-4xl mb-3">
                     🎓
                   </div>
 
-                  <h3 className="text-lg font-semibold text-slate-700">
+                  <h3 className="text-lg font-semibold text-slate-200">
                     No Results Found
                   </h3>
 

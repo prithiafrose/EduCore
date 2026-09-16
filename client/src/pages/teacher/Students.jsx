@@ -179,7 +179,7 @@ function Students() {
     if (loading) {
         return (
             <div className="p-8">
-                        <div className="bg-white rounded-xl shadow-sm p-10 text-center text-gray-500">
+                        <div className="bg-white/[0.03] rounded-xl shadow-sm p-10 text-center text-slate-400">
                             Loading students...
                         </div>
                     </div>
@@ -193,8 +193,8 @@ function Students() {
     if (error) {
         return (
             <div className="p-8">
-                        <div className="bg-white rounded-xl shadow-sm p-10">
-                            <p className="text-red-600">
+                        <div className="bg-white/[0.03] rounded-xl shadow-sm p-10">
+                            <p className="text-red-400">
                                 {error}
                             </p>
                         </div>
@@ -208,13 +208,13 @@ function Students() {
 
     return (
         <>
-                <header className="bg-white border-b border-slate-200 px-8 py-5 flex items-center justify-between">
+                <header className="bg-white/[0.03] border-b border-white/10 px-8 py-5 flex items-center justify-between">
                     <div>
-                        <p className="text-sm font-medium text-indigo-600">
+                        <p className="text-sm font-medium text-indigo-400">
                             Teacher Portal
                         </p>
 
-                        <h2 className="text-2xl font-bold tracking-tight text-slate-900">
+                        <h2 className="text-2xl font-bold tracking-tight text-white">
                             Students
                         </h2>
 
@@ -232,9 +232,9 @@ function Students() {
 
                     {/* COURSE SELECTOR */}
 
-                    <div className="bg-white rounded-xl shadow-sm border p-5 mb-6">
+                    <div className="bg-white/[0.03] rounded-xl shadow-sm border p-5 mb-6">
 
-                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                        <label className="block text-sm font-medium text-slate-200 mb-2">
                             Select Course
                         </label>
 
@@ -245,7 +245,7 @@ function Students() {
                                     e.target.value
                                 )
                             }
-                            className="w-full md:w-96 border border-gray-300 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                            className="w-full md:w-96 border border-white/15 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-indigo-500"
                         >
 
                             {teacherCourses.length === 0 ? (
@@ -293,16 +293,16 @@ function Students() {
                     {/* COURSE INFORMATION */}
 
                     {selectedCourse && (
-                        <div className="bg-white rounded-xl shadow-sm border p-5 mb-6">
+                        <div className="bg-white/[0.03] rounded-xl shadow-sm border p-5 mb-6">
 
                             <div className="flex flex-wrap gap-6">
 
                                 <div>
-                                    <p className="text-xs text-gray-500">
+                                    <p className="text-xs text-slate-400">
                                         Course
                                     </p>
 
-                                    <p className="font-semibold text-gray-800">
+                                    <p className="font-semibold text-slate-100">
                                         {selectedCourse.courseOffering?.course?.name ||
                                             selectedCourse.courseOffering?.course?.title ||
                                             "N/A"}
@@ -310,22 +310,22 @@ function Students() {
                                 </div>
 
                                 <div>
-                                    <p className="text-xs text-gray-500">
+                                    <p className="text-xs text-slate-400">
                                         Course Code
                                     </p>
 
-                                    <p className="font-semibold text-gray-800">
+                                    <p className="font-semibold text-slate-100">
                                         {selectedCourse.courseOffering?.course?.code ||
                                             "N/A"}
                                     </p>
                                 </div>
 
                                 <div>
-                                    <p className="text-xs text-gray-500">
+                                    <p className="text-xs text-slate-400">
                                         Students
                                     </p>
 
-                                    <p className="font-semibold text-gray-800">
+                                    <p className="font-semibold text-slate-100">
                                         {courseStudents.length}
                                     </p>
                                 </div>
@@ -337,15 +337,15 @@ function Students() {
 
                     {/* STUDENT TABLE */}
 
-                    <div className="bg-white rounded-xl shadow-sm border overflow-hidden">
+                    <div className="bg-white/[0.03] rounded-xl shadow-sm border overflow-hidden">
 
                         <div className="px-6 py-5 border-b">
 
-                            <h2 className="text-lg font-semibold text-gray-800">
+                            <h2 className="text-lg font-semibold text-slate-100">
                                 Enrolled Students
                             </h2>
 
-                            <p className="text-sm text-gray-500 mt-1">
+                            <p className="text-sm text-slate-400 mt-1">
                                 {courseStudents.length} student
                                 {courseStudents.length !== 1
                                     ? "s"
@@ -359,7 +359,7 @@ function Students() {
 
                             <div className="p-10 text-center">
 
-                                <p className="text-gray-500">
+                                <p className="text-slate-400">
                                     No students are enrolled
                                     in this course.
                                 </p>
@@ -372,27 +372,27 @@ function Students() {
 
                                 <table className="w-full">
 
-                                    <thead className="bg-gray-50 border-b">
+                                    <thead className="bg-white/5 border-b">
 
                                         <tr>
 
-                                            <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase">
+                                            <th className="px-6 py-3 text-left text-xs font-semibold text-slate-300 uppercase">
                                                 #
                                             </th>
 
-                                            <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase">
+                                            <th className="px-6 py-3 text-left text-xs font-semibold text-slate-300 uppercase">
                                                 Student
                                             </th>
 
-                                            <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase">
+                                            <th className="px-6 py-3 text-left text-xs font-semibold text-slate-300 uppercase">
                                                 Email
                                             </th>
 
-                                            <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase">
+                                            <th className="px-6 py-3 text-left text-xs font-semibold text-slate-300 uppercase">
                                                 Enrollment ID
                                             </th>
 
-                                            <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase">
+                                            <th className="px-6 py-3 text-left text-xs font-semibold text-slate-300 uppercase">
                                                 Section
                                             </th>
 
@@ -416,16 +416,16 @@ function Students() {
                                                         key={
                                                             enrollment.id
                                                         }
-                                                        className="hover:bg-gray-50"
+                                                        className="hover:bg-white/5"
                                                     >
 
-                                                        <td className="px-6 py-4 text-sm text-gray-600">
+                                                        <td className="px-6 py-4 text-sm text-slate-300">
                                                             {index + 1}
                                                         </td>
 
                                                         <td className="px-6 py-4">
 
-                                                            <div className="font-medium text-gray-800">
+                                                            <div className="font-medium text-slate-100">
                                                                 {getStudentName(
                                                                     student
                                                                 )}
@@ -433,17 +433,17 @@ function Students() {
 
                                                         </td>
 
-                                                        <td className="px-6 py-4 text-sm text-gray-600">
+                                                        <td className="px-6 py-4 text-sm text-slate-300">
                                                             {getStudentEmail(
                                                                 student
                                                             )}
                                                         </td>
 
-                                                        <td className="px-6 py-4 text-sm text-gray-600">
+                                                        <td className="px-6 py-4 text-sm text-slate-300">
                                                             {enrollment.id}
                                                         </td>
 
-                                                        <td className="px-6 py-4 text-sm text-gray-600">
+                                                        <td className="px-6 py-4 text-sm text-slate-300">
                                                             {enrollment.section?.name ||
                                                                 enrollment.section?.code ||
                                                                 "N/A"}

@@ -201,7 +201,7 @@ function StudentDashboard() {
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-5 mt-8">
               <AnimatedCard className="lg:col-span-1 p-6" hover={false}>
                 <div className="mb-4">
-                  <h3 className="text-lg font-semibold text-slate-900">
+                  <h3 className="text-lg font-semibold text-white">
                     Attendance
                   </h3>
 
@@ -251,7 +251,7 @@ function StudentDashboard() {
                     >
                       <Link
                         to={action.to}
-                        className="flex items-center gap-3 rounded-xl bg-white/10 border border-white/20 px-4 py-3 text-white hover:bg-white/20 transition"
+                        className="flex items-center gap-3 rounded-xl bg-white/10 border border-white/20 px-4 py-3 text-white hover:bg-white/10 transition"
                       >
                         <span className="text-lg">{action.icon}</span>
                         <span className="text-sm font-medium">
@@ -265,8 +265,8 @@ function StudentDashboard() {
             </div>
 
             <AnimatedCard className="mt-8" hover={false}>
-              <div className="px-6 py-5 border-b border-slate-200">
-                <h3 className="text-lg font-semibold text-slate-900">
+              <div className="px-6 py-5 border-b border-white/10">
+                <h3 className="text-lg font-semibold text-white">
                   Latest Notices
                 </h3>
 
@@ -276,31 +276,31 @@ function StudentDashboard() {
               </div>
 
               {loading ? (
-                <div className="p-8 text-center text-slate-400">
+                <div className="p-8 text-center text-slate-500">
                   Loading notices...
                 </div>
               ) : notices.length === 0 ? (
                 <div className="p-8 text-center">
-                  <p className="text-slate-400 text-sm">
+                  <p className="text-slate-500 text-sm">
                     You have no unread notices.
                   </p>
 
                   <Link
                     to="/student/notices"
-                    className="mt-3 inline-block text-blue-600 text-sm font-medium hover:underline"
+                    className="mt-3 inline-block text-blue-400 text-sm font-medium hover:underline"
                   >
                     View Notice Board →
                   </Link>
                 </div>
               ) : (
-                <div className="divide-y divide-slate-100">
+                <div className="divide-y divide-white/5">
                   {notices.map((notice) => (
                     <div
                       key={notice.id}
                       className="px-6 py-4 flex items-start justify-between gap-4"
                     >
                       <div className="min-w-0">
-                        <p className="font-medium text-slate-800 truncate">
+                        <p className="font-medium text-slate-100 truncate">
                           {notice.title}
                         </p>
 
@@ -308,14 +308,14 @@ function StudentDashboard() {
                           {notice.message}
                         </p>
 
-                        <p className="text-xs text-slate-400 mt-1">
+                        <p className="text-xs text-slate-500 mt-1">
                           {formatDate(notice.createdAt)}
                         </p>
                       </div>
 
                       <Link
                         to="/student/notices"
-                        className="shrink-0 text-blue-600 text-sm font-medium hover:underline"
+                        className="shrink-0 text-blue-400 text-sm font-medium hover:underline"
                       >
                         Open
                       </Link>
@@ -324,7 +324,7 @@ function StudentDashboard() {
 
                   <Link
                     to="/student/notices"
-                    className="block px-6 py-3 text-center text-blue-600 text-sm font-medium hover:underline"
+                    className="block px-6 py-3 text-center text-blue-400 text-sm font-medium hover:underline"
                   >
                     View all notices
                   </Link>

@@ -127,8 +127,10 @@ function DashboardLayout() {
     .toUpperCase();
 
   return (
-    <div className="min-h-screen bg-slate-100">
-      <div className="hidden lg:block">
+    <div className="min-h-screen bg-slate-950 text-slate-100">
+      <div className="fixed inset-0 pointer-events-none educore-gradient" />
+      <div className="relative">
+        <div className="hidden lg:block">
         <Sidebar
           role={user?.role}
           collapsed={collapsed}
@@ -194,6 +196,7 @@ function DashboardLayout() {
             <Outlet />
           </PageTransition>
         </main>
+      </div>
       </div>
     </div>
   );

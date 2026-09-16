@@ -232,15 +232,15 @@ function CourseRegistration() {
   const getStatusClass = (status) => {
     switch (status) {
       case "APPROVED":
-        return "bg-green-100 text-green-700";
+        return "bg-emerald-500/15 text-emerald-300";
       case "PENDING":
         return "bg-yellow-100 text-yellow-700";
       case "REJECTED":
-        return "bg-red-100 text-red-700";
+        return "bg-red-500/15 text-red-300";
       case "CANCELLED":
-        return "bg-gray-100 text-gray-600";
+        return "bg-white/5 text-slate-300";
       default:
-        return "bg-gray-100 text-gray-700";
+        return "bg-white/5 text-slate-200";
     }
   };
 
@@ -249,10 +249,10 @@ function CourseRegistration() {
 
   return (
     <>
-      <header className="bg-white border-b border-slate-200 px-8 py-5">
+      <header className="bg-white/[0.03] border-b border-white/10 px-8 py-5">
           <p className="text-sm text-slate-500">Student Portal</p>
 
-          <h2 className="text-2xl font-bold text-slate-800">
+          <h2 className="text-2xl font-bold text-slate-100">
             Course Registration
           </h2>
 
@@ -263,28 +263,28 @@ function CourseRegistration() {
 
         <div className="p-8">
           {success && (
-            <div className="bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded-lg mb-6">
+            <div className="bg-emerald-500/10 border border-emerald-500/20 text-emerald-300 px-4 py-3 rounded-lg mb-6">
               {success}
             </div>
           )}
 
           {error && (
-            <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg mb-6">
+            <div className="bg-red-500/10 border border-red-500/20 text-red-300 px-4 py-3 rounded-lg mb-6">
               {error}
             </div>
           )}
 
           {loading ? (
-            <div className="bg-white rounded-xl border border-slate-200 p-10 text-center text-slate-500">
+            <div className="bg-white/[0.03] rounded-xl border border-white/10 p-10 text-center text-slate-500">
               Loading course registration...
             </div>
           ) : (
             <>
               {semesters.length === 0 ? (
-                <div className="bg-white rounded-xl border border-slate-200 p-10 text-center">
+                <div className="bg-white/[0.03] rounded-xl border border-white/10 p-10 text-center">
                   <div className="text-4xl mb-3">📚</div>
 
-                  <h3 className="text-lg font-semibold text-slate-700">
+                  <h3 className="text-lg font-semibold text-slate-200">
                     No Semesters Found
                   </h3>
 
@@ -296,8 +296,8 @@ function CourseRegistration() {
               ) : (
                 <>
                   {/* Semester Selector */}
-                  <div className="bg-white rounded-xl border border-slate-200 p-6 mb-6">
-                    <label className="mb-2 block text-sm font-medium text-slate-700">
+                  <div className="bg-white/[0.03] rounded-xl border border-white/10 p-6 mb-6">
+                    <label className="mb-2 block text-sm font-medium text-slate-200">
                       Select Semester
                     </label>
 
@@ -309,7 +309,7 @@ function CourseRegistration() {
                         setSuccess("");
                         setError("");
                       }}
-                      className="w-full md:w-1/2 rounded-lg border border-slate-300 bg-white px-4 py-2.5 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
+                      className="w-full md:w-1/2 rounded-lg border border-white/15 bg-white/[0.03] px-4 py-2.5 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
                     >
                       <option value="">
                         Select a semester
@@ -342,10 +342,10 @@ function CourseRegistration() {
                     <>
                       {/* Registration status */}
                       {activeRegistration ? (
-                        <div className="bg-white rounded-xl border border-slate-200 p-6 mb-6">
+                        <div className="bg-white/[0.03] rounded-xl border border-white/10 p-6 mb-6">
                           <div className="flex items-center justify-between">
                             <div>
-                              <h3 className="text-lg font-semibold text-slate-800">
+                              <h3 className="text-lg font-semibold text-slate-100">
                                 Registration Status
                               </h3>
 
@@ -379,7 +379,7 @@ function CourseRegistration() {
 
                             {activeRegistration.items?.length ===
                             0 ? (
-                              <p className="text-sm text-slate-400">
+                              <p className="text-sm text-slate-500">
                                 No courses attached.
                               </p>
                             ) : (
@@ -388,10 +388,10 @@ function CourseRegistration() {
                                   (item) => (
                                     <div
                                       key={item.id}
-                                      className="flex items-center justify-between border rounded-lg px-4 py-3 bg-slate-50"
+                                      className="flex items-center justify-between border rounded-lg px-4 py-3 bg-white/5"
                                     >
                                       <div>
-                                        <p className="font-medium text-slate-800">
+                                        <p className="font-medium text-slate-100">
                                           {item.courseOffering
                                             ?.course?.code ||
                                             "—"}{" "}
@@ -409,7 +409,7 @@ function CourseRegistration() {
                                         </p>
                                       </div>
 
-                                      <span className="text-xs px-2 py-1 rounded-full bg-slate-200 text-slate-600">
+                                      <span className="text-xs px-2 py-1 rounded-full bg-white/10 text-slate-300">
                                         Registered
                                       </span>
                                     </div>
@@ -439,8 +439,8 @@ function CourseRegistration() {
                       ) : (
                         <>
                           {/* Register form */}
-                          <div className="bg-white rounded-xl border border-slate-200 p-6 mb-6">
-                            <h3 className="text-lg font-semibold text-slate-800">
+                          <div className="bg-white/[0.03] rounded-xl border border-white/10 p-6 mb-6">
+                            <h3 className="text-lg font-semibold text-slate-100">
                               Available Courses
                             </h3>
 
@@ -451,7 +451,7 @@ function CourseRegistration() {
                             </p>
 
                             {semesterOfferings.length === 0 ? (
-                              <p className="text-sm text-slate-400 mt-6">
+                              <p className="text-sm text-slate-500 mt-6">
                                 No course offerings exist for
                                 this semester yet.
                               </p>
@@ -469,8 +469,8 @@ function CourseRegistration() {
                                           selectedCourseIds.includes(
                                             offering.id
                                           )
-                                            ? "border-blue-500 bg-blue-50"
-                                            : "border-slate-200 hover:border-slate-300"
+                                            ? "border-blue-500 bg-blue-500/10"
+                                            : "border-white/10 hover:border-white/15"
                                         }`}
                                       >
                                         <input
@@ -487,7 +487,7 @@ function CourseRegistration() {
                                         />
 
                                         <div>
-                                          <p className="font-medium text-slate-800">
+                                          <p className="font-medium text-slate-100">
                                             {offering.course
                                               ?.code || "—"}{" "}
                                             —{" "}
@@ -516,7 +516,7 @@ function CourseRegistration() {
                                 <div className="mt-6 flex items-center justify-between">
                                   <p className="text-sm text-slate-500">
                                     Selected:{" "}
-                                    <span className="font-semibold text-slate-700">
+                                    <span className="font-semibold text-slate-200">
                                       {selectedCourseIds.length}
                                     </span>{" "}
                                     course(s)
@@ -546,9 +546,9 @@ function CourseRegistration() {
 
                   {/* Registration history */}
                   {registrations.length > 0 && (
-                    <div className="bg-white rounded-xl border border-slate-200 overflow-hidden">
+                    <div className="bg-white/[0.03] rounded-xl border border-white/10 overflow-hidden">
                       <div className="border-b px-6 py-5">
-                        <h3 className="text-lg font-semibold text-slate-800">
+                        <h3 className="text-lg font-semibold text-slate-100">
                           Registration History
                         </h3>
 
@@ -558,38 +558,38 @@ function CourseRegistration() {
                       </div>
 
                       <table className="w-full">
-                        <thead className="bg-slate-50 text-left">
+                        <thead className="bg-white/5 text-left">
                           <tr className="border-b">
-                            <th className="px-5 py-3 text-sm font-semibold text-slate-700">
+                            <th className="px-5 py-3 text-sm font-semibold text-slate-200">
                               Semester
                             </th>
 
-                            <th className="px-5 py-3 text-sm font-semibold text-slate-700">
+                            <th className="px-5 py-3 text-sm font-semibold text-slate-200">
                               Courses
                             </th>
 
-                            <th className="px-5 py-3 text-sm font-semibold text-slate-700">
+                            <th className="px-5 py-3 text-sm font-semibold text-slate-200">
                               Status
                             </th>
 
-                            <th className="px-5 py-3 text-sm font-semibold text-slate-700">
+                            <th className="px-5 py-3 text-sm font-semibold text-slate-200">
                               Submitted
                             </th>
                           </tr>
                         </thead>
 
-                        <tbody className="divide-y divide-slate-200">
+                        <tbody className="divide-y divide-white/10">
                           {registrations.map((registration) => (
                             <tr
                               key={registration.id}
-                              className="hover:bg-slate-50"
+                              className="hover:bg-white/5"
                             >
-                              <td className="px-5 py-4 text-sm font-medium text-slate-800">
+                              <td className="px-5 py-4 text-sm font-medium text-slate-100">
                                 {registration.academicSemester
                                   ?.name || "N/A"}
                               </td>
 
-                              <td className="px-5 py-4 text-sm text-slate-600">
+                              <td className="px-5 py-4 text-sm text-slate-300">
                                 {registration.items?.length || 0}{" "}
                                 course(s)
                               </td>
@@ -604,7 +604,7 @@ function CourseRegistration() {
                                 </span>
                               </td>
 
-                              <td className="px-5 py-4 text-sm text-slate-600">
+                              <td className="px-5 py-4 text-sm text-slate-300">
                                 {registration.createdAt
                                   ? new Date(
                                       registration.createdAt

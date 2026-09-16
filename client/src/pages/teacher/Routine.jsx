@@ -221,13 +221,13 @@ function Routine() {
 
     return (
         <>
-                <header className="bg-white border-b border-slate-200 px-8 py-5 flex items-center justify-between">
+                <header className="bg-white/[0.03] border-b border-white/10 px-8 py-5 flex items-center justify-between">
                     <div>
-                        <p className="text-sm font-medium text-indigo-600">
+                        <p className="text-sm font-medium text-indigo-400">
                             Teacher Portal
                         </p>
 
-                        <h2 className="text-2xl font-bold tracking-tight text-slate-900">
+                        <h2 className="text-2xl font-bold tracking-tight text-white">
                             Class Routine
                         </h2>
 
@@ -243,7 +243,7 @@ function Routine() {
 
                 <div className="p-8">
                     {error && (
-                        <div className="mb-6 rounded-lg border border-red-200 bg-red-50 px-5 py-4 text-red-700">
+                        <div className="mb-6 rounded-lg border border-red-500/20 bg-red-500/10 px-5 py-4 text-red-300">
                             {error}
                         </div>
                     )}
@@ -253,11 +253,11 @@ function Routine() {
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
 
                         {loading ? (
-                            <div className="col-span-full rounded-xl bg-white p-8 text-center text-gray-400">
+                            <div className="col-span-full rounded-xl bg-white/[0.03] p-8 text-center text-slate-500">
                                 Loading routine...
                             </div>
                         ) : routineSlots.length === 0 ? (
-                            <div className="col-span-full rounded-xl bg-white p-8 text-center text-gray-400">
+                            <div className="col-span-full rounded-xl bg-white/[0.03] p-8 text-center text-slate-500">
                                 No classes assigned to you yet.
                             </div>
                         ) : (
@@ -265,13 +265,13 @@ function Routine() {
                                 ([dayKey, slots]) => (
                                     <div
                                         key={dayKey}
-                                        className="rounded-xl bg-white shadow-sm overflow-hidden"
+                                        className="rounded-xl bg-white/[0.03] shadow-sm overflow-hidden"
                                     >
                                         <div className="bg-slate-900 text-white px-5 py-3 font-semibold">
                                             {dayName(dayKey)}
                                         </div>
 
-                                        <div className="divide-y divide-gray-100">
+                                        <div className="divide-y divide-white/5">
 
                                             {slots
                                                 .slice()
@@ -290,7 +290,7 @@ function Routine() {
                                                         className="px-5 py-4"
                                                     >
 
-                                                        <div className="text-sm text-gray-500">
+                                                        <div className="text-sm text-slate-400">
                                                             {formatTime(
                                                                 slot.startTime
                                                             )}{" "}
@@ -300,7 +300,7 @@ function Routine() {
                                                             )}
                                                         </div>
 
-                                                        <div className="font-medium text-gray-800 mt-1">
+                                                        <div className="font-medium text-slate-100 mt-1">
                                                             {slot.courseOffering
                                                                 ?.course
                                                                 ?.title ||
@@ -310,7 +310,7 @@ function Routine() {
                                                                 "Course"}
                                                         </div>
 
-                                                        <div className="text-xs text-gray-500 mt-1">
+                                                        <div className="text-xs text-slate-400 mt-1">
                                                             {slot.section
                                                                 ?.name ||
                                                                 "All Sections"}{" "}
@@ -334,57 +334,57 @@ function Routine() {
                     {/* -------- CLASS SESSIONS -------- */}
 
                     <div className="mt-10">
-                        <h2 className="text-xl font-bold text-gray-800">
+                        <h2 className="text-xl font-bold text-slate-100">
                             Class Sessions
                         </h2>
 
-                        <p className="text-sm text-gray-500 mt-1">
+                        <p className="text-sm text-slate-400 mt-1">
                             Upcoming and past sessions for your
                             courses
                         </p>
 
                         {classSessions.length === 0 ? (
-                            <div className="mt-4 rounded-xl bg-white p-8 text-center text-gray-400">
+                            <div className="mt-4 rounded-xl bg-white/[0.03] p-8 text-center text-slate-500">
                                 No class sessions found.
                             </div>
                         ) : (
-                            <div className="mt-4 rounded-xl bg-white shadow-sm overflow-x-auto">
+                            <div className="mt-4 rounded-xl bg-white/[0.03] shadow-sm overflow-x-auto">
 
                                 <table className="w-full">
 
-                                    <thead className="bg-gray-50 text-left">
+                                    <thead className="bg-white/5 text-left">
                                         <tr className="border-b">
-                                            <th className="px-5 py-3 text-sm font-semibold text-gray-700">
+                                            <th className="px-5 py-3 text-sm font-semibold text-slate-200">
                                                 Course
                                             </th>
-                                            <th className="px-5 py-3 text-sm font-semibold text-gray-700">
+                                            <th className="px-5 py-3 text-sm font-semibold text-slate-200">
                                                 Date
                                             </th>
-                                            <th className="px-5 py-3 text-sm font-semibold text-gray-700">
+                                            <th className="px-5 py-3 text-sm font-semibold text-slate-200">
                                                 Time
                                             </th>
-                                            <th className="px-5 py-3 text-sm font-semibold text-gray-700">
+                                            <th className="px-5 py-3 text-sm font-semibold text-slate-200">
                                                 Room
                                             </th>
-                                            <th className="px-5 py-3 text-sm font-semibold text-gray-700">
+                                            <th className="px-5 py-3 text-sm font-semibold text-slate-200">
                                                 Status
                                             </th>
-                                            <th className="px-5 py-3 text-center text-sm font-semibold text-gray-700">
+                                            <th className="px-5 py-3 text-center text-sm font-semibold text-slate-200">
                                                 Actions
                                             </th>
                                         </tr>
                                     </thead>
 
-                                    <tbody className="divide-y divide-gray-100">
+                                    <tbody className="divide-y divide-white/5">
 
                                         {classSessions.map(
                                             (session) => (
                                                 <tr
                                                     key={session.id}
-                                                    className="hover:bg-gray-50"
+                                                    className="hover:bg-white/5"
                                                 >
 
-                                                    <td className="px-5 py-4 font-medium text-gray-800">
+                                                    <td className="px-5 py-4 font-medium text-slate-100">
                                                         {session.courseOffering
                                                             ?.course
                                                             ?.title ||
@@ -394,13 +394,13 @@ function Routine() {
                                                             `Course ${session.courseOfferingId}`}
                                                     </td>
 
-                                                    <td className="px-5 py-4 text-sm text-gray-600">
+                                                    <td className="px-5 py-4 text-sm text-slate-300">
                                                         {formatDate(
                                                             session.date
                                                         )}
                                                     </td>
 
-                                                    <td className="px-5 py-4 text-sm text-gray-600">
+                                                    <td className="px-5 py-4 text-sm text-slate-300">
                                                         {formatTime(
                                                             session.startTime
                                                         )}{" "}
@@ -410,7 +410,7 @@ function Routine() {
                                                         )}
                                                     </td>
 
-                                                    <td className="px-5 py-4 text-sm text-gray-600">
+                                                    <td className="px-5 py-4 text-sm text-slate-300">
                                                         {session.room ||
                                                             "-"}
                                                     </td>
@@ -420,11 +420,11 @@ function Routine() {
                                                             className={`rounded-full px-3 py-1 text-xs font-medium ${
                                                                 session.status ===
                                                                 "COMPLETED"
-                                                                    ? "bg-green-100 text-green-700"
+                                                                    ? "bg-emerald-500/15 text-emerald-300"
                                                                     : session.status ===
                                                                       "CANCELLED"
-                                                                    ? "bg-red-100 text-red-700"
-                                                                    : "bg-blue-100 text-blue-700"
+                                                                    ? "bg-red-500/15 text-red-300"
+                                                                    : "bg-blue-500/15 text-blue-300"
                                                             }`}
                                                         >
                                                             {session.status ||
@@ -442,7 +442,7 @@ function Routine() {
                                                                         session.id
                                                                     )
                                                                 }
-                                                                className="rounded-lg bg-red-50 px-3 py-1.5 text-xs font-medium text-red-600 hover:bg-red-100"
+                                                                className="rounded-lg bg-red-500/10 px-3 py-1.5 text-xs font-medium text-red-400 hover:bg-red-500/15"
                                                             >
                                                                 Cancel
                                                             </button>

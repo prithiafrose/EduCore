@@ -36,16 +36,16 @@ function Modal({ open = false, onClose, title, subtitle, footer, children }) {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 16, scale: 0.98 }}
             transition={{ type: "spring", stiffness: 360, damping: 32 }}
-            className="relative w-full max-h-[90vh] overflow-hidden overflow-y-auto rounded-t-2xl bg-white shadow-2xl sm:rounded-2xl sm:max-w-lg ai-scroll"
+            className="relative w-full max-h-[90vh] overflow-hidden overflow-y-auto rounded-t-2xl bg-slate-900 border border-white/10 shadow-2xl shadow-black/50 sm:rounded-2xl sm:max-w-lg ai-scroll"
           >
-            <div className="flex items-start justify-between gap-4 border-b border-slate-100 px-6 py-4">
+            <div className="flex items-start justify-between gap-4 border-b border-white/5 px-6 py-4">
               <div>
-                <h3 className="text-lg font-semibold tracking-tight text-slate-900">
+                <h3 className="text-lg font-semibold tracking-tight text-white">
                   {title}
                 </h3>
 
                 {subtitle && (
-                  <p className="mt-0.5 text-sm text-slate-500">{subtitle}</p>
+                  <p className="mt-0.5 text-sm text-slate-400">{subtitle}</p>
                 )}
               </div>
 
@@ -62,7 +62,7 @@ function Modal({ open = false, onClose, title, subtitle, footer, children }) {
             <div className="px-6 py-5">{children}</div>
 
             {footer && (
-              <div className="flex items-center justify-end gap-3 border-t border-slate-100 px-6 py-4">
+              <div className="flex items-center justify-end gap-3 border-t border-white/5 px-6 py-4">
                 {footer}
               </div>
             )}

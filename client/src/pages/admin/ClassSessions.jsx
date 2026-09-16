@@ -409,16 +409,16 @@ const ClassSessions = () => {
   const getStatusClass = (status) => {
     switch (status) {
       case "SCHEDULED":
-        return "bg-green-100 text-green-700";
+        return "bg-emerald-500/15 text-emerald-300";
 
       case "FINISHED":
-        return "bg-blue-100 text-blue-700";
+        return "bg-blue-500/15 text-blue-300";
 
       case "CANCELLED":
-        return "bg-red-100 text-red-700";
+        return "bg-red-500/15 text-red-300";
 
       default:
-        return "bg-gray-100 text-gray-600";
+        return "bg-white/5 text-slate-300";
     }
   };
 
@@ -462,7 +462,7 @@ const ClassSessions = () => {
           <div className="mb-8">
             <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
               <div>
-                <h1 className="text-3xl font-bold text-slate-900">
+                <h1 className="text-3xl font-bold text-white">
                   Class Session Management
                 </h1>
 
@@ -471,12 +471,12 @@ const ClassSessions = () => {
                 </p>
               </div>
 
-              <div className="rounded-xl bg-white px-4 py-3 shadow-sm ring-1 ring-slate-200">
-                <p className="text-xs font-medium uppercase tracking-wide text-slate-400">
+              <div className="rounded-xl bg-white/[0.03] px-4 py-3 shadow-sm ring-1 ring-white/10">
+                <p className="text-xs font-medium uppercase tracking-wide text-slate-500">
                   Total Sessions
                 </p>
 
-                <p className="mt-1 text-2xl font-bold text-slate-900">
+                <p className="mt-1 text-2xl font-bold text-white">
                   {sessions.length}
                 </p>
               </div>
@@ -485,23 +485,23 @@ const ClassSessions = () => {
 
           {/* Success Message */}
           {success && (
-            <div className="mb-5 rounded-xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm font-medium text-emerald-700">
+            <div className="mb-5 rounded-xl border border-emerald-500/20 bg-emerald-500/10 px-4 py-3 text-sm font-medium text-emerald-300">
               {success}
             </div>
           )}
 
           {/* Error Message */}
           {error && (
-            <div className="mb-5 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm font-medium text-red-700">
+            <div className="mb-5 rounded-xl border border-red-500/20 bg-red-500/10 px-4 py-3 text-sm font-medium text-red-300">
               {error}
             </div>
           )}
 
           {/* Form */}
           {showForm && (
-            <div className="mb-8 rounded-2xl bg-white p-6 shadow-sm ring-1 ring-slate-200">
+            <div className="mb-8 rounded-2xl bg-white/[0.03] p-6 shadow-sm ring-1 ring-white/10">
               <div className="mb-6">
-                <h2 className="text-lg font-semibold text-slate-900">
+                <h2 className="text-lg font-semibold text-white">
                   {editingId !== null
                     ? "Edit Class Session"
                     : "Add New Class Session"}
@@ -520,7 +520,7 @@ const ClassSessions = () => {
               >
                 {/* Course Offering */}
                 <div>
-                  <label className="mb-2 block text-sm font-medium text-slate-700">
+                  <label className="mb-2 block text-sm font-medium text-slate-200">
                     Course Offering
                   </label>
 
@@ -533,7 +533,7 @@ const ClassSessions = () => {
                       setSectionId("");
                     }}
                     required
-                    className="w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm outline-none transition focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100"
+                    className="w-full rounded-xl border border-white/15 bg-white/[0.03] px-4 py-3 text-sm outline-none transition focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100"
                   >
                     <option value="">
                       Select a course offering
@@ -556,7 +556,7 @@ const ClassSessions = () => {
 
                 {/* Section */}
                 <div>
-                  <label className="mb-2 block text-sm font-medium text-slate-700">
+                  <label className="mb-2 block text-sm font-medium text-slate-200">
                     Section (optional)
                   </label>
 
@@ -565,7 +565,7 @@ const ClassSessions = () => {
                     onChange={(e) =>
                       setSectionId(e.target.value)
                     }
-                    className="w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm outline-none transition focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100"
+                    className="w-full rounded-xl border border-white/15 bg-white/[0.03] px-4 py-3 text-sm outline-none transition focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100"
                   >
                     <option value="">No section</option>
 
@@ -584,7 +584,7 @@ const ClassSessions = () => {
 
                 {/* Teacher */}
                 <div>
-                  <label className="mb-2 block text-sm font-medium text-slate-700">
+                  <label className="mb-2 block text-sm font-medium text-slate-200">
                     Teacher
                   </label>
 
@@ -594,7 +594,7 @@ const ClassSessions = () => {
                       setTeacherId(e.target.value)
                     }
                     required
-                    className="w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm outline-none transition focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100"
+                    className="w-full rounded-xl border border-white/15 bg-white/[0.03] px-4 py-3 text-sm outline-none transition focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100"
                   >
                     <option value="">
                       Select a teacher
@@ -613,7 +613,7 @@ const ClassSessions = () => {
 
                 {/* Date */}
                 <div>
-                  <label className="mb-2 block text-sm font-medium text-slate-700">
+                  <label className="mb-2 block text-sm font-medium text-slate-200">
                     Date
                   </label>
 
@@ -624,13 +624,13 @@ const ClassSessions = () => {
                       setSessionDate(e.target.value)
                     }
                     required
-                    className="w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm outline-none transition focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100"
+                    className="w-full rounded-xl border border-white/15 bg-white/[0.03] px-4 py-3 text-sm outline-none transition focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100"
                   />
                 </div>
 
                 {/* Start Time */}
                 <div>
-                  <label className="mb-2 block text-sm font-medium text-slate-700">
+                  <label className="mb-2 block text-sm font-medium text-slate-200">
                     Start Time
                   </label>
 
@@ -641,13 +641,13 @@ const ClassSessions = () => {
                       setStartTime(e.target.value)
                     }
                     required
-                    className="w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm outline-none transition focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100"
+                    className="w-full rounded-xl border border-white/15 bg-white/[0.03] px-4 py-3 text-sm outline-none transition focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100"
                   />
                 </div>
 
                 {/* End Time */}
                 <div>
-                  <label className="mb-2 block text-sm font-medium text-slate-700">
+                  <label className="mb-2 block text-sm font-medium text-slate-200">
                     End Time
                   </label>
 
@@ -658,13 +658,13 @@ const ClassSessions = () => {
                       setEndTime(e.target.value)
                     }
                     required
-                    className="w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm outline-none transition focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100"
+                    className="w-full rounded-xl border border-white/15 bg-white/[0.03] px-4 py-3 text-sm outline-none transition focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100"
                   />
                 </div>
 
                 {/* Room */}
                 <div>
-                  <label className="mb-2 block text-sm font-medium text-slate-700">
+                  <label className="mb-2 block text-sm font-medium text-slate-200">
                     Room
                   </label>
 
@@ -675,7 +675,7 @@ const ClassSessions = () => {
                       setRoom(e.target.value)
                     }
                     placeholder="e.g. Room 501"
-                    className="w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm outline-none transition focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100"
+                    className="w-full rounded-xl border border-white/15 bg-white/[0.03] px-4 py-3 text-sm outline-none transition focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100"
                   />
                 </div>
 
@@ -697,7 +697,7 @@ const ClassSessions = () => {
                     type="button"
                     onClick={handleCancelForm}
                     disabled={formLoading}
-                    className="rounded-xl border border-slate-300 bg-white px-6 py-3 text-sm font-semibold text-slate-700 transition hover:bg-slate-50 disabled:opacity-60"
+                    className="rounded-xl border border-white/15 bg-white/[0.03] px-6 py-3 text-sm font-semibold text-slate-200 transition hover:bg-white/5 disabled:opacity-60"
                   >
                     Cancel
                   </button>
@@ -708,13 +708,13 @@ const ClassSessions = () => {
 
           {/* Reschedule Form */}
           {rescheduling && (
-            <div className="mb-8 rounded-2xl bg-amber-50 p-6 shadow-sm ring-1 ring-amber-200">
+            <div className="mb-8 rounded-2xl bg-amber-500/10 p-6 shadow-sm ring-1 ring-amber-200">
               <div className="mb-6">
-                <h2 className="text-lg font-semibold text-amber-900">
+                <h2 className="text-lg font-semibold text-amber-300">
                   Reschedule Class Session
                 </h2>
 
-                <p className="mt-1 text-sm text-amber-700">
+                <p className="mt-1 text-sm text-amber-300">
                   {rescheduling.courseOffering?.course
                     ?.name || "Course"}{" "}
                   on{" "}
@@ -730,7 +730,7 @@ const ClassSessions = () => {
                 className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-4"
               >
                 <div>
-                  <label className="mb-2 block text-sm font-medium text-amber-900">
+                  <label className="mb-2 block text-sm font-medium text-amber-300">
                     New Date
                   </label>
 
@@ -743,12 +743,12 @@ const ClassSessions = () => {
                       )
                     }
                     required
-                    className="w-full rounded-xl border border-amber-300 bg-white px-4 py-3 text-sm outline-none transition focus:border-amber-500 focus:ring-2 focus:ring-amber-100"
+                    className="w-full rounded-xl border border-amber-300 bg-white/[0.03] px-4 py-3 text-sm outline-none transition focus:border-amber-500 focus:ring-2 focus:ring-amber-100"
                   />
                 </div>
 
                 <div>
-                  <label className="mb-2 block text-sm font-medium text-amber-900">
+                  <label className="mb-2 block text-sm font-medium text-amber-300">
                     Start Time
                   </label>
 
@@ -761,12 +761,12 @@ const ClassSessions = () => {
                       )
                     }
                     required
-                    className="w-full rounded-xl border border-amber-300 bg-white px-4 py-3 text-sm outline-none transition focus:border-amber-500 focus:ring-2 focus:ring-amber-100"
+                    className="w-full rounded-xl border border-amber-300 bg-white/[0.03] px-4 py-3 text-sm outline-none transition focus:border-amber-500 focus:ring-2 focus:ring-amber-100"
                   />
                 </div>
 
                 <div>
-                  <label className="mb-2 block text-sm font-medium text-amber-900">
+                  <label className="mb-2 block text-sm font-medium text-amber-300">
                     End Time
                   </label>
 
@@ -779,12 +779,12 @@ const ClassSessions = () => {
                       )
                     }
                     required
-                    className="w-full rounded-xl border border-amber-300 bg-white px-4 py-3 text-sm outline-none transition focus:border-amber-500 focus:ring-2 focus:ring-amber-100"
+                    className="w-full rounded-xl border border-amber-300 bg-white/[0.03] px-4 py-3 text-sm outline-none transition focus:border-amber-500 focus:ring-2 focus:ring-amber-100"
                   />
                 </div>
 
                 <div>
-                  <label className="mb-2 block text-sm font-medium text-amber-900">
+                  <label className="mb-2 block text-sm font-medium text-amber-300">
                     Room
                   </label>
 
@@ -797,7 +797,7 @@ const ClassSessions = () => {
                       )
                     }
                     placeholder="e.g. Room 501"
-                    className="w-full rounded-xl border border-amber-300 bg-white px-4 py-3 text-sm outline-none transition focus:border-amber-500 focus:ring-2 focus:ring-amber-100"
+                    className="w-full rounded-xl border border-amber-300 bg-white/[0.03] px-4 py-3 text-sm outline-none transition focus:border-amber-500 focus:ring-2 focus:ring-amber-100"
                   />
                 </div>
 
@@ -819,7 +819,7 @@ const ClassSessions = () => {
                       clearMessages();
                     }}
                     disabled={actionLoading}
-                    className="rounded-xl border border-amber-300 bg-white px-6 py-3 text-sm font-semibold text-amber-800 transition hover:bg-amber-100 disabled:opacity-60"
+                    className="rounded-xl border border-amber-300 bg-white/[0.03] px-6 py-3 text-sm font-semibold text-amber-300 transition hover:bg-amber-500/15 disabled:opacity-60"
                   >
                     Cancel
                   </button>
@@ -829,11 +829,11 @@ const ClassSessions = () => {
           )}
 
           {/* Session List */}
-          <div className="rounded-2xl bg-white shadow-sm ring-1 ring-slate-200">
+          <div className="rounded-2xl bg-white/[0.03] shadow-sm ring-1 ring-white/10">
             {/* List Header */}
-            <div className="flex flex-col gap-4 border-b border-slate-200 p-6 sm:flex-row sm:items-center sm:justify-between">
+            <div className="flex flex-col gap-4 border-b border-white/10 p-6 sm:flex-row sm:items-center sm:justify-between">
               <div>
-                <h2 className="text-lg font-semibold text-slate-900">
+                <h2 className="text-lg font-semibold text-white">
                   Class Sessions
                 </h2>
 
@@ -851,7 +851,7 @@ const ClassSessions = () => {
                     setSearch(e.target.value)
                   }
                   placeholder="Search sessions..."
-                  className="w-full rounded-xl border border-slate-300 px-4 py-3 text-sm outline-none transition focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100 sm:w-72"
+                  className="w-full rounded-xl border border-white/15 px-4 py-3 text-sm outline-none transition focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100 sm:w-72"
                 />
 
                 {/* Add Button */}
@@ -870,11 +870,11 @@ const ClassSessions = () => {
             {/* Empty State */}
             {filteredSessions.length === 0 ? (
               <div className="p-10 text-center">
-                <p className="font-medium text-slate-700">
+                <p className="font-medium text-slate-200">
                   No class sessions found
                 </p>
 
-                <p className="mt-1 text-sm text-slate-400">
+                <p className="mt-1 text-sm text-slate-500">
                   Try a different search or add a new class session.
                 </p>
               </div>
@@ -882,7 +882,7 @@ const ClassSessions = () => {
               <div className="overflow-x-auto">
                 <table className="w-full text-left">
                   <thead>
-                    <tr className="border-b border-slate-200 bg-slate-50">
+                    <tr className="border-b border-white/10 bg-white/5">
                       <th className="px-6 py-4 text-xs font-semibold uppercase tracking-wide text-slate-500">
                         Course
                       </th>
@@ -921,16 +921,16 @@ const ClassSessions = () => {
                     {filteredSessions.map((session) => (
                       <tr
                         key={session.id}
-                        className="border-b border-slate-100 last:border-0 hover:bg-slate-50"
+                        className="border-b border-white/5 last:border-0 hover:bg-white/5"
                       >
                         {/* Course */}
                         <td className="px-6 py-4">
-                          <p className="font-medium text-slate-900">
+                          <p className="font-medium text-white">
                             {session.courseOffering?.course
                               ?.name || "—"}
                           </p>
 
-                          <p className="mt-1 text-xs text-slate-400">
+                          <p className="mt-1 text-xs text-slate-500">
                             {session.courseOffering
                               ?.course?.code ||
                               ""}{" "}
@@ -945,11 +945,11 @@ const ClassSessions = () => {
                         {/* Section */}
                         <td className="px-6 py-4">
                           {session.section ? (
-                            <span className="rounded-lg bg-slate-100 px-3 py-1.5 text-sm font-semibold text-slate-600">
+                            <span className="rounded-lg bg-white/5 px-3 py-1.5 text-sm font-semibold text-slate-300">
                               {session.section.name}
                             </span>
                           ) : (
-                            <span className="text-sm text-slate-400">
+                            <span className="text-sm text-slate-500">
                               —
                             </span>
                           )}
@@ -957,7 +957,7 @@ const ClassSessions = () => {
 
                         {/* Teacher */}
                         <td className="px-6 py-4">
-                          <p className="text-sm font-medium text-slate-700">
+                          <p className="text-sm font-medium text-slate-200">
                             {session.teacher?.name ||
                               session.teacher?.user
                                 ?.firstName ||
@@ -966,7 +966,7 @@ const ClassSessions = () => {
                         </td>
 
                         {/* Date */}
-                        <td className="px-6 py-4 text-sm text-slate-600">
+                        <td className="px-6 py-4 text-sm text-slate-300">
                           {new Date(
                             session.date
                           ).toLocaleDateString("en-GB", {
@@ -977,7 +977,7 @@ const ClassSessions = () => {
                         </td>
 
                         {/* Time */}
-                        <td className="px-6 py-4 text-sm text-slate-600">
+                        <td className="px-6 py-4 text-sm text-slate-300">
                           {new Date(
                             session.startTime
                           ).toLocaleTimeString("en-GB", {
@@ -996,11 +996,11 @@ const ClassSessions = () => {
                         {/* Room */}
                         <td className="px-6 py-4">
                           {session.room ? (
-                            <span className="text-sm text-slate-600">
+                            <span className="text-sm text-slate-300">
                               {session.room}
                             </span>
                           ) : (
-                            <span className="text-sm text-slate-400">
+                            <span className="text-sm text-slate-500">
                               —
                             </span>
                           )}
@@ -1032,7 +1032,7 @@ const ClassSessions = () => {
                                 disabled={
                                   actionLoading
                                 }
-                                className="rounded-lg border border-slate-300 px-3 py-2 text-xs font-semibold text-slate-700 transition hover:bg-slate-100 disabled:opacity-50"
+                                className="rounded-lg border border-white/15 px-3 py-2 text-xs font-semibold text-slate-200 transition hover:bg-white/5 disabled:opacity-50"
                               >
                                 Edit
                               </button>
@@ -1052,7 +1052,7 @@ const ClassSessions = () => {
                                 disabled={
                                   actionLoading
                                 }
-                                className="rounded-lg border border-red-200 px-3 py-2 text-xs font-semibold text-red-600 transition hover:bg-red-50 disabled:opacity-50"
+                                className="rounded-lg border border-red-500/20 px-3 py-2 text-xs font-semibold text-red-400 transition hover:bg-red-500/10 disabled:opacity-50"
                               >
                                 Cancel
                               </button>
@@ -1070,7 +1070,7 @@ const ClassSessions = () => {
                                 disabled={
                                   actionLoading
                                 }
-                                className="rounded-lg border border-amber-300 px-3 py-2 text-xs font-semibold text-amber-700 transition hover:bg-amber-50 disabled:opacity-50"
+                                className="rounded-lg border border-amber-300 px-3 py-2 text-xs font-semibold text-amber-300 transition hover:bg-amber-500/10 disabled:opacity-50"
                               >
                                 Reschedule
                               </button>

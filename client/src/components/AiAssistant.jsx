@@ -156,11 +156,11 @@ function AiAssistant() {
 
       {/* Chat window */}
       {open && (
-        <div className="fixed bottom-6 right-6 z-50 flex h-[min(560px,calc(100vh-3rem))] w-[min(380px,calc(100vw-2rem))] flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-2xl">
+        <div className="fixed bottom-6 right-6 z-50 flex h-[min(560px,calc(100vh-3rem))] w-[min(380px,calc(100vw-2rem))] flex-col overflow-hidden rounded-2xl border border-white/10 bg-slate-950 shadow-2xl shadow-black/50">
           {/* Header */}
-          <div className="flex items-center justify-between bg-slate-900 px-4 py-3 text-white">
+          <div className="flex items-center justify-between border-b border-white/5 bg-slate-900/90 px-4 py-3 text-white">
             <div className="flex items-center gap-2">
-              <span className="flex h-8 w-8 items-center justify-center rounded-full bg-indigo-500 text-base">
+              <span className="flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-br from-indigo-500 to-violet-600 text-base">
                 ✦
               </span>
               <div>
@@ -180,7 +180,7 @@ function AiAssistant() {
               {messages.length > 1 && (
                 <button
                   onClick={handleClear}
-                  className="rounded-lg px-2 py-1 text-xs text-slate-300 transition hover:bg-slate-800 hover:text-white"
+                  className="rounded-lg px-2 py-1 text-xs text-slate-300 transition hover:bg-white/10 hover:text-white"
                   title="Clear conversation"
                 >
                   ↺ Clear
@@ -188,7 +188,7 @@ function AiAssistant() {
               )}
               <button
                 onClick={() => setOpen(false)}
-                className="rounded-lg px-2 py-1 text-slate-300 transition hover:bg-slate-800 hover:text-white"
+                className="rounded-lg px-2 py-1 text-slate-300 transition hover:bg-white/10 hover:text-white"
                 title="Close"
               >
                 ✕
@@ -197,7 +197,7 @@ function AiAssistant() {
           </div>
 
           {/* Messages */}
-          <div className="ai-scroll flex-1 space-y-3 overflow-y-auto bg-slate-50 px-4 py-4">
+          <div className="ai-scroll flex-1 space-y-3 overflow-y-auto bg-slate-950 px-4 py-4">
             {messages.map((msg, idx) => (
               <div
                 key={idx}
@@ -208,7 +208,7 @@ function AiAssistant() {
                 }`}
               >
                 {msg.role === "user" ? (
-                  <div className="max-w-[85%] whitespace-pre-wrap rounded-2xl rounded-br-md bg-indigo-600 px-3.5 py-2.5 text-sm leading-relaxed text-white shadow-sm">
+                  <div className="max-w-[85%] whitespace-pre-wrap rounded-2xl rounded-br-md bg-gradient-to-br from-indigo-500 to-violet-600 px-3.5 py-2.5 text-sm leading-relaxed text-white shadow-md">
                     {msg.content}
                   </div>
                 ) : (
@@ -216,7 +216,7 @@ function AiAssistant() {
                     initial={{ opacity: 0, y: 8 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.3, ease: "easeOut" }}
-                    className="max-w-[85%] whitespace-pre-wrap rounded-2xl rounded-bl-md border border-slate-200 bg-white px-3.5 py-2.5 text-sm leading-relaxed text-slate-800 shadow-sm"
+                    className="max-w-[85%] whitespace-pre-wrap rounded-2xl rounded-bl-md border border-white/10 bg-white/[0.04] px-3.5 py-2.5 text-sm leading-relaxed text-slate-200 shadow-sm"
                   >
                     {msg.content}
                   </motion.div>
@@ -226,7 +226,7 @@ function AiAssistant() {
 
             {thinking && (
               <div className="flex justify-start">
-                <div className="rounded-2xl rounded-bl-md border border-slate-200 bg-white px-3.5 py-2 shadow-sm">
+                <div className="rounded-2xl rounded-bl-md border border-white/10 bg-white/[0.04] px-3.5 py-2 shadow-sm">
                   <TypingDots />
                 </div>
               </div>
@@ -243,13 +243,13 @@ function AiAssistant() {
 
           {/* Quick prompts */}
           {messages.length <= 2 && prompts.length > 0 && (
-            <div className="flex flex-wrap gap-1.5 border-t border-slate-100 bg-white px-3 py-2">
+            <div className="flex flex-wrap gap-1.5 border-t border-white/5 bg-slate-900/50 px-3 py-2">
               {prompts.map((p) => (
                 <button
                   key={p}
                   onClick={() => handleSend(p)}
                   disabled={thinking}
-                  className="rounded-full border border-slate-200 bg-slate-50 px-2.5 py-1 text-xs text-slate-600 transition hover:border-indigo-300 hover:bg-indigo-50 hover:text-indigo-700 disabled:opacity-50"
+                  className="rounded-full border border-white/10 bg-white/5 px-2.5 py-1 text-xs text-slate-300 transition hover:border-indigo-400/40 hover:bg-indigo-500/15 hover:text-indigo-200 disabled:opacity-50"
                 >
                   {p}
                 </button>
@@ -263,7 +263,7 @@ function AiAssistant() {
               e.preventDefault();
               handleSend();
             }}
-            className="flex items-center gap-2 border-t border-slate-200 bg-white px-3 py-3"
+            className="flex items-center gap-2 border-t border-white/5 bg-slate-900/60 px-3 py-3"
           >
             <input
               ref={inputRef}
@@ -277,12 +277,12 @@ function AiAssistant() {
               }}
               placeholder="Ask EduCore AI…"
               disabled={thinking}
-              className="flex-1 rounded-xl border border-slate-200 bg-slate-50 px-3.5 py-2.5 text-sm outline-none transition placeholder:text-slate-400 focus:border-indigo-500 focus:bg-white focus:ring-4 focus:ring-indigo-500/10 disabled:opacity-60"
+              className="flex-1 rounded-xl border border-white/10 bg-white/5 px-3.5 py-2.5 text-sm text-slate-100 outline-none transition placeholder:text-slate-500 focus:border-indigo-400 focus:bg-white/10 focus:ring-4 focus:ring-indigo-500/10 disabled:opacity-60"
             />
             <button
               type="submit"
               disabled={thinking || !input.trim()}
-              className="flex h-10 w-10 items-center justify-center rounded-xl bg-indigo-600 text-white shadow-md transition hover:bg-indigo-700 disabled:cursor-not-allowed disabled:opacity-50"
+              className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-indigo-500 to-violet-600 text-white shadow-md transition hover:brightness-110 disabled:cursor-not-allowed disabled:opacity-50"
               aria-label="Send"
             >
               ➤

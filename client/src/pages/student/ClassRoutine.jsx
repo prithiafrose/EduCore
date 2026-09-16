@@ -99,14 +99,14 @@ const ClassRoutine = () => {
         if (status === "FINISHED") {
             return {
                 text: "Completed",
-                className: "text-green-600"
+                className: "text-emerald-400"
             };
         }
 
         if (status === "CANCELLED") {
             return {
                 text: "Cancelled",
-                className: "text-red-600"
+                className: "text-red-400"
             };
         }
 
@@ -126,7 +126,7 @@ const ClassRoutine = () => {
 
                 return {
                     text: `Today ${time}`.trim(),
-                    className: "text-blue-600"
+                    className: "text-blue-400"
                 };
             }
 
@@ -155,7 +155,7 @@ const ClassRoutine = () => {
 
             return {
                 text: `Upcoming ${formattedDate}`,
-                className: "text-emerald-600"
+                className: "text-emerald-400"
             };
         }
 
@@ -177,17 +177,17 @@ const ClassRoutine = () => {
     return (
         <>
         {/* TOP BAR */}
-        <header className="h-16 bg-white border-b border-slate-200 flex items-center justify-between px-8">
+        <header className="h-16 bg-white/[0.03] border-b border-white/10 flex items-center justify-between px-8">
 
                     <div>
-                        <h2 className="text-lg font-semibold text-slate-800">
+                        <h2 className="text-lg font-semibold text-slate-100">
                             Class Routine
                         </h2>
                     </div>
 
                     {student && (
                         <div className="text-right">
-                            <p className="font-medium text-slate-800">
+                            <p className="font-medium text-slate-100">
                                 {student.name}
                             </p>
 
@@ -205,7 +205,7 @@ const ClassRoutine = () => {
 
                     {/* PAGE TITLE */}
                     <div className="mb-8">
-                        <h1 className="text-2xl font-bold text-slate-800">
+                        <h1 className="text-2xl font-bold text-slate-100">
                             Weekly Class Routine
                         </h1>
 
@@ -217,7 +217,7 @@ const ClassRoutine = () => {
 
                     {/* LOADING */}
                     {loading && (
-                        <div className="bg-white rounded-xl shadow-sm p-10 text-center">
+                        <div className="bg-white/[0.03] rounded-xl shadow-sm p-10 text-center">
                             <p className="text-slate-500">
                                 Loading class routine...
                             </p>
@@ -227,7 +227,7 @@ const ClassRoutine = () => {
 
                     {/* ERROR */}
                     {!loading && error && (
-                        <div className="bg-red-50 border border-red-200 text-red-700 rounded-xl p-5">
+                        <div className="bg-red-500/10 border border-red-500/20 text-red-300 rounded-xl p-5">
                             {error}
                         </div>
                     )}
@@ -237,8 +237,8 @@ const ClassRoutine = () => {
                     {!loading &&
                         !error &&
                         timetables.length === 0 && (
-                            <div className="bg-white rounded-xl shadow-sm p-10 text-center">
-                                <h3 className="text-lg font-semibold text-slate-700">
+                            <div className="bg-white/[0.03] rounded-xl shadow-sm p-10 text-center">
+                                <h3 className="text-lg font-semibold text-slate-200">
                                     No Classes Scheduled
                                 </h3>
 
@@ -264,11 +264,11 @@ const ClassRoutine = () => {
                                     return (
                                         <div
                                             key={day.id}
-                                            className="bg-white rounded-xl shadow-sm overflow-hidden"
+                                            className="bg-white/[0.03] rounded-xl shadow-sm overflow-hidden"
                                         >
 
                                             {/* DAY HEADER */}
-                                            <div className="px-6 py-4 bg-slate-800 text-white">
+                                            <div className="px-6 py-4 bg-white/10 text-white">
                                                 <h2 className="text-lg font-semibold">
                                                     {day.name}
                                                 </h2>
@@ -277,7 +277,7 @@ const ClassRoutine = () => {
 
                                             {/* NO CLASS */}
                                             {classes.length === 0 && (
-                                                <div className="px-6 py-5 text-slate-400">
+                                                <div className="px-6 py-5 text-slate-500">
                                                     No classes
                                                 </div>
                                             )}
@@ -285,7 +285,7 @@ const ClassRoutine = () => {
 
                                             {/* CLASSES */}
                                             {classes.length > 0 && (
-                                                <div className="divide-y divide-slate-100">
+                                                <div className="divide-y divide-white/5">
 
                                                     {classes.map(
                                                         (item) => {
@@ -304,7 +304,7 @@ const ClassRoutine = () => {
 
                                                                 {/* COURSE */}
                                                                 <div>
-                                                                    <p className="text-sm font-semibold text-blue-600">
+                                                                    <p className="text-sm font-semibold text-blue-400">
                                                                         {
                                                                             item
                                                                                 .courseOffering
@@ -313,7 +313,7 @@ const ClassRoutine = () => {
                                                                         }
                                                                     </p>
 
-                                                                    <h3 className="text-lg font-semibold text-slate-800 mt-1">
+                                                                    <h3 className="text-lg font-semibold text-slate-100 mt-1">
                                                                         {
                                                                             item
                                                                                 .courseOffering
@@ -333,8 +333,8 @@ const ClassRoutine = () => {
 
 
                                                                 {/* TIME */}
-                                                                <div className="text-sm text-slate-600">
-                                                                    <p className="font-medium text-slate-800">
+                                                                <div className="text-sm text-slate-300">
+                                                                    <p className="font-medium text-slate-100">
                                                                         {formatTime(
                                                                             item.startTime
                                                                         )}{" "}
@@ -355,11 +355,11 @@ const ClassRoutine = () => {
 
                                                                 {/* TEACHER */}
                                                                 <div className="text-sm">
-                                                                    <p className="text-slate-400">
+                                                                    <p className="text-slate-500">
                                                                         Teacher
                                                                     </p>
 
-                                                                    <p className="font-medium text-slate-700">
+                                                                    <p className="font-medium text-slate-200">
                                                                         {
                                                                             item
                                                                                 .teacherAssignment

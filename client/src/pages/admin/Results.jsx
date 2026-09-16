@@ -153,11 +153,11 @@ const Results = () => {
       {/* Header */}
       <div className="mb-8 flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-gray-800">
+          <h1 className="text-3xl font-bold text-slate-100">
             Results Management
           </h1>
 
-          <p className="mt-2 text-gray-500">
+          <p className="mt-2 text-slate-400">
             Generate and view course results for all
             students.
           </p>
@@ -167,42 +167,42 @@ const Results = () => {
 
       {/* Success */}
       {success && (
-        <div className="mb-5 rounded-lg border border-green-200 bg-green-50 px-4 py-3 text-green-700">
+        <div className="mb-5 rounded-lg border border-emerald-500/20 bg-emerald-500/10 px-4 py-3 text-emerald-300">
           {success}
         </div>
       )}
 
       {/* Error */}
       {error && (
-        <div className="mb-5 rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-red-700">
+        <div className="mb-5 rounded-lg border border-red-500/20 bg-red-500/10 px-4 py-3 text-red-300">
           {error}
         </div>
       )}
 
       {/* Summary Cards */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mb-8">
-        <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
-          <p className="text-sm text-gray-500">
+        <div className="bg-white/[0.03] p-6 rounded-2xl shadow-sm border border-white/10">
+          <p className="text-sm text-slate-400">
             Published Results
           </p>
 
-          <h3 className="text-3xl font-bold text-gray-900 mt-2">
+          <h3 className="text-3xl font-bold text-white mt-2">
             {results.length}
           </h3>
         </div>
 
-        <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
-          <p className="text-sm text-gray-500">
+        <div className="bg-white/[0.03] p-6 rounded-2xl shadow-sm border border-white/10">
+          <p className="text-sm text-slate-400">
             Total Enrollments
           </p>
 
-          <h3 className="text-3xl font-bold text-gray-900 mt-2">
+          <h3 className="text-3xl font-bold text-white mt-2">
             {enrollments.length}
           </h3>
         </div>
 
-        <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
-          <p className="text-sm text-gray-500">
+        <div className="bg-white/[0.03] p-6 rounded-2xl shadow-sm border border-white/10">
+          <p className="text-sm text-slate-400">
             Pending Results
           </p>
 
@@ -213,13 +213,13 @@ const Results = () => {
       </div>
 
       {/* Generate Form Card */}
-      <div className="rounded-xl bg-white shadow mb-8">
+      <div className="rounded-xl bg-white/[0.03] shadow mb-8">
         <div className="border-b px-6 py-5">
-          <h2 className="text-xl font-semibold text-gray-800">
+          <h2 className="text-xl font-semibold text-slate-100">
             Generate Result
           </h2>
 
-          <p className="text-sm text-gray-500">
+          <p className="text-sm text-slate-400">
             Select an enrollment to calculate its final
             grade.
           </p>
@@ -231,7 +231,7 @@ const Results = () => {
             className="flex flex-col md:flex-row items-start md:items-end gap-4"
           >
             <div className="flex-1 w-full">
-              <label className="mb-2 block text-sm font-medium text-gray-700">
+              <label className="mb-2 block text-sm font-medium text-slate-200">
                 Enrollment
               </label>
 
@@ -242,7 +242,7 @@ const Results = () => {
                     e.target.value
                   )
                 }
-                className="w-full rounded-lg border border-gray-300 bg-white px-4 py-2.5 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
+                className="w-full rounded-lg border border-white/15 bg-white/[0.03] px-4 py-2.5 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
               >
                 <option value="">
                   Select an enrollment
@@ -282,13 +282,13 @@ const Results = () => {
 
       {/* Grade Statistics */}
       {gradeStatKeys.length > 0 && (
-        <div className="rounded-xl bg-white shadow mb-8">
+        <div className="rounded-xl bg-white/[0.03] shadow mb-8">
           <div className="border-b px-6 py-5">
-            <h2 className="text-xl font-semibold text-gray-800">
+            <h2 className="text-xl font-semibold text-slate-100">
               Grade Summary
             </h2>
 
-            <p className="text-sm text-gray-500">
+            <p className="text-sm text-slate-400">
               Distribution of grades across published
               results.
             </p>
@@ -299,13 +299,13 @@ const Results = () => {
               {gradeStatKeys.map((grade) => (
                 <div
                   key={grade}
-                  className="flex items-center gap-3 rounded-lg bg-gray-50 border border-gray-200 px-4 py-3"
+                  className="flex items-center gap-3 rounded-lg bg-white/5 border border-white/10 px-4 py-3"
                 >
-                  <span className="px-3 py-1 rounded-full bg-indigo-100 text-indigo-700 text-xs font-semibold">
+                  <span className="px-3 py-1 rounded-full bg-indigo-500/15 text-indigo-300 text-xs font-semibold">
                     {formatGrade(grade)}
                   </span>
 
-                  <span className="text-xl font-bold text-gray-800">
+                  <span className="text-xl font-bold text-slate-100">
                     {gradeCounts[grade]}
                   </span>
                 </div>
@@ -316,70 +316,70 @@ const Results = () => {
       )}
 
       {/* Results Table */}
-      <div className="rounded-xl bg-white shadow">
+      <div className="rounded-xl bg-white/[0.03] shadow">
         <div className="border-b px-6 py-5">
-          <h2 className="text-xl font-semibold text-gray-800">
+          <h2 className="text-xl font-semibold text-slate-100">
             Published Results
           </h2>
 
-          <p className="text-sm text-gray-500">
+          <p className="text-sm text-slate-400">
             Total Results: {results.length}
           </p>
         </div>
 
         <div className="overflow-x-auto">
           {loading ? (
-            <div className="p-8 text-center text-gray-500">
+            <div className="p-8 text-center text-slate-400">
               Loading results...
             </div>
           ) : results.length === 0 ? (
-            <div className="p-8 text-center text-gray-500">
+            <div className="p-8 text-center text-slate-400">
               No results published yet. Generate results
               to see them here.
             </div>
           ) : (
             <table className="w-full">
-              <thead className="bg-gray-50 text-left">
+              <thead className="bg-white/5 text-left">
                 <tr className="border-b">
-                  <th className="px-5 py-3 text-sm font-semibold text-gray-700">
+                  <th className="px-5 py-3 text-sm font-semibold text-slate-200">
                     #
                   </th>
 
-                  <th className="px-5 py-3 text-sm font-semibold text-gray-700">
+                  <th className="px-5 py-3 text-sm font-semibold text-slate-200">
                     Student
                   </th>
 
-                  <th className="px-5 py-3 text-sm font-semibold text-gray-700">
+                  <th className="px-5 py-3 text-sm font-semibold text-slate-200">
                     Course
                   </th>
 
-                  <th className="px-5 py-3 text-sm font-semibold text-gray-700">
+                  <th className="px-5 py-3 text-sm font-semibold text-slate-200">
                     Semester
                   </th>
 
-                  <th className="px-5 py-3 text-sm font-semibold text-gray-700">
+                  <th className="px-5 py-3 text-sm font-semibold text-slate-200">
                     Assessment (/40)
                   </th>
 
-                  <th className="px-5 py-3 text-sm font-semibold text-gray-700">
+                  <th className="px-5 py-3 text-sm font-semibold text-slate-200">
                     Exam (/60)
                   </th>
 
-                  <th className="px-5 py-3 text-sm font-semibold text-gray-700">
+                  <th className="px-5 py-3 text-sm font-semibold text-slate-200">
                     Total
                   </th>
 
-                  <th className="px-5 py-3 text-sm font-semibold text-gray-700">
+                  <th className="px-5 py-3 text-sm font-semibold text-slate-200">
                     Grade
                   </th>
 
-                  <th className="px-5 py-3 text-sm font-semibold text-gray-700">
+                  <th className="px-5 py-3 text-sm font-semibold text-slate-200">
                     Point
                   </th>
                 </tr>
               </thead>
 
-              <tbody className="divide-y divide-gray-200">
+              <tbody className="divide-y divide-white/10">
                 {results.map((result, index) => {
                   const enrollment =
                     getEnrollmentForResult(result);
@@ -387,61 +387,61 @@ const Results = () => {
                   return (
                     <tr
                       key={result.id}
-                      className="hover:bg-gray-50"
+                      className="hover:bg-white/5"
                     >
-                      <td className="px-5 py-4 text-sm text-gray-600">
+                      <td className="px-5 py-4 text-sm text-slate-300">
                         {index + 1}
                       </td>
 
                       <td className="px-5 py-4">
-                        <p className="font-medium text-gray-800">
+                        <p className="font-medium text-slate-100">
                           {enrollment?.student?.name ||
                             "Unknown Student"}
                         </p>
 
-                        <p className="text-xs text-gray-500">
+                        <p className="text-xs text-slate-400">
                           {enrollment?.student?.studentId ||
                             "N/A"}
                         </p>
                       </td>
 
                       <td className="px-5 py-4">
-                        <p className="font-medium text-gray-800">
+                        <p className="font-medium text-slate-100">
                           {enrollment?.courseOffering
                             ?.course?.code || "N/A"}
                         </p>
 
-                        <p className="text-xs text-gray-500">
+                        <p className="text-xs text-slate-400">
                           {enrollment?.courseOffering
                             ?.course?.name || "N/A"}
                         </p>
                       </td>
 
-                      <td className="px-5 py-4 text-sm text-gray-700">
+                      <td className="px-5 py-4 text-sm text-slate-200">
                         {enrollment?.courseOffering
                           ?.academicSemester?.name ||
                           "N/A"}
                       </td>
 
-                      <td className="px-5 py-4 text-sm text-gray-700">
+                      <td className="px-5 py-4 text-sm text-slate-200">
                         {result.assessmentResult}
                       </td>
 
-                      <td className="px-5 py-4 text-sm text-gray-700">
+                      <td className="px-5 py-4 text-sm text-slate-200">
                         {result.examResult}
                       </td>
 
-                      <td className="px-5 py-4 text-sm font-semibold text-gray-800">
+                      <td className="px-5 py-4 text-sm font-semibold text-slate-100">
                         {result.totalMarks}
                       </td>
 
                       <td className="px-5 py-4">
-                        <span className="px-3 py-1 rounded-full bg-indigo-100 text-indigo-700 text-xs font-semibold">
+                        <span className="px-3 py-1 rounded-full bg-indigo-500/15 text-indigo-300 text-xs font-semibold">
                           {formatGrade(result.grade)}
                         </span>
                       </td>
 
-                      <td className="px-5 py-4 text-sm text-gray-700">
+                      <td className="px-5 py-4 text-sm text-slate-200">
                         {result.gradePoint}
                       </td>
                     </tr>

@@ -9,12 +9,12 @@ function AnimatedCard({ children, className = "", hover = true }) {
         hover
           ? {
               y: -4,
-              boxShadow: "0 12px 32px rgba(15, 23, 42, 0.08)",
+              boxShadow: "0 12px 32px rgba(0, 0, 0, 0.45)",
             }
           : undefined
       }
       transition={{ duration: 0.35, ease: "easeOut" }}
-      className={`bg-white rounded-2xl shadow-sm border border-slate-200 ${className}`}
+      className={`bg-white/[0.03] rounded-2xl shadow-lg shadow-black/20 border border-white/10 backdrop-blur ${className}`}
     >
       {children}
     </motion.div>

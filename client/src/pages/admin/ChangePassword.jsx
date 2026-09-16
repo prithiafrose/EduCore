@@ -84,13 +84,13 @@ const ChangePassword = () => {
       {/* Messages */}
 
       {error && (
-        <div className="mb-4 p-3 rounded bg-red-100 text-red-700">
+        <div className="mb-4 p-3 rounded bg-red-500/15 text-red-300">
           {error}
         </div>
       )}
 
       {success && (
-        <div className="mb-4 p-3 rounded bg-green-100 text-green-700">
+        <div className="mb-4 p-3 rounded bg-emerald-500/15 text-emerald-300">
           {success}
         </div>
       )}
@@ -98,7 +98,7 @@ const ChangePassword = () => {
 
       {/* Form */}
 
-      <div className="bg-white p-6 rounded-lg shadow mb-8">
+      <div className="bg-white/[0.03] p-6 rounded-lg shadow mb-8">
 
         <h2 className="text-lg font-semibold mb-4">
           Update Your Password

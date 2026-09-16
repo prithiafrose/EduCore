@@ -107,14 +107,14 @@ function MyCourses() {
     return (
         <>
                 {/* Topbar */}
-                <header className="bg-white border-b border-slate-200 px-8 py-5 flex items-center justify-between">
+                <header className="bg-white/[0.03] border-b border-white/10 px-8 py-5 flex items-center justify-between">
 
                     <div>
                         <p className="text-sm text-slate-500">
                             Student Portal
                         </p>
 
-                        <h2 className="text-2xl font-bold text-slate-800">
+                        <h2 className="text-2xl font-bold text-slate-100">
                             My Courses
                         </h2>
 
@@ -126,7 +126,7 @@ function MyCourses() {
                     <div className="flex items-center gap-3">
 
                         <div className="text-right">
-                            <p className="text-sm font-semibold text-slate-700">
+                            <p className="text-sm font-semibold text-slate-200">
                                 {student?.name || "Student"}
                             </p>
 
@@ -135,7 +135,7 @@ function MyCourses() {
                             </p>
                         </div>
 
-                        <div className="w-10 h-10 rounded-full bg-slate-800 text-white flex items-center justify-center font-semibold">
+                        <div className="w-10 h-10 rounded-full bg-white/10 text-white flex items-center justify-center font-semibold">
                             {student?.name
                                 ? student.name.charAt(0).toUpperCase()
                                 : "S"}
@@ -151,7 +151,7 @@ function MyCourses() {
 
                     {/* Loading */}
                     {loading && (
-                        <div className="bg-white rounded-xl border border-slate-200 p-10 text-center">
+                        <div className="bg-white/[0.03] rounded-xl border border-white/10 p-10 text-center">
                             <p className="text-slate-500">
                                 Loading your courses...
                             </p>
@@ -161,8 +161,8 @@ function MyCourses() {
 
                     {/* Error */}
                     {!loading && error && (
-                        <div className="bg-white rounded-xl border border-red-200 p-6">
-                            <p className="text-red-600 font-medium">
+                        <div className="bg-white/[0.03] rounded-xl border border-red-500/20 p-6">
+                            <p className="text-red-400 font-medium">
                                 {error}
                             </p>
                         </div>
@@ -174,7 +174,7 @@ function MyCourses() {
                         <>
 
                             {/* Student Info */}
-                            <div className="bg-white rounded-xl border border-slate-200 p-6 mb-6">
+                            <div className="bg-white/[0.03] rounded-xl border border-white/10 p-6 mb-6">
 
                                 <div className="flex items-center justify-between">
 
@@ -183,7 +183,7 @@ function MyCourses() {
                                             Enrolled Student
                                         </p>
 
-                                        <h3 className="text-xl font-bold text-slate-800 mt-1">
+                                        <h3 className="text-xl font-bold text-slate-100 mt-1">
                                             {student?.name}
                                         </h3>
 
@@ -198,7 +198,7 @@ function MyCourses() {
                                             Total Courses
                                         </p>
 
-                                        <p className="text-3xl font-bold text-slate-800">
+                                        <p className="text-3xl font-bold text-slate-100">
                                             {courses.length}
                                         </p>
 
@@ -212,7 +212,7 @@ function MyCourses() {
                             {/* Courses */}
                             <div className="mb-5">
 
-                                <h3 className="text-xl font-bold text-slate-800">
+                                <h3 className="text-xl font-bold text-slate-100">
                                     Enrolled Courses
                                 </h3>
 
@@ -225,13 +225,13 @@ function MyCourses() {
 
                             {courses.length === 0 ? (
 
-                                <div className="bg-white rounded-xl border border-slate-200 p-10 text-center">
+                                <div className="bg-white/[0.03] rounded-xl border border-white/10 p-10 text-center">
 
                                     <div className="text-4xl mb-3">
                                         📚
                                     </div>
 
-                                    <h3 className="text-lg font-semibold text-slate-700">
+                                    <h3 className="text-lg font-semibold text-slate-200">
                                         No Courses Found
                                     </h3>
 
@@ -267,17 +267,17 @@ function MyCourses() {
                                         return (
                                             <div
                                                 key={enrollment.id}
-                                                className="bg-white rounded-xl border border-slate-200 p-6 hover:shadow-md transition"
+                                                className="bg-white/[0.03] rounded-xl border border-white/10 p-6 hover:shadow-md transition"
                                             >
 
                                                 {/* Course Code */}
                                                 <div className="flex items-start justify-between mb-5">
 
-                                                    <div className="w-12 h-12 rounded-lg bg-slate-100 flex items-center justify-center text-xl">
+                                                    <div className="w-12 h-12 rounded-lg bg-white/5 flex items-center justify-center text-xl">
                                                         📚
                                                     </div>
 
-                                                    <span className="px-3 py-1 rounded-full bg-slate-100 text-slate-600 text-xs font-semibold">
+                                                    <span className="px-3 py-1 rounded-full bg-white/5 text-slate-300 text-xs font-semibold">
                                                         {course?.credit || "-"} Credit
                                                     </span>
 
@@ -289,7 +289,7 @@ function MyCourses() {
                                                     {course?.code || "N/A"}
                                                 </p>
 
-                                                <h3 className="text-xl font-bold text-slate-800 mt-1">
+                                                <h3 className="text-xl font-bold text-slate-100 mt-1">
                                                     {course?.name || "Unknown Course"}
                                                 </h3>
 
@@ -302,7 +302,7 @@ function MyCourses() {
                                                             Semester
                                                         </span>
 
-                                                        <span className="font-medium text-slate-700 text-right">
+                                                        <span className="font-medium text-slate-200 text-right">
                                                             {semester?.name || "N/A"}
                                                         </span>
                                                     </div>
@@ -312,7 +312,7 @@ function MyCourses() {
                                                             Section
                                                         </span>
 
-                                                        <span className="font-medium text-slate-700">
+                                                        <span className="font-medium text-slate-200">
                                                             {section?.name || "N/A"}
                                                         </span>
                                                     </div>
@@ -321,13 +321,13 @@ function MyCourses() {
 
 
                                                 {/* Footer */}
-                                                <div className="border-t border-slate-100 mt-5 pt-4">
+                                                <div className="border-t border-white/5 mt-5 pt-4">
 
-                                                    <p className="text-xs text-slate-400">
+                                                    <p className="text-xs text-slate-500">
                                                         Enrolled on
                                                     </p>
 
-                                                    <p className="text-sm text-slate-600 mt-1">
+                                                    <p className="text-sm text-slate-300 mt-1">
                                                         {enrollment.enrolledAt
                                                             ? new Date(
                                                                 enrollment.enrolledAt
@@ -339,9 +339,9 @@ function MyCourses() {
 
 
                                                 {/* Materials */}
-                                                <div className="border-t border-slate-100 mt-5 pt-4">
+                                                <div className="border-t border-white/5 mt-5 pt-4">
 
-                                                    <p className="text-xs text-slate-400">
+                                                    <p className="text-xs text-slate-500">
                                                         Materials
                                                     </p>
 
@@ -359,7 +359,7 @@ function MyCourses() {
 
                                                                 <div key={material.id}>
 
-                                                                    <p className="text-sm font-medium text-slate-700">
+                                                                    <p className="text-sm font-medium text-slate-200">
                                                                         {material.title}
                                                                     </p>
 
@@ -369,7 +369,7 @@ function MyCourses() {
                                                                         </p>
                                                                     )}
 
-                                                                    <p className="text-xs text-slate-400 mt-0.5">
+                                                                    <p className="text-xs text-slate-500 mt-0.5">
                                                                         {material.teacher?.name || "Teacher"}
 
                                                                         {material.createdAt
@@ -386,7 +386,7 @@ function MyCourses() {
                                                                                 material.id
                                                                             )
                                                                         }
-                                                                        className="mt-2 inline-flex items-center rounded-lg bg-slate-100 px-3 py-1.5 text-xs font-medium text-slate-700 hover:bg-slate-200"
+                                                                        className="mt-2 inline-flex items-center rounded-lg bg-white/5 px-3 py-1.5 text-xs font-medium text-slate-200 hover:bg-white/10"
                                                                     >
                                                                         Download
                                                                     </button>

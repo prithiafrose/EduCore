@@ -260,7 +260,7 @@ const Sections = () => {
           <div className="mb-8">
             <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
               <div>
-                <h1 className="text-3xl font-bold text-slate-900">
+                <h1 className="text-3xl font-bold text-white">
                   Section Management
                 </h1>
 
@@ -269,12 +269,12 @@ const Sections = () => {
                 </p>
               </div>
 
-              <div className="rounded-xl bg-white px-4 py-3 shadow-sm ring-1 ring-slate-200">
-                <p className="text-xs font-medium uppercase tracking-wide text-slate-400">
+              <div className="rounded-xl bg-white/[0.03] px-4 py-3 shadow-sm ring-1 ring-white/10">
+                <p className="text-xs font-medium uppercase tracking-wide text-slate-500">
                   Total Sections
                 </p>
 
-                <p className="mt-1 text-2xl font-bold text-slate-900">
+                <p className="mt-1 text-2xl font-bold text-white">
                   {sections.length}
                 </p>
               </div>
@@ -283,23 +283,23 @@ const Sections = () => {
 
           {/* Success Message */}
           {success && (
-            <div className="mb-5 rounded-xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm font-medium text-emerald-700">
+            <div className="mb-5 rounded-xl border border-emerald-500/20 bg-emerald-500/10 px-4 py-3 text-sm font-medium text-emerald-300">
               {success}
             </div>
           )}
 
           {/* Error Message */}
           {error && (
-            <div className="mb-5 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm font-medium text-red-700">
+            <div className="mb-5 rounded-xl border border-red-500/20 bg-red-500/10 px-4 py-3 text-sm font-medium text-red-300">
               {error}
             </div>
           )}
 
           {/* Form */}
           {showForm && (
-            <div className="mb-8 rounded-2xl bg-white p-6 shadow-sm ring-1 ring-slate-200">
+            <div className="mb-8 rounded-2xl bg-white/[0.03] p-6 shadow-sm ring-1 ring-white/10">
               <div className="mb-6">
-                <h2 className="text-lg font-semibold text-slate-900">
+                <h2 className="text-lg font-semibold text-white">
                   {editingId !== null
                     ? "Edit Section"
                     : "Add New Section"}
@@ -318,7 +318,7 @@ const Sections = () => {
               >
                 {/* Section Name */}
                 <div>
-                  <label className="mb-2 block text-sm font-medium text-slate-700">
+                  <label className="mb-2 block text-sm font-medium text-slate-200">
                     Section Name
                   </label>
 
@@ -329,13 +329,13 @@ const Sections = () => {
                       setName(e.target.value)
                     }
                     placeholder="e.g. Section A"
-                    className="w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm outline-none transition focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100"
+                    className="w-full rounded-xl border border-white/15 bg-white/[0.03] px-4 py-3 text-sm outline-none transition focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100"
                   />
                 </div>
 
                 {/* Course Offering */}
                 <div>
-                  <label className="mb-2 block text-sm font-medium text-slate-700">
+                  <label className="mb-2 block text-sm font-medium text-slate-200">
                     Course Offering
                   </label>
 
@@ -347,7 +347,7 @@ const Sections = () => {
                       )
                     }
                     required
-                    className="w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm outline-none transition focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100"
+                    className="w-full rounded-xl border border-white/15 bg-white/[0.03] px-4 py-3 text-sm outline-none transition focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100"
                   >
                     <option value="">
                       Select a course offering
@@ -386,7 +386,7 @@ const Sections = () => {
                     type="button"
                     onClick={handleCancel}
                     disabled={formLoading}
-                    className="rounded-xl border border-slate-300 bg-white px-6 py-3 text-sm font-semibold text-slate-700 transition hover:bg-slate-50 disabled:opacity-60"
+                    className="rounded-xl border border-white/15 bg-white/[0.03] px-6 py-3 text-sm font-semibold text-slate-200 transition hover:bg-white/5 disabled:opacity-60"
                   >
                     Cancel
                   </button>
@@ -396,11 +396,11 @@ const Sections = () => {
           )}
 
           {/* Section List */}
-          <div className="rounded-2xl bg-white shadow-sm ring-1 ring-slate-200">
+          <div className="rounded-2xl bg-white/[0.03] shadow-sm ring-1 ring-white/10">
             {/* List Header */}
-            <div className="flex flex-col gap-4 border-b border-slate-200 p-6 sm:flex-row sm:items-center sm:justify-between">
+            <div className="flex flex-col gap-4 border-b border-white/10 p-6 sm:flex-row sm:items-center sm:justify-between">
               <div>
-                <h2 className="text-lg font-semibold text-slate-900">
+                <h2 className="text-lg font-semibold text-white">
                   Sections
                 </h2>
 
@@ -418,7 +418,7 @@ const Sections = () => {
                     setSearch(e.target.value)
                   }
                   placeholder="Search sections..."
-                  className="w-full rounded-xl border border-slate-300 px-4 py-3 text-sm outline-none transition focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100 sm:w-72"
+                  className="w-full rounded-xl border border-white/15 px-4 py-3 text-sm outline-none transition focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100 sm:w-72"
                 />
 
                 {/* Add Button */}
@@ -437,11 +437,11 @@ const Sections = () => {
             {/* Empty State */}
             {filteredSections.length === 0 ? (
               <div className="p-10 text-center">
-                <p className="font-medium text-slate-700">
+                <p className="font-medium text-slate-200">
                   No sections found
                 </p>
 
-                <p className="mt-1 text-sm text-slate-400">
+                <p className="mt-1 text-sm text-slate-500">
                   Try a different search or add a new section.
                 </p>
               </div>
@@ -449,7 +449,7 @@ const Sections = () => {
               <div className="overflow-x-auto">
                 <table className="w-full text-left">
                   <thead>
-                    <tr className="border-b border-slate-200 bg-slate-50">
+                    <tr className="border-b border-white/10 bg-white/5">
                       <th className="px-6 py-4 text-xs font-semibold uppercase tracking-wide text-slate-500">
                         Section
                       </th>
@@ -480,18 +480,18 @@ const Sections = () => {
                     {filteredSections.map((section) => (
                       <tr
                         key={section.id}
-                        className="border-b border-slate-100 last:border-0 hover:bg-slate-50"
+                        className="border-b border-white/5 last:border-0 hover:bg-white/5"
                       >
                         {/* Section */}
                         <td className="px-6 py-4">
-                          <p className="font-medium text-slate-900">
+                          <p className="font-medium text-white">
                             {section.name || "—"}
                           </p>
                         </td>
 
                         {/* Course */}
                         <td className="px-6 py-4">
-                          <p className="text-sm font-medium text-slate-700">
+                          <p className="text-sm font-medium text-slate-200">
                             {section.courseOffering?.course
                               ?.name || "—"}
                           </p>
@@ -499,7 +499,7 @@ const Sections = () => {
 
                         {/* Code */}
                         <td className="px-6 py-4">
-                          <span className="rounded-lg bg-indigo-50 px-3 py-1.5 text-sm font-semibold text-indigo-700">
+                          <span className="rounded-lg bg-indigo-500/10 px-3 py-1.5 text-sm font-semibold text-indigo-300">
                             {section.courseOffering?.course
                               ?.code || "—"}
                           </span>
@@ -507,7 +507,7 @@ const Sections = () => {
 
                         {/* Semester */}
                         <td className="px-6 py-4">
-                          <span className="rounded-lg bg-slate-100 px-3 py-1.5 text-sm font-semibold text-slate-600">
+                          <span className="rounded-lg bg-white/5 px-3 py-1.5 text-sm font-semibold text-slate-300">
                             {section.courseOffering
                               ?.academicSemester?.name ||
                               "—"}
@@ -516,7 +516,7 @@ const Sections = () => {
 
                         {/* Program */}
                         <td className="px-6 py-4">
-                          <p className="text-sm font-medium text-slate-700">
+                          <p className="text-sm font-medium text-slate-200">
                             {section.courseOffering
                               ?.academicSemester?.program
                               ?.name || "—"}
@@ -531,7 +531,7 @@ const Sections = () => {
                               onClick={() =>
                                 handleEdit(section)
                               }
-                              className="rounded-lg border border-slate-300 px-3 py-2 text-xs font-semibold text-slate-700 transition hover:bg-slate-100"
+                              className="rounded-lg border border-white/15 px-3 py-2 text-xs font-semibold text-slate-200 transition hover:bg-white/5"
                             >
                               Edit
                             </button>
@@ -543,7 +543,7 @@ const Sections = () => {
                                   section.id
                                 )
                               }
-                              className="rounded-lg border border-red-200 px-3 py-2 text-xs font-semibold text-red-600 transition hover:bg-red-50"
+                              className="rounded-lg border border-red-500/20 px-3 py-2 text-xs font-semibold text-red-400 transition hover:bg-red-500/10"
                             >
                               Delete
                             </button>

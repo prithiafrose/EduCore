@@ -2,13 +2,13 @@ import AnimatedCard from "./AnimatedCard";
 import AnimatedCounter from "../animations/AnimatedCounter";
 
 const iconStyles = {
-  indigo: "bg-indigo-50 text-indigo-600",
-  emerald: "bg-emerald-50 text-emerald-600",
-  amber: "bg-amber-50 text-amber-600",
-  purple: "bg-purple-50 text-purple-600",
-  rose: "bg-rose-50 text-rose-600",
-  sky: "bg-sky-50 text-sky-600",
-  green: "bg-green-50 text-green-600",
+  indigo: "bg-indigo-500/15 text-indigo-300",
+  emerald: "bg-emerald-500/15 text-emerald-300",
+  amber: "bg-amber-500/15 text-amber-300",
+  purple: "bg-purple-500/15 text-purple-300",
+  rose: "bg-rose-500/15 text-rose-300",
+  sky: "bg-sky-500/15 text-sky-300",
+  green: "bg-emerald-500/15 text-emerald-300",
 };
 
 function StatCard({
@@ -27,12 +27,12 @@ function StatCard({
     <AnimatedCard className="p-6">
       <div className="flex justify-between items-start">
         <div>
-          <p className="text-sm font-medium text-slate-500">{label}</p>
+          <p className="text-sm font-medium text-slate-400">{label}</p>
 
           {loading ? (
-            <div className="h-9 w-16 bg-slate-200 rounded mt-2 animate-pulse" />
+            <div className="h-9 w-16 bg-white/10 rounded mt-2 animate-pulse" />
           ) : (
-            <h3 className="text-3xl font-bold text-slate-900 mt-2">
+            <h3 className="text-3xl font-bold text-white mt-2">
               {typeof value === "number" ? (
                 <AnimatedCounter value={value} prefix={prefix} suffix={suffix} />
               ) : (
@@ -42,7 +42,7 @@ function StatCard({
           )}
 
           {hint && (
-            <p className="text-xs text-slate-400 mt-2">{hint}</p>
+            <p className="text-xs text-slate-500 mt-2">{hint}</p>
           )}
         </div>
 

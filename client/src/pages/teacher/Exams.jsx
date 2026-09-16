@@ -613,8 +613,8 @@ const Exams = () => {
 
     if (loading) {
         return (
-            <div className="bg-white rounded-xl shadow-sm p-10 text-center">
-                <p className="text-gray-500">
+            <div className="bg-white/[0.03] rounded-xl shadow-sm p-10 text-center">
+                <p className="text-slate-400">
                     Loading exams...
                 </p>
             </div>
@@ -630,15 +630,15 @@ const Exams = () => {
 
                 {/* HEADER */}
 
-                <header className="bg-white border-b border-slate-200 px-8 py-5 flex items-center justify-between">
+                <header className="bg-white/[0.03] border-b border-white/10 px-8 py-5 flex items-center justify-between">
 
                     <div>
 
-                        <p className="text-sm font-medium text-indigo-600">
+                        <p className="text-sm font-medium text-indigo-400">
                             Teacher Portal
                         </p>
 
-                        <h2 className="text-2xl font-bold tracking-tight text-slate-900">
+                        <h2 className="text-2xl font-bold tracking-tight text-white">
                             Exams
                         </h2>
 
@@ -659,7 +659,7 @@ const Exams = () => {
                 {/* ERROR */}
 
                 {error && (
-                    <div className="mb-6 bg-red-50 border border-red-200 text-red-700 px-5 py-4 rounded-lg">
+                    <div className="mb-6 bg-red-500/10 border border-red-500/20 text-red-300 px-5 py-4 rounded-lg">
                         {error}
                     </div>
                 )}
@@ -667,7 +667,7 @@ const Exams = () => {
                 {/* SUCCESS */}
 
                 {success && (
-                    <div className="mb-6 bg-green-50 border border-green-200 text-green-700 px-5 py-4 rounded-lg">
+                    <div className="mb-6 bg-emerald-500/10 border border-emerald-500/20 text-emerald-300 px-5 py-4 rounded-lg">
                         {success}
                     </div>
                 )}
@@ -676,16 +676,16 @@ const Exams = () => {
                     COURSE SELECTOR
                 ======================================== */}
 
-                <div className="bg-white rounded-xl shadow-sm p-6 mb-6">
+                <div className="bg-white/[0.03] rounded-xl shadow-sm p-6 mb-6">
 
-                    <label className="block text-sm font-semibold text-gray-700 mb-2">
+                    <label className="block text-sm font-semibold text-slate-200 mb-2">
                         Select Course
                     </label>
 
                     <select
                         value={effectiveCourseId}
                         onChange={handleCourseChange}
-                        className="w-full md:w-2/3 border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        className="w-full md:w-2/3 border border-white/15 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
                     >
 
                         {teacherCourses.length === 0 ? (
@@ -730,13 +730,13 @@ const Exams = () => {
                 ======================================== */}
 
                 {effectiveCourseId && (
-                    <div className="bg-white rounded-xl shadow-sm p-6 mb-6">
+                    <div className="bg-white/[0.03] rounded-xl shadow-sm p-6 mb-6">
 
-                        <h3 className="text-xl font-bold text-gray-800">
+                        <h3 className="text-xl font-bold text-slate-100">
                             {courseCode} {courseName}
                         </h3>
 
-                        <p className="text-gray-500 mt-1">
+                        <p className="text-slate-400 mt-1">
                             {courseEnrollments.length} enrolled student
                             {courseEnrollments.length !== 1
                                 ? "s"
@@ -751,9 +751,9 @@ const Exams = () => {
                 ======================================== */}
 
                 {effectiveCourseId && (
-                    <div className="bg-white rounded-xl shadow-sm p-6 mb-6">
+                    <div className="bg-white/[0.03] rounded-xl shadow-sm p-6 mb-6">
 
-                        <label className="block text-sm font-semibold text-gray-700 mb-2">
+                        <label className="block text-sm font-semibold text-slate-200 mb-2">
                             Select Exam
                         </label>
 
@@ -769,7 +769,7 @@ const Exams = () => {
                             <select
                                 value={selectedExamId}
                                 onChange={handleExamChange}
-                                className="w-full md:w-2/3 border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                className="w-full md:w-2/3 border border-white/15 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
                             >
 
                                 <option value="">
@@ -802,17 +802,17 @@ const Exams = () => {
                 ======================================== */}
 
                 {selectedExam && (
-                    <div className="bg-white rounded-xl shadow-sm p-6 mb-6">
+                    <div className="bg-white/[0.03] rounded-xl shadow-sm p-6 mb-6">
 
                         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
 
                             <div>
 
-                                <h3 className="text-xl font-bold text-gray-800">
+                                <h3 className="text-xl font-bold text-slate-100">
                                     {selectedExam.type}
                                 </h3>
 
-                                <p className="text-gray-500 mt-1">
+                                <p className="text-slate-400 mt-1">
                                     Exam Information
                                 </p>
 
@@ -820,13 +820,13 @@ const Exams = () => {
 
                             {isExamLocked() ? (
 
-                                <span className="px-4 py-2 rounded-lg bg-red-100 text-red-700 font-semibold">
+                                <span className="px-4 py-2 rounded-lg bg-red-500/15 text-red-300 font-semibold">
                                     Exam Marks Locked
                                 </span>
 
                             ) : (
 
-                                <span className="px-4 py-2 rounded-lg bg-green-100 text-green-700 font-semibold">
+                                <span className="px-4 py-2 rounded-lg bg-emerald-500/15 text-emerald-300 font-semibold">
                                     Marks Editable
                                 </span>
 
@@ -838,13 +838,13 @@ const Exams = () => {
 
                         <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mt-6">
 
-                            <div className="bg-gray-50 rounded-lg p-4">
+                            <div className="bg-white/5 rounded-lg p-4">
 
-                                <p className="text-sm text-gray-500">
+                                <p className="text-sm text-slate-400">
                                     Date
                                 </p>
 
-                                <p className="font-semibold text-gray-800 mt-1">
+                                <p className="font-semibold text-slate-100 mt-1">
                                     {formatDate(
                                         selectedExam.date
                                     )}
@@ -852,13 +852,13 @@ const Exams = () => {
 
                             </div>
 
-                            <div className="bg-gray-50 rounded-lg p-4">
+                            <div className="bg-white/5 rounded-lg p-4">
 
-                                <p className="text-sm text-gray-500">
+                                <p className="text-sm text-slate-400">
                                     Time
                                 </p>
 
-                                <p className="font-semibold text-gray-800 mt-1">
+                                <p className="font-semibold text-slate-100 mt-1">
                                     {formatTime(
                                         selectedExam.startTime
                                     )}{" "}
@@ -870,26 +870,26 @@ const Exams = () => {
 
                             </div>
 
-                            <div className="bg-gray-50 rounded-lg p-4">
+                            <div className="bg-white/5 rounded-lg p-4">
 
-                                <p className="text-sm text-gray-500">
+                                <p className="text-sm text-slate-400">
                                     Room
                                 </p>
 
-                                <p className="font-semibold text-gray-800 mt-1">
+                                <p className="font-semibold text-slate-100 mt-1">
                                     {selectedExam.room ||
                                         "Not assigned"}
                                 </p>
 
                             </div>
 
-                            <div className="bg-gray-50 rounded-lg p-4">
+                            <div className="bg-white/5 rounded-lg p-4">
 
-                                <p className="text-sm text-gray-500">
+                                <p className="text-sm text-slate-400">
                                     Maximum Marks
                                 </p>
 
-                                <p className="font-semibold text-gray-800 mt-1">
+                                <p className="font-semibold text-slate-100 mt-1">
                                     {selectedExam.maxMarks}
                                 </p>
 
@@ -915,17 +915,17 @@ const Exams = () => {
                 ======================================== */}
 
                 {selectedExam && (
-                    <div className="bg-white rounded-xl shadow-sm overflow-hidden">
+                    <div className="bg-white/[0.03] rounded-xl shadow-sm overflow-hidden">
 
                         {/* TABLE HEADER */}
 
                         <div className="p-6 border-b">
 
-                            <h3 className="text-xl font-bold text-gray-800">
+                            <h3 className="text-xl font-bold text-slate-100">
                                 Student Exam Marks
                             </h3>
 
-                            <p className="text-gray-500 mt-1">
+                            <p className="text-slate-400 mt-1">
                                 Enter marks out of{" "}
                                 {selectedExam.maxMarks}.
                             </p>
@@ -936,7 +936,7 @@ const Exams = () => {
 
                         {courseEnrollments.length === 0 ? (
 
-                            <div className="p-8 text-center text-gray-500">
+                            <div className="p-8 text-center text-slate-400">
                                 No students are enrolled in this
                                 course.
                             </div>
@@ -947,27 +947,27 @@ const Exams = () => {
 
                                 <table className="w-full">
 
-                                    <thead className="bg-gray-50">
+                                    <thead className="bg-white/5">
 
                                         <tr>
 
-                                            <th className="px-6 py-4 text-left text-sm font-semibold text-gray-600">
+                                            <th className="px-6 py-4 text-left text-sm font-semibold text-slate-300">
                                                 #
                                             </th>
 
-                                            <th className="px-6 py-4 text-left text-sm font-semibold text-gray-600">
+                                            <th className="px-6 py-4 text-left text-sm font-semibold text-slate-300">
                                                 Student
                                             </th>
 
-                                            <th className="px-6 py-4 text-left text-sm font-semibold text-gray-600">
+                                            <th className="px-6 py-4 text-left text-sm font-semibold text-slate-300">
                                                 Email
                                             </th>
 
-                                            <th className="px-6 py-4 text-center text-sm font-semibold text-gray-600">
+                                            <th className="px-6 py-4 text-center text-sm font-semibold text-slate-300">
                                                 Marks
                                             </th>
 
-                                            <th className="px-6 py-4 text-center text-sm font-semibold text-gray-600">
+                                            <th className="px-6 py-4 text-center text-sm font-semibold text-slate-300">
                                                 Action
                                             </th>
 
@@ -1012,12 +1012,12 @@ const Exams = () => {
                                                         key={
                                                             enrollment.id
                                                         }
-                                                        className="hover:bg-gray-50"
+                                                        className="hover:bg-white/5"
                                                     >
 
                                                         {/* NUMBER */}
 
-                                                        <td className="px-6 py-4 text-gray-600">
+                                                        <td className="px-6 py-4 text-slate-300">
                                                             {index + 1}
                                                         </td>
 
@@ -1025,13 +1025,13 @@ const Exams = () => {
 
                                                         <td className="px-6 py-4">
 
-                                                            <div className="font-semibold text-gray-800">
+                                                            <div className="font-semibold text-slate-100">
                                                                 {getStudentName(
                                                                     enrollment
                                                                 )}
                                                             </div>
 
-                                                            <div className="text-sm text-gray-500">
+                                                            <div className="text-sm text-slate-400">
                                                                 Enrollment ID:{" "}
                                                                 {
                                                                     enrollment.id
@@ -1042,7 +1042,7 @@ const Exams = () => {
 
                                                         {/* EMAIL */}
 
-                                                        <td className="px-6 py-4 text-gray-600">
+                                                        <td className="px-6 py-4 text-slate-300">
                                                             {getStudentEmail(
                                                                 enrollment
                                                             )}
@@ -1076,11 +1076,11 @@ const Exams = () => {
                                                                         isExamLocked() ||
                                                                         isSaving
                                                                     }
-                                                                    className="w-28 border border-gray-300 rounded-lg px-3 py-2 text-center focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:bg-gray-100 disabled:cursor-not-allowed"
+                                                                    className="w-28 border border-white/15 rounded-lg px-3 py-2 text-center focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:bg-white/5 disabled:cursor-not-allowed"
                                                                     placeholder="Enter marks"
                                                                 />
 
-                                                                <span className="text-gray-500">
+                                                                <span className="text-slate-400">
                                                                     /
                                                                     {
                                                                         selectedExam.maxMarks
@@ -1108,7 +1108,7 @@ const Exams = () => {
                                                                 }
                                                                 className={`min-w-[90px] px-4 py-2 rounded-lg font-medium transition ${
                                                                     isExamLocked()
-                                                                        ? "bg-gray-300 text-gray-500 cursor-not-allowed"
+                                                                        ? "bg-gray-300 text-slate-400 cursor-not-allowed"
                                                                         : existingMark
                                                                         ? "bg-orange-500 text-white hover:bg-orange-600"
                                                                         : "bg-blue-600 text-white hover:bg-blue-700"

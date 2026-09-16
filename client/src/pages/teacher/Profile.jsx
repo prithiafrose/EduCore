@@ -465,7 +465,7 @@ if (loading) {
         return (
             <div className="p-8">
 
-                <div className="bg-white rounded-xl border border-slate-200 p-10 text-center text-slate-500">
+                <div className="bg-white/[0.03] rounded-xl border border-white/10 p-10 text-center text-slate-500">
                     Loading profile...
                 </div>
 
@@ -483,9 +483,9 @@ if (loading) {
         return (
             <div className="p-8">
 
-                <div className="max-w-5xl mx-auto mt-6 bg-white rounded-xl shadow-sm border border-red-200 p-6">
+                <div className="max-w-5xl mx-auto mt-6 bg-white/[0.03] rounded-xl shadow-sm border border-red-500/20 p-6">
 
-                    <p className="text-red-600">
+                    <p className="text-red-400">
 
                         {error}
                     </p>
@@ -508,16 +508,16 @@ if (loading) {
                 HEADER
             ============================== */}
 
-            <div className="bg-white border-b">
+            <div className="bg-white/[0.03] border-b">
 
                 <div className="px-8 py-6">
 
-                    <h1 className="text-3xl font-bold text-gray-800 mt-4">
+                    <h1 className="text-3xl font-bold text-slate-100 mt-4">
                         My Profile
                     </h1>
 
 
-                    <p className="text-gray-500 mt-1">
+                    <p className="text-slate-400 mt-1">
                         View and manage your teacher profile
                     </p>
 
@@ -532,7 +532,7 @@ if (loading) {
 
             <div className="max-w-5xl mx-auto px-6 py-8">
 
-                <div className="bg-white rounded-2xl shadow-sm border overflow-hidden">
+                <div className="bg-white/[0.03] rounded-2xl shadow-sm border overflow-hidden">
 
 
                     {/* ==============================
@@ -546,9 +546,9 @@ if (loading) {
 
                             {/* Avatar */}
 
-                            <div className="w-20 h-20 rounded-full bg-white flex items-center justify-center">
+                            <div className="w-20 h-20 rounded-full bg-white/[0.03] flex items-center justify-center">
 
-                                <span className="text-3xl font-bold text-blue-600">
+                                <span className="text-3xl font-bold text-blue-400">
 
                                     {teacher?.name
                                         ?.charAt(0)
@@ -594,7 +594,7 @@ if (loading) {
 
                         {error && (
 
-                            <div className="mb-6 bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg">
+                            <div className="mb-6 bg-red-500/10 border border-red-500/20 text-red-300 px-4 py-3 rounded-lg">
 
                                 {error}
 
@@ -605,7 +605,7 @@ if (loading) {
 
                         {success && (
 
-                            <div className="mb-6 bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded-lg">
+                            <div className="mb-6 bg-emerald-500/10 border border-emerald-500/20 text-emerald-300 px-4 py-3 rounded-lg">
 
                                 {success}
 
@@ -620,7 +620,7 @@ if (loading) {
 
                         <div className="flex items-center justify-between mb-6">
 
-                            <h3 className="text-lg font-semibold text-gray-800">
+                            <h3 className="text-lg font-semibold text-slate-100">
 
                                 Personal Information
 
@@ -655,11 +655,11 @@ if (loading) {
 
                                 <div>
 
-                                    <label className="block text-sm font-medium text-gray-500 mb-2">
+                                    <label className="block text-sm font-medium text-slate-400 mb-2">
                                         Full Name
                                     </label>
 
-                                    <div className="border rounded-lg px-4 py-3 bg-gray-50 text-gray-800">
+                                    <div className="border rounded-lg px-4 py-3 bg-white/5 text-slate-100">
                                         {teacher?.name || "N/A"}
                                     </div>
 
@@ -670,11 +670,11 @@ if (loading) {
 
                                 <div>
 
-                                    <label className="block text-sm font-medium text-gray-500 mb-2">
+                                    <label className="block text-sm font-medium text-slate-400 mb-2">
                                         Email
                                     </label>
 
-                                    <div className="border rounded-lg px-4 py-3 bg-gray-50 text-gray-800">
+                                    <div className="border rounded-lg px-4 py-3 bg-white/5 text-slate-100">
                                         {teacher?.email || "N/A"}
                                     </div>
 
@@ -685,11 +685,11 @@ if (loading) {
 
                                 <div>
 
-                                    <label className="block text-sm font-medium text-gray-500 mb-2">
+                                    <label className="block text-sm font-medium text-slate-400 mb-2">
                                         Employee ID
                                     </label>
 
-                                    <div className="border rounded-lg px-4 py-3 bg-gray-50 text-gray-800">
+                                    <div className="border rounded-lg px-4 py-3 bg-white/5 text-slate-100">
                                         {teacher?.employeeId || "N/A"}
                                     </div>
 
@@ -700,11 +700,11 @@ if (loading) {
 
                                 <div>
 
-                                    <label className="block text-sm font-medium text-gray-500 mb-2">
+                                    <label className="block text-sm font-medium text-slate-400 mb-2">
                                         Designation
                                     </label>
 
-                                    <div className="border rounded-lg px-4 py-3 bg-gray-50 text-gray-800">
+                                    <div className="border rounded-lg px-4 py-3 bg-white/5 text-slate-100">
                                         {teacher?.designation || "N/A"}
                                     </div>
 
@@ -715,11 +715,11 @@ if (loading) {
 
                                 <div>
 
-                                    <label className="block text-sm font-medium text-gray-500 mb-2">
+                                    <label className="block text-sm font-medium text-slate-400 mb-2">
                                         Department
                                     </label>
 
-                                    <div className="border rounded-lg px-4 py-3 bg-gray-50 text-gray-800">
+                                    <div className="border rounded-lg px-4 py-3 bg-white/5 text-slate-100">
                                         {teacher?.department?.name || "N/A"}
                                     </div>
 
@@ -730,11 +730,11 @@ if (loading) {
 
                                 <div>
 
-                                    <label className="block text-sm font-medium text-gray-500 mb-2">
+                                    <label className="block text-sm font-medium text-slate-400 mb-2">
                                         Teacher ID
                                     </label>
 
-                                    <div className="border rounded-lg px-4 py-3 bg-gray-50 text-gray-800">
+                                    <div className="border rounded-lg px-4 py-3 bg-white/5 text-slate-100">
                                         {teacher?.id || "N/A"}
                                     </div>
 
@@ -745,11 +745,11 @@ if (loading) {
 
                                 <div>
 
-                                    <label className="block text-sm font-medium text-gray-500 mb-2">
+                                    <label className="block text-sm font-medium text-slate-400 mb-2">
                                         User ID
                                     </label>
 
-                                    <div className="border rounded-lg px-4 py-3 bg-gray-50 text-gray-800">
+                                    <div className="border rounded-lg px-4 py-3 bg-white/5 text-slate-100">
                                         {teacher?.userId || "N/A"}
                                     </div>
 
@@ -760,11 +760,11 @@ if (loading) {
 
                                 <div>
 
-                                    <label className="block text-sm font-medium text-gray-500 mb-2">
+                                    <label className="block text-sm font-medium text-slate-400 mb-2">
                                         Account Created
                                     </label>
 
-                                    <div className="border rounded-lg px-4 py-3 bg-gray-50 text-gray-800">
+                                    <div className="border rounded-lg px-4 py-3 bg-white/5 text-slate-100">
 
                                         {teacher?.createdAt
                                             ? new Date(
@@ -798,7 +798,7 @@ if (loading) {
 
                                     <div>
 
-                                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                                        <label className="block text-sm font-medium text-slate-200 mb-2">
 
                                             Full Name
 
@@ -821,7 +821,7 @@ if (loading) {
 
                                     <div>
 
-                                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                                        <label className="block text-sm font-medium text-slate-200 mb-2">
 
                                             Email
 
@@ -844,7 +844,7 @@ if (loading) {
 
                                     <div>
 
-                                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                                        <label className="block text-sm font-medium text-slate-200 mb-2">
 
                                             Employee ID
 
@@ -867,14 +867,14 @@ if (loading) {
 
                                     <div>
 
-                                        <label className="block text-sm font-medium text-gray-500 mb-2">
+                                        <label className="block text-sm font-medium text-slate-400 mb-2">
 
                                             Teacher ID
 
                                         </label>
 
 
-                                        <div className="border rounded-lg px-4 py-3 bg-gray-100 text-gray-600">
+                                        <div className="border rounded-lg px-4 py-3 bg-white/5 text-slate-300">
 
                                             {teacher?.id}
 
@@ -887,14 +887,14 @@ if (loading) {
 
                                     <div>
 
-                                        <label className="block text-sm font-medium text-gray-500 mb-2">
+                                        <label className="block text-sm font-medium text-slate-400 mb-2">
 
                                             User ID
 
                                         </label>
 
 
-                                        <div className="border rounded-lg px-4 py-3 bg-gray-100 text-gray-600">
+                                        <div className="border rounded-lg px-4 py-3 bg-white/5 text-slate-300">
 
                                             {teacher?.userId}
 
@@ -907,14 +907,14 @@ if (loading) {
 
                                     <div>
 
-                                        <label className="block text-sm font-medium text-gray-500 mb-2">
+                                        <label className="block text-sm font-medium text-slate-400 mb-2">
 
                                             Role
 
                                         </label>
 
 
-                                        <div className="border rounded-lg px-4 py-3 bg-gray-100 text-gray-600">
+                                        <div className="border rounded-lg px-4 py-3 bg-white/5 text-slate-300">
 
                                             TEACHER
 
@@ -934,7 +934,7 @@ if (loading) {
                                         type="button"
                                         onClick={handleCancel}
                                         disabled={saving}
-                                        className="px-5 py-2.5 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition disabled:opacity-50"
+                                        className="px-5 py-2.5 border border-white/15 text-slate-200 rounded-lg hover:bg-white/5 transition disabled:opacity-50"
                                     >
                                         Cancel
                                     </button>
@@ -967,25 +967,25 @@ if (loading) {
 
                             <div className="mt-8 pt-6 border-t">
 
-                                <h3 className="text-lg font-semibold text-gray-800 mb-4">
+                                <h3 className="text-lg font-semibold text-slate-100 mb-4">
 
                                     Account Information
 
                                 </h3>
 
 
-                                <div className="flex items-center justify-between border rounded-lg px-4 py-4 bg-gray-50">
+                                <div className="flex items-center justify-between border rounded-lg px-4 py-4 bg-white/5">
 
                                     <div>
 
-                                        <p className="font-medium text-gray-800">
+                                        <p className="font-medium text-slate-100">
 
                                             Account Role
 
                                         </p>
 
 
-                                        <p className="text-sm text-gray-500 mt-1">
+                                        <p className="text-sm text-slate-400 mt-1">
 
                                             Your account has teacher access
 
@@ -994,7 +994,7 @@ if (loading) {
                                     </div>
 
 
-                                    <span className="px-3 py-1 rounded-full text-sm font-medium bg-green-100 text-green-700">
+                                    <span className="px-3 py-1 rounded-full text-sm font-medium bg-emerald-500/15 text-emerald-300">
 
                                         TEACHER
 
@@ -1015,7 +1015,7 @@ if (loading) {
 
                             <div className="mt-8 pt-6 border-t">
 
-                                <h3 className="text-lg font-semibold text-gray-800 mb-4">
+                                <h3 className="text-lg font-semibold text-slate-100 mb-4">
 
                                     Change Password
 
@@ -1024,7 +1024,7 @@ if (loading) {
 
                                 {passwordError && (
 
-                                    <div className="mb-4 bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg">
+                                    <div className="mb-4 bg-red-500/10 border border-red-500/20 text-red-300 px-4 py-3 rounded-lg">
 
                                         {passwordError}
 
@@ -1035,7 +1035,7 @@ if (loading) {
 
                                 {passwordSuccess && (
 
-                                    <div className="mb-4 bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded-lg">
+                                    <div className="mb-4 bg-emerald-500/10 border border-emerald-500/20 text-emerald-300 px-4 py-3 rounded-lg">
 
                                         {passwordSuccess}
 
@@ -1051,7 +1051,7 @@ if (loading) {
 
                                     <div>
 
-                                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                                        <label className="block text-sm font-medium text-slate-200 mb-2">
 
                                             Current Password
 
@@ -1072,7 +1072,7 @@ if (loading) {
 
                                     <div>
 
-                                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                                        <label className="block text-sm font-medium text-slate-200 mb-2">
 
                                             New Password
 
@@ -1093,7 +1093,7 @@ if (loading) {
 
                                     <div>
 
-                                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                                        <label className="block text-sm font-medium text-slate-200 mb-2">
 
                                             Confirm New Password
 
@@ -1117,7 +1117,7 @@ if (loading) {
                                         <button
                                             type="submit"
                                             disabled={passwordSaving}
-                                            className="px-5 py-2.5 bg-slate-900 text-white rounded-lg hover:bg-slate-800 transition disabled:opacity-50"
+                                            className="px-5 py-2.5 bg-slate-900 text-white rounded-lg hover:bg-white/10 transition disabled:opacity-50"
                                         >
 
                                             {passwordSaving

@@ -279,7 +279,7 @@ const Teachers = () => {
 
             <div>
 
-              <h1 className="text-3xl font-bold text-slate-900">
+              <h1 className="text-3xl font-bold text-white">
                 Teacher Management
               </h1>
 
@@ -294,13 +294,13 @@ const Teachers = () => {
 
           {/* Total Teachers */}
 
-          <div className="rounded-xl bg-white px-4 py-3 shadow-sm ring-1 ring-slate-200">
+          <div className="rounded-xl bg-white/[0.03] px-4 py-3 shadow-sm ring-1 ring-white/10">
 
-            <p className="text-xs font-medium uppercase tracking-wide text-slate-400">
+            <p className="text-xs font-medium uppercase tracking-wide text-slate-500">
               Total Teachers
             </p>
 
-            <p className="mt-1 text-2xl font-bold text-slate-900">
+            <p className="mt-1 text-2xl font-bold text-white">
               {teachers.length}
             </p>
 
@@ -315,7 +315,7 @@ const Teachers = () => {
 
       {success && (
 
-        <div className="mb-5 rounded-xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm font-medium text-emerald-700">
+        <div className="mb-5 rounded-xl border border-emerald-500/20 bg-emerald-500/10 px-4 py-3 text-sm font-medium text-emerald-300">
           {success}
         </div>
 
@@ -324,7 +324,7 @@ const Teachers = () => {
 
       {error && (
 
-        <div className="mb-5 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm font-medium text-red-700">
+        <div className="mb-5 rounded-xl border border-red-500/20 bg-red-500/10 px-4 py-3 text-sm font-medium text-red-300">
           {error}
         </div>
 
@@ -333,12 +333,12 @@ const Teachers = () => {
 
       {/* Teacher Form */}
 
-      <div className="mb-8 rounded-2xl bg-white p-6 shadow-sm ring-1 ring-slate-200">
+      <div className="mb-8 rounded-2xl bg-white/[0.03] p-6 shadow-sm ring-1 ring-white/10">
 
 
         <div className="mb-6">
 
-          <h2 className="text-lg font-semibold text-slate-900">
+          <h2 className="text-lg font-semibold text-white">
 
             {editingId
               ? "Edit Teacher"
@@ -367,7 +367,7 @@ const Teachers = () => {
 
           <div>
 
-            <label className="mb-2 block text-sm font-medium text-slate-700">
+            <label className="mb-2 block text-sm font-medium text-slate-200">
               Full Name
             </label>
 
@@ -378,7 +378,7 @@ const Teachers = () => {
               onChange={handleChange}
               placeholder="Enter teacher's name"
               required
-              className="w-full rounded-xl border border-slate-300 px-4 py-3 text-sm outline-none transition focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100"
+              className="w-full rounded-xl border border-white/15 px-4 py-3 text-sm outline-none transition focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100"
             />
 
           </div>
@@ -388,7 +388,7 @@ const Teachers = () => {
 
           <div>
 
-            <label className="mb-2 block text-sm font-medium text-slate-700">
+            <label className="mb-2 block text-sm font-medium text-slate-200">
               University Email
             </label>
 
@@ -399,7 +399,7 @@ const Teachers = () => {
               onChange={handleChange}
               placeholder="teacher@university.edu"
               required
-              className="w-full rounded-xl border border-slate-300 px-4 py-3 text-sm outline-none transition focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100"
+              className="w-full rounded-xl border border-white/15 px-4 py-3 text-sm outline-none transition focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100"
             />
 
           </div>
@@ -409,7 +409,7 @@ const Teachers = () => {
 
           <div>
 
-            <label className="mb-2 block text-sm font-medium text-slate-700">
+            <label className="mb-2 block text-sm font-medium text-slate-200">
               Employee ID
             </label>
 
@@ -420,7 +420,7 @@ const Teachers = () => {
               onChange={handleChange}
               placeholder="e.g. EMP-001"
               required
-              className="w-full rounded-xl border border-slate-300 px-4 py-3 text-sm outline-none transition focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100"
+              className="w-full rounded-xl border border-white/15 px-4 py-3 text-sm outline-none transition focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100"
             />
 
           </div>
@@ -430,7 +430,7 @@ const Teachers = () => {
 
           <div>
 
-            <label className="mb-2 block text-sm font-medium text-slate-700">
+            <label className="mb-2 block text-sm font-medium text-slate-200">
               Designation
             </label>
 
@@ -440,7 +440,7 @@ const Teachers = () => {
               value={formData.designation}
               onChange={handleChange}
               placeholder="e.g. Professor"
-              className="w-full rounded-xl border border-slate-300 px-4 py-3 text-sm outline-none transition focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100"
+              className="w-full rounded-xl border border-white/15 px-4 py-3 text-sm outline-none transition focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100"
             />
 
           </div>
@@ -450,7 +450,7 @@ const Teachers = () => {
 
           <div>
 
-            <label className="mb-2 block text-sm font-medium text-slate-700">
+            <label className="mb-2 block text-sm font-medium text-slate-200">
               Department
             </label>
 
@@ -458,7 +458,7 @@ const Teachers = () => {
               name="departmentId"
               value={formData.departmentId}
               onChange={handleChange}
-              className="w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm outline-none transition focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100"
+              className="w-full rounded-xl border border-white/15 bg-white/[0.03] px-4 py-3 text-sm outline-none transition focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100"
             >
 
               <option value="">
@@ -489,7 +489,7 @@ const Teachers = () => {
 
             <div>
 
-              <label className="mb-2 block text-sm font-medium text-slate-700">
+              <label className="mb-2 block text-sm font-medium text-slate-200">
                 Password
               </label>
 
@@ -500,10 +500,10 @@ const Teachers = () => {
                 onChange={handleChange}
                 placeholder="Create login password"
                 required
-                className="w-full rounded-xl border border-slate-300 px-4 py-3 text-sm outline-none transition focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100"
+                className="w-full rounded-xl border border-white/15 px-4 py-3 text-sm outline-none transition focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100"
               />
 
-              <p className="mt-2 text-xs text-slate-400">
+              <p className="mt-2 text-xs text-slate-500">
                 This password will be used by the teacher to sign in to EduCore.
               </p>
 
@@ -536,7 +536,7 @@ const Teachers = () => {
               <button
                 type="button"
                 onClick={resetForm}
-                className="rounded-xl border border-slate-300 bg-white px-6 py-3 text-sm font-semibold text-slate-700 transition hover:bg-slate-50"
+                className="rounded-xl border border-white/15 bg-white/[0.03] px-6 py-3 text-sm font-semibold text-slate-200 transition hover:bg-white/5"
               >
                 Cancel
               </button>
@@ -552,16 +552,16 @@ const Teachers = () => {
 
       {/* Teacher List */}
 
-      <div className="rounded-2xl bg-white shadow-sm ring-1 ring-slate-200">
+      <div className="rounded-2xl bg-white/[0.03] shadow-sm ring-1 ring-white/10">
 
 
         {/* List Header */}
 
-        <div className="flex flex-col gap-4 border-b border-slate-200 p-6 sm:flex-row sm:items-center sm:justify-between">
+        <div className="flex flex-col gap-4 border-b border-white/10 p-6 sm:flex-row sm:items-center sm:justify-between">
 
           <div>
 
-            <h2 className="text-lg font-semibold text-slate-900">
+            <h2 className="text-lg font-semibold text-white">
               Teachers
             </h2>
 
@@ -581,7 +581,7 @@ const Teachers = () => {
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               placeholder="Search teachers..."
-              className="w-full rounded-xl border border-slate-300 px-4 py-3 text-sm outline-none transition focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100"
+              className="w-full rounded-xl border border-white/15 px-4 py-3 text-sm outline-none transition focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100"
             />
 
           </div>
@@ -601,11 +601,11 @@ const Teachers = () => {
 
           <div className="p-10 text-center">
 
-            <p className="font-medium text-slate-700">
+            <p className="font-medium text-slate-200">
               No teachers found
             </p>
 
-            <p className="mt-1 text-sm text-slate-400">
+            <p className="mt-1 text-sm text-slate-500">
               Try a different search or add a new teacher.
             </p>
 
@@ -619,7 +619,7 @@ const Teachers = () => {
 
               <thead>
 
-                <tr className="border-b border-slate-200 bg-slate-50">
+                <tr className="border-b border-white/10 bg-white/5">
 
                   <th className="px-6 py-4 text-xs font-semibold uppercase tracking-wide text-slate-500">
                     Employee ID
@@ -656,7 +656,7 @@ const Teachers = () => {
 
                   <tr
                     key={teacher.id}
-                    className="border-b border-slate-100 last:border-0 hover:bg-slate-50"
+                    className="border-b border-white/5 last:border-0 hover:bg-white/5"
                   >
 
 
@@ -664,7 +664,7 @@ const Teachers = () => {
 
                     <td className="px-6 py-4">
 
-                      <span className="rounded-lg bg-indigo-50 px-3 py-1.5 text-sm font-semibold text-indigo-700">
+                      <span className="rounded-lg bg-indigo-500/10 px-3 py-1.5 text-sm font-semibold text-indigo-300">
                         {teacher.employeeId}
                       </span>
 
@@ -675,11 +675,11 @@ const Teachers = () => {
 
                     <td className="px-6 py-4">
 
-                      <p className="font-medium text-slate-900">
+                      <p className="font-medium text-white">
                         {teacher.name}
                       </p>
 
-                      <p className="mt-1 text-xs text-slate-400">
+                      <p className="mt-1 text-xs text-slate-500">
                         Teacher ID: {teacher.id}
                       </p>
 
@@ -688,21 +688,21 @@ const Teachers = () => {
 
                     {/* Email */}
 
-                    <td className="px-6 py-4 text-sm text-slate-600">
+                    <td className="px-6 py-4 text-sm text-slate-300">
                       {teacher.email}
                     </td>
 
 
                     {/* Designation */}
 
-                    <td className="px-6 py-4 text-sm text-slate-600">
+                    <td className="px-6 py-4 text-sm text-slate-300">
                       {teacher.designation || "—"}
                     </td>
 
 
                     {/* Department */}
 
-                    <td className="px-6 py-4 text-sm text-slate-600">
+                    <td className="px-6 py-4 text-sm text-slate-300">
                       {teacher.department?.name || "—"}
                     </td>
 
@@ -716,7 +716,7 @@ const Teachers = () => {
                         <button
                           type="button"
                           onClick={() => handleEdit(teacher)}
-                          className="rounded-lg border border-slate-300 px-3 py-2 text-xs font-semibold text-slate-700 transition hover:bg-slate-100"
+                          className="rounded-lg border border-white/15 px-3 py-2 text-xs font-semibold text-slate-200 transition hover:bg-white/5"
                         >
                           Edit
                         </button>
@@ -724,7 +724,7 @@ const Teachers = () => {
                         <button
                           type="button"
                           onClick={() => handleDelete(teacher.id)}
-                          className="rounded-lg border border-red-200 px-3 py-2 text-xs font-semibold text-red-600 transition hover:bg-red-50"
+                          className="rounded-lg border border-red-500/20 px-3 py-2 text-xs font-semibold text-red-400 transition hover:bg-red-500/10"
                         >
                           Delete
                         </button>

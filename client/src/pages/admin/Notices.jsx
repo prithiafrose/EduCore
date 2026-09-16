@@ -311,22 +311,22 @@ const Notices = () => {
   const getTypeClass = (type) => {
     switch (type) {
       case "GENERAL":
-        return "bg-blue-100 text-blue-700";
+        return "bg-blue-500/15 text-blue-300";
       case "CLASS_CANCELLED":
       case "CLASS_RESCHEDULED":
         return "bg-orange-100 text-orange-700";
       case "ASSIGNMENT":
       case "ASSIGNMENT_DEADLINE":
-        return "bg-purple-100 text-purple-700";
+        return "bg-purple-500/15 text-purple-300";
       case "RESULT_PUBLISHED":
       case "ASSESSMENT_MARK_PUBLISHED":
-        return "bg-green-100 text-green-700";
+        return "bg-emerald-500/15 text-emerald-300";
       case "PAYMENT_DUE":
-        return "bg-red-100 text-red-700";
+        return "bg-red-500/15 text-red-300";
       case "EXAM_SCHEDULE":
-        return "bg-indigo-100 text-indigo-700";
+        return "bg-indigo-500/15 text-indigo-300";
       default:
-        return "bg-gray-100 text-gray-700";
+        return "bg-white/5 text-slate-200";
     }
   };
 
@@ -361,11 +361,11 @@ const Notices = () => {
       {/* Header */}
       <div className="mb-8 flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-gray-800">
+          <h1 className="text-3xl font-bold text-slate-100">
             Notice Board
           </h1>
 
-          <p className="mt-2 text-gray-500">
+          <p className="mt-2 text-slate-400">
             Publish and manage announcements for students,
             teachers and administrators.
           </p>
@@ -375,27 +375,27 @@ const Notices = () => {
 
       {/* Success */}
       {success && (
-        <div className="mb-5 rounded-lg border border-green-200 bg-green-50 px-4 py-3 text-green-700">
+        <div className="mb-5 rounded-lg border border-emerald-500/20 bg-emerald-500/10 px-4 py-3 text-emerald-300">
           {success}
         </div>
       )}
 
       {/* Error */}
       {error && (
-        <div className="mb-5 rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-red-700">
+        <div className="mb-5 rounded-lg border border-red-500/20 bg-red-500/10 px-4 py-3 text-red-300">
           {error}
         </div>
       )}
 
       {/* At-Risk Student Monitor */}
-      <div className="rounded-xl bg-white shadow mb-8">
+      <div className="rounded-xl bg-white/[0.03] shadow mb-8">
         <div className="flex items-center justify-between border-b px-6 py-5">
           <div>
-            <h2 className="text-xl font-semibold text-gray-800">
+            <h2 className="text-xl font-semibold text-slate-100">
               At-Risk Student Monitor
             </h2>
 
-            <p className="text-sm text-gray-500">
+            <p className="text-sm text-slate-400">
               Scan all enrolled students for low attendance, unpaid
               fees and failing grades. At-risk notifications are sent
               automatically.
@@ -417,47 +417,47 @@ const Notices = () => {
         </div>
 
         {atRiskError && (
-          <div className="border-b bg-red-50 px-6 py-3 text-red-700">
+          <div className="border-b bg-red-500/10 px-6 py-3 text-red-300">
             {atRiskError}
           </div>
         )}
 
         {atRiskLoading && (
-          <div className="py-10 text-center text-gray-500">
+          <div className="py-10 text-center text-slate-400">
             Scanning students and generating notifications...
           </div>
         )}
 
         {atRiskResult && !atRiskLoading && (
           <div className="p-6">
-            <p className="mb-5 text-sm text-gray-600">
+            <p className="mb-5 text-sm text-slate-300">
               {atRiskResult.summaryText}
             </p>
 
             <div className="grid grid-cols-2 gap-4 md:grid-cols-4 mb-6">
-              <div className="rounded-lg bg-slate-50 border border-gray-200 p-4 text-center">
-                <p className="text-2xl font-bold text-gray-800">
+              <div className="rounded-lg bg-white/5 border border-white/10 p-4 text-center">
+                <p className="text-2xl font-bold text-slate-100">
                   {atRiskResult.summary?.totalChecked ?? 0}
                 </p>
-                <p className="text-xs text-gray-500 mt-1">
+                <p className="text-xs text-slate-400 mt-1">
                   Total Checked
                 </p>
               </div>
 
-              <div className="rounded-lg bg-red-50 border border-red-200 p-4 text-center">
-                <p className="text-2xl font-bold text-red-700">
+              <div className="rounded-lg bg-red-500/10 border border-red-500/20 p-4 text-center">
+                <p className="text-2xl font-bold text-red-300">
                   {atRiskResult.summary?.atRiskCount ?? 0}
                 </p>
-                <p className="text-xs text-gray-500 mt-1">
+                <p className="text-xs text-slate-400 mt-1">
                   At-Risk Students
                 </p>
               </div>
 
-              <div className="rounded-lg bg-amber-50 border border-amber-200 p-4 text-center">
-                <p className="text-2xl font-bold text-amber-700">
+              <div className="rounded-lg bg-amber-500/10 border border-amber-500/20 p-4 text-center">
+                <p className="text-2xl font-bold text-amber-300">
                   {atRiskResult.summary?.attendanceRisk ?? 0}
                 </p>
-                <p className="text-xs text-gray-500 mt-1">
+                <p className="text-xs text-slate-400 mt-1">
                   Attendance Risks
                 </p>
               </div>
@@ -466,7 +466,7 @@ const Notices = () => {
                 <p className="text-2xl font-bold text-orange-700">
                   {atRiskResult.summary?.paymentRisk ?? 0}
                 </p>
-                <p className="text-xs text-gray-500 mt-1">
+                <p className="text-xs text-slate-400 mt-1">
                   Payment Risks
                 </p>
               </div>
@@ -475,34 +475,34 @@ const Notices = () => {
             {atRiskResult.report?.length > 0 ? (
               <div className="overflow-x-auto">
                 <table className="w-full">
-                  <thead className="bg-gray-50 text-left">
+                  <thead className="bg-white/5 text-left">
                     <tr className="border-b">
-                      <th className="px-4 py-3 text-sm font-semibold text-gray-700">
+                      <th className="px-4 py-3 text-sm font-semibold text-slate-200">
                         Student
                       </th>
 
-                      <th className="px-4 py-3 text-sm font-semibold text-gray-700">
+                      <th className="px-4 py-3 text-sm font-semibold text-slate-200">
                         ID
                       </th>
 
-                      <th className="px-4 py-3 text-sm font-semibold text-gray-700">
+                      <th className="px-4 py-3 text-sm font-semibold text-slate-200">
                         Risk Indicators
                       </th>
 
-                      <th className="px-4 py-3 text-sm font-semibold text-gray-700">
+                      <th className="px-4 py-3 text-sm font-semibold text-slate-200">
                         Details
                       </th>
                     </tr>
                   </thead>
 
-                  <tbody className="divide-y divide-gray-200">
+                  <tbody className="divide-y divide-white/10">
                     {atRiskResult.report.map((student) => (
-                      <tr key={student.studentId} className="hover:bg-gray-50">
-                        <td className="px-4 py-4 text-sm font-medium text-gray-800">
+                      <tr key={student.studentId} className="hover:bg-white/5">
+                        <td className="px-4 py-4 text-sm font-medium text-slate-100">
                           {student.name}
                         </td>
 
-                        <td className="px-4 py-4 text-sm text-gray-600">
+                        <td className="px-4 py-4 text-sm text-slate-300">
                           {student.studentIdCode}
                         </td>
 
@@ -513,9 +513,9 @@ const Notices = () => {
                                 key={reason}
                                 className={`px-2 py-0.5 rounded-full text-xs font-semibold ${
                                   reason === "ATTENDANCE"
-                                    ? "bg-amber-100 text-amber-700"
+                                    ? "bg-amber-500/15 text-amber-300"
                                     : reason === "PAYMENT"
-                                    ? "bg-red-100 text-red-700"
+                                    ? "bg-red-500/15 text-red-300"
                                     : "bg-orange-100 text-orange-700"
                                 }`}
                               >
@@ -526,7 +526,7 @@ const Notices = () => {
                         </td>
 
                         <td className="px-4 py-4">
-                          <div className="space-y-1 text-xs text-gray-600">
+                          <div className="space-y-1 text-xs text-slate-300">
                             {student.details?.attendance && (
                               <p>
                                 Attendance:{" "}
@@ -557,7 +557,7 @@ const Notices = () => {
                 </table>
               </div>
             ) : (
-              <div className="rounded-lg bg-green-50 border border-green-200 px-4 py-4 text-green-700 text-sm">
+              <div className="rounded-lg bg-emerald-500/10 border border-emerald-500/20 px-4 py-4 text-emerald-300 text-sm">
                 No at-risk students detected.
               </div>
             )}
@@ -566,14 +566,14 @@ const Notices = () => {
       </div>
 
       {/* Publish Card */}
-      <div className="rounded-xl bg-white shadow mb-8">
+      <div className="rounded-xl bg-white/[0.03] shadow mb-8">
         <div className="flex items-center justify-between border-b px-6 py-5">
           <div>
-            <h2 className="text-xl font-semibold text-gray-800">
+            <h2 className="text-xl font-semibold text-slate-100">
               Publish Notice
             </h2>
 
-            <p className="text-sm text-gray-500">
+            <p className="text-sm text-slate-400">
               Send an announcement to a user.
             </p>
           </div>
@@ -596,12 +596,12 @@ const Notices = () => {
         </div>
 
         {showForm && (
-          <div className="border-b bg-gray-50 p-6">
+          <div className="border-b bg-white/5 p-6">
             <form onSubmit={handleSubmit}>
               <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
                 {/* Recipient */}
                 <div>
-                  <label className="mb-2 block text-sm font-medium text-gray-700">
+                  <label className="mb-2 block text-sm font-medium text-slate-200">
                     Recipient
                   </label>
 
@@ -610,7 +610,7 @@ const Notices = () => {
                     onChange={(e) =>
                       setUserId(e.target.value)
                     }
-                    className="w-full rounded-lg border border-gray-300 bg-white px-4 py-2.5 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
+                    className="w-full rounded-lg border border-white/15 bg-white/[0.03] px-4 py-2.5 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
                     required
                   >
                     <option value="">Select User</option>
@@ -625,14 +625,14 @@ const Notices = () => {
 
                 {/* Type */}
                 <div>
-                  <label className="mb-2 block text-sm font-medium text-gray-700">
+                  <label className="mb-2 block text-sm font-medium text-slate-200">
                     Notice Type
                   </label>
 
                   <select
                     value={type}
                     onChange={(e) => setType(e.target.value)}
-                    className="w-full rounded-lg border border-gray-300 bg-white px-4 py-2.5 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
+                    className="w-full rounded-lg border border-white/15 bg-white/[0.03] px-4 py-2.5 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
                     required
                   >
                     <option value="">Select Type</option>
@@ -647,7 +647,7 @@ const Notices = () => {
 
                 {/* Title */}
                 <div>
-                  <label className="mb-2 block text-sm font-medium text-gray-700">
+                  <label className="mb-2 block text-sm font-medium text-slate-200">
                     Title
                   </label>
 
@@ -657,7 +657,7 @@ const Notices = () => {
                     onChange={(e) =>
                       setTitle(e.target.value)
                     }
-                    className="w-full rounded-lg border border-gray-300 bg-white px-4 py-2.5 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
+                    className="w-full rounded-lg border border-white/15 bg-white/[0.03] px-4 py-2.5 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
                     placeholder="e.g. Midterm Exam Schedule"
                     required
                   />
@@ -665,7 +665,7 @@ const Notices = () => {
 
                 {/* Message */}
                 <div>
-                  <label className="mb-2 block text-sm font-medium text-gray-700">
+                  <label className="mb-2 block text-sm font-medium text-slate-200">
                     Message
                   </label>
 
@@ -675,7 +675,7 @@ const Notices = () => {
                       setMessage(e.target.value)
                     }
                     rows="3"
-                    className="w-full rounded-lg border border-gray-300 bg-white px-4 py-2.5 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
+                    className="w-full rounded-lg border border-white/15 bg-white/[0.03] px-4 py-2.5 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
                     placeholder="Write the notice content..."
                     required
                   />
@@ -708,7 +708,7 @@ const Notices = () => {
 
         {/* Notifications List */}
         <div className="border-b px-6 py-4 flex items-center justify-between">
-          <p className="text-sm text-gray-500">
+          <p className="text-sm text-slate-400">
             Total Notices: {notifications.length}
           </p>
 
@@ -717,65 +717,65 @@ const Notices = () => {
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Search notices..."
-            className="w-64 rounded-lg border border-gray-300 px-4 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
+            className="w-64 rounded-lg border border-white/15 px-4 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
           />
         </div>
 
         <div className="overflow-x-auto">
           {loading ? (
-            <div className="p-8 text-center text-gray-500">
+            <div className="p-8 text-center text-slate-400">
               Loading notices...
             </div>
           ) : filteredNotifications.length === 0 ? (
-            <div className="p-8 text-center text-gray-500">
+            <div className="p-8 text-center text-slate-400">
               No notices found.
             </div>
           ) : (
             <table className="w-full">
-              <thead className="bg-gray-50 text-left">
+              <thead className="bg-white/5 text-left">
                 <tr className="border-b">
-                  <th className="px-5 py-3 text-sm font-semibold text-gray-700">
+                  <th className="px-5 py-3 text-sm font-semibold text-slate-200">
                     #
                   </th>
 
-                  <th className="px-5 py-3 text-sm font-semibold text-gray-700">
+                  <th className="px-5 py-3 text-sm font-semibold text-slate-200">
                     Recipient
                   </th>
 
-                  <th className="px-5 py-3 text-sm font-semibold text-gray-700">
+                  <th className="px-5 py-3 text-sm font-semibold text-slate-200">
                     Type
                   </th>
 
-                  <th className="px-5 py-3 text-sm font-semibold text-gray-700">
+                  <th className="px-5 py-3 text-sm font-semibold text-slate-200">
                     Title
                   </th>
 
-                  <th className="px-5 py-3 text-sm font-semibold text-gray-700">
+                  <th className="px-5 py-3 text-sm font-semibold text-slate-200">
                     Status
                   </th>
 
-                  <th className="px-5 py-3 text-sm font-semibold text-gray-700">
+                  <th className="px-5 py-3 text-sm font-semibold text-slate-200">
                     Date
                   </th>
 
-                  <th className="px-5 py-3 text-center text-sm font-semibold text-gray-700">
+                  <th className="px-5 py-3 text-center text-sm font-semibold text-slate-200">
                     Actions
                   </th>
                 </tr>
               </thead>
 
-              <tbody className="divide-y divide-gray-200">
+              <tbody className="divide-y divide-white/10">
                 {filteredNotifications.map(
                   (notification, index) => (
                     <tr
                       key={notification.id}
-                      className="hover:bg-gray-50"
+                      className="hover:bg-white/5"
                     >
-                      <td className="px-5 py-4 text-sm text-gray-600">
+                      <td className="px-5 py-4 text-sm text-slate-300">
                         {index + 1}
                       </td>
 
-                      <td className="px-5 py-4 text-sm text-gray-700">
+                      <td className="px-5 py-4 text-sm text-slate-200">
                         {getUserEmail(notification.userId)}
                       </td>
 
@@ -793,22 +793,22 @@ const Notices = () => {
                       </td>
 
                       <td className="px-5 py-4">
-                        <p className="font-medium text-gray-800">
+                        <p className="font-medium text-slate-100">
                           {notification.title}
                         </p>
 
-                        <p className="text-xs text-gray-500 max-w-xs truncate">
+                        <p className="text-xs text-slate-400 max-w-xs truncate">
                           {notification.message}
                         </p>
                       </td>
 
                       <td className="px-5 py-4">
                         {notification.archivedAt ? (
-                          <span className="px-3 py-1 rounded-full text-xs font-medium bg-gray-100 text-gray-700">
+                          <span className="px-3 py-1 rounded-full text-xs font-medium bg-white/5 text-slate-200">
                             Archived
                           </span>
                         ) : notification.isRead ? (
-                          <span className="px-3 py-1 rounded-full text-xs font-medium bg-green-100 text-green-700">
+                          <span className="px-3 py-1 rounded-full text-xs font-medium bg-emerald-500/15 text-emerald-300">
                             Read
                           </span>
                         ) : (
@@ -818,7 +818,7 @@ const Notices = () => {
                         )}
                       </td>
 
-                      <td className="px-5 py-4 text-sm text-gray-700">
+                      <td className="px-5 py-4 text-sm text-slate-200">
                         {formatDate(notification.createdAt)}
                       </td>
 
@@ -830,7 +830,7 @@ const Notices = () => {
                               onClick={() =>
                                 handleUnarchive(notification.id)
                               }
-                              className="rounded-lg border border-green-300 px-4 py-2 text-sm font-medium text-green-700 hover:bg-green-50"
+                              className="rounded-lg border border-green-300 px-4 py-2 text-sm font-medium text-emerald-300 hover:bg-emerald-500/10"
                             >
                               Restore
                             </button>
@@ -840,7 +840,7 @@ const Notices = () => {
                               onClick={() =>
                                 handleArchive(notification.id)
                               }
-                              className="rounded-lg border border-green-300 px-4 py-2 text-sm font-medium text-green-700 hover:bg-green-50"
+                              className="rounded-lg border border-green-300 px-4 py-2 text-sm font-medium text-emerald-300 hover:bg-emerald-500/10"
                             >
                               Archive
                             </button>

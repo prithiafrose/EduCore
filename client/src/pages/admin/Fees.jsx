@@ -320,13 +320,13 @@ const Fees = () => {
   const getStatusClass = (status) => {
     switch (status) {
       case "PAID":
-        return "bg-green-100 text-green-700";
+        return "bg-emerald-500/15 text-emerald-300";
       case "PENDING":
         return "bg-yellow-100 text-yellow-700";
       case "FAILED":
-        return "bg-red-100 text-red-700";
+        return "bg-red-500/15 text-red-300";
       default:
-        return "bg-gray-100 text-gray-600";
+        return "bg-white/5 text-slate-300";
     }
   };
 
@@ -344,11 +344,11 @@ const Fees = () => {
       {/* Header */}
       <div className="mb-8 flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-gray-800">
+          <h1 className="text-3xl font-bold text-slate-100">
             Fees & Payments
           </h1>
 
-          <p className="mt-2 text-gray-500">
+          <p className="mt-2 text-slate-400">
             Configure semester and registration fees, and manage
             student payments.
           </p>
@@ -358,42 +358,42 @@ const Fees = () => {
 
       {/* Success */}
       {success && (
-        <div className="mb-5 rounded-lg border border-green-200 bg-green-50 px-4 py-3 text-green-700">
+        <div className="mb-5 rounded-lg border border-emerald-500/20 bg-emerald-500/10 px-4 py-3 text-emerald-300">
           {success}
         </div>
       )}
 
       {/* Error */}
       {error && (
-        <div className="mb-5 rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-red-700">
+        <div className="mb-5 rounded-lg border border-red-500/20 bg-red-500/10 px-4 py-3 text-red-300">
           {error}
         </div>
       )}
 
       {/* Revenue Summary */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mb-8">
-        <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
-          <p className="text-sm text-gray-500">
+        <div className="bg-white/[0.03] p-6 rounded-2xl shadow-sm border border-white/10">
+          <p className="text-sm text-slate-400">
             Total Fees Configured
           </p>
 
-          <h3 className="text-3xl font-bold text-gray-900 mt-2">
+          <h3 className="text-3xl font-bold text-white mt-2">
             {fees.length}
           </h3>
         </div>
 
-        <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
-          <p className="text-sm text-gray-500">
+        <div className="bg-white/[0.03] p-6 rounded-2xl shadow-sm border border-white/10">
+          <p className="text-sm text-slate-400">
             Collected Revenue
           </p>
 
-          <h3 className="text-2xl font-bold text-green-600 mt-2">
+          <h3 className="text-2xl font-bold text-emerald-400 mt-2">
             ৳ {formatAmount(paidTotal)}
           </h3>
         </div>
 
-        <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
-          <p className="text-sm text-gray-500">
+        <div className="bg-white/[0.03] p-6 rounded-2xl shadow-sm border border-white/10">
+          <p className="text-sm text-slate-400">
             Outstanding (Pending)
           </p>
 
@@ -404,14 +404,14 @@ const Fees = () => {
       </div>
 
       {/* Fees Management */}
-      <div className="rounded-xl bg-white shadow mb-8">
+      <div className="rounded-xl bg-white/[0.03] shadow mb-8">
         <div className="flex items-center justify-between border-b px-6 py-5">
           <div>
-            <h2 className="text-xl font-semibold text-gray-800">
+            <h2 className="text-xl font-semibold text-slate-100">
               Fee Configuration
             </h2>
 
-            <p className="text-sm text-gray-500">
+            <p className="text-sm text-slate-400">
               Total Fees: {fees.length}
             </p>
           </div>
@@ -435,8 +435,8 @@ const Fees = () => {
 
         {/* Form */}
         {showForm && (
-          <div className="border-b bg-gray-50 p-6">
-            <h3 className="mb-5 text-lg font-semibold text-gray-800">
+          <div className="border-b bg-white/5 p-6">
+            <h3 className="mb-5 text-lg font-semibold text-slate-100">
               {editingId ? "Edit Fee" : "Create Fee"}
             </h3>
 
@@ -444,7 +444,7 @@ const Fees = () => {
               <div className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
                 {/* Program */}
                 <div>
-                  <label className="mb-2 block text-sm font-medium text-gray-700">
+                  <label className="mb-2 block text-sm font-medium text-slate-200">
                     Program
                   </label>
 
@@ -453,7 +453,7 @@ const Fees = () => {
                     onChange={(e) =>
                       setProgramId(e.target.value)
                     }
-                    className="w-full rounded-lg border border-gray-300 bg-white px-4 py-2.5 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
+                    className="w-full rounded-lg border border-white/15 bg-white/[0.03] px-4 py-2.5 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
                     required
                   >
                     <option value="">Select Program</option>
@@ -471,7 +471,7 @@ const Fees = () => {
 
                 {/* Semester */}
                 <div>
-                  <label className="mb-2 block text-sm font-medium text-gray-700">
+                  <label className="mb-2 block text-sm font-medium text-slate-200">
                     Semester
                   </label>
 
@@ -480,7 +480,7 @@ const Fees = () => {
                     onChange={(e) =>
                       setAcademicSemesterId(e.target.value)
                     }
-                    className="w-full rounded-lg border border-gray-300 bg-white px-4 py-2.5 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
+                    className="w-full rounded-lg border border-white/15 bg-white/[0.03] px-4 py-2.5 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
                     required
                   >
                     <option value="">Select Semester</option>
@@ -499,14 +499,14 @@ const Fees = () => {
 
                 {/* Type */}
                 <div>
-                  <label className="mb-2 block text-sm font-medium text-gray-700">
+                  <label className="mb-2 block text-sm font-medium text-slate-200">
                     Fee Type
                   </label>
 
                   <select
                     value={type}
                     onChange={(e) => setType(e.target.value)}
-                    className="w-full rounded-lg border border-gray-300 bg-white px-4 py-2.5 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
+                    className="w-full rounded-lg border border-white/15 bg-white/[0.03] px-4 py-2.5 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
                     required
                   >
                     <option value="">Select Type</option>
@@ -520,7 +520,7 @@ const Fees = () => {
 
                 {/* Amount */}
                 <div>
-                  <label className="mb-2 block text-sm font-medium text-gray-700">
+                  <label className="mb-2 block text-sm font-medium text-slate-200">
                     Amount (৳)
                   </label>
 
@@ -531,7 +531,7 @@ const Fees = () => {
                     onChange={(e) =>
                       setAmount(e.target.value)
                     }
-                    className="w-full rounded-lg border border-gray-300 bg-white px-4 py-2.5 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
+                    className="w-full rounded-lg border border-white/15 bg-white/[0.03] px-4 py-2.5 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
                     placeholder="e.g. 25000"
                     required
                   />
@@ -539,7 +539,7 @@ const Fees = () => {
 
                 {/* Due Date */}
                 <div>
-                  <label className="mb-2 block text-sm font-medium text-gray-700">
+                  <label className="mb-2 block text-sm font-medium text-slate-200">
                     Due Date
                   </label>
 
@@ -549,16 +549,16 @@ const Fees = () => {
                     onChange={(e) =>
                       setDueDate(e.target.value)
                     }
-                    className="w-full rounded-lg border border-gray-300 bg-white px-4 py-2.5 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
+                    className="w-full rounded-lg border border-white/15 bg-white/[0.03] px-4 py-2.5 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
                     required
                   />
                 </div>
 
                 {/* Description */}
                 <div>
-                  <label className="mb-2 block text-sm font-medium text-gray-700">
+                  <label className="mb-2 block text-sm font-medium text-slate-200">
                     Description
-                    <span className="ml-1 text-gray-400">
+                    <span className="ml-1 text-slate-500">
                       (Optional)
                     </span>
                   </label>
@@ -569,7 +569,7 @@ const Fees = () => {
                     onChange={(e) =>
                       setDescription(e.target.value)
                     }
-                    className="w-full rounded-lg border border-gray-300 bg-white px-4 py-2.5 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
+                    className="w-full rounded-lg border border-white/15 bg-white/[0.03] px-4 py-2.5 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
                     placeholder="e.g. Fall 2026 Semester Fee"
                   />
                 </div>
@@ -606,52 +606,52 @@ const Fees = () => {
         {/* Fees Table */}
         <div className="overflow-x-auto">
           {loading ? (
-            <div className="p-8 text-center text-gray-500">
+            <div className="p-8 text-center text-slate-400">
               Loading fees...
             </div>
           ) : fees.length === 0 ? (
-            <div className="p-8 text-center text-gray-500">
+            <div className="p-8 text-center text-slate-400">
               No fees configured yet.
             </div>
           ) : (
             <table className="w-full">
-              <thead className="bg-gray-50 text-left">
+              <thead className="bg-white/5 text-left">
                 <tr className="border-b">
-                  <th className="px-5 py-3 text-sm font-semibold text-gray-700">
+                  <th className="px-5 py-3 text-sm font-semibold text-slate-200">
                     #
                   </th>
 
-                  <th className="px-5 py-3 text-sm font-semibold text-gray-700">
+                  <th className="px-5 py-3 text-sm font-semibold text-slate-200">
                     Program
                   </th>
 
-                  <th className="px-5 py-3 text-sm font-semibold text-gray-700">
+                  <th className="px-5 py-3 text-sm font-semibold text-slate-200">
                     Semester
                   </th>
 
-                  <th className="px-5 py-3 text-sm font-semibold text-gray-700">
+                  <th className="px-5 py-3 text-sm font-semibold text-slate-200">
                     Type
                   </th>
 
-                  <th className="px-5 py-3 text-sm font-semibold text-gray-700">
+                  <th className="px-5 py-3 text-sm font-semibold text-slate-200">
                     Amount
                   </th>
 
-                  <th className="px-5 py-3 text-sm font-semibold text-gray-700">
+                  <th className="px-5 py-3 text-sm font-semibold text-slate-200">
                     Due Date
                   </th>
 
-                  <th className="px-5 py-3 text-sm font-semibold text-gray-700">
+                  <th className="px-5 py-3 text-sm font-semibold text-slate-200">
                     Payments
                   </th>
 
-                  <th className="px-5 py-3 text-center text-sm font-semibold text-gray-700">
+                  <th className="px-5 py-3 text-center text-sm font-semibold text-slate-200">
                     Actions
                   </th>
                 </tr>
               </thead>
 
-              <tbody className="divide-y divide-gray-200">
+              <tbody className="divide-y divide-white/10">
                 {fees.map((fee, index) => {
                   const feePayments = payments.filter(
                     (payment) =>
@@ -663,36 +663,36 @@ const Fees = () => {
                   ).length;
 
                   return (
-                    <tr key={fee.id} className="hover:bg-gray-50">
-                      <td className="px-5 py-4 text-sm text-gray-600">
+                    <tr key={fee.id} className="hover:bg-white/5">
+                      <td className="px-5 py-4 text-sm text-slate-300">
                         {index + 1}
                       </td>
 
-                      <td className="px-5 py-4 font-medium text-gray-800">
+                      <td className="px-5 py-4 font-medium text-slate-100">
                         {fee.program?.name ||
                           getProgramName(fee.programId)}
                       </td>
 
-                      <td className="px-5 py-4 text-sm text-gray-700">
+                      <td className="px-5 py-4 text-sm text-slate-200">
                         {fee.academicSemester?.name ||
                           getSemesterName(fee.academicSemesterId)}
                       </td>
 
                       <td className="px-5 py-4">
-                        <span className="px-3 py-1 rounded-full bg-blue-100 text-blue-700 text-xs font-semibold">
+                        <span className="px-3 py-1 rounded-full bg-blue-500/15 text-blue-300 text-xs font-semibold">
                           {fee.type.replace(/_/g, " ")}
                         </span>
                       </td>
 
-                      <td className="px-5 py-4 font-semibold text-gray-800">
+                      <td className="px-5 py-4 font-semibold text-slate-100">
                         ৳ {formatAmount(fee.amount)}
                       </td>
 
-                      <td className="px-5 py-4 text-sm text-gray-700">
+                      <td className="px-5 py-4 text-sm text-slate-200">
                         {formatDate(fee.dueDate)}
                       </td>
 
-                      <td className="px-5 py-4 text-sm text-gray-700">
+                      <td className="px-5 py-4 text-sm text-slate-200">
                         {paidCount}/{feePayments.length} paid
                       </td>
 
@@ -727,78 +727,78 @@ const Fees = () => {
       </div>
 
       {/* Payment Management */}
-      <div className="rounded-xl bg-white shadow">
+      <div className="rounded-xl bg-white/[0.03] shadow">
         <div className="border-b px-6 py-5">
-          <h2 className="text-xl font-semibold text-gray-800">
+          <h2 className="text-xl font-semibold text-slate-100">
             Student Payments
           </h2>
 
-          <p className="text-sm text-gray-500">
+          <p className="text-sm text-slate-400">
             Total Payments: {payments.length}
           </p>
         </div>
 
         <div className="overflow-x-auto">
           {payments.length === 0 ? (
-            <div className="p-8 text-center text-gray-500">
+            <div className="p-8 text-center text-slate-400">
               No payments recorded yet.
             </div>
           ) : (
             <table className="w-full">
-              <thead className="bg-gray-50 text-left">
+              <thead className="bg-white/5 text-left">
                 <tr className="border-b">
-                  <th className="px-5 py-3 text-sm font-semibold text-gray-700">
+                  <th className="px-5 py-3 text-sm font-semibold text-slate-200">
                     #
                   </th>
 
-                  <th className="px-5 py-3 text-sm font-semibold text-gray-700">
+                  <th className="px-5 py-3 text-sm font-semibold text-slate-200">
                     Student
                   </th>
 
-                  <th className="px-5 py-3 text-sm font-semibold text-gray-700">
+                  <th className="px-5 py-3 text-sm font-semibold text-slate-200">
                     Fee
                   </th>
 
-                  <th className="px-5 py-3 text-sm font-semibold text-gray-700">
+                  <th className="px-5 py-3 text-sm font-semibold text-slate-200">
                     Amount
                   </th>
 
-                  <th className="px-5 py-3 text-sm font-semibold text-gray-700">
+                  <th className="px-5 py-3 text-sm font-semibold text-slate-200">
                     Status
                   </th>
 
-                  <th className="px-5 py-3 text-sm font-semibold text-gray-700">
+                  <th className="px-5 py-3 text-sm font-semibold text-slate-200">
                     Paid On
                   </th>
 
-                  <th className="px-5 py-3 text-center text-sm font-semibold text-gray-700">
+                  <th className="px-5 py-3 text-center text-sm font-semibold text-slate-200">
                     Actions
                   </th>
                 </tr>
               </thead>
 
-              <tbody className="divide-y divide-gray-200">
+              <tbody className="divide-y divide-white/10">
                 {payments.map((payment, index) => (
-                  <tr key={payment.id} className="hover:bg-gray-50">
-                    <td className="px-5 py-4 text-sm text-gray-600">
+                  <tr key={payment.id} className="hover:bg-white/5">
+                    <td className="px-5 py-4 text-sm text-slate-300">
                       {index + 1}
                     </td>
 
                     <td className="px-5 py-4">
-                      <p className="font-medium text-gray-800">
+                      <p className="font-medium text-slate-100">
                         {payment.student?.name || "Unknown"}
                       </p>
 
-                      <p className="text-xs text-gray-500">
+                      <p className="text-xs text-slate-400">
                         {payment.student?.studentId || ""}
                       </p>
                     </td>
 
-                    <td className="px-5 py-4 text-sm text-gray-700">
+                    <td className="px-5 py-4 text-sm text-slate-200">
                       {payment.fee?.type || "Fee"}
                     </td>
 
-                    <td className="px-5 py-4 font-medium text-gray-800">
+                    <td className="px-5 py-4 font-medium text-slate-100">
                       ৳ {formatAmount(payment.amount)}
                     </td>
 
@@ -812,7 +812,7 @@ const Fees = () => {
                       </span>
                     </td>
 
-                    <td className="px-5 py-4 text-sm text-gray-700">
+                    <td className="px-5 py-4 text-sm text-slate-200">
                       {formatDate(payment.paidAt)}
                     </td>
 

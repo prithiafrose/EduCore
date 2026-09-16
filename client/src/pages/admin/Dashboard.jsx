@@ -1,5 +1,15 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
+import {
+  Users,
+  GraduationCap,
+  BookOpen,
+  Building2,
+  Banknote,
+  AlertTriangle,
+  CircleCheck,
+  CalendarClock,
+} from "lucide-react";
 import api from "../../services/axios";
 import StatCard from "../../components/ui/StatCard";
 import AnimatedCard from "../../components/ui/AnimatedCard";
@@ -52,7 +62,7 @@ function Dashboard() {
   return (
         <div className="p-8">
             <div className="mb-5">
-              <h3 className="text-lg font-semibold text-slate-900">
+              <h3 className="text-lg font-semibold text-white">
                 System Overview
               </h3>
 
@@ -64,7 +74,7 @@ function Dashboard() {
             <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-5">
               <SpotlightCard className="rounded-2xl">
                 <StatCard
-                  icon="♙"
+                  icon={<Users size={20} />}
                   label="Students"
                   value={stats.students}
                   hint="Registered students"
@@ -75,7 +85,7 @@ function Dashboard() {
 
               <SpotlightCard className="rounded-2xl">
                 <StatCard
-                  icon="♙"
+                  icon={<GraduationCap size={20} />}
                   label="Teachers"
                   value={stats.teachers}
                   hint="Faculty members"
@@ -86,7 +96,7 @@ function Dashboard() {
 
               <SpotlightCard className="rounded-2xl">
                 <StatCard
-                  icon="▤"
+                  icon={<BookOpen size={20} />}
                   label="Courses"
                   value={stats.courses}
                   hint="Available courses"
@@ -97,7 +107,7 @@ function Dashboard() {
 
               <SpotlightCard className="rounded-2xl">
                 <StatCard
-                  icon="▦"
+                  icon={<Building2 size={20} />}
                   label="Departments"
                   value={stats.departments}
                   hint="Academic departments"
@@ -109,7 +119,7 @@ function Dashboard() {
 
             <div className="mt-8">
               <div className="mb-5">
-                <h3 className="text-lg font-semibold text-slate-900">
+                <h3 className="text-lg font-semibold text-white">
                   Revenue Overview
                 </h3>
 
@@ -120,7 +130,7 @@ function Dashboard() {
 
               <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-5">
                 <StatCard
-                  icon="৳"
+                  icon={<Banknote size={20} />}
                   label="Total Collected"
                   value={revenue.collected || 0}
                   prefix="৳"
@@ -130,7 +140,7 @@ function Dashboard() {
                 />
 
                 <StatCard
-                  icon="৳"
+                  icon={<AlertTriangle size={20} />}
                   label="Outstanding"
                   value={revenue.outstanding || 0}
                   prefix="৳"
@@ -140,7 +150,7 @@ function Dashboard() {
                 />
 
                 <StatCard
-                  icon="✓"
+                  icon={<CircleCheck size={20} />}
                   label="Paid Count"
                   value={revenue.paidCount || 0}
                   hint="Paid payments"
@@ -149,7 +159,7 @@ function Dashboard() {
                 />
 
                 <StatCard
-                  icon="!"
+                  icon={<CalendarClock size={20} />}
                   label="Pending Count"
                   value={revenue.pendingCount || 0}
                   hint="Pending payments"
@@ -167,7 +177,7 @@ function Dashboard() {
                   />
 
                   <div className="flex flex-col gap-2">
-                    <h4 className="text-lg font-semibold text-slate-900">
+                    <h4 className="text-lg font-semibold text-white">
                       Collection Breakdown
                     </h4>
 
@@ -181,8 +191,8 @@ function Dashboard() {
             </div>
 
             <AnimatedCard className="mt-8" hover={false}>
-              <div className="px-6 py-5 border-b border-slate-200">
-                <h3 className="text-xl font-semibold text-slate-900">
+              <div className="px-6 py-5 border-b border-white/10">
+                <h3 className="text-xl font-semibold text-white">
                   Recent Activity
                 </h3>
 
@@ -197,17 +207,17 @@ function Dashboard() {
                   initial={{ scale: 0 }}
                   animate={{ scale: 1 }}
                   transition={{ delay: 0.2, type: "spring", stiffness: 260, damping: 18 }}
-                  className="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-slate-500"
+                  className="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-slate-400"
                 >
-                  i
+                  <CalendarClock size={18} />
                 </motion.div>
 
                 <div>
-                  <p className="text-sm font-medium text-slate-700">
+                  <p className="text-sm font-medium text-slate-200">
                     No recent activity yet.
                   </p>
 
-                  <p className="text-xs text-slate-400 mt-1">
+                  <p className="text-xs text-slate-500 mt-1">
                     Administrative activities will appear here.
                   </p>
                 </div>

@@ -312,7 +312,7 @@ const Profile = () => {
 
   if (loading) {
     return (
-          <div className="text-gray-600 text-lg">
+          <div className="text-slate-300 text-lg">
             Loading profile...
           </div>
     );
@@ -324,8 +324,8 @@ const Profile = () => {
 
   if (error && !student) {
     return (
-          <div className="mt-6 bg-white rounded-xl shadow-sm border border-red-200 p-6">
-            <p className="text-red-600">{error}</p>
+          <div className="mt-6 bg-white/[0.03] rounded-xl shadow-sm border border-red-500/20 p-6">
+            <p className="text-red-400">{error}</p>
           </div>
     );
   }
@@ -336,25 +336,25 @@ const Profile = () => {
 
   return (
         <>
-          <div className="bg-white border-b">
+          <div className="bg-white/[0.03] border-b">
           <div className="px-8 py-6">
-            <h1 className="text-3xl font-bold text-gray-800 mt-4">
+            <h1 className="text-3xl font-bold text-slate-100 mt-4">
               My Profile
             </h1>
 
-            <p className="text-gray-500 mt-1">
+            <p className="text-slate-400 mt-1">
               View and manage your student profile
             </p>
           </div>
         </div>
 
       <div className="max-w-5xl mx-auto px-6 py-8">
-        <div className="bg-white rounded-2xl shadow-sm border overflow-hidden">
+        <div className="bg-white/[0.03] rounded-2xl shadow-sm border overflow-hidden">
           {/* Profile Header */}
           <div className="bg-blue-600 px-8 py-8">
             <div className="flex items-center gap-5">
-              <div className="w-20 h-20 rounded-full bg-white flex items-center justify-center">
-                <span className="text-3xl font-bold text-blue-600">
+              <div className="w-20 h-20 rounded-full bg-white/[0.03] flex items-center justify-center">
+                <span className="text-3xl font-bold text-blue-400">
                   {student?.name
                     ?.charAt(0)
                     ?.toUpperCase()}
@@ -375,20 +375,20 @@ const Profile = () => {
 
           <div className="p-8">
             {error && (
-              <div className="mb-6 bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg">
+              <div className="mb-6 bg-red-500/10 border border-red-500/20 text-red-300 px-4 py-3 rounded-lg">
                 {error}
               </div>
             )}
 
             {success && (
-              <div className="mb-6 bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded-lg">
+              <div className="mb-6 bg-emerald-500/10 border border-emerald-500/20 text-emerald-300 px-4 py-3 rounded-lg">
                 {success}
               </div>
             )}
 
             {/* Title + Edit Button */}
             <div className="flex items-center justify-between mb-6">
-              <h3 className="text-lg font-semibold text-gray-800">
+              <h3 className="text-lg font-semibold text-slate-100">
                 Personal Information
               </h3>
 
@@ -407,51 +407,51 @@ const Profile = () => {
             {!editing && (
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
-                  <label className="block text-sm font-medium text-gray-500 mb-2">
+                  <label className="block text-sm font-medium text-slate-400 mb-2">
                     Full Name
                   </label>
 
-                  <div className="border rounded-lg px-4 py-3 bg-gray-50 text-gray-800">
+                  <div className="border rounded-lg px-4 py-3 bg-white/5 text-slate-100">
                     {student?.name || "N/A"}
                   </div>
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-500 mb-2">
+                  <label className="block text-sm font-medium text-slate-400 mb-2">
                     Email
                   </label>
 
-                  <div className="border rounded-lg px-4 py-3 bg-gray-50 text-gray-800">
+                  <div className="border rounded-lg px-4 py-3 bg-white/5 text-slate-100">
                     {student?.email || "N/A"}
                   </div>
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-500 mb-2">
+                  <label className="block text-sm font-medium text-slate-400 mb-2">
                     Student ID
                   </label>
 
-                  <div className="border rounded-lg px-4 py-3 bg-gray-50 text-gray-800">
+                  <div className="border rounded-lg px-4 py-3 bg-white/5 text-slate-100">
                     {student?.studentId || "N/A"}
                   </div>
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-500 mb-2">
+                  <label className="block text-sm font-medium text-slate-400 mb-2">
                     Program
                   </label>
 
-                  <div className="border rounded-lg px-4 py-3 bg-gray-50 text-gray-800">
+                  <div className="border rounded-lg px-4 py-3 bg-white/5 text-slate-100">
                     {student?.program?.name || "N/A"}
                   </div>
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-500 mb-2">
+                  <label className="block text-sm font-medium text-slate-400 mb-2">
                     Date of Birth
                   </label>
 
-                  <div className="border rounded-lg px-4 py-3 bg-gray-50 text-gray-800">
+                  <div className="border rounded-lg px-4 py-3 bg-white/5 text-slate-100">
                     {student?.dateOfBirth
                       ? new Date(
                           student.dateOfBirth
@@ -461,41 +461,41 @@ const Profile = () => {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-500 mb-2">
+                  <label className="block text-sm font-medium text-slate-400 mb-2">
                     Guardian Name
                   </label>
 
-                  <div className="border rounded-lg px-4 py-3 bg-gray-50 text-gray-800">
+                  <div className="border rounded-lg px-4 py-3 bg-white/5 text-slate-100">
                     {student?.guardianName || "N/A"}
                   </div>
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-500 mb-2">
+                  <label className="block text-sm font-medium text-slate-400 mb-2">
                     Guardian Phone
                   </label>
 
-                  <div className="border rounded-lg px-4 py-3 bg-gray-50 text-gray-800">
+                  <div className="border rounded-lg px-4 py-3 bg-white/5 text-slate-100">
                     {student?.guardianPhone || "N/A"}
                   </div>
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-500 mb-2">
+                  <label className="block text-sm font-medium text-slate-400 mb-2">
                     User ID
                   </label>
 
-                  <div className="border rounded-lg px-4 py-3 bg-gray-50 text-gray-800">
+                  <div className="border rounded-lg px-4 py-3 bg-white/5 text-slate-100">
                     {student?.userId || "N/A"}
                   </div>
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-500 mb-2">
+                  <label className="block text-sm font-medium text-slate-400 mb-2">
                     Account Created
                   </label>
 
-                  <div className="border rounded-lg px-4 py-3 bg-gray-50 text-gray-800">
+                  <div className="border rounded-lg px-4 py-3 bg-white/5 text-slate-100">
                     {student?.createdAt
                       ? new Date(
                           student.createdAt
@@ -511,7 +511,7 @@ const Profile = () => {
               <form onSubmit={handleSave}>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                    <label className="block text-sm font-medium text-slate-200 mb-2">
                       Full Name
                     </label>
 
@@ -526,7 +526,7 @@ const Profile = () => {
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                    <label className="block text-sm font-medium text-slate-200 mb-2">
                       Email
                     </label>
 
@@ -541,7 +541,7 @@ const Profile = () => {
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                    <label className="block text-sm font-medium text-slate-200 mb-2">
                       Student ID
                     </label>
 
@@ -556,11 +556,11 @@ const Profile = () => {
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-gray-500 mb-2">
+                    <label className="block text-sm font-medium text-slate-400 mb-2">
                       Program
                     </label>
 
-                    <div className="border rounded-lg px-4 py-3 bg-gray-100 text-gray-600">
+                    <div className="border rounded-lg px-4 py-3 bg-white/5 text-slate-300">
                       {student?.program?.name ||
                         "N/A"}
                     </div>
@@ -572,7 +572,7 @@ const Profile = () => {
                     type="button"
                     onClick={handleCancel}
                     disabled={saving}
-                    className="px-5 py-2.5 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition disabled:opacity-50"
+                    className="px-5 py-2.5 border border-white/15 text-slate-200 rounded-lg hover:bg-white/5 transition disabled:opacity-50"
                   >
                     Cancel
                   </button>
@@ -593,22 +593,22 @@ const Profile = () => {
             {/* Account Information */}
             {!editing && (
               <div className="mt-8 pt-6 border-t">
-                <h3 className="text-lg font-semibold text-gray-800 mb-4">
+                <h3 className="text-lg font-semibold text-slate-100 mb-4">
                   Account Information
                 </h3>
 
-                <div className="flex items-center justify-between border rounded-lg px-4 py-4 bg-gray-50">
+                <div className="flex items-center justify-between border rounded-lg px-4 py-4 bg-white/5">
                   <div>
-                    <p className="font-medium text-gray-800">
+                    <p className="font-medium text-slate-100">
                       Account Role
                     </p>
 
-                    <p className="text-sm text-gray-500 mt-1">
+                    <p className="text-sm text-slate-400 mt-1">
                       Your account has student access
                     </p>
                   </div>
 
-                  <span className="px-3 py-1 rounded-full text-sm font-medium bg-green-100 text-green-700">
+                  <span className="px-3 py-1 rounded-full text-sm font-medium bg-emerald-500/15 text-emerald-300">
                     STUDENT
                   </span>
                 </div>
@@ -618,18 +618,18 @@ const Profile = () => {
             {/* Change Password */}
             {!editing && (
               <div className="mt-8 pt-6 border-t">
-                <h3 className="text-lg font-semibold text-gray-800 mb-4">
+                <h3 className="text-lg font-semibold text-slate-100 mb-4">
                   Change Password
                 </h3>
 
                 {passwordError && (
-                  <div className="mb-4 bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg">
+                  <div className="mb-4 bg-red-500/10 border border-red-500/20 text-red-300 px-4 py-3 rounded-lg">
                     {passwordError}
                   </div>
                 )}
 
                 {passwordSuccess && (
-                  <div className="mb-4 bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded-lg">
+                  <div className="mb-4 bg-emerald-500/10 border border-emerald-500/20 text-emerald-300 px-4 py-3 rounded-lg">
                     {passwordSuccess}
                   </div>
                 )}
@@ -639,7 +639,7 @@ const Profile = () => {
                   className="grid grid-cols-1 md:grid-cols-3 gap-6"
                 >
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                    <label className="block text-sm font-medium text-slate-200 mb-2">
                       Current Password
                     </label>
 
@@ -654,7 +654,7 @@ const Profile = () => {
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                    <label className="block text-sm font-medium text-slate-200 mb-2">
                       New Password
                     </label>
 
@@ -669,7 +669,7 @@ const Profile = () => {
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                    <label className="block text-sm font-medium text-slate-200 mb-2">
                       Confirm New Password
                     </label>
 
@@ -689,7 +689,7 @@ const Profile = () => {
                     <button
                       type="submit"
                       disabled={passwordSaving}
-                      className="px-5 py-2.5 bg-slate-900 text-white rounded-lg hover:bg-slate-800 transition disabled:opacity-50"
+                      className="px-5 py-2.5 bg-slate-900 text-white rounded-lg hover:bg-white/10 transition disabled:opacity-50"
                     >
                       {passwordSaving
                         ? "Changing..."

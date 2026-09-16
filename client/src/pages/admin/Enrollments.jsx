@@ -274,11 +274,11 @@ const Enrollments = () => {
       {/* Header */}
       <div className="mb-8 flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-gray-800">
+          <h1 className="text-3xl font-bold text-slate-100">
             Enrollment Management
           </h1>
 
-          <p className="mt-2 text-gray-500">
+          <p className="mt-2 text-slate-400">
             Manage student enrollments for course offerings
             and sections.
           </p>
@@ -288,30 +288,30 @@ const Enrollments = () => {
 
       {/* Success */}
       {success && (
-        <div className="mb-5 rounded-lg border border-green-200 bg-green-50 px-4 py-3 text-green-700">
+        <div className="mb-5 rounded-lg border border-emerald-500/20 bg-emerald-500/10 px-4 py-3 text-emerald-300">
           {success}
         </div>
       )}
 
       {/* Error */}
       {error && (
-        <div className="mb-5 rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-red-700">
+        <div className="mb-5 rounded-lg border border-red-500/20 bg-red-500/10 px-4 py-3 text-red-300">
           {error}
         </div>
       )}
 
       {/* Main Card */}
-      <div className="rounded-xl bg-white shadow">
+      <div className="rounded-xl bg-white/[0.03] shadow">
 
         {/* Card Header */}
         <div className="flex items-center justify-between border-b px-6 py-5">
 
           <div>
-            <h2 className="text-xl font-semibold text-gray-800">
+            <h2 className="text-xl font-semibold text-slate-100">
               Enrollment List
             </h2>
 
-            <p className="text-sm text-gray-500">
+            <p className="text-sm text-slate-400">
               Total Enrollments: {enrollments.length}
             </p>
           </div>
@@ -338,9 +338,9 @@ const Enrollments = () => {
 
         {/* Form */}
         {showForm && (
-          <div className="border-b bg-gray-50 p-6">
+          <div className="border-b bg-white/5 p-6">
 
-            <h3 className="mb-5 text-lg font-semibold text-gray-800">
+            <h3 className="mb-5 text-lg font-semibold text-slate-100">
               {editingId
                 ? "Edit Enrollment"
                 : "Create Enrollment"}
@@ -352,7 +352,7 @@ const Enrollments = () => {
 
                 {/* Student */}
                 <div>
-                  <label className="mb-2 block text-sm font-medium text-gray-700">
+                  <label className="mb-2 block text-sm font-medium text-slate-200">
                     Student
                   </label>
 
@@ -361,7 +361,7 @@ const Enrollments = () => {
                     onChange={(e) =>
                       setStudentId(e.target.value)
                     }
-                    className="w-full rounded-lg border border-gray-300 bg-white px-4 py-2.5 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
+                    className="w-full rounded-lg border border-white/15 bg-white/[0.03] px-4 py-2.5 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
                     required
                   >
                     <option value="">
@@ -382,7 +382,7 @@ const Enrollments = () => {
 
                 {/* Course Offering */}
                 <div>
-                  <label className="mb-2 block text-sm font-medium text-gray-700">
+                  <label className="mb-2 block text-sm font-medium text-slate-200">
                     Course Offering
                   </label>
 
@@ -391,7 +391,7 @@ const Enrollments = () => {
                     onChange={
                       handleCourseOfferingChange
                     }
-                    className="w-full rounded-lg border border-gray-300 bg-white px-4 py-2.5 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
+                    className="w-full rounded-lg border border-white/15 bg-white/[0.03] px-4 py-2.5 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
                     required
                   >
                     <option value="">
@@ -419,9 +419,9 @@ const Enrollments = () => {
 
                 {/* Section */}
                 <div>
-                  <label className="mb-2 block text-sm font-medium text-gray-700">
+                  <label className="mb-2 block text-sm font-medium text-slate-200">
                     Section
-                    <span className="ml-1 text-gray-400">
+                    <span className="ml-1 text-slate-500">
                       (Optional)
                     </span>
                   </label>
@@ -432,7 +432,7 @@ const Enrollments = () => {
                       setSectionId(e.target.value)
                     }
                     disabled={!courseOfferingId}
-                    className="w-full rounded-lg border border-gray-300 bg-white px-4 py-2.5 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200 disabled:cursor-not-allowed disabled:bg-gray-100"
+                    className="w-full rounded-lg border border-white/15 bg-white/[0.03] px-4 py-2.5 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200 disabled:cursor-not-allowed disabled:bg-white/5"
                   >
                     <option value="">
                       {courseOfferingId
@@ -492,99 +492,99 @@ const Enrollments = () => {
         <div className="overflow-x-auto">
 
           {loading ? (
-            <div className="p-8 text-center text-gray-500">
+            <div className="p-8 text-center text-slate-400">
               Loading enrollments...
             </div>
           ) : enrollments.length === 0 ? (
-            <div className="p-8 text-center text-gray-500">
+            <div className="p-8 text-center text-slate-400">
               No enrollments found.
             </div>
           ) : (
             <table className="w-full">
 
-              <thead className="bg-gray-50 text-left">
+              <thead className="bg-white/5 text-left">
                 <tr className="border-b">
 
-                  <th className="px-5 py-3 text-sm font-semibold text-gray-700">
+                  <th className="px-5 py-3 text-sm font-semibold text-slate-200">
                     #
                   </th>
 
-                  <th className="px-5 py-3 text-sm font-semibold text-gray-700">
+                  <th className="px-5 py-3 text-sm font-semibold text-slate-200">
                     Student
                   </th>
 
-                  <th className="px-5 py-3 text-sm font-semibold text-gray-700">
+                  <th className="px-5 py-3 text-sm font-semibold text-slate-200">
                     Student ID
                   </th>
 
-                  <th className="px-5 py-3 text-sm font-semibold text-gray-700">
+                  <th className="px-5 py-3 text-sm font-semibold text-slate-200">
                     Course
                   </th>
 
-                  <th className="px-5 py-3 text-sm font-semibold text-gray-700">
+                  <th className="px-5 py-3 text-sm font-semibold text-slate-200">
                     Semester
                   </th>
 
-                  <th className="px-5 py-3 text-sm font-semibold text-gray-700">
+                  <th className="px-5 py-3 text-sm font-semibold text-slate-200">
                     Section
                   </th>
 
-                  <th className="px-5 py-3 text-center text-sm font-semibold text-gray-700">
+                  <th className="px-5 py-3 text-center text-sm font-semibold text-slate-200">
                     Actions
                   </th>
 
                 </tr>
               </thead>
 
-              <tbody className="divide-y divide-gray-200">
+              <tbody className="divide-y divide-white/10">
 
                 {enrollments.map(
                   (enrollment, index) => (
                     <tr
                       key={enrollment.id}
-                      className="hover:bg-gray-50"
+                      className="hover:bg-white/5"
                     >
 
-                      <td className="px-5 py-4 text-sm text-gray-600">
+                      <td className="px-5 py-4 text-sm text-slate-300">
                         {index + 1}
                       </td>
 
                       <td className="px-5 py-4">
-                        <p className="font-medium text-gray-800">
+                        <p className="font-medium text-slate-100">
                           {enrollment.student?.name ||
                             "Unknown Student"}
                         </p>
 
-                        <p className="text-xs text-gray-500">
+                        <p className="text-xs text-slate-400">
                           {enrollment.student?.email ||
                             "No email"}
                         </p>
                       </td>
 
-                      <td className="px-5 py-4 text-sm text-gray-700">
+                      <td className="px-5 py-4 text-sm text-slate-200">
                         {enrollment.student
                           ?.studentId || "N/A"}
                       </td>
 
                       <td className="px-5 py-4">
-                        <p className="font-medium text-gray-800">
+                        <p className="font-medium text-slate-100">
                           {enrollment.courseOffering
                             ?.course?.code || "N/A"}
                         </p>
 
-                        <p className="text-xs text-gray-500">
+                        <p className="text-xs text-slate-400">
                           {enrollment.courseOffering
                             ?.course?.name || "N/A"}
                         </p>
                       </td>
 
-                      <td className="px-5 py-4 text-sm text-gray-700">
+                      <td className="px-5 py-4 text-sm text-slate-200">
                         {enrollment.courseOffering
                           ?.academicSemester?.name ||
                           "N/A"}
                       </td>
 
-                      <td className="px-5 py-4 text-sm text-gray-700">
+                      <td className="px-5 py-4 text-sm text-slate-200">
                         {enrollment.section?.name ||
                           "Not Assigned"}
                       </td>
