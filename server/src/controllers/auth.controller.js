@@ -472,7 +472,29 @@ const updateProfile = async (req, res) => {
         }
 
         if (email !== undefined) {
-            data.email = email.trim().toLowerCase();
+            const normalizedEmail =
+                email.trim().toLowerCase();
+
+            const existingUser =
+                await prisma.user.findUnique({
+                    where: {
+                        id: userId
+                    },
+                    select: {
+                        email: true
+                    }
+                });
+
+            // Skip the write when the email is unchanged,
+            // so the unique constraint is never re-checked
+            // against the user's own (case-normalized) address.
+            if (
+                !existingUser ||
+                existingUser.email.toLowerCase() !==
+                    normalizedEmail
+            ) {
+                data.email = normalizedEmail;
+            }
         }
 
         if (avatarUrl !== undefined) {
