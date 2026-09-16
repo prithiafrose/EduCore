@@ -260,9 +260,22 @@ model User {
   role          UserRole
   isActive      Boolean        @default(true)
   createdAt     DateTime       @default(now())
-  notifications Notification[]
-  student       Student?
-  teacher       Teacher?
+  notifications         Notification[]
+  passwordResetTokens   PasswordResetToken[]
+  student               Student?
+  teacher               Teacher?
+}
+
+model PasswordResetToken {
+  id        Int      @id @default(autoincrement())
+  token     String   @unique
+  userId    Int
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  expiresAt DateTime
+  usedAt    DateTime?
+  createdAt DateTime @default(now())
+
+  @@index([userId])
 }
 
 model CourseResult {

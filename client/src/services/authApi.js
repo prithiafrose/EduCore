@@ -64,3 +64,20 @@ export const registerStudent = async (
 
   return response.data;
 };
+
+// FORGOT PASSWORD (request reset link by email)
+export const forgotPassword = async (email) => {
+  const response = await api.post("/auth/forgot-password", { email });
+
+  return response.data;
+};
+
+// RESET PASSWORD (with token from the reset email)
+export const resetPassword = async (token, newPassword) => {
+  const response = await api.post("/auth/reset-password", {
+    token,
+    newPassword,
+  });
+
+  return response.data;
+};

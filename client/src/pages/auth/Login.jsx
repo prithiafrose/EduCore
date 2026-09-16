@@ -244,6 +244,12 @@ function Login() {
                   <label className="block text-sm font-semibold text-slate-300">
                     Password
                   </label>
+                  <Link
+                    to="/forgot-password"
+                    className="text-xs font-semibold text-indigo-400 transition hover:text-indigo-300"
+                  >
+                    Forgot password?
+                  </Link>
                 </div>
                 <div className="relative">
                   <Lock className="pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-500" />

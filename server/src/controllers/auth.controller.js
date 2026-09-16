@@ -1,4 +1,4 @@
-const prisma = require("../config/prisma");
+const authService = require("../services/auth.service");
 const {
     comparePassword,
     hashPassword
@@ -7,6 +7,18 @@ const jwt = require("jsonwebtoken");
 const {
     blacklistToken
 } = require("../utils/tokenBlacklist");
+const {
+    sendMail
+} = require("../utils/mailer");
+const {
+    generateResetToken,
+    hashResetToken
+} = require("../utils/resetToken");
+const {
+    validateEmail
+} = require("../utils/email");
+
+const RESET_TOKEN_TTL_MS = 30 * 60 * 1000; // 30 minutes
 
 
 // LOGIN
@@ -29,11 +41,7 @@ const login = async (req, res) => {
 
 
         // Find user
-        const user = await prisma.user.findUnique({
-            where: {
-                email
-            }
-        });
+        const user = await authService.findUserByEmail(email);
 
 
         if (!user) {
@@ -137,12 +145,19 @@ const register = async (req, res) => {
             });
         }
 
+        // Validate email format (rejects invalid / disposable addresses)
+        const emailError = validateEmail(email);
+
+        if (emailError) {
+            return res.status(400).json({
+                success: false,
+                message: emailError
+            });
+        }
+
         // Check if email already exists
-        const existingUser = await prisma.user.findUnique({
-            where: {
-                email
-            }
-        });
+        const existingUser =
+            await authService.findUserByEmail(email);
 
         if (existingUser) {
             return res.status(409).json({
@@ -153,11 +168,7 @@ const register = async (req, res) => {
 
         // Check if student ID already exists
         const existingStudent =
-            await prisma.student.findUnique({
-                where: {
-                    studentId
-                }
-            });
+            await authService.findStudentByStudentId(studentId);
 
         if (existingStudent) {
             return res.status(409).json({
@@ -167,40 +178,17 @@ const register = async (req, res) => {
         }
 
         // Hash password
-        const { hashPassword } = require("../utils/hash");
-
         const passwordHash =
             await hashPassword(password);
 
         // Create User + Student together
-        const result = await prisma.$transaction(
-            async (tx) => {
-
-                const user = await tx.user.create({
-                    data: {
-                        email,
-                        passwordHash,
-                        role: "STUDENT"
-                    }
-                });
-
-                const student =
-                    await tx.student.create({
-                        data: {
-                            name,
-                            studentId,
-                            email,
-                            programId: Number(programId),
-                            userId: user.id
-                        }
-                    });
-
-                return {
-                    user,
-                    student
-                };
-            }
-        );
+        const result = await authService.createUserWithStudent({
+            email,
+            passwordHash,
+            name,
+            studentId,
+            programId
+        });
 
         res.status(201).json({
             success: true,
@@ -247,11 +235,7 @@ const resetTeacherPassword = async (req, res) => {
             });
         }
 
-        const user = await prisma.user.findUnique({
-            where: {
-                email
-            }
-        });
+        const user = await authService.findUserByEmail(email);
 
         if (!user) {
             return res.status(404).json({
@@ -270,14 +254,7 @@ const resetTeacherPassword = async (req, res) => {
         const passwordHash =
             await hashPassword(newPassword);
 
-        await prisma.user.update({
-            where: {
-                id: user.id
-            },
-            data: {
-                passwordHash
-            }
-        });
+        await authService.updateUserPassword(user.id, passwordHash);
 
         res.status(200).json({
             success: true,
@@ -309,9 +286,7 @@ const changePassword = async (req, res) => {
         }
 
         // Find user
-        const user = await prisma.user.findUnique({
-            where: { id: Number(userId) }
-        });
+        const user = await authService.findUserById(userId);
 
         if (!user) {
             return res.status(404).json({
@@ -354,10 +329,7 @@ const changePassword = async (req, res) => {
         const newPasswordHash =
             await hashPassword(newPassword);
 
-        await prisma.user.update({
-            where: { id: user.id },
-            data: { passwordHash: newPasswordHash }
-        });
+        await authService.updateUserPassword(user.id, newPasswordHash);
 
         res.status(200).json({
             success: true,
@@ -378,11 +350,7 @@ const changePassword = async (req, res) => {
 // GET CURRENT PROFILE
 const getProfile = async (req, res) => {
     try {
-        const user = await prisma.user.findUnique({
-            where: {
-                id: Number(req.user.userId)
-            }
-        });
+        const user = await authService.findUserById(req.user.userId);
 
         if (!user) {
             return res.status(404).json({
@@ -432,6 +400,15 @@ const updateProfile = async (req, res) => {
                     message: "Invalid email format"
                 });
             }
+
+            const emailError = validateEmail(email);
+
+            if (emailError) {
+                return res.status(400).json({
+                    success: false,
+                    message: emailError
+                });
+            }
         }
 
         if (
@@ -476,14 +453,7 @@ const updateProfile = async (req, res) => {
                 email.trim().toLowerCase();
 
             const existingUser =
-                await prisma.user.findUnique({
-                    where: {
-                        id: userId
-                    },
-                    select: {
-                        email: true
-                    }
-                });
+                await authService.findUserEmailById(userId);
 
             // Skip the write when the email is unchanged,
             // so the unique constraint is never re-checked
@@ -501,12 +471,7 @@ const updateProfile = async (req, res) => {
             data.avatarUrl = avatarUrl || null;
         }
 
-        const updatedUser = await prisma.user.update({
-            where: {
-                id: userId
-            },
-            data
-        });
+        const updatedUser = await authService.updateUserProfile(userId, data);
 
         res.status(200).json({
             success: true,
@@ -565,6 +530,135 @@ const logoutUser = async (req, res) => {
     }
 };
 
+// FORGOT PASSWORD (request password reset link by email)
+const forgotPassword = async (req, res) => {
+    try {
+        const { email } = req.body;
+
+        if (!email) {
+            return res.status(400).json({
+                success: false,
+                message: "email is required"
+            });
+        }
+
+        const emailError = validateEmail(email);
+
+        if (emailError) {
+            return res.status(400).json({
+                success: false,
+                message: emailError
+            });
+        }
+
+        const user = await authService.findUserByEmail(email.trim().toLowerCase());
+
+        // Always return the same response whether or not the user exists,
+        // to avoid leaking which emails are registered.
+        if (user) {
+            // Invalidate any previous reset tokens for this user
+            await authService.deletePasswordResetTokensByUser(user.id);
+
+            const rawToken = generateResetToken();
+            const tokenHash = hashResetToken(rawToken);
+
+            await authService.createPasswordResetToken({
+                token: tokenHash,
+                userId: user.id,
+                expiresAt: new Date(Date.now() + RESET_TOKEN_TTL_MS)
+            });
+
+            const resetLink = `${process.env.FRONTEND_URL || "http://localhost:5176"}/reset-password/${rawToken}`;
+
+            const html =
+                `<div style="font-family:Arial,sans-serif;max-width:560px;margin:0 auto;padding:24px;border:1px solid #e2e8f0;border-radius:12px">` +
+                `<h2 style="color:#1e293b;margin:0 0 8px">EduCore — Password Reset</h2>` +
+                `<p style="color:#475569;line-height:1.6">We received a request to reset the password for ` +
+                `<strong>${user.email}</strong>. Click the button below to choose a new password. ` +
+                `This link expires in <strong>30 minutes</strong>.</p>` +
+                `<p style="margin:24px 0"><a href="${resetLink}" ` +
+                `style="display:inline-block;background:#6366f1;color:#ffffff;text-decoration:none;padding:12px 24px;border-radius:8px;font-weight:bold">` +
+                `Reset my password</a></p>` +
+                `<p style="color:#94a3b8;font-size:13px">If you didn't request this, you can safely ignore this email.</p>` +
+                `</div>`;
+
+            await sendMail({
+                to: user.email,
+                subject: "EduCore — Reset your password",
+                html
+            });
+        }
+
+        res.status(200).json({
+            success: true,
+            message: "If an account exists for that email, a password reset link has been sent."
+        });
+
+    } catch (error) {
+        console.error("Forgot password error:", error);
+
+        res.status(500).json({
+            success: false,
+            message: "Failed to send password reset email"
+        });
+    }
+};
+
+// RESET PASSWORD (using token from the reset email)
+const resetPassword = async (req, res) => {
+    try {
+        const { token, newPassword } = req.body;
+
+        if (!token || !newPassword) {
+            return res.status(400).json({
+                success: false,
+                message: "token and newPassword are required"
+            });
+        }
+
+        if (newPassword.length < 6) {
+            return res.status(400).json({
+                success: false,
+                message: "New password must be at least 6 characters"
+            });
+        }
+
+        const resetRecord = await authService.findPasswordResetRecordByToken(hashResetToken(token));
+
+        if (
+            !resetRecord ||
+            resetRecord.usedAt ||
+            resetRecord.expiresAt < new Date()
+        ) {
+            return res.status(400).json({
+                success: false,
+                message: "Invalid or expired reset token"
+            });
+        }
+
+        const passwordHash = await hashPassword(newPassword);
+
+        await authService.applyPasswordReset({
+            userId: resetRecord.userId,
+            passwordHash,
+            tokenId: resetRecord.id
+        });
+
+        res.status(200).json({
+            success: true,
+            message: "Password reset successfully. You can now sign in."
+        });
+
+    } catch (error) {
+        console.error("Reset password error:", error);
+
+        res.status(500).json({
+            success: false,
+            message: "Failed to reset password"
+        });
+    }
+};
+
 module.exports = {
     login,
      register,
@@ -572,6 +666,8 @@ module.exports = {
          changePassword,
          getProfile,
          updateProfile,
-         logoutUser
+         logoutUser,
+         forgotPassword,
+         resetPassword
 
 };
